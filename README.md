@@ -1,6 +1,6 @@
 # SPARK-SICU-Proficiency-Readiness-Kit
 
-##How to run the app
+## How to run the app
 
 1. cd into the `SPARK-App/`
 2. (Optional) if you have not installed node and npm, follow the instructions here [install node](https://nodejs.org/en/download/), [install npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
