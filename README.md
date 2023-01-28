@@ -7,4 +7,14 @@
 2. run `npm install` in the terminal 
 3. run `npm run dev` the application should start on the IP address and port number specified in the terminal 
 
+# Libraries Used
+
+## Front-End
+- Routing - [react-router-dom](https://reactrouter.com/en/main/start/tutorial#client-side-routing)
+- Component Library - [react-bootstrap](https://react-bootstrap.github.io/components)
+- Build Tool - [vite-react](https://vitejs.dev/guide/)
+
+## Back-End
+- Express Server
+
 Happy coding!
