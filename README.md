@@ -11,7 +11,7 @@
 
 ## Front-End
 - Routing - [react-router-dom](https://reactrouter.com/en/main/start/tutorial#client-side-routing)
-- Component Library - [react-bootstrap](https://react-bootstrap.github.io/components)
+- Component Library - [react-bootstrap](https://react-bootstrap.github.io/components), [Tutorial on routing with react-router-dom](https://www.youtube.com/watch?v=SLfhMt5OUPI&ab_channel=WebDevSimplified)
 - Build Tool - [vite-react](https://vitejs.dev/guide/)
 
 ## Back-End
