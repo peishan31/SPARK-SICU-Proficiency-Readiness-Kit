@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import MenuBar from './components/MenuBar'
+import MenuBar from './components/menubar/MenuBar'
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
