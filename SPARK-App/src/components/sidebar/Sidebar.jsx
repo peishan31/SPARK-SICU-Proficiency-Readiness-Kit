@@ -25,6 +25,12 @@ const Sidebar = () => {
               <span>Calculator</span>
           </li>
           </Link>
+          <Link to="/chapters" style={{textDecoration: "none", color: "#5D5C5C"}}>
+          <li>
+              <span className="icon">&#129518;</span>
+              <span>Temp Chapter</span>
+          </li>
+          </Link>
           <Link to="/" style={{textDecoration: "none", color: "#5D5C5C"}}>
           <li>
               <span className="icon">&#128104;&#8205;&#9877;&#65039;</span>

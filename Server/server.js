@@ -21,6 +21,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
+//This function will create a new chapter
+app.post("/api/addChapter", async (req, res) => {
+  console.log("req.body: ",req.body);
+  const { chapterTitle, chapterIcon } = req.body
+  const result = await prisma.chapters.create({
+    data: {
+      chapterTitle,
+      chapterIcon,
+    },
+  })
+  res.json(result)
+})
+
+//This function will find all the chapters
+app.get('/api/chapters', async (req, res) => {
+  const chapters = await prisma.chapters.findMany({})
+  res.send(chapters)
+})
+
 app.get("/api/posts", async (req, res) => {
   const posts = await prisma.posts.findMany({orderBy: [{ created: 'desc'}]})
   for (let post of posts) {
