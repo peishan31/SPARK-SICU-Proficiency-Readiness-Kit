@@ -16,5 +16,7 @@
 
 ## Back-End
 - Express Server
+1. cd into the `/Server`
+2. run `npm start`
 
 Happy coding!
