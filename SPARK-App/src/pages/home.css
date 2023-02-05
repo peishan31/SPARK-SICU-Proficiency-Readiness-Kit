@@ -1,6 +1,11 @@
 .home {
   display: flex;
 }
+
+.homeContainer {
+  padding: 30px;
+}
+
 .home .homeContainer {
   flex: 6;
 }
@@ -38,3 +43,4 @@
   background-color: #41ADA4;
   color: white;
 }/*# sourceMappingURL=home.css.map */
+
