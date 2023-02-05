@@ -52,10 +52,16 @@
 }
 
 .clickableCard {
+    
     &:hover {
         // cursor: pointer;
         background-color: #41ADA4;
-        color: white;
         // transition: .3s ease;
     }
+
+    &:hover .cardText {
+        color: white !important;
+    }
+
+
 }
