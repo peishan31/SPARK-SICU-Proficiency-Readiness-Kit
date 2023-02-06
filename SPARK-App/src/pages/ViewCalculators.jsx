@@ -48,6 +48,7 @@ const ViewCalculators = () => {
   return (
       <>
         <div className="home">
+          {/* <h1>Calculators</h1> */}
           {/* <Sidebar/> */}
           <div className="homeContainer">
             <div className="widgets">

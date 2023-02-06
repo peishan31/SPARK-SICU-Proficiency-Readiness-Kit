@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
 const Widget = ({ type }) => {
-  let data;
+    let data;
 
 switch (type) {
     case "user":
@@ -17,32 +17,32 @@ switch (type) {
             image: "../../src/handbook1.jpg",
         };
         break;
-        case "order":
+    case "order":
+        data = {
+            title: "Severe TBI Management",
+            desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+            link: "/about",
+            image: "../../src/handbook2.jpg",
+        };
+        break;
+    case "earning":
+        data = {
+            title: "Barbiturate coma protocol",
+            desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+            link: "/about",
+            image: "../../src/handbook3.jpg",
+        };
+        break;
+        case "balance":
             data = {
-                title: "Severe TBI Management",
+                title: "SAH (aneurysm, AVM)",
                 desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
                 link: "/about",
-                image: "../../src/handbook2.jpg",
+                image: "../../src/handbook4.jpg",
             };
             break;
-            case "earning":
-                data = {
-                    title: "Barbiturate coma protocol",
-                    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-                    link: "/about",
-                    image: "../../src/handbook3.jpg",
-                };
-                break;
-                case "balance":
-                    data = {
-                        title: "SAH (aneurysm, AVM)",
-                        desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-                        link: "/about",
-                        image: "../../src/handbook4.jpg",
-                    };
-                    break;
-               default:
-                    break;
+        default:
+            break;
 }
 
     return (

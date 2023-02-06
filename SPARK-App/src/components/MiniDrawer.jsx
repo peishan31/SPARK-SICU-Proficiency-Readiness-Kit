@@ -24,15 +24,36 @@ import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import Container from '@mui/material/Container';
 // react-router-dom
 import { Routes, Route, Link } from 'react-router-dom'
 
 // pages
 import Home from '../pages/Home'
+import Chapters from '../pages/Chapters'
 import ViewCalculators from '../pages/ViewCalculators'
 import Bookmarks from '../pages/Bookmarks'
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: `-${drawerWidth}px`,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginLeft: 0,
+        }),
+    }),
+);
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -218,8 +239,8 @@ export default function MiniDrawer() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Home', 'Bookmarks', 'Calculators', 'Sign In'].map((text, index) => (
-                        <Link key={text} to={text}>
+                    {['Home', 'Bookmarks', 'Calculators', 'Chapters', 'Sign In'].map((text, index) => (
+                        <Link key={text} to={text} style={{ textDecoration: 'none' }}>
                             <ListItem disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
                                     sx={{
@@ -238,13 +259,15 @@ export default function MiniDrawer() {
                                             (() => {
                                                 switch (text) {
                                                     case 'Home':
-                                                        return <Box className="icon">&#127968;</Box>;
+                                                        return <span className="icon">&#127968;</span>;
                                                     case 'Bookmarks':
                                                         return <span className="icon">&#128278;</span>;
                                                     case 'Calculators':
                                                         return <span className="icon">&#129518;</span>
                                                     case 'Sign In':
                                                         return <span className="icon">&#128104;&#8205;&#9877;&#65039;</span>
+                                                    case 'Chapters':
+                                                        return <span className="icon">&#128214;</span>
                                                     default:
                                                         return null;
                                                 }
@@ -260,12 +283,14 @@ export default function MiniDrawer() {
                 </List>
                 <Divider />
             </Drawer>
-            <Box components="main" sx={{ flexGrow: 1, p: 3 }}>
-                <Routes>
-                    <Route path="/Home" element={<Home/>}/>
-                    <Route path="/Bookmarks" element={<Bookmarks/>}/>
-                    <Route path="/Calculators" element={<ViewCalculators/>}/>
-                </Routes>
+            <Box component="main" sx={{ flexGrow: 1, p:3}}>
+                <DrawerHeader />
+                    <Routes>
+                        <Route path="/Home" element={<Home/>}/>
+                        <Route path="/Bookmarks" element={<Bookmarks/>}/>
+                        <Route path="/Calculators" element={<ViewCalculators/>}/>
+                        <Route path="/Chapters" element={<Chapters/>}/>
+                    </Routes>
             </Box>
         </Box>
     );
