@@ -5,19 +5,22 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import ViewCalculators from './pages/ViewCalculators'
-
+import Sidebar from './components/sidebar/Sidebar'
+import MiniDrawer from './components/MiniDrawer'
+import PrimarySearchAppBar from './components/test'
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <MenuBar/>
       <div className="App">
-        <Routes>
+        {/* <Sidebar/> */}
+        <MiniDrawer/>
+        {/* <PrimarySearchAppBar/> */}
+        {/* <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="/viewcalculators" element={<ViewCalculators/>}/>
-        </Routes>
+        </Routes> */}
       </div>
     </>
   )

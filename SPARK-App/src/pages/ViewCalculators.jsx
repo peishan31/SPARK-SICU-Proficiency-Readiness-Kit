@@ -48,7 +48,7 @@ const ViewCalculators = () => {
   return (
       <>
         <div className="home">
-          <Sidebar/>
+          {/* <Sidebar/> */}
           <div className="homeContainer">
             <div className="widgets">
               <h2 style={{fontWeight:'bold'}}>Calculators</h2>
