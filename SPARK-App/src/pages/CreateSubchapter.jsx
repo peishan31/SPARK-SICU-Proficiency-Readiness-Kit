@@ -106,15 +106,16 @@ export default function CreateSubchapter() {
                                             height: 500,
                                             width: 900,
                                             menubar: 'insert',
-                                            
-                                            images_upload_url: 'postAcceptor.php',
+                                            file_picker_types: 'image',
+                                            images_upload_url: 'http://localhost:8080/api/posts',
+                                            automatic_uploads: true,
                                             /* we override default upload handler to simulate successful upload*/
-                                            images_upload_handler: function (blobInfo, success, failure) {
-                                                setTimeout(function () {
-                                                /* no matter what you upload, we will turn it into TinyMCE logo :)*/
-                                                success('http://moxiecode.cachefly.net/tinymce/v9/images/logo.png');
-                                                }, 2000);
-                                            },
+                                            // images_upload_handler: function (blobInfo, success, failure) {
+                                            //     setTimeout(function () {
+                                            //     /* no matter what you upload, we will turn it into TinyMCE logo :)*/
+                                            //     success('http://moxiecode.cachefly.net/tinymce/v9/images/logo.png');
+                                            //     }, 2000);
+                                            // },
                                             plugins: [
                                                 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                                                 'searchreplace', 'visualblocks', 'code', 'fullscreen',
