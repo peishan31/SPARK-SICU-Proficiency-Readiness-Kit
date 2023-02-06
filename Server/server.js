@@ -81,4 +81,14 @@ app.post('/api/newpost', async (req, res) => {
   res.status(201).send(post)
 })
 
+app.post('/api/subchapter', async (req, res) => {
+  
+  const subchapter = await prisma.subchapter.create({
+    data: {
+      richText: req.body.richText 
+    }
+  })
+  res.status(201).send(subchapter)
+})
+
 app.listen(8080, () => console.log("listening on port 8080"))

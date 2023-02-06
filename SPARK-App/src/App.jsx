@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import ViewCalculators from './pages/ViewCalculators'
+import CreateSubchapter from './pages/CreateSubchapter'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="/viewcalculators" element={<ViewCalculators/>}/>
+          <Route path="/createsubchapter" element={<CreateSubchapter/>}/>
         </Routes>
       </div>
     </>

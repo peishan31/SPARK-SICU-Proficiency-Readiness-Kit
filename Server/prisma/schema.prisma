@@ -23,3 +23,8 @@ model Notes {
   id            String      @id @default(auto()) @map("_id") @db.ObjectId
   richText     String
 }
+
+model Subchapter {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  richText     String
+}
