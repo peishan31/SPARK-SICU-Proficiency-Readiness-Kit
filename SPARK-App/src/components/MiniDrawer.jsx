@@ -31,6 +31,7 @@ import { Routes, Route, Link } from 'react-router-dom'
 // pages
 import Home from '../pages/Home'
 import Chapters from '../pages/Chapters'
+import Subchapters from '../pages/Subchapters'
 import ViewCalculators from '../pages/ViewCalculators'
 import Bookmarks from '../pages/Bookmarks'
 const drawerWidth = 240;
@@ -239,7 +240,7 @@ export default function MiniDrawer() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Home', 'Bookmarks', 'Calculators', 'Chapters', 'Sign In'].map((text, index) => (
+                    {['Home', 'Bookmarks', 'Calculators', 'Chapters', 'Subchapters', 'Sign In'].map((text, index) => (
                         <Link key={text} to={text} style={{ textDecoration: 'none' }}>
                             <ListItem disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
@@ -268,6 +269,8 @@ export default function MiniDrawer() {
                                                         return <span className="icon">&#128104;&#8205;&#9877;&#65039;</span>
                                                     case 'Chapters':
                                                         return <span className="icon">&#128214;</span>
+                                                    case 'Subchapters':
+                                                        return <span className="icon">&#128218;</span>
                                                     default:
                                                         return null;
                                                 }
@@ -290,6 +293,7 @@ export default function MiniDrawer() {
                         <Route path="/Bookmarks" element={<Bookmarks/>}/>
                         <Route path="/Calculators" element={<ViewCalculators/>}/>
                         <Route path="/Chapters" element={<Chapters/>}/>
+                        <Route path="/Subchapters" element={<Subchapters/>}/>
                     </Routes>
             </Box>
         </Box>
