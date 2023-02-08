@@ -1,0 +1,26 @@
+$cardbgcolor: #F4F4F4F5;
+$green: #41ADA4;
+
+.bg-darker-light{
+    background-color: $cardbgcolor;
+}
+
+.card-rounded{
+    border-radius: 20px;
+}
+
+.card-rounded:hover {
+    background-color: $green;
+}
+
+.card-text-wrap {
+    word-wrap: break-word;
+}
+
+.card-text-color{
+    color: black;
+}
+
+.card-rounded:hover .card-text-color {
+    color: white;
+}
