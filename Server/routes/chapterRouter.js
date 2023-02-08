@@ -67,6 +67,23 @@ chapterRouter.post("/", async (req, res) => {
     }
 });
 
+// @description: delete a chapter using chapterId
+// @route DELETE chapters/:chapterId
+// Working!
+chapterRouter.delete('/:chapterId', async (req, res) => {
+    console.log(`Delete chapter by id ${req.params.chapterId}`)
+    try {
+        const chapterId = req.params.chapterId;
+        const chapters = await Chapter.findByIdAndDelete(chapterId)
+        if (!chapters) {
+            return res.status(404).json({ msg: 'Chapter not found' })
+        }
+        res.status(200).json(chapters)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+});
 
 // link to subchapter route
 chapterRouter.use("/:chapterId/subchapters", (req, res, next) => {
