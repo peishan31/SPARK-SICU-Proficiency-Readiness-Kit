@@ -1,14 +1,17 @@
 import * as React from 'react';
 import { Container, Navbar } from 'react-bootstrap';
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+
 import "./menubar.css"
 
+
 const MenuBar = () => {
+
     return (
         <>
             <Navbar bg="light" expand="lg">
                 <Container>
-                    <Navbar.Brand href="#home">&#128293;SPARK</Navbar.Brand>
+                    <Navbar.Brand href="#home" style={{fontSize:30}}>&#128293; <span style={{fontWeight: 'bold', fontSize: 40, letterSpacing: -2}}>spark</span></Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <div className="wrapper">
                         <div className="search">

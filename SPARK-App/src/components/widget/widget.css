@@ -8,7 +8,7 @@
 }
 .widget .left, .widget .right {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
   justify-content: space-between;
 }
 .widget .left .title, .widget .right .title {
