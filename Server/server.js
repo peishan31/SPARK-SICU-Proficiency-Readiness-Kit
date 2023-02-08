@@ -32,31 +32,35 @@ app.get("/api/posts", async (req, res) => {
 
 app.post('/api/posts', upload.single('image'), async (req, res) => {
 
-  console.log("req.body: ",req.body);
-  console.log("req.file: ",req.file); // image obj
-  // req.file.buffer --> image send to S3
-  const file = req.file
-  const caption = req.body.caption
-  const imageName = generateFileName()
+  //console.log("hello: ", req.files);
+  // if (!req.files) {
+  //   return res.status(400).send('No files were uploaded.');
+  // }
+  // console.log("hey",req);
 
-  const fileBuffer = await sharp(file.buffer)
-    .resize({ height: 1920, width: 1080, fit: "contain" })
-    .toBuffer() //can delete this later
+  res.send({'location': "https://testing-bucket-clt.s3.us-east-1.amazonaws.com/363c2519cfb9f8a2aca0b6a4b390c8f49f7a4038978c545c36d76e54c81210dd"})
 
-  await uploadFile(fileBuffer, imageName, file.mimetype)
-  // **** try to return the object URL
-  const post = await prisma.posts.create({
-    data: {
-      imageName,
-      caption,
-    }
-  })
+  // console.log("req.body: ",req.body);
+  // console.log("req.file: ",req.file); // image obj
+  // // req.file.buffer --> image send to S3
+  // const file = req.file
+  // const caption = req.body.caption
+  // const imageName = generateFileName()
+
+  // const fileBuffer = await sharp(file.buffer)
+  //   .resize({ height: 1920, width: 1080, fit: "contain" })
+  //   .toBuffer() //can delete this later
+
+  // await uploadFile(fileBuffer, imageName, file.mimetype).then( (i) => {
+  //   console.log("Upload image done! ",imageName);
+  //   console.log("Upload image done! ImageUrl: https://testing-bucket-clt.s3.us-east-1.amazonaws.com/"+imageName);
+  //   res.send({'location': "https://testing-bucket-clt.s3.us-east-1.amazonaws.com/"+ imageName})
+  // })
   
-  res.status(201).send(post)
 })
 
 app.delete("/api/posts/:id", async (req, res) => {
-  const id = +req.params.id
+  const id = req.params.id
   const post = await prisma.posts.findUnique({where: {id}}) 
 
   await deleteFile(post.imageName)
@@ -79,6 +83,16 @@ app.post('/api/newpost', async (req, res) => {
     }
   })
   res.status(201).send(post)
+})
+
+app.post('/api/subchapter', async (req, res) => {
+  
+  const subchapter = await prisma.subchapter.create({
+    data: {
+      richText: req.body.richText 
+    }
+  })
+  res.status(201).send(subchapter)
 })
 
 app.listen(8080, () => console.log("listening on port 8080"))
