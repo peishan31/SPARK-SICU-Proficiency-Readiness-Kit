@@ -16,7 +16,7 @@ chapterRouter.get("/health", async (req, res) => {
 });
 
 
-// @description: Get health status of chapter route
+// @description: Get all chapters
 // @route GET chapters/
 // Working! 
 chapterRouter.get("/", async (req, res) => {
