@@ -8,7 +8,7 @@ import bodyParser from 'body-parser'
 
 import { PrismaClient } from '@prisma/client'
 import { uploadFile, deleteFile, getObjectSignedUrl } from './s3.js'
-import { chapterRouter } from './routes/chapterRouter.js'
+import chapterRouter from './routes/chapterRouter.js'
 import { connectDB } from './config/db.js'
 const app = express()
 app.use(express.json())

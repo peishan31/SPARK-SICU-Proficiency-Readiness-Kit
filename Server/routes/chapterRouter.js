@@ -1,7 +1,7 @@
 import express from 'express';
 import subchapterRouter from './subchapterRouter.js';
 import Chapter from '../models/ChapterModel.js';
-export const chapterRouter = express.Router();
+const chapterRouter = express.Router();
 
 // @description: Get health status of chapter route
 // @route GET chapters/health
@@ -91,3 +91,4 @@ chapterRouter.use("/:chapterId/subchapters", (req, res, next) => {
     next();
 }, subchapterRouter);
 
+export default chapterRouter;
