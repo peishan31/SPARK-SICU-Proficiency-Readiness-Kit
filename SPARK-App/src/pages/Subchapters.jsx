@@ -7,9 +7,14 @@ import AddIcon from '@mui/icons-material/Add'
 import SubchapterCard from '../components/subchapters/SubchapterCard'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const Subchapters = () => {
+    const navigate = useNavigate();
 
+    const navigateToSubChapter = () => {
+        navigate('/createsubchapter');
+    }
     const subchapters = [
         {
             title: "Subchapter 1",
@@ -45,7 +50,7 @@ const Subchapters = () => {
             <h1>Subchapters</h1>
             <Stack direction="row" spacing={2} mb={2} justifyContent="flex-end">
                 <Button variant="outlined">Select</Button>
-                <Button variant="outlined">
+                <Button variant="outlined" onClick={navigateToSubChapter}>
                     <AddIcon />
                         Create new subchapter
                 </Button>
