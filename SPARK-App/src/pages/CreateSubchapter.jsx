@@ -116,8 +116,8 @@ export default function CreateSubchapter() {
                                             width: 900,
                                             menubar: 'insert',
                                             file_picker_types: 'image',
-                                            images_upload_url: 'http://localhost:8080/api/posts',
-                                            automatic_uploads: true,
+                                            // images_upload_url: 'http://localhost:8080/api/posts',
+                                            // automatic_uploads: true,
                                             /* we override default upload handler to simulate successful upload*/
                                             // images_upload_handler: function (blobInfo, success, failure) {
                                             //     setTimeout(function () {
