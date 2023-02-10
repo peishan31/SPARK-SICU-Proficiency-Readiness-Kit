@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add'
 import SubchapterCard from '../components/subchapters/SubchapterCard'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const Subchapters = () => {
     const navigate = useNavigate();
