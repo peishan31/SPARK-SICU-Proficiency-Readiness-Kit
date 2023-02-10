@@ -31,7 +31,9 @@ import { Routes, Route, Link } from 'react-router-dom'
 // pages
 import Home from '../pages/Home'
 import Chapters from '../pages/Chapters'
+import CreateChapter from '../pages/CreateChapter'
 import Subchapters from '../pages/Subchapters'
+import CreateSubchapter from '../pages/CreateSubchapter'
 import ViewCalculators from '../pages/ViewCalculators'
 import Bookmarks from '../pages/Bookmarks'
 const drawerWidth = 240;
@@ -292,8 +294,10 @@ export default function MiniDrawer() {
                         <Route path="/Home" element={<Home/>}/>
                         <Route path="/Bookmarks" element={<Bookmarks/>}/>
                         <Route path="/Calculators" element={<ViewCalculators/>}/>
+                        <Route path="/CreateChapter" element={<CreateChapter/>}/>
                         <Route path="/Chapters" element={<Chapters/>}/>
                         <Route path="/Subchapters" element={<Subchapters/>}/>
+                        <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     </Routes>
             </Box>
         </Box>

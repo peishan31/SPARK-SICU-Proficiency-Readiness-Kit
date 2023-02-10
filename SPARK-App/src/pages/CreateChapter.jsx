@@ -21,7 +21,6 @@ export default function CreateChapter() {
   
     return (
         <div className="home">
-            <Sidebar/>
             <div className="homeContainer">
                 <div className="container">
                     <div className="row">
@@ -43,7 +42,6 @@ export default function CreateChapter() {
                         </div>                        
                     </div>
                 </div>
-
             </div>
         </div>
     )
