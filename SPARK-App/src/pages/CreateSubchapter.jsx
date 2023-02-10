@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import axios from 'axios'
-
+import { useLocation, useNavigate } from 'react-router-dom'
 import Sidebar from "../components/sidebar/Sidebar"
 import { Button, Box, TextField, MenuItem } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
@@ -9,22 +9,20 @@ import "./home.css"
 
 export default function CreateSubchapter() {  
 
+    let navigate = useNavigate();
+
     const [subchapTitle, setSubchapTitle] = useState('');
-    const [subchapIcon, setSubchapIcon] = useState('');
     const [chapSelected, setChapSelected] = useState('');
+    const [subchapDesc, setSubchapDesc] = useState('');
 
     const chapters = [ // temporarily hardcoding the chapters, will be fetched from the database
         {
-            value: 'Chapter 1',
+            value: '63e307d7266ca6dcada956b6',
             label: 'Chapter 1',
         },
         {
-            value: 'Chapter 2',
+            value: '63e3116a198b25f34a282faf',
             label: 'Chapter 2',
-        },
-        {
-            value: 'Chapter 3',
-            label: 'Chapter 3',
         }
     ];
 
@@ -36,8 +34,22 @@ export default function CreateSubchapter() {
     };
     
     async function addSubchapter() {
-        //await axios.post("http://localhost:8080/api/addChapter", {"chapterTitle": chapTitle, "chapterIcon": chapIcon})
-    //   navigate("/chapterData");
+        await axios.put("http://localhost:8080/chapters/"+chapSelected+"/subchapters/",
+            {
+                subchapterTitle: subchapTitle, 
+                description: subchapDesc,
+                content: editorRef.current.getContent()
+            }
+        )
+        navigate("/Subchapters");
+        // console.log("result:",
+        // {
+        //     "subchapterTitle": subchapTitle, 
+        //     "description": subchapDesc,
+        //     "content": editorRef.current.getContent(),
+        //     "chapSelected": chapSelected
+        // }
+        // )
     }
 
     return (
@@ -49,14 +61,6 @@ export default function CreateSubchapter() {
                             <div className="m-12">
                                 <p className="fs-1 fw-bold">Add Subchapter</p>
                                 <div className="form-group">
-                                    {/* <div class="mt-3">
-                                        <label for="chapTitle">Title</label>
-                                        <input type="text" class="form-control" id="chapTitle" value={chapTitle} onChange={event => setChapTitle(event.target.value)}></input>
-                                    </div>
-                                    <div class="mt-3">
-                                        <label for="chapIcon">Icon</label>
-                                        <input type="text" class="form-control" id="chapIcon" value={chapIcon} onChange={event => setChapIcon(event.target.value)}></input>
-                                    </div> */}
                                     <div className="mt-3">
                                         <Box
                                             component="form"
@@ -65,16 +69,6 @@ export default function CreateSubchapter() {
                                             }}
                                             >
                                             <TextField label="Title" variant="outlined" value={subchapTitle} onChange={event => setSubchapTitle(event.target.value)}></TextField>
-                                        </Box>
-                                    </div>
-                                    <div className="mt-3">
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { width: '50ch' },
-                                            }}
-                                            >
-                                            <TextField label="Icon" variant="outlined" value={subchapIcon} onChange={event => setSubchapIcon(event.target.value)}></TextField>
                                         </Box>
                                     </div>
                                     <div className='mt-3'>
@@ -94,6 +88,22 @@ export default function CreateSubchapter() {
                                                     </MenuItem>
                                                 ))}
                                             </TextField>
+                                        </Box>
+                                    </div>
+                                    <div className="mt-3">
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { width: '50ch' },
+                                            }}
+                                            >
+                                            <TextField 
+                                                label="Description" 
+                                                variant="outlined" 
+                                                value={subchapDesc}
+                                                multiline
+                                                maxRows={4}
+                                                onChange={event => setSubchapDesc(event.target.value)}></TextField>
                                         </Box>
                                     </div>
                                     <div className='mt-3'>
@@ -129,8 +139,7 @@ export default function CreateSubchapter() {
                                     />
                                     </div>
                                     <div className='mt-3'>
-                                        <Button className="mt-5" variant="outlined" onClick={() => { addSubchapter(); }} >Save</Button> &nbsp;
-                                        <Button className="mt-5" variant="outlined" onClick={log}>Log editor content</Button>
+                                        <Button className="mt-5" variant="outlined" onClick={() => { addSubchapter(); }} >Save</Button>
                                     </div>
                                 </div>
                             </div>
