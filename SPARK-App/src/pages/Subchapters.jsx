@@ -1,13 +1,11 @@
 import React from 'react'
-import Widget from '../components/widget/Widget'
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import FilterListIcon from '@mui/icons-material/FilterList'
 import AddIcon from '@mui/icons-material/Add'
 import SubchapterCard from '../components/subchapters/SubchapterCard'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Subchapters = () => {
     const navigate = useNavigate();
@@ -47,18 +45,16 @@ const Subchapters = () => {
 
     return (
         <div>
-            <h1>Subchapters</h1>
-            <Stack direction="row" spacing={2} mb={2} justifyContent="flex-end">
-                <Button variant="outlined">Select</Button>
-                <Button variant="outlined" onClick={navigateToSubChapter}>
-                    <AddIcon />
-                        Create new subchapter
-                </Button>
-                <Button variant="outlined">
-                    <FilterListIcon />
-                        Filter
-                </Button>
-            </Stack>
+            <Grid pb={2} display="flex" alignItems="center">
+                <Typography variant="h4">Subchapters</Typography>
+                <Stack direction="row" spacing={2} ml="auto">
+                    <Button variant="outlined">Select</Button>
+                    <Button variant="outlined" onClick={navigateToSubChapter}>
+                        <AddIcon />
+                            Create new subchapter
+                    </Button>
+                </Stack>
+            </Grid>
             <Grid container spacing={4}>
             {
                 subchapters.map((subchapter) => {
