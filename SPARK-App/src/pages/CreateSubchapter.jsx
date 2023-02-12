@@ -8,7 +8,6 @@ import "./home.css"
 
 
 export default function CreateSubchapter() {  
-
     let navigate = useNavigate();
 
     const [subchapTitle, setSubchapTitle] = useState('');
@@ -108,9 +107,9 @@ export default function CreateSubchapter() {
                                     </div>
                                     <div className='mt-3'>
                                     <Editor
-                                        apiKey='7hglqjmbm4wjep3794fyp7l8epmqo4b2mw1243mzkab2tluw'
+                                        apiKey={import.meta.env.VITE_REACT_APP_TINYMCE_API_KEY}
                                         onInit={(evt, editor) => editorRef.current = editor}
-                                        initialValue="<p>This is the initial content of the editor.</p>"
+                                        initialValue=""
                                         init={{
                                             height: 500,
                                             width: 900,
@@ -125,15 +124,17 @@ export default function CreateSubchapter() {
                                             //     success('http://moxiecode.cachefly.net/tinymce/v9/images/logo.png');
                                             //     }, 2000);
                                             // },
-                                            plugins: [
-                                                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                                                'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                                                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-                                            ],
-                                            toolbar: 'undo redo | formatselect | ' +
-                                            'bold italic backcolor image | alignleft aligncenter ' +
-                                            'alignright alignjustify | bullist numlist outdent indent | ' +
-                                            'removeformat',
+                                            // plugins: [
+                                            //     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                                            //     'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                            //     'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount', 'tableofcontents', 'emoticons'
+                                            // ],
+                                            // toolbar: 'undo redo | formatselect | ' +
+                                            // 'bold italic backcolor image | alignleft aligncenter ' +
+                                            // 'alignright alignjustify | bullist numlist outdent indent| ' +
+                                            // 'removeformat tableofcontents emoticons',
+                                            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                                            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
                                             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                         }}
                                     />
