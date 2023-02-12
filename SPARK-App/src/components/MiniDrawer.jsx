@@ -36,6 +36,7 @@ import Subchapters from '../pages/Subchapters'
 import CreateSubchapter from '../pages/CreateSubchapter'
 import ViewCalculators from '../pages/ViewCalculators'
 import Bookmarks from '../pages/Bookmarks'
+import NewPost from '../pages/NewPost'
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
 
@@ -298,6 +299,7 @@ export default function MiniDrawer() {
                         <Route path="/Chapters" element={<Chapters/>}/>
                         <Route path="/Subchapters" element={<Subchapters/>}/>
                         <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
+                        <Route path="/NewPost" element={<NewPost/>}/>
                     </Routes>
             </Box>
         </Box>
