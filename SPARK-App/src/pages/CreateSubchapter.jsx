@@ -13,6 +13,7 @@ export default function CreateSubchapter() {
     const [subchapTitle, setSubchapTitle] = useState('');
     const [chapSelected, setChapSelected] = useState('');
     const [subchapDesc, setSubchapDesc] = useState('');
+    const [chaps, setChaps] = useState([]);  
 
     const chapters = [ // temporarily hardcoding the chapters, will be fetched from the database
         {
@@ -24,6 +25,25 @@ export default function CreateSubchapter() {
             label: 'Chapter 2',
         }
     ];
+
+    useEffect(() => {
+
+        // this runs a lot of time if i use axios, but only once if i use fetch
+        // const fetchData = async () => {
+        //     await axios.get("http://localhost:8080/chapters/").then((res) => {
+        //         //   let a = res.data.df;
+        //         //   setContents(a);
+        //         console.log(res.data);
+        //         setChaps(res.data);
+        //     })
+        // }; .title, .id
+        const fetchData = async ()=>{
+            const response = await fetch(`http://localhost:8080/chapters/`);
+            const newData = await response.json();
+            setChaps(newData);
+        };
+        fetchData();
+    }, []);
 
     const editorRef = useRef(null);
     const log = () => {
@@ -81,9 +101,9 @@ export default function CreateSubchapter() {
                                                 value={chapSelected}
                                                 onChange={event => setChapSelected(event.target.value)}
                                                 select label='Parent chapter'>
-                                                {chapters.map((option) => (
-                                                    <MenuItem key={option.value} value={option.value}>
-                                                    {option.label}
+                                                {chaps.map((option) => (
+                                                    <MenuItem key={option._id} value={option._id}>
+                                                        {option.title}
                                                     </MenuItem>
                                                 ))}
                                             </TextField>
