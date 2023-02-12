@@ -14,18 +14,7 @@ export default function CreateSubchapter() {
     const [chapSelected, setChapSelected] = useState('');
     const [subchapDesc, setSubchapDesc] = useState('');
     const [chaps, setChaps] = useState([]);  
-
-    const chapters = [ // temporarily hardcoding the chapters, will be fetched from the database
-        {
-            value: '63e307d7266ca6dcada956b6',
-            label: 'Chapter 1',
-        },
-        {
-            value: '63e3116a198b25f34a282faf',
-            label: 'Chapter 2',
-        }
-    ];
-
+    
     useEffect(() => {
 
         // this runs a lot of time if i use axios, but only once if i use fetch
