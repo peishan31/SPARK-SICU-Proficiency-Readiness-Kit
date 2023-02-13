@@ -53,10 +53,11 @@ chapterRouter.get('/:chapterId', async (req, res) => {
 chapterRouter.post("/", async (req, res) => {
     console.log("Create a chapter")
     try {
-        const { title, description, subchapters } = req.body;
+        const { title, description, chapterIcon, subchapters } = req.body;
         const newChapter = new Chapter({
             title,
             description,
+            chapterIcon,
             subchapters
         });
         const chapter = await newChapter.save();

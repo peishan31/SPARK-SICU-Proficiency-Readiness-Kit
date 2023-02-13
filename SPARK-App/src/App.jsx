@@ -16,18 +16,7 @@ function App() {
   return (
     <>
       <div className="App">
-        {/* <Sidebar/> */}
         <MiniDrawer/>
-        {/* <MiniDrawerTest/> */}
-        {/* <PrimarySearchAppBar/> */}
-        {/* <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/about" element={<About/>}/>
-          <Route path="createChapter" element={<CreateChapter />} />
-          <Route path="chapters" element={<Chapters />} />
-          <Route path="/viewcalculators" element={<ViewCalculators/>}/>
-          <Route path="/createsubchapter" element={<CreateSubchapter/>}/>
-        </Routes> */}
       </div>
     </>
   )

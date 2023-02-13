@@ -48,7 +48,6 @@ subchapterRouter.get('/:subchapterId', async (req, res) => {
                 res.status(200).json(subchapter)
             }
         })
-        res.status(404).json({ msg: 'Subchapter not found' })
     } catch (err) {
         console.error(err.message)
         res.status(500).send('Server Error')
