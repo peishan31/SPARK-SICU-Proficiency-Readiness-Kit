@@ -57,11 +57,11 @@ const Chapters = () => {
     return (
         <div>
             <h1>Chapters</h1>
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
             {
                 chapters.map((chapter) => {
                     return (
-                        <Grid key={chapter._id} item md={4}>
+                        <Grid key={chapter._id} item md={3}>
                             <ChapterCard chapter={chapter} />
                         </Grid>
                     )

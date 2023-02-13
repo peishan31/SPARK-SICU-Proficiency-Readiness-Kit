@@ -13,7 +13,7 @@ export default function MultiActionAreaCard({ chapter }) {
 
     const navigate = useNavigate();
     return (
-        <Card sx={{ maxWidth: 445 }}>
+        <Card style={{height:'10vw', width:'20vw'}}>
             <CardActionArea
                 onClick={
                     () => {
@@ -21,21 +21,24 @@ export default function MultiActionAreaCard({ chapter }) {
                             { state: { parentChapterId: currentChapterId } })
                     }
                 }>
-                <CardMedia
+                {/* <CardMedia
                     component="img"
                     height="225"
                     image="../../src/handbook1.jpg"
                     alt="green iguana"
-                />
+                /> */}
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        {chapter.chapterIcon} {chapter.title}
+                    <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>
+                        {chapter.chapterIcon} 
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    {/* <Typography variant="body2" color="text.secondary">
                         {chapter.description}
-                    </Typography>
+                    </Typography> */}
                 </CardContent>
             </CardActionArea>
+            <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>
+                {chapter.title}
+            </Typography>
         </Card>
     );
 }
