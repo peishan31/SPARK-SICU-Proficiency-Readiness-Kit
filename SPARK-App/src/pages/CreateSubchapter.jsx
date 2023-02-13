@@ -35,11 +35,6 @@ export default function CreateSubchapter() {
     }, []);
 
     const editorRef = useRef(null);
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-        }
-    };
     
     async function addSubchapter() {
         await axios.put("http://localhost:8080/chapters/"+chapSelected+"/subchapters/",
