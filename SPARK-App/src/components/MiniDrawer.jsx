@@ -52,7 +52,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
                 duration: theme.transitions.duration.enteringScreen,
             }),
             marginLeft: 0,
-        }),
+        })
     }),
 );
 
@@ -182,7 +182,7 @@ export default function MiniDrawer() {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex'}}>
             <CssBaseline />
             <AppBar position="fixed" open={open}>
                 <Toolbar>
