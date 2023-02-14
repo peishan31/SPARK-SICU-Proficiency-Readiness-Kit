@@ -121,10 +121,8 @@ export default function CreateSubchapter() {
                                     </div>
                                     <div className='mt-3'>
                                         <Editor
-                                            apiKey={
-                                                import.meta.env
-                                                    .VITE_REACT_APP_TINYMCE_API_KEY
-                                            }
+                                            // apiKey='7hglqjmbm4wjep3794fyp7l8epmqo4b2mw1243mzkab2tluw'
+                                            apiKey='qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc'
                                             onInit={(evt, editor) =>
                                                 (editorRef.current = editor)
                                             }
@@ -135,7 +133,7 @@ export default function CreateSubchapter() {
                                                 menubar: 'insert',
                                                 file_picker_types: 'image',
                                                 plugins:
-                                                    'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                                                    'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount tableofcontents',
                                                 toolbar:
                                                     'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
                                                 content_style:
