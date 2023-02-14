@@ -4,6 +4,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import "./subchapterContent.css";
+import { Tooltip } from '@mui/material';
 
 const SubchapterContent = () => {
     return (
@@ -17,10 +18,14 @@ const SubchapterContent = () => {
                     </div>
                     <div className="subchapterActions">
                         <div className="subchapterAction">
-                            <EditIcon className="subchapterActionIcon"/>
+                            <Tooltip title="Edit" placement="top">
+                                <EditIcon className="subchapterActionIcon"/>
+                            </Tooltip>
                         </div>
                         <div className="subchapterAction">
-                            <BookmarkBorderIcon className="subchapterActionIcon"/>
+                            <Tooltip title="Bookmark" placement="top">
+                                <BookmarkBorderIcon className="subchapterActionIcon"/>
+                            </Tooltip>
                         </div>
                     </div>
                     <div className="subchapterText">
