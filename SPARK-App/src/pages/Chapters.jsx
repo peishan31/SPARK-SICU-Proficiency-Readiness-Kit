@@ -13,28 +13,28 @@ const Chapters = () => {
         {
             title: "Chapter 1",
             description: "This is the first chapter",
-            image: "../../src/handbook1.jpg"
+            image: "../../public/assets/handbook1.jpg"
 
         },
         {
             title: "Chapter 2",
             description: "This is the second chapter",
-            image: "../../src/handbook1.jpg"
+            image: "../../public/assets/handbook1.jpg"
         },
         {
             title: "Chapter 3",
             description: "This is the third chapter",
-            image: "../../src/handbook1.jpg"
+            image: "../../public/assets/handbook1.jpg"
         },
         {
             title: "Chapter 3",
             description: "This is the third chapter",
-            image: "../../src/handbook1.jpg"
+            image: "../../public/assets/handbook1.jpg"
         },
         {
             title: "Chapter 3",
             description: "This is the third chapter",
-            image: "../../src/handbook1.jpg"
+            image: "../../public/assets/handbook1.jpg"
         },
     ]
 

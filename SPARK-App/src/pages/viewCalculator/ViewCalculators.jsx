@@ -1,8 +1,7 @@
-import Sidebar from "../components/sidebar/Sidebar";
-import CalculatorCard from "../components/widget/CalculatorCard";
 import {Grid, Box} from '@material-ui/core';
+import CalculatorCard from '../../components/calculatorIcon/CalculatorCard';
 
-import "./home.css"
+import "../home.css"
 
 
 const ViewCalculators = () => {

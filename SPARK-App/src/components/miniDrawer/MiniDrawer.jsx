@@ -26,12 +26,12 @@ import { Routes, Route, Link } from 'react-router-dom'
 import "./MiniDrawer.css"
 
 // pages
-import Home from '../pages/Home'
-import Chapters from '../pages/Chapters'
-import Subchapters from '../pages/Subchapters'
-import ViewCalculators from '../pages/ViewCalculators'
-import Bookmarks from '../pages/Bookmarks'
-import SubchapterContent from '../pages/subchapterContent/SubchapterContent';
+import Home from '../../pages/Home'
+import Chapters from '../../pages/Chapters'
+import Subchapters from '../../pages/Subchapters'
+import ViewCalculators from '../../pages/viewCalculator/ViewCalculators'
+import Bookmarks from '../../pages/Bookmarks'
+import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
 

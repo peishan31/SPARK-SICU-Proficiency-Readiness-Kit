@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -6,7 +6,36 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import "./subchapterContent.css";
 import { Tooltip } from '@mui/material';
 
+const API_URL = "http://localhost:8080/chapters"
+
 const SubchapterContent = () => {
+
+    const [subchapter, setSubchapter] = useState([]);
+    const [chapter, setChapter] = useState([]);
+
+    const getChapterContent = async (chapterId) => {
+        const response = await fetch(`${API_URL}/${chapterId}`)
+        const data = await response.json()
+
+        console.log(data)
+        setChapter(data)
+    }
+
+    const getSubchapterContent = async (chapterId, subchapterId) => {
+        const response = await fetch(`${API_URL}/${chapterId}/subchapters/${subchapterId}`)
+        const data = await response.json()
+
+        console.log(data)
+        setSubchapter(data)
+    }
+
+    useEffect(() => {
+        getSubchapterContent('63ea35d26c0ef100ca017647', 3)
+        getChapterContent('63ea35d26c0ef100ca017647')
+    }, [])
+
+
+
     return (
         <div className="subchapterContent">
             <div className="subchapterContentContainer">
@@ -14,7 +43,7 @@ const SubchapterContent = () => {
                 <div className="subchapterContentTop">
                     <img className="headerImage" src="../../../public/assets/subchapters/barbituratecoma.jpg" alt="coma"/>
                     <div className="subchapterIcon">
-                            🧠
+                        {chapter.chapterIcon}
                     </div>
                     <div className="subchapterActions">
                         <div className="subchapterAction">
@@ -30,19 +59,20 @@ const SubchapterContent = () => {
                     </div>
                     <div className="subchapterText">
                         <h1 className="subchapterTitle">
-                            Barbiturate Coma Protocol
+                            {subchapter.subchapterTitle}
                         </h1>
                         <div className="subchapterCategory">
-                            NEUROLOGY/TRAUMA
+                            {chapter.title}
                         </div>
                         <div className="subchapterDescription">
-                            A guide on how to manage Barbiturate Comas.
+                            {subchapter.description}
                         </div>
                     </div>
                 </div>
                 <div className="subchapterContentBottom">
                     <div className="subchapterContentBody">
-                        <h2>🔍 Indications</h2>
+                        {subchapter.content}
+                        {/* <h2>🔍 Indications</h2>
                         <p>Haemodynamically stable <b>and</b> <br/>
 
                         1. Salvageable severe head injury with <br/>
@@ -78,7 +108,7 @@ const SubchapterContent = () => {
                             <li>Hypokalemia during induction of barbituate coma: Check UECr Q6H</li>
                             <li>Hypokalemia during induction of barbituate coma: Check UECr Q6H</li>
                             <li>Hypokalemia during induction of barbituate coma: Check UECr Q6H</li>
-                        </ol>
+                        </ol> */}
                     </div>
                 </div>
             </div>
