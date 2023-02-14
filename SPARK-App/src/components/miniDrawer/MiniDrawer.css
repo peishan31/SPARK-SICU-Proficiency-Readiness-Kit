@@ -14,6 +14,10 @@
 }
 
 .MuiListItemText-primary {
-    color: rgb(114, 114, 114);
-    font-weight: 300 !important;
+    color: #535353;
+    font-weight: 100 !important;
+}
+
+.MuiListItemIcon-root {
+    color: rgb(114, 114, 114) !important;
 }

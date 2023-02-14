@@ -30,18 +30,16 @@ const SubchapterContent = () => {
     }
 
     useEffect(() => {
-        getSubchapterContent('63ea35d26c0ef100ca017647', 3)
+        getSubchapterContent('63ea35d26c0ef100ca017647', 2)
         getChapterContent('63ea35d26c0ef100ca017647')
     }, [])
-
-
 
     return (
         <div className="subchapterContent">
             <div className="subchapterContentContainer">
             <ArrowBackIcon className="backButton"/>
                 <div className="subchapterContentTop">
-                    <img className="headerImage" src="../../../public/assets/subchapters/barbituratecoma.jpg" alt="coma"/>
+                    <img className="headerImage" src="../../../assets/subchapters/barbituratecoma.jpg" alt="coma"/>
                     <div className="subchapterIcon">
                         {chapter.chapterIcon}
                     </div>
@@ -70,8 +68,8 @@ const SubchapterContent = () => {
                     </div>
                 </div>
                 <div className="subchapterContentBottom">
-                    <div className="subchapterContentBody">
-                        {subchapter.content}
+                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: subchapter.content}}>
+                        {/* {subchapter.content} */}
                         {/* <h2>🔍 Indications</h2>
                         <p>Haemodynamically stable <b>and</b> <br/>
 
