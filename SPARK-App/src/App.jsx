@@ -18,10 +18,10 @@ function App() {
     <>
       <div className="App">
         {/* <Sidebar/> */}
-        {/* <MiniDrawer/> */}
+        <MiniDrawer/>
         {/* <MiniDrawerTest/> */}
         {/* <PrimarySearchAppBar/> */}
-        <Routes>
+        {/* <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="createChapter" element={<CreateChapter />} />
@@ -29,7 +29,7 @@ function App() {
           <Route path="/viewcalculators" element={<ViewCalculators/>}/>
           <Route path="/createsubchapter" element={<CreateSubchapter/>}/>
           <Route path="/subchapterContent" element={<SubchapterContent/>}/>
-        </Routes>
+        </Routes> */}
       </div>
     </>
   )

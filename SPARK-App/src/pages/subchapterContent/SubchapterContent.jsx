@@ -7,11 +7,10 @@ import "./subchapterContent.css";
 
 const SubchapterContent = () => {
     return (
-    
         <div className="subchapterContent">
             <div className="subchapterContentContainer">
+            <ArrowBackIcon className="backButton"/>
                 <div className="subchapterContentTop">
-                    <ArrowBackIcon className="backButton"/>
                     <img className="headerImage" src="../../../public/assets/subchapters/barbituratecoma.jpg" alt="coma"/>
                     <div className="subchapterIcon">
                             🧠
