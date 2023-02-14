@@ -1,4 +1,7 @@
 import mongoose from 'mongoose';
+import subchapterSchema from './SubchapterModel.js';
+import chapterSchema from './ChapterModel.js';
+import bookmarkSchema from './BookmarkModel.js';
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -8,7 +11,13 @@ const UserSchema = new mongoose.Schema({
     password: {
       type: String,
       required: true,
-    }
+    },
+    bookmarks: [
+      bookmarkSchema
+    ]
+    // subchapters: [
+    //     subchapterSchema
+    // ]
 });
 
 const User = mongoose.model("user", UserSchema);
