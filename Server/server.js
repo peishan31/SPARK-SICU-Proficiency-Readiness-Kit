@@ -46,31 +46,31 @@ app.get('/health', async (req, res) => {
 //   res.send(posts)
 // })
 
-app.post('/api/posts', upload.single('image'), async (req, res) => {
+// app.post('/api/posts', upload.single('image'), async (req, res) => {
 
-  const file = req.file
-  const caption = req.body.caption
-  const imageName = generateFileName()
+//   const file = req.file
+//   const caption = req.body.caption
+//   const imageName = generateFileName()
 
-  const fileBuffer = await sharp(file.buffer)
-    .toBuffer() //can delete this later
+//   const fileBuffer = await sharp(file.buffer)
+//     .toBuffer() //can delete this later
 
-  await uploadFile(fileBuffer, imageName, file.mimetype).then( (i) => {
-    console.log("Upload image done! ",imageName);
-    console.log("Upload image done! ImageUrl: https://testing-bucket-clt.s3.us-east-1.amazonaws.com/"+imageName);
-    res.send({'location': "https://testing-bucket-clt.s3.us-east-1.amazonaws.com/"+ imageName})
-  })
+//   await uploadFile(fileBuffer, imageName, file.mimetype).then( (i) => {
+//     console.log("Upload image done! ",imageName);
+//     console.log("Upload image done! ImageUrl: https://testing-bucket-clt.s3.us-east-1.amazonaws.com/"+imageName);
+//     res.send({'location': "https://testing-bucket-clt.s3.us-east-1.amazonaws.com/"+ imageName})
+//   })
   
 // })
-app.delete("/api/posts/:id", async (req, res) => {
-  const id = +req.params.id
-  const post = await prisma.posts.findUnique({where: {id}}) 
+// app.delete("/api/posts/:id", async (req, res) => {
+//   const id = +req.params.id
+//   const post = await prisma.posts.findUnique({where: {id}}) 
 
-  await deleteFile(post.imageName)
+//   await deleteFile(post.imageName)
 
-  // await prisma.posts.delete({where: {id: post.id}})
-  res.send(post)
-})
+//   // await prisma.posts.delete({where: {id: post.id}})
+//   res.send(post)
+// })
 
 // // Rich-text-editor stuffs
 // app.get("/testing", async (req, res) => {

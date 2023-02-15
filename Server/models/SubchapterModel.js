@@ -9,6 +9,9 @@ const subchapterSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    thumbnail: {
+        type: String,
+    },
     description: {
         type: String,
     },
