@@ -40,20 +40,19 @@ subchapterRouter.get('/:subchapterId', async (req, res) => {
         const subchapterId = req.params.subchapterId;
         const chapter = await Chapter.findById(chapterId);
         const subchapters = chapter.subchapters;
-        let subchapterResult = null;
-        let count = 0;
-
-        subchapters.forEach(subchapter => {
-            // note == not === since the subchapterId is being passed as a string not integer
-            count += 1;
-            if (subchapter._id == subchapterId) {
-                subchapterResult = subchapter; 
-                return res.status(200).json(subchapterResult);
+        
+        const subchapterResult = subchapters
+        .filter(subchapter => subchapter._id == subchapterId)
+        .map((finalResult) => {
+            return {
+                ...finalResult._doc,
+                "chapterIcon": chapter.chapterIcon,
+                "chapterTitle": chapter.title,
             }
         })
-        console.log("count: ", count);
-        if (subchapterResult) { // ** problem: this still loops down even tho i have specifically used return res.status(200).json(subchapterResult);
-            return;
+        
+        if (subchapterResult.length > 0) { 
+            return res.status(200).json(subchapterResult[0]);
         }
         return res.status(404).json({ msg: 'Subchapter not found' });
     } catch (err) {
