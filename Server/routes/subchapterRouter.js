@@ -41,14 +41,18 @@ subchapterRouter.get('/:subchapterId', async (req, res) => {
         const chapter = await Chapter.findById(chapterId);
         const subchapters = chapter.subchapters;
         
-        const subchapterResult = subchapters.filter(subchapter => subchapter._id == subchapterId);
-        if (subchapterResult.length > 0) { 
-            let finalResult = {
-                ...subchapterResult[0]._doc, 
-                chapterTitle: chapter.title,
-                chapterIcon: chapter.chapterIcon,
+        const subchapterResult = subchapters
+        .filter(subchapter => subchapter._id == subchapterId)
+        .map((finalResult) => {
+            return {
+                ...finalResult._doc,
+                "chapterIcon": chapter.chapterIcon,
+                "chapterTitle": chapter.title,
             }
-            return res.status(200).json(finalResult);
+        })
+        
+        if (subchapterResult.length > 0) { 
+            return res.status(200).json(subchapterResult[0]);
         }
         return res.status(404).json({ msg: 'Subchapter not found' });
     } catch (err) {
