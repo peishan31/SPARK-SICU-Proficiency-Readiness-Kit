@@ -20,7 +20,6 @@ chapterRouter.get("/health", async (req, res) => {
 // @route GET chapters/
 // Working! 
 chapterRouter.get("/", async (req, res) => {
-    console.log("Get all chapters ")
     try {
         const chapters = await Chapter.find()
         res.status(200).json(chapters)
@@ -34,7 +33,6 @@ chapterRouter.get("/", async (req, res) => {
 // @route GET chapters/:chapterId
 // Working!
 chapterRouter.get('/:chapterId', async (req, res) => {
-    console.log(`Get chapter by id ${req.params.chapterId}`)
     try {
         const chapter = await Chapter.findById(req.params.chapterId)
         if (!chapter) {
@@ -51,12 +49,12 @@ chapterRouter.get('/:chapterId', async (req, res) => {
 // @route POST chapters/
 // Working!
 chapterRouter.post("/", async (req, res) => {
-    console.log("Create a chapter")
     try {
-        const { title, description, subchapters } = req.body;
+        const { title, description, chapterIcon, subchapters } = req.body;
         const newChapter = new Chapter({
             title,
             description,
+            chapterIcon,
             subchapters
         });
         const chapter = await newChapter.save();
@@ -71,7 +69,6 @@ chapterRouter.post("/", async (req, res) => {
 // @route DELETE chapters/:chapterId
 // Working!
 chapterRouter.delete('/:chapterId', async (req, res) => {
-    console.log(`Delete chapter by id ${req.params.chapterId}`)
     try {
         const chapterId = req.params.chapterId;
         const chapters = await Chapter.findByIdAndDelete(chapterId)
