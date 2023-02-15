@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const subchapterSchema = new mongoose.Schema({
     _id: {
         type: Number,
-        requiered: true,
+        required: true,
     },
     subchapterTitle: {
         type: String,
