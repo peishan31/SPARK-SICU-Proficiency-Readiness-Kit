@@ -19,9 +19,6 @@ const UserSchema = new mongoose.Schema({
     bookmarks: [
       bookmarkSchema
     ]
-    // subchapters: [
-    //     subchapterSchema
-    // ]
 });
 
 const User = mongoose.model("user", UserSchema);

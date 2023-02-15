@@ -38,7 +38,7 @@ userRouter.get("/login", async (req, res) => {
   }
 });
 
-// @description: Authenticate user
+// @description: Create user
 // @route POST user/register
 userRouter.post("/register", async (req, res) => { 
 
