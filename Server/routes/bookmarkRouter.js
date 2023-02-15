@@ -1,5 +1,6 @@
 import express from 'express';
 import User from '../models/UserModel.js';
+import Chapter from '../models/ChapterModel.js';
 import Subchapter from '../models/SubchapterModel.js';
 import querystring from 'querystring';
 import {MongoClient} from "mongodb";
@@ -18,30 +19,88 @@ bookmarkRouter.get("/health", async (req, res) => {
     }
 });
 
-// @description: Get all bookmarked subchapters for a user by userId
+
+// @description: Get all subchapter bookmark details for a chapter by chapterId and a specific user by userId
 // @route GET user/:userId/bookmarks/
 // Working!
-/*
-bookmarkRouter.get("/", async (req, res) => {
-    console.log(`Get all bookmark details for user ${req.userId}`)
+// bookmarkRouter.get("/", async (req, res) => {
+//     console.log(`Get all bookmark details for user ${req.userId}`)
+//     try {
+//         const userId = req.userId;
+//         const user = await User.findById(userId);
+//         const bookmarks = user.bookmarks;
+
+
+//         const chapter = await Chapter.findById(chapterId);
+//         const subchapters = chapter.subchapters;
+
+//         let ids = ['63ea36a56c0ef100ca017649', '63ea35d26c0ef100ca017647'];
+//         // let data = await Chapter.find({
+//         // '_id': { 
+//         //     $in: ids
+//         // }
+//         // });
+
+
+//         console.log(data)
+//         res.status(200).json(data)
+//     } catch (err) {
+//         console.error(err.message)
+//         res.status(500).send('Server Error')
+//     }
+// });
+
+
+
+
+// @description: Get all subchapters of a specified chapter for a user by userId
+// @route GET user/:userId/bookmarks/chapters/:chapterId
+// Working!
+
+bookmarkRouter.get("/chapters/:chapterId", async (req, res) => {
+    console.log(`Get all subchapters of a specified chapter ${req.params.chapterId} for a user by userId ${req.userId}`)
     try {
+
+        //get request parameters
+        const chapterId = req.params.chapterId;
         const userId = req.userId;
+
+        //get user's bookmarks
         const user = await User.findById(userId);
         const bookmarks = user.bookmarks;
-        console.log(bookmarks)
-        res.status(200).json(bookmarks)
+
+        // get all the chapter's subchapters
+        const chapter = await Chapter.findById(chapterId);
+        const subchapters = chapter.subchapters;
+
+        // store end result variables 
+        var result = {};
+        var book = [];
+
+        result = await Chapter.find( { _id: chapterId }, { _id: 1, title: 1, chapterIcon: 1, description: 1 } );
+        
+        subchapters.forEach(subchapter => {
+            var isBookmarked = false;
+            for (let i = 0; i < bookmarks.length; i++) {
+                if(subchapter._id == bookmarks[i].subchapterId && bookmarks[i].chapterId == chapterId ){
+                    isBookmarked = true
+                }
+            }
+            var temp = JSON.parse(JSON.stringify(subchapter));
+            temp.isBookmarked = isBookmarked
+            
+            book.push(temp);
+        });
+        result.push({"subchapters" : book});
+        
+        res.status(200).json(result)     
+
     } catch (err) {
         console.error(err.message)
         res.status(500).send('Server Error')
     }
 });
-*/
-/*
-const transactions = await Transactions.find({
-  user: req.user._id,
-  "transactions._id": req.params._id
-});
-*/
+
 
 
 // @description: Add bookmark details to user by user Id
@@ -131,5 +190,4 @@ bookmarkRouter.put("/", async (req, res) => {
     }
 });
 */
-
 export default bookmarkRouter;
