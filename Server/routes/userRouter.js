@@ -1,5 +1,6 @@
 import express from 'express';
-import User from '../models/userModel.js';
+import bookmarkRouter from './bookmarkRouter.js';
+import User from '../models/UserModel.js';
 const userRouter = express.Router();
 
 // @description: Get health status of user route
@@ -35,7 +36,7 @@ userRouter.get("/login", async (req, res) => {
     console.error(err.message)
     res.status(500).send('Server Error')
   }
-})
+});
 
 // @description: Authenticate user
 // @route POST user/register
@@ -56,5 +57,19 @@ userRouter.post("/register", async (req, res) => {
         res.status(500).send('Server Error')
     }
 });
+
+/*
+// link to subchapter route
+userRouter.use("/:userId/subchapters", (req, res, next) => {
+  req.userId = req.params.userId;
+  next();
+}, bookmarkRouter);
+*/
+
+// link to bookmark route
+userRouter.use("/:userId/bookmarks", (req, res, next) => {
+  req.userId = req.params.userId;
+  next();
+}, bookmarkRouter);
 
 export default userRouter;
