@@ -23,6 +23,7 @@ import FlareIcon from '@mui/icons-material/Flare';
 // react-router-dom
 import { Routes, Route, Link } from 'react-router-dom'
 
+import { useState } from 'react';
 import "./MiniDrawer.css"
 
 // pages
@@ -176,6 +177,20 @@ export default function MiniDrawer() {
         setOpen(false);
     };
 
+    
+    const handleChange = event => {
+        if(window.location.pathname !="/Subchapters"){
+            return;
+        }
+        // console.log('User pressed: ', event.key);
+        console.log(event.currentTarget.value)
+        // console.log(window.location.pathname=="/Subchapters")
+        const [data, setData] = useState(event.currentTarget.value);
+
+        // setData();
+        return <Subchapters userTyped={data}/>
+      };
+
     return (
         <Box sx={{ display: 'flex'}}>
             <CssBaseline />
@@ -210,6 +225,7 @@ export default function MiniDrawer() {
                         <StyledInputBase fullWidth
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
+                            onChange={handleChange}
                         />
                     </Search>
 

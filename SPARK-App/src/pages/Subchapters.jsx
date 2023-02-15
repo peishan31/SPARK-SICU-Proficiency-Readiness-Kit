@@ -7,10 +7,12 @@ import AddIcon from '@mui/icons-material/Add'
 import SubchapterCard from '../components/subchapters/SubchapterCard'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
+import {useState,getState} from 'react';
+import Chapters from './Chapters';
 
-const Subchapters = () => {
+const Subchapters = (props)=> {
 
-    const subchapters = [
+    let subchapters = [
         {
             title: "Subchapter 1",
             description: "This is the first subchapter",
@@ -39,6 +41,21 @@ const Subchapters = () => {
         },
     ]
 
+    const filterWords =()=>{
+        let userTyped = "Subchapter";
+        let newSubchaptersList = []
+        for (let i = 0; i < subchapters.length; i++) {
+            let title = subchapters[i].title.split(" ");
+            let description = subchapters[i].description.split(" ");
+            let combinedArray = title.concat(description)
+
+            if(combinedArray.some(e => e.includes(userTyped))){
+                newSubchaptersList.push(subchapters[i])
+            }
+          }
+        subchapters = newSubchaptersList
+
+    }
 
     return (
         <div>
@@ -50,21 +67,27 @@ const Subchapters = () => {
                         Create new subchapter
                 </Button>
                 <Button variant="outlined">
-                    <FilterListIcon />
+                    <FilterListIcon onClick={filterWords()}/>
                         Filter
                 </Button>
             </Stack>
-            <Grid container spacing={4}>
-            {
-                subchapters.map((subchapter) => {
-                    return (
-                        <Grid item md={4}>
-                            <SubchapterCard subchapter={subchapter} />
-                        </Grid>
-                    )
-                })
+            {subchapters.length>0 &&
+                <Grid container spacing={4}>
+                {
+                    subchapters.map((subchapter) => {
+                        return (
+                            <Grid item md={4}>
+                                <SubchapterCard subchapter={subchapter} />
+                            </Grid>
+                        )
+                    })
+                }
+                </Grid>
             }
-            </Grid>
+
+            {/* {subchapters.length>0 &&
+            <b>No results found.</b>
+            } */}
         </div>
     )
 }
