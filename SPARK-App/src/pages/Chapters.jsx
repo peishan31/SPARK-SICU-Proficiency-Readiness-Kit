@@ -1,5 +1,4 @@
 import React from 'react'
-import Widget from '../components/widget/Widget'
 import { Button } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import AddIcon from '@mui/icons-material/Add'
@@ -7,7 +6,10 @@ import ChapterCard from '../components/chapters/ChapterCard'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
+import { margin } from '@mui/system'
 
 const Chapters = () => {
 
@@ -26,8 +28,12 @@ const Chapters = () => {
 
 
     return (
-        <div>
-            <h1>Chapters</h1>
+        <Box margin={3} >
+            <Grid container spacing={2} >
+                <Grid item xs={12} md={{ m: 3 }}>
+                    <h1>Chapters</h1>
+                </Grid>
+            </Grid>
             <Grid container spacing={2}>
             {
                 chapters.map((chapter) => {
@@ -39,7 +45,7 @@ const Chapters = () => {
                 })
             }
             </Grid>
-        </div>
+        </Box>
     )
 }
 
