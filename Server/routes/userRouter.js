@@ -24,16 +24,14 @@ userRouter.get("/login", async (req, res) => {
     if (user) {
       // check password
       if (user.password == password) {
-        res.status(200).json({
-          msg: 'Login Successful!'
-        })
+        return res.status(200).json(user);
       }
-      res.status(400).json({
+      return res.status(400).json({
         msg: 'Invalid Login Credentials'
-      })
+      });
     }
 
-  } catch (error) {
+  } catch (err) {
     console.error(err.message)
     res.status(500).send('Server Error')
   }
@@ -44,14 +42,15 @@ userRouter.get("/login", async (req, res) => {
 userRouter.post("/register", async (req, res) => { 
 
   try {
-    const { email, password } = req.body;
+    const { email, userType, password } = req.body;
     const newUser = new User({
       email,
+      userType,
       password
     });
 
     const user = await newUser.save();
-    res.status(201).json(user);
+    return res.status(201).json(user);
   } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error')
