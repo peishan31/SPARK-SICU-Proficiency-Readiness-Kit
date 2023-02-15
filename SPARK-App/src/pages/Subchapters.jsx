@@ -7,48 +7,36 @@ import AddIcon from '@mui/icons-material/Add'
 import SubchapterCard from '../components/subchapters/SubchapterCard'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
 
 const Subchapters = () => {
+    const location = useLocation();
 
-    const subchapters = [
-        {
-            title: "Subchapter 1",
-            description: "This is the first subchapter",
-            image: "../../assets/handbook1.jpg"
-
-        },
-        {
-            title: "Subchapter 2",
-            description: "This is the second subchapter",
-            image: "../../assets/handbook1.jpg"
-        },
-        {
-            title: "Subchapter 3",
-            description: "This is the third subchapter",
-            image: "../../assets/handbook1.jpg"
-        },
-        {
-            title: "Subchapter 3",
-            description: "This is the third subchapter",
-            image: "../../assets/handbook1.jpg"
-        },
-        {
-            title: "Subchapter 3",
-            description: "This is the third subchapter",
-            image: "../../assets/handbook1.jpg"
-        },
-    ]
-
+    const chapterId = location.state.parentChapterId
+    
+    const [subchapters, setSubchapters] = useState([]);
+    useEffect(() => {
+        axios.get(`http://localhost:8080/chapters/${chapterId}/subchapters`)
+            .then(res => {
+                setSubchapters(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
 
     return (
         <div>
             <h1>Subchapters</h1>
             <Stack direction="row" spacing={2} mb={2} justifyContent="flex-end">
                 <Button variant="outlined">Select</Button>
-                <Button variant="outlined">
+                {/* <Button variant="outlined" onClick={navigateToSubChapter}>
                     <AddIcon />
                         Create new subchapter
-                </Button>
+                </Button> */}
                 <Button variant="outlined">
                     <FilterListIcon />
                         Filter
@@ -58,7 +46,7 @@ const Subchapters = () => {
             {
                 subchapters.map((subchapter) => {
                     return (
-                        <Grid item md={4}>
+                        <Grid key={subchapter._id} item md={4}>
                             <SubchapterCard subchapter={subchapter} />
                         </Grid>
                     )
