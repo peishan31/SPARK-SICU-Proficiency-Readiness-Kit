@@ -11,35 +11,6 @@ import { useState, useEffect } from 'react'
 
 const Chapters = () => {
 
-    // const chapters = [
-    //     {
-    //         title: "Chapter 1",
-    //         description: "This is the first chapter",
-    //         image: "../../src/handbook1.jpg"
-
-    //     },
-    //     {
-    //         title: "Chapter 2",
-    //         description: "This is the second chapter",
-    //         image: "../../src/handbook1.jpg"
-    //     },
-    //     {
-    //         title: "Chapter 3",
-    //         description: "This is the third chapter",
-    //         image: "../../src/handbook1.jpg"
-    //     },
-    //     {
-    //         title: "Chapter 3",
-    //         description: "This is the third chapter",
-    //         image: "../../src/handbook1.jpg"
-    //     },
-    //     {
-    //         title: "Chapter 3",
-    //         description: "This is the third chapter",
-    //         image: "../../src/handbook1.jpg"
-    //     },
-    // ]
-
     const [chapters, setChapters] = useState([]);
     useEffect(() => {
         axios.get('http://localhost:8080/chapters')

@@ -16,8 +16,7 @@ const Subchapters = () => {
     const location = useLocation();
 
     const chapterId = location.state.parentChapterId
-    console.log(chapterId)
-
+    
     const [subchapters, setSubchapters] = useState([]);
     useEffect(() => {
         axios.get(`http://localhost:8080/chapters/${chapterId}/subchapters`)
@@ -28,7 +27,6 @@ const Subchapters = () => {
                 console.log(err)
             })
     }, [])
-    console.log(subchapters)
 
     return (
         <div>

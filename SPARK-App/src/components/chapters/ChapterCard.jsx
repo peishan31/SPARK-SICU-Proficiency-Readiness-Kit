@@ -21,19 +21,12 @@ export default function MultiActionAreaCard({ chapter }) {
                             { state: { parentChapterId: currentChapterId } })
                     }
                 }>
-                {/* <CardMedia
-                    component="img"
-                    height="225"
-                    image="../../src/handbook1.jpg"
-                    alt="green iguana"
-                /> */}
+
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>
                         {chapter.chapterIcon} 
                     </Typography>
-                    {/* <Typography variant="body2" color="text.secondary">
-                        {chapter.description}
-                    </Typography> */}
+
                 </CardContent>
             </CardActionArea>
             <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>
