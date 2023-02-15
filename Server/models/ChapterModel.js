@@ -5,6 +5,9 @@ const ChapterSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    chapterIcon: {
+        type: String
+    },
     description: {
         type: String,
     },
