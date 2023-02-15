@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add'
 import SubchapterCard from '../components/subchapters/SubchapterCard'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
@@ -29,7 +30,7 @@ const Subchapters = () => {
     }, [])
 
     return (
-        <div>
+        <Box margin={3} >
             <h1>Subchapters</h1>
             <Stack direction="row" spacing={2} mb={2} justifyContent="flex-end">
                 <Button variant="outlined">Select</Button>
@@ -42,7 +43,7 @@ const Subchapters = () => {
                         Filter
                 </Button>
             </Stack>
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
             {
                 subchapters.map((subchapter) => {
                     return (
@@ -53,7 +54,7 @@ const Subchapters = () => {
                 })
             }
             </Grid>
-        </div>
+        </Box>
     )
 }
 
