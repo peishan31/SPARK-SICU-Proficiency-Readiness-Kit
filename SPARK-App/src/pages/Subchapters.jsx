@@ -14,28 +14,28 @@ const Subchapters = () => {
         {
             title: "Subchapter 1",
             description: "This is the first subchapter",
-            image: "../../src/handbook1.jpg"
+            image: "../../assets/handbook1.jpg"
 
         },
         {
             title: "Subchapter 2",
             description: "This is the second subchapter",
-            image: "../../src/handbook1.jpg"
+            image: "../../assets/handbook1.jpg"
         },
         {
             title: "Subchapter 3",
             description: "This is the third subchapter",
-            image: "../../src/handbook1.jpg"
+            image: "../../assets/handbook1.jpg"
         },
         {
             title: "Subchapter 3",
             description: "This is the third subchapter",
-            image: "../../src/handbook1.jpg"
+            image: "../../assets/handbook1.jpg"
         },
         {
             title: "Subchapter 3",
             description: "This is the third subchapter",
-            image: "../../src/handbook1.jpg"
+            image: "../../assets/handbook1.jpg"
         },
     ]
 

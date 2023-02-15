@@ -42,6 +42,7 @@ export default function CreateSubchapter() {
 
     return (
         <div className="home">
+            <Sidebar/>
             <div className="homeContainer">
                 <div className="container">
                     <div className="row">

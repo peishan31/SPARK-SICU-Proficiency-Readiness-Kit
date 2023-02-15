@@ -1,8 +1,7 @@
-import Sidebar from "../components/sidebar/Sidebar";
-import CalculatorCard from "../components/widget/CalculatorCard";
 import {Grid, Box} from '@material-ui/core';
+import CalculatorCard from '../../components/calculatorIcon/CalculatorCard';
 
-import "./home.css"
+import "../home.css"
 
 
 const ViewCalculators = () => {
@@ -48,8 +47,6 @@ const ViewCalculators = () => {
   return (
       <>
         <div className="home">
-          {/* <h1>Calculators</h1> */}
-          {/* <Sidebar/> */}
           <div className="homeContainer">
             <div className="widgets">
               <h2 style={{fontWeight:'bold'}}>Calculators</h2>
