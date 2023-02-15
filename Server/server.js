@@ -9,6 +9,7 @@ import bodyParser from 'body-parser'
 import { PrismaClient } from '@prisma/client'
 import { uploadFile, deleteFile, getObjectSignedUrl } from './s3.js'
 import chapterRouter from './routes/chapterRouter.js'
+import userRouter from './routes/userRouter.js'
 import { connectDB } from './config/db.js'
 const app = express()
 app.use(express.json())
@@ -103,5 +104,7 @@ app.get('/health', async (req, res) => {
 // create subrouter
 app.use("/chapters", chapterRouter)
 
+// create user
+app.use("/user", userRouter)
 
 app.listen(8080, () => console.log("listening on port 8080"))
