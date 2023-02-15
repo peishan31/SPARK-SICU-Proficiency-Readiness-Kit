@@ -1,0 +1,95 @@
+.backButton {
+    /* border: 5px solid purple; */
+    cursor: pointer;
+    color: white;
+    position: relative;
+    top: 20px;
+    left: 20px;
+    z-index: 999;
+    font-size: 30px !important;
+}
+
+
+.headerImage {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    position: relative;
+
+}
+
+.subchapterContentTop {
+    height: 100vh;
+    position: relative;
+    top: -30px;
+    /* border: 5px solid brown; */
+}
+
+.subchapterIcon {
+    /* border: 5px solid red; */
+    display: flex;
+    justify-content: center;
+    font-size: 80px;
+    position: relative;
+    top: -50px;
+}
+
+.subchapterActions {
+    /* border: 5px solid green; */
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    top: -100px;
+    padding: 0px 20px;
+}
+
+.subchapterText {
+    /* border: 5px solid yellowgreen; */
+    text-align: center;
+    position: relative;
+    top: -65px;
+}
+
+.subchapterTitle {
+    /* border: 5px solid blue; */
+    font-weight: bold;
+    /* max-width: 700px; */
+    margin-bottom: 30px;
+    /* width: 90%;
+    margin: 0px auto 30px; */
+}
+
+.subchapterCategory {
+    color: #41ADA4;
+    font-weight: bold;
+    margin-bottom: 30px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+
+}
+
+.subchapterAction {
+    cursor: pointer;
+    color: #41ADA4;
+    z-index: 500;
+}
+
+.subchapterContentBottom {
+    
+}
+
+.subchapterContentBody {
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+    word-wrap: break-word;
+}
+
+
+h2 {
+    font-weight: bold;
+}
+
+.subchapterIcon {
+    color: black !important;
+}

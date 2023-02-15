@@ -22,9 +22,9 @@ connectDB();
 
 // const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 
 // @description: Get health status of basic route

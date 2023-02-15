@@ -16,26 +16,22 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import HomeIcon from '@mui/icons-material/Home';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import Container from '@mui/material/Container';
+import FlareIcon from '@mui/icons-material/Flare';
 // react-router-dom
 import { Routes, Route, Link } from 'react-router-dom'
 
+import "./MiniDrawer.css"
+
 // pages
-import Home from '../pages/Home'
-import Chapters from '../pages/Chapters'
-import CreateChapter from '../pages/CreateChapter'
-import Subchapters from '../pages/Subchapters'
-import CreateSubchapter from '../pages/CreateSubchapter'
-import ViewCalculators from '../pages/ViewCalculators'
-import Bookmarks from '../pages/Bookmarks'
+import Home from '../../pages/Home'
+import Chapters from '../../pages/Chapters'
+import Subchapters from '../../pages/Subchapters'
+import ViewCalculators from '../../pages/viewCalculator/ViewCalculators'
+import Bookmarks from '../../pages/Bookmarks'
+import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
 
@@ -54,7 +50,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
                 duration: theme.transitions.duration.enteringScreen,
             }),
             marginLeft: 0,
-        }),
+        })
     }),
 );
 
@@ -66,11 +62,11 @@ const Search = styled('div')(({ theme }) => ({
         backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
+    marginLeft: theme.spacing(1),
+    width: '80%',
     [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(3),
-        width: 'auto',
+        width: '50%',
     },
 }));
 
@@ -91,10 +87,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
+        width: '100%'
     },
 }));
 
@@ -184,7 +177,7 @@ export default function MiniDrawer() {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex'}}>
             <CssBaseline />
             <AppBar position="fixed" open={open}>
                 <Toolbar>
@@ -194,26 +187,32 @@ export default function MiniDrawer() {
                         onClick={handleDrawerOpen}
                         edge="start"
                         sx={{
-                            marginRight: 5,
+                            marginRight: 3.5,
                             ...(open && { display: 'none' }),
                         }}
                     >
                         <MenuIcon />
                     </IconButton>
-
-                    <Typography variant="h6" noWrap component="div">
-                        SPARK App
-                    </Typography>
                     
+                    <div className="navbarBrand">
+                        <FlareIcon className="navbarBrandIcon"/>
+                        <Typography className="navbarBrandText" fontWeight="bold" letterSpacing={-1} sx={{ fontSize: "25px", display: {xs: 'none', sm: 'flex', md: 'flex', ld: 'flex'}}}>
+                            spark
+                        </Typography>
+                    </div>
+                    
+    
+
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
-                        <StyledInputBase
+                        <StyledInputBase fullWidth
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>
+
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex', ld: 'end' } }}>
                         <IconButton
@@ -228,8 +227,6 @@ export default function MiniDrawer() {
                             <AccountCircle />
                         </IconButton>
                     </Box>
-
-
                     {/* <SearchOutlinedIcon />
                     <input type="text" placeholder="Search chapter or subchapter..." /> */}
                 </Toolbar>
@@ -288,17 +285,16 @@ export default function MiniDrawer() {
                 </List>
                 <Divider />
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p:3}}>
+            <Box component="main" sx={{flexGrow: 1}}>
                 <DrawerHeader />
-                    <Routes>
-                        <Route path="/Home" element={<Home/>}/>
-                        <Route path="/Bookmarks" element={<Bookmarks/>}/>
-                        <Route path="/Calculators" element={<ViewCalculators/>}/>
-                        <Route path="/CreateChapter" element={<CreateChapter/>}/>
-                        <Route path="/Chapters" element={<Chapters/>}/>
-                        <Route path="/Subchapters" element={<Subchapters/>}/>
-                        <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
-                    </Routes>
+                <Routes>
+                    <Route path="/Home" element={<Home/>}/>
+                    <Route path="/Bookmarks" element={<Bookmarks/>}/>
+                    <Route path="/Calculators" element={<ViewCalculators/>}/>
+                    <Route path="/Chapters" element={<Chapters/>}/>
+                    <Route path="/subchapterContent" element={<SubchapterContent/>}/>
+                    <Route path="/subchapters" element={<Subchapters/>}/>
+                </Routes>
             </Box>
         </Box>
     );
