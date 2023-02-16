@@ -19,7 +19,6 @@ subchapterRouter.get("/health", async (req, res) => {
 // @route GET chapter/:chapterId/subchapter/
 // Working!
 subchapterRouter.get("/", async (req, res) => {
-    console.log(`Get all suchapters for chapter ${req.chapterId}`)
     try {
         const chapterId = req.chapterId;
         const chapter = await Chapter.findById(chapterId);
@@ -36,26 +35,24 @@ subchapterRouter.get("/", async (req, res) => {
 // @route GET chapter/:chapterId/subchapter/:subchapterTitle
 // Working!
 subchapterRouter.get('/:subchapterId', async (req, res) => {
-    console.log(`Get subchapter by subchapter Id ${req.params.subchapterId}`)
     try {
         const chapterId = req.chapterId;
         const subchapterId = req.params.subchapterId;
         const chapter = await Chapter.findById(chapterId);
         const subchapters = chapter.subchapters;
-        let subchapterResult = null;
-        let count = 0;
-
-        subchapters.forEach(subchapter => {
-            // note == not === since the subchapterId is being passed as a string not integer
-            count += 1;
-            if (subchapter._id == subchapterId) {
-                subchapterResult = subchapter; 
-                return res.status(200).json(subchapterResult);
+        
+        const subchapterResult = subchapters
+        .filter(subchapter => subchapter._id == subchapterId)
+        .map((finalResult) => {
+            return {
+                ...finalResult._doc,
+                "chapterIcon": chapter.chapterIcon,
+                "chapterTitle": chapter.title,
             }
         })
-        console.log("count: ", count);
-        if (subchapterResult) { // ** problem: this still loops down even tho i have specifically used return res.status(200).json(subchapterResult);
-            return;
+        
+        if (subchapterResult.length > 0) { 
+            return res.status(200).json(subchapterResult[0]);
         }
         return res.status(404).json({ msg: 'Subchapter not found' });
     } catch (err) {
@@ -68,7 +65,6 @@ subchapterRouter.get('/:subchapterId', async (req, res) => {
 // @route PUT chapter/:chapterId/subchapter/
 // Working!
 subchapterRouter.put("/", async (req, res) => {
-    console.log(`Add subchapter to chapter ${req.chapterId}`)
     try {
         const { _id, subchapterTitle, description, content } = req.body;
         const newSubchapter = {
@@ -94,7 +90,6 @@ subchapterRouter.put("/", async (req, res) => {
 // @route DELETE chapter/:chapterId/subchapter/:subchapterId
 // Working!
 subchapterRouter.delete("/:subchapterId", async (req, res) => {
-    console.log(`Delete subchapter by subchapter Id ${req.params.subchapterId}`)
     try {
         const chapterId = req.chapterId;
         const subchapterId = req.params.subchapterId;
