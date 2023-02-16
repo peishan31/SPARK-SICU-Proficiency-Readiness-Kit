@@ -17,7 +17,7 @@ export default function MultiActionAreaCard({ chapter }) {
             <CardActionArea
                 onClick={
                     () => {
-                        navigate(`${currentChapterId}`,
+                        navigate(`${currentChapterId}/subchapters`,
                             { state: { parentChapterId: currentChapterId } })
                     }
                 }>
