@@ -1,59 +1,51 @@
 import React from 'react'
-import Widget from '../components/widget/Widget'
 import { Button } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import AddIcon from '@mui/icons-material/Add'
 import ChapterCard from '../components/chapters/ChapterCard'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
+import axios from 'axios'
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import { useState, useEffect } from 'react'
+import { margin } from '@mui/system'
 
 const Chapters = () => {
 
-    const chapters = [
-        {
-            title: "Chapter 1",
-            description: "This is the first chapter",
-            image: "../../src/handbook1.jpg"
+    const [chapters, setChapters] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:8080/chapters')
+            .then(res => {
+                setChapters(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
+    console.log(chapters)
 
-        },
-        {
-            title: "Chapter 2",
-            description: "This is the second chapter",
-            image: "../../src/handbook1.jpg"
-        },
-        {
-            title: "Chapter 3",
-            description: "This is the third chapter",
-            image: "../../src/handbook1.jpg"
-        },
-        {
-            title: "Chapter 3",
-            description: "This is the third chapter",
-            image: "../../src/handbook1.jpg"
-        },
-        {
-            title: "Chapter 3",
-            description: "This is the third chapter",
-            image: "../../src/handbook1.jpg"
-        },
-    ]
 
 
     return (
-        <div>
-            <h1>Chapters</h1>
-            <Grid container spacing={4}>
+        <Box margin={3} >
+            <Grid container spacing={2} >
+                <Grid item xs={12} md={{ m: 3 }}>
+                    <h1>Chapters</h1>
+                </Grid>
+            </Grid>
+            <Grid container spacing={2}>
             {
                 chapters.map((chapter) => {
                     return (
-                        <Grid item md={4}>
+                        <Grid key={chapter._id} item md={3}>
                             <ChapterCard chapter={chapter} />
                         </Grid>
                     )
                 })
             }
             </Grid>
-        </div>
+        </Box>
     )
 }
 

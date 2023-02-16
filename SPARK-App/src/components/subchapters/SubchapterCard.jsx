@@ -16,7 +16,7 @@ export default function MultiActionAreaCard({ subchapter }) {
                 <CardMedia
                     component="img"
                     height="225"
-                    image="../../src/handbook1.jpg"
+                    image="../../assets/handbook1.jpg"
                     alt="green iguana"
                 />
                 <CardContent>
@@ -31,8 +31,7 @@ export default function MultiActionAreaCard({ subchapter }) {
                     </Box>
                     </Grid>
                     <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species, ranging across all continents except Antarctica
+                        {subchapter.description}
                     </Typography>
                 </CardContent>
             </CardActionArea>

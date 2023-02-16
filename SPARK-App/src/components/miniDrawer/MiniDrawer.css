@@ -1,0 +1,23 @@
+.navbarBrand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbarBrandIcon {
+    font-size: 20px;
+    /* margin-right: 10px; */
+}
+
+.navbarBrandText {
+    font-size: 30px;
+}
+
+.MuiListItemText-primary {
+    color: #535353;
+    font-weight: 100 !important;
+}
+
+.MuiListItemIcon-root {
+    color: rgb(114, 114, 114) !important;
+}
