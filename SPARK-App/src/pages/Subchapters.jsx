@@ -42,7 +42,8 @@ export default function Subchapters({parentToChild}) {
     ]
 
     const filterWords =()=>{
-        let userTyped = "Subchapter";
+
+        let userTyped = parentToChild;
         let newSubchaptersList = []
         for (let i = 0; i < subchapters.length; i++) {
             let title = subchapters[i].title.split(" ");
@@ -55,10 +56,11 @@ export default function Subchapters({parentToChild}) {
           }
         subchapters = newSubchaptersList
 
+
     }
 
     return (
-        <div>
+        <div onChange={filterWords()}>
             <h1>Subchapters</h1>
             <Stack direction="row" spacing={2} mb={2} justifyContent="flex-end">
                 <Button variant="outlined">Select</Button>
@@ -67,11 +69,11 @@ export default function Subchapters({parentToChild}) {
                         Create new subchapter
                 </Button>
                 <Button variant="outlined">
-                    <FilterListIcon onClick={filterWords()}/>
+                    <FilterListIcon />
                         Filter
                 </Button>
             </Stack>
-            <p>{parentToChild}</p>
+            
             {subchapters.length>0 &&
                 <Grid container spacing={4}>
                 {
@@ -86,9 +88,9 @@ export default function Subchapters({parentToChild}) {
                 </Grid>
             }
 
-            {/* {subchapters.length>0 &&
-            <b>No results found.</b>
-            } */}
+            {subchapters.length==0 &&
+            <p>No results found.</p>
+            }
         </div>
     )
 }
