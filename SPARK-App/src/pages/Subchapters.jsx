@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid'
 import {useState,getState} from 'react';
 import Chapters from './Chapters';
 
-const Subchapters = (props)=> {
+export default function Subchapters({parentToChild}) {
 
     let subchapters = [
         {
@@ -71,6 +71,7 @@ const Subchapters = (props)=> {
                         Filter
                 </Button>
             </Stack>
+            <p>{parentToChild}</p>
             {subchapters.length>0 &&
                 <Grid container spacing={4}>
                 {
@@ -91,5 +92,3 @@ const Subchapters = (props)=> {
         </div>
     )
 }
-
-export default Subchapters

@@ -163,6 +163,7 @@ export default function MiniDrawer() {
     const [open, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const [data, setData] = useState('');
     const isMenuOpen = Boolean(anchorEl);
 
     const handleProfileMenuOpen = (event) => {
@@ -182,13 +183,15 @@ export default function MiniDrawer() {
         if(window.location.pathname !="/Subchapters"){
             return;
         }
+        console.log("reached here!");
         // console.log('User pressed: ', event.key);
         console.log(event.currentTarget.value)
-        // console.log(window.location.pathname=="/Subchapters")
-        const [data, setData] = useState(event.currentTarget.value);
+        setData(event.currentTarget.value);
+        // // console.log(window.location.pathname=="/Subchapters")
+        // const [data, setData] = useState(event.currentTarget.value);
 
-        // setData();
-        return <Subchapters userTyped={data}/>
+        // // setData();
+        // return <Subchapters userTyped={data}/>
       };
 
     return (
@@ -309,7 +312,7 @@ export default function MiniDrawer() {
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
-                    <Route path="/subchapters" element={<Subchapters/>}/>
+                    <Route path="/subchapters" element={<Subchapters parentToChild={data}/>} />
                 </Routes>
             </Box>
         </Box>
