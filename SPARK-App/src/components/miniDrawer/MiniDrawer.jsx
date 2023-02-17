@@ -295,7 +295,7 @@ export default function MiniDrawer() {
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
-                    <Route path="/subchapters" element={<Subchapters/>}/>
+                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/login" element={<Login/>}/>
                 </Routes>
