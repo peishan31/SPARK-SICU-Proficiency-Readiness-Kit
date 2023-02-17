@@ -33,6 +33,7 @@ import ViewCalculators from '../../pages/viewCalculator/ViewCalculators'
 import Bookmarks from '../../pages/Bookmarks'
 import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 import CreateSubchapter from '../../pages/CreateSubchapter';
+import Login from '../../pages/login/Login';
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
 
@@ -296,7 +297,9 @@ export default function MiniDrawer() {
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/subchapters" element={<Subchapters/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
+                    <Route path="/login" element={<Login/>}/>
                 </Routes>
+
             </Box>
         </Box>
     );
