@@ -81,13 +81,20 @@ bookmarkRouter.get("/chapters/:chapterId", async (req, res) => {
         
         subchapters.forEach(subchapter => {
             var isBookmarked = false;
+            var bookmarkId = "";
+
             for (let i = 0; i < bookmarks.length; i++) {
+                
                 if(subchapter._id == bookmarks[i].subchapterId && bookmarks[i].chapterId == chapterId ){
                     isBookmarked = true
+                    bookmarkId = bookmarks[i]._id;
                 }
             }
             var temp = JSON.parse(JSON.stringify(subchapter));
             temp.isBookmarked = isBookmarked
+            if (bookmarkId){
+               temp.bookmarkId  =  bookmarkId;
+            }
             
             book.push(temp);
         });
