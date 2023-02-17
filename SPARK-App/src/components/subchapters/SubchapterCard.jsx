@@ -1,31 +1,30 @@
-import * as React from 'react'
-import { Typography, Card, CardContent, CardMedia, CardActionArea, IconButton, Box, Grid } from '@mui/material'
-import { useState } from 'react'
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
-import BookmarkIcon from '@mui/icons-material/Bookmark'
-import axios from 'axios'
-
+import * as React from 'react';
+import { Typography, Card, CardContent, CardMedia, CardActionArea, IconButton, Box, Grid } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
 export default function MultiActionAreaCard({ subchapter }) {
+    
+    const location = useLocation();
+    const navigate = useNavigate();
+    const chapterId = location.state.parentChapterId;
     const currentSubchapterId = subchapter._id;
-    const [clicked, setClicked] = useState('')
+
     async function addBookmark() {
         await axios.put(
             'http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/',
             {
                 subchapterId: currentSubchapterId,
-                chapterId: "63ea35d26c0ef100ca017647"
+                chapterId: chapterId
             }
         );
     }
 
-    async function removeBookmark() {
+    async function removeBookmark(bookmarkId) {
         await axios.delete(
-            'http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/63ec93ea8da3af3690c762d5',
-            {
-                subchapterId: currentSubchapterId,
-                chapterId: "63ea35d26c0ef100ca017647"
-            }
+            `http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/${bookmarkId}`
         );
     }
 
@@ -45,14 +44,17 @@ export default function MultiActionAreaCard({ subchapter }) {
                     </Typography>
                     <Box ml="auto">
                     <IconButton color="primary" onClick={
-                        e => {setClicked(!clicked)
-                            if(clicked) {
-                                console.log("yes")
+                        e => {
+                            if(subchapter.isBookmarked == true) {
+                                removeBookmark(subchapter.bookmarkId)
+                                navigate(0);
                             }else{
-                                addBookmark()
+                                addBookmark();
+                                navigate(0);
                             }
                         }}>
-                        {clicked ? <BookmarkIcon /> : <BookmarkBorderIcon /> 
+                        {
+                        subchapter.isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon /> 
                         }
                     </IconButton>
                     </Box>
