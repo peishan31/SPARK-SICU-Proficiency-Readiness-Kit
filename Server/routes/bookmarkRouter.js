@@ -58,6 +58,7 @@ bookmarkRouter.get("/", async (req, res) => {
                     .map((finalResult) => {
                         return {
                             ...finalResult._doc,
+                            "bookmarkId": bookmarkedSubchapters[index]._id,
                             "chapterId" : bookmarkChapterId,
                             "chapterIcon": chapter.chapterIcon,
                             "chapterTitle": chapter.title,
