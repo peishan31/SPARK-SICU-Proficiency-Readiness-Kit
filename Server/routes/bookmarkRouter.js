@@ -6,6 +6,7 @@ import querystring from 'querystring';
 import {MongoClient} from "mongodb";
 const bookmarkRouter = express.Router();
 
+
 //TODO:
 // @description: Get health status of bookmark route
 // @route GET chapter/:chapterId/subchapter/health
@@ -19,39 +20,62 @@ bookmarkRouter.get("/health", async (req, res) => {
     }
 });
 
-
-// @description: Get all subchapter bookmark details for a chapter by chapterId and a specific user by userId
+// @description: Get all bookmarked subchapters for a user by userId
 // @route GET user/:userId/bookmarks/
 // Working!
-// bookmarkRouter.get("/", async (req, res) => {
-//     console.log(`Get all bookmark details for user ${req.userId}`)
-//     try {
-//         const userId = req.userId;
-//         const user = await User.findById(userId);
-//         const bookmarks = user.bookmarks;
+bookmarkRouter.get("/", async (req, res) => {
+    console.log(`Get all bookmarked subchapters for user ${req.userId}`)
+    try {
+        //get user details
+        const userId = req.userId;
+        const user = await User.findById(userId);
+        
+        //get user's bookmark 
+        const bookmarkedSubchapters = user.bookmarks;
 
+        //get entire chapters details
+        const chapters = await Chapter.find()
 
-//         const chapter = await Chapter.findById(chapterId);
-//         const subchapters = chapter.subchapters;
+        //to store end result
+        var temp = [];
 
-//         let ids = ['63ea36a56c0ef100ca017649', '63ea35d26c0ef100ca017647'];
-//         // let data = await Chapter.find({
-//         // '_id': { 
-//         //     $in: ids
-//         // }
-//         // });
+        //to get subchapter & chapter details using the subchapterId in bookmark array
+        if (bookmarkedSubchapters.length > 0) { 
+            async function updateData(){
+                for (let index = 0; index < bookmarkedSubchapters.length; index++) {
+                    
+                    //the current ids for each bookmark
+                    let bookmarkSubchapterId = bookmarkedSubchapters[index].subchapterId;
+                    let bookmarkChapterId = bookmarkedSubchapters[index].chapterId;
+        
+                    //find the chapter & subchapter it belongs to 
+                    const chapter = await Chapter.findById(bookmarkChapterId);
+                    const subchapters = chapter.subchapters;
 
-
-//         console.log(data)
-//         res.status(200).json(data)
-//     } catch (err) {
-//         console.error(err.message)
-//         res.status(500).send('Server Error')
-//     }
-// });
-
-
-
+                    //populate the json objects
+                    let subchapterResult = subchapters
+                    .filter(subchapter => subchapter._id == bookmarkSubchapterId)
+                    .map((finalResult) => {
+                        return {
+                            ...finalResult._doc,
+                            "chapterId" : bookmarkChapterId,
+                            "chapterIcon": chapter.chapterIcon,
+                            "chapterTitle": chapter.title,
+                        }
+                    })
+                    temp.push(subchapterResult[0]);
+               }
+            }
+            
+            await updateData();
+        }
+        //return res.status(404).json({ msg: 'No bookmarks found' });
+        res.status(200).json(temp);
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+});
 
 // @description: Get all subchapters of a specified chapter for a user by userId
 // @route GET user/:userId/bookmarks/chapters/:chapterId
@@ -77,21 +101,29 @@ bookmarkRouter.get("/chapters/:chapterId", async (req, res) => {
         var result = {};
         var book = [];
 
+        //store the chapter details to return
         result = await Chapter.find( { _id: chapterId }, { _id: 1, title: 1, chapterIcon: 1, description: 1 } );
         
         subchapters.forEach(subchapter => {
+
+            // store result variables 
             var isBookmarked = false;
             var bookmarkId = "";
 
+            //check if the subchapter exists in the user bookmark list. If yes, store the details to return
             for (let i = 0; i < bookmarks.length; i++) {
-                
                 if(subchapter._id == bookmarks[i].subchapterId && bookmarks[i].chapterId == chapterId ){
                     isBookmarked = true
                     bookmarkId = bookmarks[i]._id;
                 }
             }
+
+            //temp variable to store the subchapter details + populate another field 
+            //if the subchapter exists in the user bookmark list
             var temp = JSON.parse(JSON.stringify(subchapter));
             temp.isBookmarked = isBookmarked
+
+            //if bookmarkId not empty, it means the subchapter exists in the chapter. store the bookmarkid to return
             if (bookmarkId){
                temp.bookmarkId  =  bookmarkId;
             }
@@ -107,8 +139,6 @@ bookmarkRouter.get("/chapters/:chapterId", async (req, res) => {
         res.status(500).send('Server Error')
     }
 });
-
-
 
 // @description: Add bookmark details to user by user Id
 // @route PUT user/:userId/subchapter/
@@ -153,48 +183,4 @@ bookmarkRouter.delete("/:bookmarkId", async (req, res) => {
     }
 });
 
-/*
-// @description: Get get all bookmarked subchapters for a user by userId
-// @route GET user/:userId/subchapter/
-// Working!
-bookmarkRouter.get("/", async (req, res) => {
-    console.log(`Get all bookmarked subchapters for user ${req.userId}`)
-    try {
-        const userId = req.userId;
-        const user = await User.findById(userId);
-        const subchapters = user.subchapters;
-        console.log(subchapters)
-        res.status(200).json(subchapters)
-    } catch (err) {
-        console.error(err.message)
-        res.status(500).send('Server Error')
-    }
-});
-
-// @description: Add bookmarked subchapter to user by user Id
-// @route PUT user/:userId/subchapter/
-// Working!
-bookmarkRouter.put("/", async (req, res) => {
-    console.log(`Add bookmarked subchapter to user ${req.userId}`)
-    try {
-        const { _id, subchapterTitle, description, content } = req.body;
-        const newSubchapter = {
-            _id,
-            subchapterTitle,
-            description,
-            content
-        }
-
-        const userId = req.userId;
-        const user = await User.findByIdAndUpdate(
-            { _id: userId },
-            { $push: { subchapters: newSubchapter } },
-        );
-        res.status(200).json(user)
-    } catch (err) {
-        console.error(err.message)
-        res.status(500).send('Server Error')
-    }
-});
-*/
 export default bookmarkRouter;
