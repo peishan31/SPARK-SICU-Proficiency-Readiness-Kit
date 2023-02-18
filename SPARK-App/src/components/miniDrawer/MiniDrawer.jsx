@@ -33,6 +33,7 @@ import Subchapters from '../../pages/Subchapters'
 import ViewCalculators from '../../pages/viewCalculator/ViewCalculators'
 import Bookmarks from '../../pages/Bookmarks'
 import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
+import CreateSubchapter from '../../pages/CreateSubchapter';
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
 
@@ -117,7 +118,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0,1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
@@ -183,15 +184,11 @@ export default function MiniDrawer() {
         if(window.location.pathname !="/Subchapters"){
             return;
         }
-        console.log("reached here!");
+        // console.log("reached here!");
         // console.log('User pressed: ', event.key);
         console.log(event.currentTarget.value)
         setData(event.currentTarget.value);
-        // // console.log(window.location.pathname=="/Subchapters")
-        // const [data, setData] = useState(event.currentTarget.value);
-
-        // // setData();
-        // return <Subchapters userTyped={data}/>
+ 
       };
 
     return (
@@ -312,7 +309,8 @@ export default function MiniDrawer() {
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
-                    <Route path="/subchapters" element={<Subchapters parentToChild={data}/>} />
+                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters parentToChild={data}/>}/>
+                    <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                 </Routes>
             </Box>
         </Box>
