@@ -181,15 +181,10 @@ export default function MiniDrawer() {
 
     
     const handleChange = event => {
-        if(window.location.pathname !="/Subchapters"){
-            return;
-        }
-        // console.log("reached here!");
-        // console.log('User pressed: ', event.key);
-        console.log(event.currentTarget.value)
+        console.log("reached here!");
         setData(event.currentTarget.value);
  
-      };
+    };
 
     return (
         <Box sx={{ display: 'flex'}}>
