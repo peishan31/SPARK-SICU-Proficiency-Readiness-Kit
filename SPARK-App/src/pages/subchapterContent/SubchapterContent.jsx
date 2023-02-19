@@ -12,25 +12,19 @@ const API_URL = "http://localhost:8080/chapters"
 const SubchapterContent = () => {
 
     const [subchapter, setSubchapter] = useState([]);
-    const [chapter, setChapter] = useState([]);
-
-    const getChapterContent = async (chapterId) => {
-        axios.get(`${API_URL}/${chapterId}`)
-        .then(res => {
-            setChapter(res.data)
-        })
-    }
 
     const getSubchapterContent = async (chapterId, subchapterId) => {
         axios.get(`${API_URL}/${chapterId}/subchapters/${subchapterId}`)
         .then(res => {
             setSubchapter(res.data)
+
+            console.log(subchapter)
+
         })
     }
 
     useEffect(() => {
-        getSubchapterContent('63ea35d26c0ef100ca017647', 2)
-        getChapterContent('63ea35d26c0ef100ca017647')
+        getSubchapterContent('63ea36a56c0ef100ca017649', 2)
     }, [])
 
     return (
@@ -38,9 +32,9 @@ const SubchapterContent = () => {
             <div className="subchapterContentContainer">
             <ArrowBackIcon className="backButton"/>
                 <div className="subchapterContentTop">
-                    <img className="headerImage" src="../../../assets/subchapters/barbituratecoma.jpg" alt="coma"/>
+                    <img className="headerImage" src={subchapter.thumbnail} alt="headerImage"/>
                     <div className="subchapterIcon">
-                        {chapter.chapterIcon}
+                        {subchapter.chapterIcon}
                     </div>
                     <div className="subchapterActions">
                         <div className="subchapterAction">
@@ -59,7 +53,7 @@ const SubchapterContent = () => {
                             {subchapter.subchapterTitle}
                         </h1>
                         <div className="subchapterCategory">
-                            {chapter.title}
+                            {subchapter.chapterTitle}
                         </div>
                         <div className="subchapterDescription">
                             {subchapter.description}

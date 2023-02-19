@@ -306,7 +306,9 @@ export default function MiniDrawer() {
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters parentToChild={data}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
+                    {/* <Route path="/login" element={<Login/>}/> */}
                 </Routes>
+
             </Box>
         </Box>
     );
