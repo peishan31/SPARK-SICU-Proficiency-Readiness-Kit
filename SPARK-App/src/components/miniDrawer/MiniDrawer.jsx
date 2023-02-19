@@ -23,6 +23,7 @@ import FlareIcon from '@mui/icons-material/Flare';
 // react-router-dom
 import { Routes, Route, Link } from 'react-router-dom'
 
+import { useState } from 'react';
 import "./MiniDrawer.css"
 
 // pages
@@ -163,6 +164,7 @@ export default function MiniDrawer() {
     const [open, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const [data, setData] = useState('');
     const isMenuOpen = Boolean(anchorEl);
 
     const handleProfileMenuOpen = (event) => {
@@ -175,6 +177,13 @@ export default function MiniDrawer() {
 
     const handleDrawerClose = () => {
         setOpen(false);
+    };
+
+    
+    const handleChange = event => {
+        console.log("reached here!");
+        setData(event.currentTarget.value);
+ 
     };
 
     return (
@@ -211,6 +220,7 @@ export default function MiniDrawer() {
                         <StyledInputBase fullWidth
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
+                            onChange={handleChange}
                         />
                     </Search>
 
@@ -294,9 +304,11 @@ export default function MiniDrawer() {
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
-                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters/>}/>
+                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters parentToChild={data}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
+                    {/* <Route path="/login" element={<Login/>}/> */}
                 </Routes>
+
             </Box>
         </Box>
     );

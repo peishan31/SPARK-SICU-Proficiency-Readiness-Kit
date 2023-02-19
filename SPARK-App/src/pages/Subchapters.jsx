@@ -29,6 +29,32 @@ const Subchapters = () => {
             })
     }, [])
 
+    const filterWords =()=>{
+        if(window.location.pathname !=`/Chapters/${chapterId}/subchapters`){
+            return;
+        }
+
+        let userTyped = parentToChild.toLowerCase();
+        let newSubchaptersList = []
+        for (let i = 0; i < subchapters.length; i++) {
+            let title = subchapters[i].subchapterTitle.split(" ");
+            let description = subchapters[i].description.split(" ");
+            let combinedArray = title.concat(description)
+
+            let allLowerCaseArray = combinedArray.map(element => {
+                return element.toLowerCase();
+              });
+
+            if(allLowerCaseArray.some(e => e.includes(userTyped))){
+                newSubchaptersList.push(subchapters[i])
+            }
+          }
+        subchapters = newSubchaptersList
+
+
+    }
+
+
     return (
         <Box margin={3} >
             <Grid pb={2} display="flex" alignItems="center">
@@ -60,5 +86,3 @@ const Subchapters = () => {
         </Box>
     )
 }
-
-export default Subchapters
