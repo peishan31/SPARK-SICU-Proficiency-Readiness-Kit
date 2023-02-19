@@ -10,6 +10,8 @@ import { useState } from 'react';
 
 export default function MultiActionAreaCard({ chapter }) {
     const currentChapterId = chapter._id;
+    const currentChapterTitle = chapter.title;
+    const currentChapterIcon = chapter.chapterIcon;
 
     const navigate = useNavigate();
     return (
@@ -18,7 +20,14 @@ export default function MultiActionAreaCard({ chapter }) {
                 onClick={
                     () => {
                         navigate(`${currentChapterId}/subchapters`,
-                            { state: { parentChapterId: currentChapterId } })
+                            { state: 
+                                { 
+                                    parentChapterId: currentChapterId,
+                                    parentChapterTitle: currentChapterTitle,
+                                    parentChapterIcon: currentChapterIcon
+                                } 
+                            }
+                        )
                     }
                 }>
 

@@ -4,8 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import Chapters from '../../pages/Chapters';
 
-export default function MultiActionAreaCard({ subchapter }) {
+export default function SubchapterCard({ subchapter }) {
     
     const location = useLocation();
     const navigate = useNavigate();
@@ -43,20 +44,20 @@ export default function MultiActionAreaCard({ subchapter }) {
                         {subchapter.subchapterTitle}
                     </Typography>
                     <Box ml="auto">
-                    <IconButton color="primary" onClick={
+                    {/* <IconButton color="primary" onClick={
                         e => {
                             if(subchapter.isBookmarked == true) {
                                 removeBookmark(subchapter.bookmarkId)
-                                navigate(0);
+                                // navigate(0);
                             }else{
                                 addBookmark();
-                                navigate(0);
+                                // navigate(0);
                             }
                         }}>
                         {
                         subchapter.isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon /> 
                         }
-                    </IconButton>
+                    </IconButton> */}
                     </Box>
                     </Grid>
                     <Typography variant="body2" color="text.secondary">

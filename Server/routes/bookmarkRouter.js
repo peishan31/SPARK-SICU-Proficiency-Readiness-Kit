@@ -66,7 +66,7 @@ bookmarkRouter.get("/", async (req, res) => {
                         }
                     })
                     temp.push(subchapterResult[0]);
-               }
+                }
             }
             
             await updateData();
@@ -82,7 +82,6 @@ bookmarkRouter.get("/", async (req, res) => {
 // @description: Get all subchapters of a specified chapter for a user by userId
 // @route GET user/:userId/bookmarks/chapters/:chapterId
 // Working!
-
 bookmarkRouter.get("/chapters/:chapterId", async (req, res) => {
     console.log(`Get all subchapters of a specified chapter ${req.params.chapterId} for a user by userId ${req.userId}`)
     try {

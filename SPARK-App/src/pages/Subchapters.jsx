@@ -6,83 +6,84 @@ import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SubchapterCard from '../components/subchapters/SubchapterCard';
+import { ListItemText } from '@material-ui/core';
 
-const Subchapters = () => {
+const Subchapters = ({ searchInput }) => {
     
     const location = useLocation();
     const navigate = useNavigate();
     const chapterId = location.state.parentChapterId
+    const chapterTitle = location.state.parentChapterTitle
+    const chapterIcon = location.state.parentChapterIcon
+    let filtered = [];
     const [subchapters, setSubchapters] = useState([]);
-    const [chapterTitle, setChapterTitle] = useState('');
-    const [chapterIcon, setChapterIcon] = useState('');
+    
 
     useEffect(() => {
-        // axios.get(`http://localhost:8080/chapters/${chapterId}/subchapters`)
+        
+        // get all subchapters
         axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/chapters/${chapterId}`)
             .then(res => {
+                console.log(res.data[1].subchapters)
                 setSubchapters(res.data[1].subchapters)
-                setChapterTitle(res.data[0].title)
-                setChapterIcon(res.data[0].chapterIcon)
             })
             .catch(err => {
                 console.log(err)
             })
     }, [])
 
-    const filterWords =()=>{
-        if(window.location.pathname !=`/Chapters/${chapterId}/subchapters`){
-            return;
+
+    const searchSubchapters = (searchInput, subchapter) => {
+        if (searchInput == "") {
+            return subchapter
+        } 
+        else if (
+            subchapter.description.toLowerCase().includes(searchInput.toLowerCase()) ||
+            subchapter.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase())){
+            return subchapter
         }
+    };
 
-        let userTyped = parentToChild.toLowerCase();
-        let newSubchaptersList = []
-        for (let i = 0; i < subchapters.length; i++) {
-            let title = subchapters[i].subchapterTitle.split(" ");
-            let description = subchapters[i].description.split(" ");
-            let combinedArray = title.concat(description)
-
-            let allLowerCaseArray = combinedArray.map(element => {
-                return element.toLowerCase();
-              });
-
-            if(allLowerCaseArray.some(e => e.includes(userTyped))){
-                newSubchaptersList.push(subchapters[i])
-            }
-          }
-        subchapters = newSubchaptersList
-
-
-    }
+    filtered = subchapters.filter((subchapter) => searchSubchapters(searchInput, subchapter))
 
 
     return (
-        <Box margin={3} >
+        <Box margin={3}>
             <Grid pb={2} display="flex" alignItems="center">
-                <IconButton>
+                {/* <IconButton>
                     <ArrowBackIcon onClick={
                         () => {navigate('/Chapters')}}
                     />
-                </IconButton>
+                </IconButton> */}
                 <Typography variant="h4">{chapterIcon}{chapterTitle}</Typography>
                 <Stack direction="row" spacing={2} ml="auto">
-                    <Button variant="outlined">Select</Button>
+                    {/* <Button variant="outlined">Select</Button> */}
                     {/* <Button variant="outlined" onClick={navigateToSubChapter}>
                         <AddIcon />
                             Create new subchapter
                     </Button> */}
                 </Stack>
             </Grid>
+                    
             <Grid container spacing={4}>
-            {
-                subchapters.map((subchapter) => {
-                    return (
+                { !filtered.length ? 
                         <Grid item md={4}>
-                            <SubchapterCard subchapter={subchapter} />
-                        </Grid>
-                    )
-                })
-            }
+                            <Typography variant="h6" ml={""}>No subchapters found</Typography>
+                        </Grid> :
+
+                        filtered.map((subchapter) => 
+                        {
+                            return (
+                                <Grid item key={subchapter._id} md={4}>
+                                    <SubchapterCard subchapter={subchapter}/>
+                                </Grid>
+                            )
+                        
+                        })
+                }
             </Grid>
         </Box>
     )
 }
+
+export default Subchapters;

@@ -181,9 +181,8 @@ export default function MiniDrawer() {
 
     
     const handleChange = event => {
-        console.log("reached here!");
+        // console.log("reached here!");
         setData(event.currentTarget.value);
- 
     };
 
     return (
@@ -304,7 +303,7 @@ export default function MiniDrawer() {
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
-                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters parentToChild={data}/>}/>
+                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={data}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     {/* <Route path="/login" element={<Login/>}/> */}
                 </Routes>
