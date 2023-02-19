@@ -1,29 +1,28 @@
-import React from 'react'
-import Widget from '../components/widget/Widget'
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import FilterListIcon from '@mui/icons-material/FilterList'
-import AddIcon from '@mui/icons-material/Add'
-import SubchapterCard from '../components/subchapters/SubchapterCard'
-import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box';
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useState, useEffect,getState } from 'react'
-import axios from 'axios'
+import React from 'react';
+import { Typography, Button, IconButton, Stack, Grid, Box } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SubchapterCard from '../components/subchapters/SubchapterCard';
 
-import Chapters from './Chapters';
-
-export default function Subchapters({parentToChild}) {
+const Subchapters = () => {
+    
     const location = useLocation();
+    const navigate = useNavigate();
     const chapterId = location.state.parentChapterId
-    let [subchapters, setSubchapters] = useState([]);
- 
-    useEffect(() => {
+    const [subchapters, setSubchapters] = useState([]);
+    const [chapterTitle, setChapterTitle] = useState('');
+    const [chapterIcon, setChapterIcon] = useState('');
 
-        axios.get(`http://localhost:8080/Chapters/${chapterId}/subchapters/`)
+    useEffect(() => {
+        // axios.get(`http://localhost:8080/chapters/${chapterId}/subchapters`)
+        axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/chapters/${chapterId}`)
             .then(res => {
-                setSubchapters(res.data)
+                setSubchapters(res.data[1].subchapters)
+                setChapterTitle(res.data[0].title)
+                setChapterIcon(res.data[0].chapterIcon)
             })
             .catch(err => {
                 console.log(err)
@@ -57,37 +56,33 @@ export default function Subchapters({parentToChild}) {
 
 
     return (
-        <Box margin={3}  onChange={filterWords()}>
-            <h1>Subchapters</h1>
-            <Stack direction="row" spacing={2} mb={2} justifyContent="flex-end">
-                <Button variant="outlined">Select</Button>
-                {/* <Button variant="outlined" onClick={navigateToSubChapter}>
-                    <AddIcon />
-                        Create new subchapter
-                </Button> */}
-                <Button variant="outlined">
-                    <FilterListIcon />
-                        Filter
-                </Button>
-            </Stack>
-            
-            {subchapters.length>0 &&
-                <Grid container spacing={2}>
-                {
-                    subchapters.map((subchapter) => {
-                        return (
-                            <Grid key={subchapter._id} item md={4}>
-                                <SubchapterCard subchapter={subchapter} />
-                            </Grid>
-                        )
-                    })
-                }
-                </Grid>
+        <Box margin={3} >
+            <Grid pb={2} display="flex" alignItems="center">
+                <IconButton>
+                    <ArrowBackIcon onClick={
+                        () => {navigate('/Chapters')}}
+                    />
+                </IconButton>
+                <Typography variant="h4">{chapterIcon}{chapterTitle}</Typography>
+                <Stack direction="row" spacing={2} ml="auto">
+                    <Button variant="outlined">Select</Button>
+                    {/* <Button variant="outlined" onClick={navigateToSubChapter}>
+                        <AddIcon />
+                            Create new subchapter
+                    </Button> */}
+                </Stack>
+            </Grid>
+            <Grid container spacing={4}>
+            {
+                subchapters.map((subchapter) => {
+                    return (
+                        <Grid item md={4}>
+                            <SubchapterCard subchapter={subchapter} />
+                        </Grid>
+                    )
+                })
             }
-
-            {subchapters.length==0 &&
-            <p>No results found.</p>
-            }
+            </Grid>
         </Box>
     )
 }

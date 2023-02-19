@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const bookmarkSchema = new mongoose.Schema({
     subchapterId: {
-        type: Number,
+        type: String,
         required: true,
     },
     chapterId: {

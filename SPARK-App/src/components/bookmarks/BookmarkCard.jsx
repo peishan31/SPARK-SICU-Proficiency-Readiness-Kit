@@ -1,26 +1,12 @@
 import * as React from 'react';
 import { Typography, Card, CardContent, CardMedia, CardActionArea, IconButton, Box, Grid } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
 export default function MultiActionAreaCard({ subchapter }) {
     
-    const location = useLocation();
     const navigate = useNavigate();
-    const chapterId = location.state.parentChapterId;
-    const currentSubchapterId = subchapter._id;
-
-    async function addBookmark() {
-        await axios.put(
-            'http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/',
-            {
-                subchapterId: currentSubchapterId,
-                chapterId: chapterId
-            }
-        );
-    }
 
     async function removeBookmark(bookmarkId) {
         await axios.delete(
@@ -43,19 +29,14 @@ export default function MultiActionAreaCard({ subchapter }) {
                         {subchapter.subchapterTitle}
                     </Typography>
                     <Box ml="auto">
-                    <IconButton color="primary" onClick={
+                    <IconButton color="primary"  onClick={
                         e => {
-                            if(subchapter.isBookmarked == true) {
-                                removeBookmark(subchapter.bookmarkId)
-                                navigate(0);
-                            }else{
-                                addBookmark();
-                                navigate(0);
-                            }
+                            removeBookmark(subchapter.bookmarkId)
+                            navigate(0);
                         }}>
-                        {
-                        subchapter.isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon /> 
-                        }
+                        
+                        <BookmarkIcon /> 
+                        
                     </IconButton>
                     </Box>
                     </Grid>
