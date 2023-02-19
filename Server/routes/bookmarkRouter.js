@@ -25,6 +25,7 @@ bookmarkRouter.get("/health", async (req, res) => {
 // Working!
 bookmarkRouter.get("/", async (req, res) => {
     console.log(`Get all bookmarked subchapters for user ${req.userId}`)
+    // TODO: Reoptimize this to make less API calls for each bookmarked subchapter
     try {
         //get user details
         const userId = req.userId;
