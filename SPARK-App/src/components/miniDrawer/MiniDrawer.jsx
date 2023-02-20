@@ -249,7 +249,7 @@ export default function MiniDrawer() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Home', 'Bookmarks', 'Calculators', 'Chapters', 'Subchapters', 'Sign In'].map((text, index) => (
+                    {['Chapters', 'Bookmarks', 'Calculators', 'Sign In'].map((text, index) => (
                         <Link key={text} to={text} style={{ textDecoration: 'none' }}>
                             <ListItem disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
@@ -268,8 +268,8 @@ export default function MiniDrawer() {
                                         {
                                             (() => {
                                                 switch (text) {
-                                                    case 'Home':
-                                                        return <span className="icon">&#127968;</span>;
+                                                    // case 'Home':
+                                                    //     return <span className="icon">&#127968;</span>;
                                                     case 'Bookmarks':
                                                         return <span className="icon">&#128278;</span>;
                                                     case 'Calculators':
@@ -298,11 +298,12 @@ export default function MiniDrawer() {
             <Box component="main" sx={{flexGrow: 1}}>
                 <DrawerHeader />
                 <Routes>
-                    <Route path="/Home" element={<Home/>}/>
+                    {/* <Route path="/Home" element={<Home/>}/> */}
                     <Route path="/Bookmarks" element={<Bookmarks/>}/>
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
+                    <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={data}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     {/* <Route path="/login" element={<Login/>}/> */}

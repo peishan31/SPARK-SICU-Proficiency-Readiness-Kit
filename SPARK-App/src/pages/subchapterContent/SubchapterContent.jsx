@@ -6,13 +6,17 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import "./subchapterContent.css";
 import { Tooltip } from '@mui/material';
 import axios from 'axios';
-
-const API_URL = "http://localhost:8080/chapters"
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SubchapterContent = () => {
-
+    const location = useLocation();
+    const navigate = useNavigate();
     const [subchapter, setSubchapter] = useState([]);
-
+    
+    const API_URL = "http://localhost:8080/chapters"
+    const chapterId = location.state.parentChapterId
+    const subchapterId = location.state.parentSubchapterId
+    
     const getSubchapterContent = async (chapterId, subchapterId) => {
         axios.get(`${API_URL}/${chapterId}/subchapters/${subchapterId}`)
         .then(res => {
@@ -24,15 +28,15 @@ const SubchapterContent = () => {
     }
 
     useEffect(() => {
-        getSubchapterContent('63ea36a56c0ef100ca017649', 2)
+        getSubchapterContent(chapterId, subchapterId)
     }, [])
 
     return (
         <div className="subchapterContent">
             <div className="subchapterContentContainer">
-            <ArrowBackIcon className="backButton"/>
+                <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
                 <div className="subchapterContentTop">
-                    <img className="headerImage" src={subchapter.thumbnail} alt="headerImage"/>
+                    <img className="headerImage" src={`../${subchapter.thumbnail}`} alt="headerImage"/>
                     <div className="subchapterIcon">
                         {subchapter.chapterIcon}
                     </div>

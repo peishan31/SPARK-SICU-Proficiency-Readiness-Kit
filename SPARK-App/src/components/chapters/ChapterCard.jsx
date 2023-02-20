@@ -15,32 +15,30 @@ export default function MultiActionAreaCard({ chapter }) {
 
     const navigate = useNavigate();
     return (
-        <Card style={{height:'10vw', width:'20vw'}}>
-            <CardActionArea
-                onClick={
-                    () => {
-                        navigate(`${currentChapterId}/subchapters`,
-                            { state: 
-                                { 
-                                    parentChapterId: currentChapterId,
-                                    parentChapterTitle: currentChapterTitle,
-                                    parentChapterIcon: currentChapterIcon
-                                } 
-                            }
-                        )
+        <Card style={{ height: '10vw', width: '20vw' }} onClick={
+            () => {
+                navigate(`${currentChapterId}/subchapters`,
+                    {
+                        state:
+                        {
+                            parentChapterId: currentChapterId,
+                            parentChapterTitle: currentChapterTitle,
+                            parentChapterIcon: currentChapterIcon
+                        }
                     }
-                }>
-
+                )
+            }
+        }>
+            <CardActionArea>
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>
+                    <Typography  variant="h5" component="div" textAlign={"center"}>
                         {chapter.chapterIcon} 
                     </Typography>
-
                 </CardContent>
-            </CardActionArea>
-            <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>
+            <Typography  variant="h5" textAlign={"center"}>
                 {chapter.title}
             </Typography>
+            </CardActionArea>
         </Card>
     );
 }

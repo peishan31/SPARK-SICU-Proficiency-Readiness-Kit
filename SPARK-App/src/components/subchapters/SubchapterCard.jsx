@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import Chapters from '../../pages/Chapters';
 
 export default function SubchapterCard({ subchapter }) {
     
@@ -29,9 +28,30 @@ export default function SubchapterCard({ subchapter }) {
         );
     }
 
+    async function bookmarkHandler() {
+        if(subchapter.isBookmarked == true) {
+            removeBookmark(subchapter.bookmarkId)
+            navigate(0);
+        }else{
+            addBookmark();
+            navigate(0);
+        }
+    }
+
+
     return (
-        <Card sx={{ maxWidth: 445 }}>
-            <CardActionArea>
+        <Card sx={{ maxWidth: 445 }} onClick={
+            () => {
+                navigate(`${currentSubchapterId}/subchapterContent`,
+                    {
+                        state: {
+                            parentChapterId: chapterId,
+                            parentSubchapterId: currentSubchapterId,
+                        }
+                    })
+                }
+        }>
+            <CardActionArea disableRipple>
                 <CardMedia
                     component="img"
                     height="225"
@@ -40,25 +60,15 @@ export default function SubchapterCard({ subchapter }) {
                 />
                 <CardContent>
                     <Grid pb={1} display="flex" alignItems="center">
-                    <Typography display="contents" gutterBottom variant="h5" component="div">
-                        {subchapter.subchapterTitle}
-                    </Typography>
-                    <Box ml="auto">
-                    {/* <IconButton color="primary" onClick={
-                        e => {
-                            if(subchapter.isBookmarked == true) {
-                                removeBookmark(subchapter.bookmarkId)
-                                // navigate(0);
-                            }else{
-                                addBookmark();
-                                // navigate(0);
+                        <Typography display="contents" gutterBottom variant="h5" component="div">
+                            {subchapter.subchapterTitle}
+                        </Typography>
+                        <Box ml="auto" >
+                            {
+                                subchapter.isBookmarked ? 
+                                <BookmarkIcon color="primary" onClick={e => {bookmarkHandler()}}/> : <BookmarkBorderIcon color="primary" onClick={e => {bookmarkHandler()}}/>
                             }
-                        }}>
-                        {
-                        subchapter.isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon /> 
-                        }
-                    </IconButton> */}
-                    </Box>
+                        </Box>
                     </Grid>
                     <Typography variant="body2" color="text.secondary">
                         {subchapter.description}
