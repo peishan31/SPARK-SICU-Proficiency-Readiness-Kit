@@ -7,6 +7,8 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 export default function MultiActionAreaCard({ subchapter }) {
     
     const navigate = useNavigate();
+    const chapterId = subchapter.chapterId;
+    const currentSubchapterId = subchapter._id;
 
     async function removeBookmark(bookmarkId) {
         await axios.delete(
@@ -15,7 +17,21 @@ export default function MultiActionAreaCard({ subchapter }) {
     }
 
     return (
-        <Card sx={{ maxWidth: 445 }}>
+        <Card sx={{ maxWidth: 445 }} onClick={
+            () => {
+                navigate(`/Chapters/${chapterId}/subchapters/${currentSubchapterId}/subchapterContent`,
+                    {
+                        state: {
+                            parentChapterId: chapterId,
+                            parentSubchapterId: currentSubchapterId,
+                            // bookmark status will always be true here 
+                            // because bookmark page only listed the bookmarked subchapters
+                            bookmarkStatus: true,
+                            bookmarkId: subchapter.bookmarkId
+                        }
+                    })
+                }
+        }>
             <CardActionArea>
                 <CardMedia
                     component="img"

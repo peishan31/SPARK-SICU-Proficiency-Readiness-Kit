@@ -56,7 +56,6 @@ export default function SubchapterCard({ subchapter, chapterId }) {
         }
     }
 
-
     return (
         <Card sx={{ maxWidth: 445 }}>
             <CardActionArea disableRipple>
@@ -72,6 +71,7 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                                     state: {
                                         parentChapterId: chapterId,
                                         parentSubchapterId: currentSubchapterId,
+                                        bookmarkStatus: subchapter.isBookmarked
                                     }
                                 })
                         }
