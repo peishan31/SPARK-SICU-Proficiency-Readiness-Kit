@@ -13,7 +13,7 @@ export default function SubchapterCard({ subchapter, chapterId }) {
     const [isBookmarked, setIsBookmarked] = useState(subchapter.isBookmarked);
 
     async function addBookmark() {
-        console.log("add")
+        // console.log("add")
         await axios.put(
             'http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/',
             {
@@ -34,7 +34,7 @@ export default function SubchapterCard({ subchapter, chapterId }) {
     }
 
     async function removeBookmark(bookmarkId) {
-        console.log("remove")
+        // console.log("remove")
         await axios.delete(
             `http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/${bookmarkId}`
         ).then(
