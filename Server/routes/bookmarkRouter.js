@@ -152,7 +152,7 @@ bookmarkRouter.put("/", async (req, res) => {
             subchapterId,
             chapterId
         }
-        
+
         const userId = req.userId;
         const user = await User.findByIdAndUpdate(
             { _id: userId },
@@ -162,26 +162,7 @@ bookmarkRouter.put("/", async (req, res) => {
 
         //get latest added bookmark id 
         const bookmarkId = user.bookmarks[user.bookmarks.length - 1]._id;
-
-        /*dk how to resuse codes, using this for now -- copied from subchapterRouter*/
-
-        //get subchapter details
-        const chapter = await Chapter.findById(chapterId);
-        const subchapters = chapter.subchapters;
-        
-        const subchapterResult = subchapters
-        .filter(subchapter => subchapter._id == subchapterId)
-        .map((finalResult) => {
-            return {
-                ...finalResult._doc,
-                "isBookmarked": true,
-                "bookmarkId": bookmarkId,
-            }
-        })
-
-        /*dk how to resuse codes, using this for now -- copied from subchapterRouter*/
-
-        res.status(200).json(subchapterResult[0])
+        res.status(200).json({"bookmarkId": bookmarkId })
     } catch (err) {
         console.error(err.message)
         res.status(500).send('Server Error')
