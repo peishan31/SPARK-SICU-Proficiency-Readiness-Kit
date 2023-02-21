@@ -19,20 +19,20 @@ const SubchapterContent = () => {
     const bookmarkId = location.state.bookmarkId
     const [isBookmarked, setIsBookmarked] = useState(location.state.bookmarkStatus);
 
-    console.log(location.state.bookmarkStatus)
+    // console.log(location.state.bookmarkStatus)
 
     const getSubchapterContent = async (chapterId, subchapterId) => {
         axios.get(`${API_URL}/${chapterId}/subchapters/${subchapterId}`)
         .then(res => {
             setSubchapter(res.data)
 
-            console.log(res.data)
+            // console.log(res.data)
 
         })
     }
 
     async function addBookmark() {
-        console.log("add")
+
         await axios.put(
             'http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/',
             {
@@ -51,7 +51,7 @@ const SubchapterContent = () => {
     }
 
     async function removeBookmark(bookmarkId) {
-        console.log("remove")
+
         await axios.delete(
             `http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/${bookmarkId}`
         ).then(
