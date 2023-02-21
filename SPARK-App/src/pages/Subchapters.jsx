@@ -75,7 +75,7 @@ const Subchapters = ({ searchInput }) => {
                         {
                             return (
                                 <Grid item key={subchapter._id} md={4}>
-                                    <SubchapterCard subchapter={subchapter}/>
+                                    <SubchapterCard subchapter={subchapter} chapterId={chapterId}/>
                                 </Grid>
                             )
                         
