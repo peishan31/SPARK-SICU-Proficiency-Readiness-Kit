@@ -17,27 +17,28 @@ export default function MultiActionAreaCard({ subchapter }) {
     }
 
     return (
-        <Card sx={{ maxWidth: 445 }} onClick={
-            () => {
-                navigate(`/Chapters/${chapterId}/subchapters/${currentSubchapterId}/subchapterContent`,
-                    {
-                        state: {
-                            parentChapterId: chapterId,
-                            parentSubchapterId: currentSubchapterId,
-                            // bookmark status will always be true here 
-                            // because bookmark page only listed the bookmarked subchapters
-                            bookmarkStatus: true,
-                            bookmarkId: subchapter.bookmarkId
-                        }
-                    })
-                }
-        }>
+        <Card sx={{ maxWidth: 445 }}>
             <CardActionArea>
                 <CardMedia
                     component="img"
                     height="225"
                     image="../../assets/handbook1.jpg"
                     alt="green iguana"
+                    onClick={
+                        () => {
+                            navigate(`/Chapters/${chapterId}/subchapters/${currentSubchapterId}/subchapterContent`,
+                                {
+                                    state: {
+                                        parentChapterId: chapterId,
+                                        parentSubchapterId: currentSubchapterId,
+                                        // bookmark status will always be true here 
+                                        // because bookmark page only listed the bookmarked subchapters
+                                        bookmarkStatus: true,
+                                        bookmarkId: subchapter.bookmarkId
+                                    }
+                                })
+                        }
+                    }
                 />
                 <CardContent>
                     <Grid pb={1} display="flex" alignItems="center">
@@ -50,9 +51,7 @@ export default function MultiActionAreaCard({ subchapter }) {
                             removeBookmark(subchapter.bookmarkId)
                             navigate(0);
                         }}>
-                        
                         <BookmarkIcon /> 
-                        
                     </IconButton>
                     </Box>
                     </Grid>
