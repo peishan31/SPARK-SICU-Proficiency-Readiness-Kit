@@ -157,8 +157,12 @@ bookmarkRouter.put("/", async (req, res) => {
         const user = await User.findByIdAndUpdate(
             { _id: userId },
             { $push: { bookmarks: newBookmark } },
+            {new: true}
         );
-        res.status(200).json(user)
+
+        //get latest added bookmark id 
+        const bookmarkId = user.bookmarks[user.bookmarks.length - 1]._id;
+        res.status(200).json({"bookmarkId": bookmarkId })
     } catch (err) {
         console.error(err.message)
         res.status(500).send('Server Error')

@@ -22,6 +22,8 @@ export default function SubchapterCard({ subchapter, chapterId }) {
             }
         ).then(
             res => {
+                subchapter.bookmarkId = res.data.bookmarkId
+                subchapter.isBookmarked = true
                 return 200
             }
         ).catch(
@@ -37,7 +39,8 @@ export default function SubchapterCard({ subchapter, chapterId }) {
             `http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/${bookmarkId}`
         ).then(
             res => {
-                return 200
+                subchapter.isBookmarked = false
+                return 200;
             }
         ).catch(
             err => {
@@ -56,7 +59,6 @@ export default function SubchapterCard({ subchapter, chapterId }) {
         }
     }
 
-
     return (
         <Card sx={{ maxWidth: 445 }}>
             <CardActionArea disableRipple>
@@ -72,6 +74,7 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                                     state: {
                                         parentChapterId: chapterId,
                                         parentSubchapterId: currentSubchapterId,
+                                        bookmarkStatus: subchapter.isBookmarked
                                     }
                                 })
                         }

@@ -16,17 +16,65 @@ const SubchapterContent = () => {
     const API_URL = "http://localhost:8080/chapters"
     const chapterId = location.state.parentChapterId
     const subchapterId = location.state.parentSubchapterId
-    
+    const bookmarkId = location.state.bookmarkId
+    const [isBookmarked, setIsBookmarked] = useState(location.state.bookmarkStatus);
+
+    // console.log(location.state.bookmarkStatus)
+
     const getSubchapterContent = async (chapterId, subchapterId) => {
         axios.get(`${API_URL}/${chapterId}/subchapters/${subchapterId}`)
         .then(res => {
             setSubchapter(res.data)
 
-            console.log(subchapter)
+            // console.log(res.data)
 
         })
     }
 
+    async function addBookmark() {
+
+        await axios.put(
+            'http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/',
+            {
+                subchapterId: subchapterId,
+                chapterId: chapterId
+            }
+        ).then(
+            res => {
+                return 200
+            }
+        ).catch(
+            err => {
+                return 500
+            }
+        )
+    }
+
+    async function removeBookmark(bookmarkId) {
+
+        await axios.delete(
+            `http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/${bookmarkId}`
+        ).then(
+            res => {
+                return 200
+            }
+        ).catch(
+            err => {
+                return 500
+            }
+        )}
+
+    async function bookmarkHandler() {
+        if(isBookmarked) {
+            await removeBookmark(bookmarkId)
+            setIsBookmarked(false)          
+        }
+        else{
+            await addBookmark()
+            setIsBookmarked(true)
+        }
+    }
+    
     useEffect(() => {
         getSubchapterContent(chapterId, subchapterId)
     }, [])
@@ -48,7 +96,11 @@ const SubchapterContent = () => {
                         </div>
                         <div className="subchapterAction">
                             <Tooltip title="Bookmark" placement="top">
-                                <BookmarkBorderIcon className="subchapterActionIcon"/>
+                                {/* <BookmarkBorderIcon className="subchapterActionIcon"/> */}
+                                {
+                                    isBookmarked ? 
+                                        <BookmarkIcon margin={"4"} color="primary" onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon color="primary" margin={"4"} onClick={e => { bookmarkHandler() }} />
+                                }
                             </Tooltip>
                         </div>
                     </div>

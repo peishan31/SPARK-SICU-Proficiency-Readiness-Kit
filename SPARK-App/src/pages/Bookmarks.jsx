@@ -26,8 +26,8 @@ const Bookmarks = () => {
             {
                 subchapters.map((subchapter) => {
                     return (
-                        <Grid item md={4}>
-                            <BookmarkCard subchapter={subchapter} />
+                        <Grid item key={subchapter._id}  md={4}>
+                            <BookmarkCard key={subchapter._id} subchapter={subchapter} />
                         </Grid>
                     )
                 })
