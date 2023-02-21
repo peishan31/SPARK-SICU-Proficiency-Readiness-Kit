@@ -148,12 +148,21 @@ bookmarkRouter.put("/", async (req, res) => {
     console.log(`Add bookmarked details to user ${req.userId}`)
     try {
         const { subchapterId, chapterId } = req.body;
+        const userId = req.userId;
+        // Check if subchapterId exist inside the user's bookmark list
+        const userResult = await User.findById(userId);
+        const bookmarks = userResult.bookmarks;
+
+        const result = bookmarks.find(bookmark => bookmark.subchapterId == subchapterId && bookmark.chapterId == chapterId);
+        if (result) {
+            return res.status(400).json({ msg: 'Subchapter already bookmarked' });
+        }
+
         const newBookmark = {
             subchapterId,
             chapterId
         }
 
-        const userId = req.userId;
         const user = await User.findByIdAndUpdate(
             { _id: userId },
             { $push: { bookmarks: newBookmark } },
@@ -162,10 +171,10 @@ bookmarkRouter.put("/", async (req, res) => {
 
         //get latest added bookmark id 
         const bookmarkId = user.bookmarks[user.bookmarks.length - 1]._id;
-        res.status(200).json({"bookmarkId": bookmarkId })
+        return res.status(200).json({"bookmarkId": bookmarkId })
     } catch (err) {
         console.error(err.message)
-        res.status(500).send('Server Error')
+        return res.status(500).send('Server Error')
     }
 });
 
