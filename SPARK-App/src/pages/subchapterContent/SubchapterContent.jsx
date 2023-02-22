@@ -84,7 +84,8 @@ const SubchapterContent = () => {
             <div className="subchapterContentContainer">
                 <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
                 <div className="subchapterContentTop">
-                    <img className="headerImage" src={`../${subchapter.thumbnail}`} alt="headerImage"/>
+                    <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage"/>
+                    {/* <img className="headerImage" src={"../../../../assets/subchapters/neurology/severetbi.jpg"} alt="headerImage"/> */}
                     <div className="subchapterIcon">
                         {subchapter.chapterIcon}
                     </div>
