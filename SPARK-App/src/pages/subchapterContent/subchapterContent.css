@@ -19,7 +19,7 @@
 }
 
 .subchapterContentTop {
-    height: 70vh;
+    height: default;
     position: relative;
     top: -30px;
     /* border: 5px solid brown; */
