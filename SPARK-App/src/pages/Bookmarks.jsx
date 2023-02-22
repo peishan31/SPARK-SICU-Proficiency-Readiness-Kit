@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import BookmarkCard from '../components/bookmarks/BookmarkCard';
 
-const Bookmarks = () => {
+const Bookmarks = ({ searchInput }) => {
     const [subchapters, setSubchapters] = useState([]);
 
     useEffect(() => {
@@ -17,21 +17,42 @@ const Bookmarks = () => {
             })
     }, [])
 
+    let filtered = []
+    const searchSubchapters = (searchInput, subchapter) => {
+        if (searchInput == "") {
+            return subchapter
+        }
+        else if (
+            subchapter.description.toLowerCase().includes(searchInput.toLowerCase()) ||
+            subchapter.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
+            subchapter.content.toLowerCase().includes(searchInput.toLowerCase())) {
+            return subchapter
+        }
+    };
+
+    filtered = subchapters.filter((subchapter) => searchSubchapters(searchInput, subchapter))
+
+
     return (
         <Box margin={3} >
             <Grid pb={2} display="flex" alignItems="center">
                 <Typography variant="h4">Bookmarks</Typography>
             </Grid>
             <Grid container spacing={4}>
-            {
-                subchapters.map((subchapter) => {
-                    return (
-                        <Grid item key={subchapter._id}  md={4}>
-                            <BookmarkCard key={subchapter._id} subchapter={subchapter} />
-                        </Grid>
-                    )
-                })
-            }
+                {
+                    !filtered.length ? 
+                        <Grid item md={4}>
+                            <Typography variant="h6" ml={""}>No subchapters found</Typography>
+                        </Grid> :
+                        filtered.map((subchapter) => {
+                            return (
+                                <Grid item key={subchapter._id} md={4}>
+                                    <BookmarkCard key={subchapter._id} subchapter={subchapter} />
+                                </Grid>
+                            )
+                        })
+
+                }
             </Grid>
         </Box>
     )

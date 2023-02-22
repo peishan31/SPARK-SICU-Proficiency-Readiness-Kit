@@ -299,7 +299,7 @@ export default function MiniDrawer() {
                 <DrawerHeader />
                 <Routes>
                     {/* <Route path="/Home" element={<Home/>}/> */}
-                    <Route path="/Bookmarks" element={<Bookmarks/>}/>
+                    <Route path="/Bookmarks" element={<Bookmarks searchInput={data}/>}/>
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>

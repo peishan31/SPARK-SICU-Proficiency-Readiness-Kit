@@ -7,7 +7,6 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-
 export default function MultiActionAreaCard({ chapter }) {
     const currentChapterId = chapter._id;
     const currentChapterTitle = chapter.title;

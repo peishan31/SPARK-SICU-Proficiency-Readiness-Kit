@@ -40,7 +40,8 @@ const Subchapters = ({ searchInput }) => {
         } 
         else if (
             subchapter.description.toLowerCase().includes(searchInput.toLowerCase()) ||
-            subchapter.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase())){
+            subchapter.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
+            subchapter.content.toLowerCase().includes(searchInput.toLowerCase())){
             return subchapter
         }
     };

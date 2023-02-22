@@ -112,9 +112,9 @@ const SubchapterContent = () => {
                         <div className="subchapterCategory">
                             {subchapter.chapterTitle}
                         </div>
-                        <div className="subchapterDescription">
+                        {/* <div className="subchapterDescription">
                             {subchapter.description}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="subchapterContentBottom">
