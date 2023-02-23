@@ -1,0 +1,64 @@
+.login {
+    height: 100vh;
+    width: 100vw;
+    background: rgb(65,173,164);
+    background: linear-gradient(156deg, rgba(65,173,164,1) 40%, rgba(253,187,45,1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginCard {
+    display: flex;
+    height: 450px;
+    max-width: 800px;
+    width: 90%;
+    border-radius: 10%;
+    box-shadow: -4px 12px 29px -17px rgba(0,0,0,0.76);
+    -webkit-box-shadow: -4px 12px 29px -17px rgba(0,0,0,0.76);
+    -moz-box-shadow: -4px 12px 29px -17px rgba(0,0,0,0.76);
+}
+
+.loginLeft {
+    background-color: white;
+    width: 55%;
+    padding: 50px 50px 50px;
+    border-radius: 10% 0% 0% 10%;
+}
+
+.loginRight {
+    background-color: #ffeb77;
+    width: 45%;
+    position: relative;
+    border-radius: 0% 10% 10% 0%;
+}
+
+.loginBrand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.sideImage {
+    height: 400px;
+    position: absolute;
+    top: 2em;
+    right: -1em;
+}
+
+@media (max-width: 780px) {
+    .loginRight {
+        display: none;
+    }
+
+    .loginLeft {
+        width: 100%;
+        border-radius: 10%;
+    }
+
+    .loginCard {
+        max-width: 400px;
+        width: 90%;
+    }
+}
