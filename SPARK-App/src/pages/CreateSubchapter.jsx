@@ -28,14 +28,13 @@ export default function CreateSubchapter() {
         await axios.put(
             'http://localhost:8080/chapters/' + chapSelected + '/subchapters/',
             {   
-                _id: 5,
                 subchapterTitle: subchapTitle,
                 thumbnail: "../../../assets/subchapters/neurology/raisedicp.jpg",
                 description: subchapDesc,
                 content: editorRef.current.getContent(),
             }
         );
-        navigate('/Subchapters');
+        navigate('/Chapters/');
     }
 
     return (

@@ -66,10 +66,10 @@ subchapterRouter.get('/:subchapterId', async (req, res) => {
 // Working!
 subchapterRouter.put("/", async (req, res) => {
     try {
-        const { _id, subchapterTitle, description, content } = req.body;
+        const { subchapterTitle, thumbnail, description, content } = req.body;
         const newSubchapter = {
-            _id,
             subchapterTitle,
+            thumbnail,
             description,
             content
         }
