@@ -14,7 +14,13 @@ export default function MultiActionAreaCard({ chapter }) {
 
     const navigate = useNavigate();
     return (
-        <Card style={{ height: '10vw', width: '20vw' }} onClick={
+        <Card style={{ height: '10vw', width: '20vw' }}
+        sx={{
+            ':hover': {
+                bgcolor: '#e0f2f1',
+            },
+          }}
+        onClick={
             () => {
                 navigate(`${currentChapterId}/subchapters`,
                     {
@@ -28,7 +34,7 @@ export default function MultiActionAreaCard({ chapter }) {
                 )
             }
         }>
-            <CardActionArea>
+            <CardActionArea style={{ height: '100%', width: '100%' }}>
                 <CardContent>
                     <Typography  variant="h5" component="div" textAlign={"center"}>
                         {chapter.chapterIcon} 
