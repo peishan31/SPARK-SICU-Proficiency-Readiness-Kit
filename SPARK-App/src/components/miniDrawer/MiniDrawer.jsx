@@ -21,7 +21,7 @@ import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import FlareIcon from '@mui/icons-material/Flare';
 // react-router-dom
-import { Routes, Route, Link } from 'react-router-dom'
+import { Navigate, Routes, Route, Link } from 'react-router-dom'
 
 import { useState } from 'react';
 import "./MiniDrawer.css"
@@ -34,6 +34,8 @@ import ViewCalculators from '../../pages/viewCalculator/ViewCalculators'
 import Bookmarks from '../../pages/Bookmarks'
 import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 import CreateSubchapter from '../../pages/CreateSubchapter';
+import Login from "../../pages/login/Login";
+
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
 
@@ -299,6 +301,7 @@ export default function MiniDrawer() {
                 <DrawerHeader />
                 <Routes>
                     {/* <Route path="/Home" element={<Home/>}/> */}
+                    <Route path="/" element={<Navigate to={"/Chapters"}/>}/>
                     <Route path="/Bookmarks" element={<Bookmarks searchInput={data}/>}/>
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
@@ -306,7 +309,7 @@ export default function MiniDrawer() {
                     <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={data}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
-                    {/* <Route path="/login" element={<Login/>}/> */}
+                    <Route path="/login" element={<Login/>}/>
                 </Routes>
 
             </Box>
