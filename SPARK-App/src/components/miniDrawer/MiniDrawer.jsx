@@ -21,7 +21,7 @@ import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import FlareIcon from '@mui/icons-material/Flare';
 // react-router-dom
-import { Routes, Route, Link } from 'react-router-dom'
+import { Navigate, Routes, Route, Link } from 'react-router-dom'
 
 import { useState } from 'react';
 import "./MiniDrawer.css"
@@ -301,6 +301,7 @@ export default function MiniDrawer() {
                 <DrawerHeader />
                 <Routes>
                     {/* <Route path="/Home" element={<Home/>}/> */}
+                    <Route path="/" element={<Navigate to={"/Chapters"}/>}/>
                     <Route path="/Bookmarks" element={<Bookmarks searchInput={data}/>}/>
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
