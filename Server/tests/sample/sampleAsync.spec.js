@@ -35,14 +35,14 @@ let animals = [];
 
 // in cases where you need to do some preparation before ALL tests, you can use beforeAll
 beforeAll(() => {
-    console.log("before all");
+    // console.log("before all");
     animals = ["dog", "cat", "bird"];
 })
 
 describe("animals array", () => {
     // in cases where you need to do some preparation before EACH test, you can use beforeEach
     beforeEach(() => {
-        console.log("before each");
+        // console.log("before each");
         animals = ["dog", "cat", "bird"];
     })
 
@@ -58,6 +58,6 @@ describe("animals array", () => {
 
 
 afterAll(() => {
-    console.log("after all");
+    // console.log("after all");
     animals = ["dog", "cat", "bird"];
 })

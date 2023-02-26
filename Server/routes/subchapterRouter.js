@@ -23,7 +23,7 @@ subchapterRouter.get("/", async (req, res) => {
         const chapterId = req.chapterId;
         const chapter = await Chapter.findById(chapterId);
         const subchapters = chapter.subchapters;
-        console.log(subchapters)
+        // console.log(subchapters)
         res.status(200).json(subchapters)
     } catch (err) {
         console.error(err.message)
