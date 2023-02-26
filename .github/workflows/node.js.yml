@@ -24,9 +24,12 @@ jobs:
     - run: node --version
     - run: npm --version
     # edit code to cd into Server folder, npm install and run npm run test
-    - name: cd into Server folder and install dependencies
-      run: cd Server npm install
-    - name: Run Backend
-      run: cd Server npm run dev
-    - name: Run tests
-      run: cd Server npm run test
+    - name: install backend packages
+      working-directory: ./Server
+      run: npm install
+    - name: run backend server
+      working-directory: ./Server
+      run: npm run dev
+    - name: run tests
+      working-directory: ./Server
+      run: npm run test
