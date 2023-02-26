@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { Typography, Card, CardContent, CardMedia, CardActionArea, IconButton, Box, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -9,13 +10,25 @@ export default function MultiActionAreaCard({ subchapter }) {
     const navigate = useNavigate();
     const chapterId = subchapter.chapterId;
     const currentSubchapterId = subchapter._id;
+    const [visible, setVisible] = useState(true);
 
     async function removeBookmark(bookmarkId) {
         await axios.delete(
             `http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/${bookmarkId}`
-        );
+        ).then(
+            res => {
+                setVisible((prev) => !prev);
+                console.log('remove');
+                return 200;
+            }
+        ).catch(
+            err => {
+                return 500
+            }
+        )
     }
 
+    if (!visible) return null;
     return (
         <Card sx={{ maxWidth: 445 }}>
             <CardActionArea>
@@ -49,7 +62,7 @@ export default function MultiActionAreaCard({ subchapter }) {
                     <IconButton color="primary"  onClick={
                         e => {
                             removeBookmark(subchapter.bookmarkId)
-                            navigate(0);
+                            // navigate(0);
                         }}>
                         <BookmarkIcon /> 
                     </IconButton>
