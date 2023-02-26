@@ -33,14 +33,14 @@ describe("Testing async get function", () => {
 // setting up and tearing down
 let animals = [];
 
-
+// in cases where you need to do some preparation before ALL tests, you can use beforeAll
 beforeAll(() => {
     console.log("before all");
     animals = ["dog", "cat", "bird"];
 })
 
 describe("animals array", () => {
-    // runs before each it test, this applies to all it tests in this describe block
+    // in cases where you need to do some preparation before EACH test, you can use beforeEach
     beforeEach(() => {
         console.log("before each");
         animals = ["dog", "cat", "bird"];
