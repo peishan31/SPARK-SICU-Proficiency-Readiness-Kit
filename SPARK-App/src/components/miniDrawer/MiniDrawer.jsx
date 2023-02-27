@@ -185,9 +185,6 @@ export default function MiniDrawer() {
     
     const handleChange = event => {
         // console.log("reached here!");
-        console.log(location.pathname)
-        const currentChapterId = localStorage.getItem("currentChapterID")
-        console.log(window.location.pathname == "/Chapters/" + currentChapterId+ "/subchapters")
         setData(event.currentTarget.value);
     };
 
