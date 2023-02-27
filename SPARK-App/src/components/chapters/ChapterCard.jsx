@@ -22,6 +22,7 @@ export default function MultiActionAreaCard({ chapter }) {
           }}
         onClick={
             () => {
+                localStorage.setItem("currentChapterID", currentChapterId)
                 navigate(`${currentChapterId}/subchapters`,
                     {
                         state:

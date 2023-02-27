@@ -21,7 +21,7 @@ import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import FlareIcon from '@mui/icons-material/Flare';
 // react-router-dom
-import { Navigate, Routes, Route, Link } from 'react-router-dom'
+import { Navigate, Routes, Route, Link, useLocation} from 'react-router-dom'
 
 import { useState } from 'react';
 import "./MiniDrawer.css"
@@ -162,6 +162,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
+    const path = useLocation().pathname
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -184,6 +185,9 @@ export default function MiniDrawer() {
     
     const handleChange = event => {
         // console.log("reached here!");
+        console.log(location.pathname)
+        const currentChapterId = localStorage.getItem("currentChapterID")
+        console.log(window.location.pathname == "/Chapters/" + currentChapterId+ "/subchapters")
         setData(event.currentTarget.value);
     };
 
@@ -213,7 +217,9 @@ export default function MiniDrawer() {
                     </div>
                     
     
-
+                    <React.Fragment>
+                    {
+                    ["/Bookmarks", "/Chapters/"+localStorage.getItem("currentChapterID")+"/subchapters"].includes(path) ? 
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
@@ -224,6 +230,9 @@ export default function MiniDrawer() {
                             onChange={handleChange}
                         />
                     </Search>
+                        :null}
+                    </React.Fragment>
+                    
 
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex', ld: 'end' } }}>
