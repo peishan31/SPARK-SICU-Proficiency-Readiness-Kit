@@ -100,7 +100,7 @@ const SubchapterContent = () => {
                                 {/* <BookmarkBorderIcon className="subchapterActionIcon"/> */}
                                 {
                                     isBookmarked ? 
-                                        <BookmarkIcon margin={"4"} color="primary" onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon color="primary" margin={"4"} onClick={e => { bookmarkHandler() }} />
+                                        <BookmarkIcon margin={"4"} sx={{color: "#41ADA4"}} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon sx={{color: "#41ADA4"}} margin={"4"} onClick={e => { bookmarkHandler() }} />
                                 }
                             </Tooltip>
                         </div>

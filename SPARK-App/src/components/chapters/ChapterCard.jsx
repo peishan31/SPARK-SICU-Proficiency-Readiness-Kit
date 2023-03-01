@@ -14,11 +14,15 @@ export default function MultiActionAreaCard({ chapter }) {
 
     const navigate = useNavigate();
     return (
-        <Card style={{ height: '10vw', width: '20vw' }}
+        <Card style={{ height: '150px', width: '150px' }}
         sx={{
             ':hover': {
-                bgcolor: '#e0f2f1',
+                bgcolor: '#41ADA4',
+                color: 'white'
             },
+            textAlign: "center",
+            borderRadius: "20px",
+            bgcolor: "#F4F4F4"
           }}
         onClick={
             () => {
@@ -37,13 +41,13 @@ export default function MultiActionAreaCard({ chapter }) {
         }>
             <CardActionArea style={{ height: '100%', width: '100%' }}>
                 <CardContent>
-                    <Typography  variant="h5" component="div" textAlign={"center"}>
+                    <Typography  sx={{fontSize: "35px", mb: 1}}>
                         {chapter.chapterIcon} 
                     </Typography>
+                    <Typography  sx={{fontSize: "15px", fontWeight: "bold", lineHeight: 1.3}}>
+                    {chapter.title}
+                    </Typography>
                 </CardContent>
-            <Typography  variant="h5" textAlign={"center"}>
-                {chapter.title}
-            </Typography>
             </CardActionArea>
         </Card>
     );

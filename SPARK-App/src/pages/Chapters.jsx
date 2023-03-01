@@ -28,17 +28,16 @@ const Chapters = () => {
 
 
     return (
-        <Box margin={3} >
-            <Grid container spacing={2} >
-                <Grid item xs={12}>
-                    <h1>Chapters</h1>
-                </Grid>
-            </Grid>
-            <Grid container spacing={2}>
+        <Box pt={5} pl={5} >
+            <div className="pageTitle">
+                <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Chapters</h1>
+            </div>
+            
+            <Grid container spacing={3}>
             {
                 chapters.map((chapter) => {
                     return (
-                        <Grid key={chapter._id} item md={3}>
+                        <Grid key={chapter._id} item>
                             <ChapterCard chapter={chapter} />
                         </Grid>
                     )
