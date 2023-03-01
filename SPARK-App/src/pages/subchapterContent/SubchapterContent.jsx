@@ -80,7 +80,7 @@ const SubchapterContent = () => {
     }, [])
 
     return (
-        <div className="subchapterContent">
+        <div className="subchapterContent" style={{paddingBottom: "100px"}}>
             <div className="subchapterContentContainer">
                 <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
                 <div className="subchapterContentTop">
@@ -112,9 +112,9 @@ const SubchapterContent = () => {
                         <div className="subchapterCategory">
                             {subchapter.chapterTitle}
                         </div>
-                        {/* <div className="subchapterDescription">
+                        <div className="subchapterDescription">
                             {subchapter.description}
-                        </div> */}
+                        </div>
                     </div>
                 </div>
                 <div className="subchapterContentBottom">

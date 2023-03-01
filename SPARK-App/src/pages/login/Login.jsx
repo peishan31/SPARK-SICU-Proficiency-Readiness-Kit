@@ -20,6 +20,7 @@ const StyledButton = styled(Button)(({
 function Login({ setToken }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleLogin = () => {
         console.log("handleLogin()")
@@ -33,14 +34,13 @@ function Login({ setToken }) {
             if (res.status == 200) {
                 console.log(res.data)
                 setToken(res.data['_id'])
-                alert("Success!")
             }
             
           })
           .catch(err => {
             console.log(err)
             if (err.response.status == 400) {
-                alert("Wrong credentials")
+                setErrorMessage("Wrong username or password entered, please try again.")
             }
 
             if (res.response.status == 500) {
@@ -61,7 +61,11 @@ function Login({ setToken }) {
                     </div>
                     <div className="loginForm">
                         <TextField required label="Email" sx={{width: '100%', marginBottom: '30px'}} value={email} onChange={(e)=>setEmail(e.target.value)} />
-                        <TextField required type="password" label="Password" sx={{width: '100%', marginBottom: '60px'}} value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                        <TextField required type="password" label="Password" sx={{width: '100%', marginBottom: '20px'}} value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                    </div>
+
+                    <div className="errorMessage">
+                        {errorMessage}
                     </div>
 
                     <StyledButton fullWidth onClick={handleLogin}>Login</StyledButton>

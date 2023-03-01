@@ -30,12 +30,36 @@ export default function MultiActionAreaCard({ subchapter }) {
 
     if (!visible) return null;
     return (
-        <Card sx={{ maxWidth: 445 }}>
+        <Card sx={{ maxWidth: 445,
+            borderRadius: "20px",
+            ':hover': {
+                bgcolor: '#41ADA4',
+                color: 'white'
+            },
+            ".cardText": {
+                color: "text.secondary"
+            },
+            ".bookmark": {
+                color: "#41ADA4"
+            },
+            ".bookmarkOutline": {
+                color: "#41ADA4"
+            }, 
+            "&:hover .cardText": {
+                color: "white"
+            },
+            "&:hover .bookmark": {
+                color: "white"
+            },
+            "&:hover .bookmarkOutline": {
+                color: "white"
+            }
+             }}>
             <CardActionArea>
                 <CardMedia
                     component="img"
                     height="225"
-                    image="../../assets/handbook1.jpg"
+                    image={subchapter.thumbnail}
                     alt="green iguana"
                     onClick={
                         () => {
@@ -54,21 +78,21 @@ export default function MultiActionAreaCard({ subchapter }) {
                     }
                 />
                 <CardContent>
-                    <Grid pb={1} display="flex" alignItems="center">
-                    <Typography display="contents" gutterBottom variant="h5" component="div">
-                        {subchapter.subchapterTitle}
-                    </Typography>
-                    <Box ml="auto">
-                    <IconButton color="primary"  onClick={
-                        e => {
-                            removeBookmark(subchapter.bookmarkId)
-                            // navigate(0);
-                        }}>
-                        <BookmarkIcon /> 
-                    </IconButton>
-                    </Box>
+                    <Grid pb={1} display="flex" justifyContent="space-between">
+                        <Typography display="contents" gutterBottom sx={{fontSize: "20px", fontWeight: "bold", lineHeight: 1.3}} component="div">
+                            {subchapter.subchapterTitle}
+                        </Typography>
+                        <Box ml="auto">
+                            <IconButton color="primary" onClick={
+                                e => {
+                                    removeBookmark(subchapter.bookmarkId)
+                                    // navigate(0);
+                                }}>
+                                <BookmarkIcon className="bookmark"/> 
+                            </IconButton>
+                        </Box>
                     </Grid>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" className="cardText">
                         {subchapter.description}
                     </Typography>
                 </CardContent>
