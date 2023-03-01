@@ -75,7 +75,7 @@
 }
 
 .subchapterContentBottom {
-    
+    overflow-x:auto;
 }
 
 .subchapterContentBody {
