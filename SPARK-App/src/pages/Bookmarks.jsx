@@ -10,6 +10,13 @@ const Bookmarks = ({ searchInput }) => {
     // retrieve the unbookmark status from bookmark card component
     const isUnbookmarked = (unbookmark) => {
         setUnbookmark(unbookmark)
+        axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks`)
+            .then(res => {
+                setSubchapters(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     };
 
     useEffect(() => {
@@ -21,17 +28,6 @@ const Bookmarks = ({ searchInput }) => {
                 console.log(err)
             })
     }, [])
-
-    // if the subchapter is unbookmarked, call the endpoint again
-    if(unbookmark){
-        axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks`)
-            .then(res => {
-                setSubchapters(res.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
 
     let filtered = []
     const searchSubchapters = (searchInput, subchapter) => {
