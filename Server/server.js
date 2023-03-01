@@ -11,8 +11,8 @@ import chapterRouter from './routes/chapterRouter.js'
 import userRouter from './routes/userRouter.js'
 import { connectDB } from './config/db.js'
 const app = express()
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json({limit: '50mb'}))
+app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }))
 connectDB();
 
 // const storage = multer.memoryStorage()
@@ -20,8 +20,8 @@ connectDB();
 
 // const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 app.use(cors());
 
 
