@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 
-export default function MultiActionAreaCard({ subchapter }) {
+export default function MultiActionAreaCard(props) {
     
     const navigate = useNavigate();
-    const chapterId = subchapter.chapterId;
-    const currentSubchapterId = subchapter._id;
+    const chapterId = props.subchapter.chapterId;
+    const currentSubchapterId = props.subchapter._id;
     const [visible, setVisible] = useState(true);
 
     async function removeBookmark(bookmarkId) {
@@ -18,6 +18,8 @@ export default function MultiActionAreaCard({ subchapter }) {
         ).then(
             res => {
                 setVisible((prev) => !prev);
+                // when it is unbookmarked, send the status back to bookmark parent component
+                props.isUnbookmarked(true);
                 console.log('remove');
                 return 200;
             }
@@ -59,7 +61,7 @@ export default function MultiActionAreaCard({ subchapter }) {
                 <CardMedia
                     component="img"
                     height="225"
-                    image={subchapter.thumbnail}
+                    image={props.subchapter.thumbnail}
                     alt="green iguana"
                     onClick={
                         () => {
@@ -71,29 +73,29 @@ export default function MultiActionAreaCard({ subchapter }) {
                                         // bookmark status will always be true here 
                                         // because bookmark page only listed the bookmarked subchapters
                                         bookmarkStatus: true,
-                                        bookmarkId: subchapter.bookmarkId
+                                        bookmarkId: props.subchapter.bookmarkId
                                     }
                                 })
                         }
                     }
                 />
                 <CardContent>
-                    <Grid pb={1} display="flex" justifyContent="space-between">
-                        <Typography display="contents" gutterBottom sx={{fontSize: "20px", fontWeight: "bold", lineHeight: 1.3}} component="div">
-                            {subchapter.subchapterTitle}
-                        </Typography>
-                        <Box ml="auto">
-                            <IconButton color="primary" onClick={
-                                e => {
-                                    removeBookmark(subchapter.bookmarkId)
-                                    // navigate(0);
-                                }}>
-                                <BookmarkIcon className="bookmark"/> 
-                            </IconButton>
-                        </Box>
+                    <Grid pb={1} display="flex" alignItems="center">
+                    <Typography display="contents" gutterBottom variant="h5" component="div">
+                        {props.subchapter.subchapterTitle}
+                    </Typography>
+                    <Box ml="auto">
+                    <IconButton color="primary"  onClick={
+                        e => {
+                            removeBookmark(props.subchapter.bookmarkId);
+                            // navigate(0);
+                        }}>
+                        <BookmarkIcon /> 
+                    </IconButton>
+                    </Box>
                     </Grid>
-                    <Typography variant="body2" className="cardText">
-                        {subchapter.description}
+                    <Typography variant="body2" color="text.secondary">
+                        {props.subchapter.description}
                     </Typography>
                 </CardContent>
             </CardActionArea>
