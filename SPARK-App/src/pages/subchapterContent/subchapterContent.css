@@ -101,3 +101,7 @@ h2 {
     width: 100%;
     object-fit: contain;
 }
+
+.subchapterContentBody td{
+    padding: 10px;
+}
