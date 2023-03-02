@@ -47,6 +47,12 @@
     right: -1em;
 }
 
+.errorMessage {
+    font-size: 13px;
+    color: red;
+    margin-bottom: 30px;
+}
+
 @media (max-width: 780px) {
     .loginRight {
         display: none;

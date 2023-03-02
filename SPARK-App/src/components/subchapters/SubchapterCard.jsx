@@ -60,12 +60,36 @@ export default function SubchapterCard({ subchapter, chapterId }) {
     }
 
     return (
-        <Card sx={{ maxWidth: 445 }}>
+        <Card sx={{ maxWidth: 445, 
+                    borderRadius: "20px",
+                    ':hover': {
+                        bgcolor: '#41ADA4',
+                        color: 'white'
+                    },
+                    ".cardText": {
+                        color: "text.secondary"
+                    },
+                    ".bookmark": {
+                        color: "#41ADA4"
+                    },
+                    ".bookmarkOutline": {
+                        color: "#41ADA4"
+                    }, 
+                    "&:hover .cardText": {
+                        color: "white"
+                    },
+                    "&:hover .bookmark": {
+                        color: "white"
+                    },
+                    "&:hover .bookmarkOutline": {
+                        color: "white"
+                    }
+                }}>
             <CardActionArea disableRipple>
                 <CardMedia
                     component="img"
                     height="225"
-                    image="../../assets/handbook1.jpg"
+                    image={subchapter.thumbnail}
                     alt="green iguana"
                     onClick={
                         () => {
@@ -81,18 +105,18 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                     }
                 />
                 <CardContent>
-                    <Grid pb={1} display="flex" alignItems="center">
-                        <Typography display="contents" gutterBottom variant="h5" component="div">
+                    <Grid pb={1} display="flex" justifyContent="space-between">
+                        <Typography display="contents" gutterBottom sx={{fontSize: "20px", fontWeight: "bold", lineHeight: 1.3}} component="div">
                             {subchapter.subchapterTitle}
                         </Typography>
-                        <Box ml="auto" >
+                        <Box>
                             {
                                 isBookmarked ? 
-                                    <BookmarkIcon margin={"4"} color="primary" onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon color="primary" margin={"4"} onClick={e => { bookmarkHandler() }} />
+                                    <BookmarkIcon className="bookmark" margin={"4"} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon className="bookmarkOutline" margin={"4"} onClick={e => { bookmarkHandler() }} />
                             }
                         </Box>
                     </Grid>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography className="cardText" variant="body2">
                         {subchapter.description}
                     </Typography>
                 </CardContent>

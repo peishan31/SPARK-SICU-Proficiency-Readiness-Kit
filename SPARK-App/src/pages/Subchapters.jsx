@@ -50,13 +50,13 @@ const Subchapters = ({ searchInput }) => {
 
 
     return (
-        <Box margin={3}>
-            <Grid pb={2} display="flex" alignItems="center">
+        <Box margin={4}>
+            <Grid pb={2} display="flex" alignItems="center" mb={1}>
                 <IconButton onClick={
                     () => { navigate('/Chapters') }}>
                     <ArrowBackIcon />
                 </IconButton>
-                <Typography variant="h4">{chapterIcon}{chapterTitle}</Typography>
+                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>{chapterIcon} {chapterTitle}</Typography>
                 <Stack direction="row" spacing={2} ml="auto">
                     {/* <Button variant="outlined">Select</Button> */}
                     {/* <Button variant="outlined" onClick={navigateToSubChapter}>
@@ -68,15 +68,16 @@ const Subchapters = ({ searchInput }) => {
                     
             <Grid container spacing={4}>
                 { !filtered.length ? 
-                        <Grid item md={4}>
+                        <Grid item sm={6}>
                             <Typography variant="h6" ml={""}>No subchapters found</Typography>
                         </Grid> :
 
                         filtered.map((subchapter) => 
                         {
                             return (
-                                <Grid item key={subchapter._id} md={4}>
-                                    <SubchapterCard subchapter={subchapter} chapterId={chapterId}/>
+                                <Grid item key={subchapter._id} xs={12} sm={6} md={4}>
+                                    <SubchapterCard
+                                    subchapter={subchapter} chapterId={chapterId}/>
                                 </Grid>
                             )
                         
