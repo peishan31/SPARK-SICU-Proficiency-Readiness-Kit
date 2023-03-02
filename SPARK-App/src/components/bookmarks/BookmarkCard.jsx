@@ -80,21 +80,21 @@ export default function MultiActionAreaCard(props) {
                     }
                 />
                 <CardContent>
-                    <Grid pb={1} display="flex" alignItems="center">
-                    <Typography display="contents" gutterBottom variant="h5" component="div">
-                        {props.subchapter.subchapterTitle}
-                    </Typography>
-                    <Box ml="auto">
-                    <IconButton color="primary"  onClick={
-                        e => {
-                            removeBookmark(props.subchapter.bookmarkId);
-                            // navigate(0);
-                        }}>
-                        <BookmarkIcon /> 
-                    </IconButton>
-                    </Box>
+                    <Grid pb={1} display="flex" justifyContent="space-between">
+                        <Typography display="contents" gutterBottom sx={{fontSize: "20px", fontWeight: "bold", lineHeight: 1.3}} component="div">
+                            {props.subchapter.subchapterTitle}
+                        </Typography>
+                        <Box ml="auto">
+                            <IconButton color="primary"  onClick={
+                                e => {
+                                    removeBookmark(props.subchapter.bookmarkId);
+                                    // navigate(0);
+                                }}>
+                                <BookmarkIcon className="bookmark" /> 
+                            </IconButton>
+                        </Box>
                     </Grid>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography className="cardText" variant="body2">
                         {props.subchapter.description}
                     </Typography>
                 </CardContent>
