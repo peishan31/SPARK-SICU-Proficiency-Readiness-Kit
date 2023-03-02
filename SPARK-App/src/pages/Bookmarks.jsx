@@ -3,6 +3,7 @@ import { Typography, Grid, Box } from '@mui/material';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import BookmarkCard from '../components/bookmarks/BookmarkCard';
+import SubchapterCard from "../components/subchapters/SubchapterCard";
 
 const Bookmarks = ({ searchInput }) => {
     const [subchapters, setSubchapters] = useState([]);
@@ -46,10 +47,10 @@ const Bookmarks = ({ searchInput }) => {
 
 
     return (
-        <Box margin={3} >
-            <Grid pb={2} display="flex" alignItems="center">
-                <Typography variant="h4">Bookmarks</Typography>
-            </Grid>
+        <Box margin={4} >
+            <div className="pageTitle">
+                <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Bookmarks</h1>
+            </div>
             <Grid container spacing={4}>
                 {
                     !filtered.length ? 
@@ -58,7 +59,7 @@ const Bookmarks = ({ searchInput }) => {
                         </Grid> :
                         filtered.map((subchapter) => {
                             return (
-                                <Grid item key={subchapter._id} md={4}>
+                                <Grid item key={subchapter._id} xs={12} sm={6} md={4}>
                                     <BookmarkCard key={subchapter._id} subchapter={subchapter} isUnbookmarked={isUnbookmarked} />
                                 </Grid>
                             )
