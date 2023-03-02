@@ -61,7 +61,7 @@ export default function MultiActionAreaCard(props) {
                 <CardMedia
                     component="img"
                     height="225"
-                    image={subchapter.thumbnail}
+                    image={props.subchapter.thumbnail}
                     alt="green iguana"
                     onClick={
                         () => {
