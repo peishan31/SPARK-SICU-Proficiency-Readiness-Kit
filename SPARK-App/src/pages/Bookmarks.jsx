@@ -61,7 +61,7 @@ const Bookmarks = ({ searchInput }) => {
                         </Grid> :
                         filtered.map((subchapter) => {
                             return (
-                                <Grid item key={subchapter._id} xs={12} sm={6} md={4}>
+                                <Grid item key={subchapter._id} xs={12} sm={6} md={4} lg={3}>
                                     <BookmarkCard key={subchapter._id} subchapter={subchapter} isUnbookmarked={isUnbookmarked} />
                                 </Grid>
                             )
