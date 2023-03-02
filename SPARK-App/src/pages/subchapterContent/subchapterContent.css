@@ -76,6 +76,7 @@
 
 .subchapterContentBottom {
     overflow-x:auto;
+    margin-bottom: 100px;
 }
 
 .subchapterContentBody {
@@ -83,6 +84,7 @@
     max-width: 600px;
     margin: auto;
     word-wrap: break-word;
+
 }
 
 
@@ -92,4 +94,9 @@ h2 {
 
 .subchapterIcon {
     color: black !important;
+}
+
+.subchapterContentBody img{
+    width: 100%;
+    object-fit: contain;
 }
