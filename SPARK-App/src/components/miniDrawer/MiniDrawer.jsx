@@ -170,6 +170,10 @@ export default function MiniDrawer() {
     const [data, setData] = useState('');
     const isMenuOpen = Boolean(anchorEl);
 
+    localStorage.setItem('searchInput', data);
+
+    
+
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -185,7 +189,9 @@ export default function MiniDrawer() {
     
     const handleChange = event => {
         // console.log("reached here!");
-        setData(event.currentTarget.value);
+        // setData(event.currentTarget.value);
+        localStorage.setItem('searchInput', event.currentTarget.value);
+        setData(localStorage.getItem('searchInput'));
     };
 
     return (
@@ -222,8 +228,9 @@ export default function MiniDrawer() {
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase fullWidth
-                            placeholder="Search…"
+                                        placeholder={localStorage.getItem('searchInput') === null || localStorage.getItem('searchInput') === ""  ? "Search…" : localStorage.getItem('searchInput')}
                             inputProps={{ 'aria-label': 'search' }}
+                            value={localStorage.getItem('searchInput')}
                             onChange={handleChange}
                         />
                     </Search>
@@ -308,12 +315,12 @@ export default function MiniDrawer() {
                 <Routes>
                     {/* <Route path="/Home" element={<Home/>}/> */}
                     <Route path="/" element={<Navigate to={"/Chapters"}/>}/>
-                    <Route path="/Bookmarks" element={<Bookmarks searchInput={data}/>}/>
+                    <Route path="/Bookmarks" element={<Bookmarks searchInput={localStorage.getItem('searchInput')}/>}/>
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent/>}/>
-                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={data}/>}/>
+                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={localStorage.getItem('searchInput')}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/login" element={<Login/>}/>
                 </Routes>

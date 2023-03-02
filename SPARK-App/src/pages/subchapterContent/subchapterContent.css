@@ -19,9 +19,10 @@
 }
 
 .subchapterContentTop {
-    height: 100vh;
+    height: auto;
     position: relative;
     top: -30px;
+    margin-bottom: auto;
     /* border: 5px solid brown; */
 }
 
@@ -75,8 +76,8 @@
 }
 
 .subchapterContentBottom {
-    overflow-x:auto;
-    margin-bottom: 100px;
+    overflow: auto;
+    margin: auto;
 }
 
 .subchapterContentBody {

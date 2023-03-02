@@ -13,6 +13,7 @@ const Bookmarks = ({ searchInput }) => {
         setUnbookmark(unbookmark)
         axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks`)
             .then(res => {
+                console.log(res.data)
                 setSubchapters(res.data)
             })
             .catch(err => {
@@ -24,6 +25,7 @@ const Bookmarks = ({ searchInput }) => {
         axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks`)
             .then(res => {
                 setSubchapters(res.data)
+                console.log(res.data)
             })
             .catch(err => {
                 console.log(err)
