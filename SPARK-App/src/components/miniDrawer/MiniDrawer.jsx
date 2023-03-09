@@ -35,6 +35,7 @@ import Bookmarks from '../../pages/Bookmarks'
 import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 import CreateSubchapter from '../../pages/CreateSubchapter';
 import Login from "../../pages/login/Login";
+import ApacheIIScore from '../../pages/viewCalculator/viewApacheIIScoreCalculator'
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -323,6 +324,7 @@ export default function MiniDrawer() {
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={localStorage.getItem('searchInput')}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/login" element={<Login/>}/>
+                    <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore/>}/>
                 </Routes>
 
             </Box>
