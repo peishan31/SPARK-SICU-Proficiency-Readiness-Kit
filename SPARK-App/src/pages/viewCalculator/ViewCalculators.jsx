@@ -40,7 +40,7 @@ const ViewCalculators = () => {
     {
       name: "APACHE II Score",
       description: "Estimates ICU mortality based on a number of laboratory values and patient signs taking both acute and chronic disease into account. ",
-      link: "calculators/apache-ii-score"
+      link: "https://www.mdcalc.com/calc/1868/apache-ii-score"
     }
   ]
 
