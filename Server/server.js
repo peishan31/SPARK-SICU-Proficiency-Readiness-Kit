@@ -9,6 +9,7 @@ import bodyParser from 'body-parser'
 import { uploadFile, deleteFile, getObjectSignedUrl } from './s3.js'
 import chapterRouter from './routes/chapterRouter.js'
 import userRouter from './routes/userRouter.js'
+import calculatorRouter from './routes/calculatorRouter.js'
 import { connectDB } from './config/db.js'
 const app = express()
 app.use(express.json({limit: '50mb'}))
@@ -93,5 +94,8 @@ app.use("/chapters", chapterRouter)
 
 // create user
 app.use("/user", userRouter)
+
+// create user
+app.use("/calculator", calculatorRouter)
 
 app.listen(8080, () => console.log("listening on port 8080"))
