@@ -3,6 +3,7 @@ const calculatorRouter = express.Router();
 import apacheIIScoreRouter from '../routes/apacheIIScoreRouter.js';
 import simplifiedPesiRouter from '../routes/simplifiedPesiRouter.js';
 import roxIndexRouter from '../routes/roxIndexRouter.js';
+import sofaScoreRouter from '../routes/sofaScoreRouter.js';
 
 // @description: Get health status of chapter route
 // @route GET calculator/health
@@ -30,6 +31,11 @@ calculatorRouter.use("/simplified-pesi", (req, res, next) => {
 calculatorRouter.use("/rox-index", (req, res, next) => {
     next();
 }, roxIndexRouter);
+
+// link to sofa score route
+calculatorRouter.use("/sofa-score", (req, res, next) => {
+    next();
+}, sofaScoreRouter);
 
 
 export default calculatorRouter;

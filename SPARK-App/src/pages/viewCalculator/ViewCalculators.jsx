@@ -35,7 +35,7 @@ const ViewCalculators = () => {
     {
       name: "Sequential Organ Failure Assessment (SOFA) Score",
       description: "Predicts ICU mortality based on lab results and clinical data.",
-      link: "https://www.mdcalc.com/calc/691/sequential-organ-failure-assessment-sofa-score"
+      link: "calculators/sofa-score"
     },
     {
       name: "APACHE II Score",
