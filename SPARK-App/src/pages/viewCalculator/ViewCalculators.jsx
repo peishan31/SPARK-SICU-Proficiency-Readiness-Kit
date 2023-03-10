@@ -30,7 +30,7 @@ const ViewCalculators = () => {
     {
       name: "ROX index",
       description: "Predicts high-flow nasal cannula (HFNC) failure/need for intubation",
-      link: "https://www.mdcalc.com/calc/10302/rox-index-intubation-hfnc#evidence"
+      link: "calculators/rox-index"
     }, 
     {
       name: "Sequential Organ Failure Assessment (SOFA) Score",

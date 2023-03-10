@@ -4,7 +4,7 @@ import {MongoClient} from "mongodb";
 const simplifiedPesiRouter = express.Router();
 
 //TODO:
-// @description: Get health status of apache ii route
+// @description: Get health status of simplified pesi route
 // @route GET calculator/simplified-pesi/health
 // Working!
 simplifiedPesiRouter.get("/health", async (req, res) => {
