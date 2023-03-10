@@ -15,7 +15,7 @@ const ViewCalculators = () => {
     {
       name: "Simplified PESI (Pulmonary Embolism Severity Index)",
       description: "Predicts 30-day outcome of patients with PE",
-      link: "https://www.mdcalc.com/calc/1247/simplified-pesi-pulmonary-embolism-severity-index#evidence"
+      link: "calculators/simplified-pesi"
     }, 
     {
       name: "Candida Score",

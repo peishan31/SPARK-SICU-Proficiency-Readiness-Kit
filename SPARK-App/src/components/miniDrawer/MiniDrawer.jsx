@@ -36,6 +36,7 @@ import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 import CreateSubchapter from '../../pages/CreateSubchapter';
 import Login from "../../pages/login/Login";
 import ApacheIIScore from '../../pages/viewCalculator/viewApacheIIScoreCalculator'
+import SimplifiedPesi from '../../pages/viewCalculator/SimplifiedPesiCalculator'
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -325,6 +326,7 @@ export default function MiniDrawer() {
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore/>}/>
+                    <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi/>}/>
                 </Routes>
 
             </Box>
