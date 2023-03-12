@@ -24,13 +24,8 @@ function Login() {
     const [errorMessage, setErrorMessage] = useState("");
 
     const userActions = useActions().user;
-    // console.log("EMAIL", email)
-    // console.log("PASSWORD", password)
 
     const handleLogin = () => {
-        console.log("EMAIL handle: ", email)
-        console.log("PASSWORD handle: ", password)
-
         userActions.loginUser({email, password})
     }
 

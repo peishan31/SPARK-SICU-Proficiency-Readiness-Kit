@@ -8,7 +8,6 @@ export const loginUser = async (inputObject) => {
         })
         
         if (response.status === 200) {
-            console.log("HERE: ", response.data)
             const foundUser = response.data
             return foundUser
         }
