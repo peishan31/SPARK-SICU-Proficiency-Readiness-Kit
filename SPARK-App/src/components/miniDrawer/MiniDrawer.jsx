@@ -36,6 +36,9 @@ import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 import CreateSubchapter from '../../pages/CreateSubchapter';
 import Login from "../../pages/login/Login";
 import ApacheIIScore from '../../pages/viewCalculator/viewApacheIIScoreCalculator'
+import SimplifiedPesi from '../../pages/viewCalculator/SimplifiedPesiCalculator'
+import RoxIndex from '../../pages/viewCalculator/RoxIndexCalculator'
+import SofaScore from '../../pages/viewCalculator/SofaScoreCalculator'
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -325,6 +328,9 @@ export default function MiniDrawer() {
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore/>}/>
+                    <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi/>}/>
+                    <Route path="/Calculators/rox-index" element={<RoxIndex/>}/>
+                    <Route path="/Calculators/sofa-score" element={<SofaScore/>}/>
                 </Routes>
 
             </Box>

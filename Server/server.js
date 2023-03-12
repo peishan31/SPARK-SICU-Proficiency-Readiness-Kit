@@ -95,7 +95,7 @@ app.use("/chapters", chapterRouter)
 // create user
 app.use("/user", userRouter)
 
-// create user
+// create calculator subrouter
 app.use("/calculator", calculatorRouter)
 
 app.listen(8080, () => console.log("listening on port 8080"))

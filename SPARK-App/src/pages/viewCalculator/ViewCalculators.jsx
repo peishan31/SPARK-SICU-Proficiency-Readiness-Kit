@@ -15,7 +15,7 @@ const ViewCalculators = () => {
     {
       name: "Simplified PESI (Pulmonary Embolism Severity Index)",
       description: "Predicts 30-day outcome of patients with PE",
-      link: "https://www.mdcalc.com/calc/1247/simplified-pesi-pulmonary-embolism-severity-index#evidence"
+      link: "calculators/simplified-pesi"
     }, 
     {
       name: "Candida Score",
@@ -30,12 +30,12 @@ const ViewCalculators = () => {
     {
       name: "ROX index",
       description: "Predicts high-flow nasal cannula (HFNC) failure/need for intubation",
-      link: "https://www.mdcalc.com/calc/10302/rox-index-intubation-hfnc#evidence"
+      link: "calculators/rox-index"
     }, 
     {
       name: "Sequential Organ Failure Assessment (SOFA) Score",
       description: "Predicts ICU mortality based on lab results and clinical data.",
-      link: "https://www.mdcalc.com/calc/691/sequential-organ-failure-assessment-sofa-score"
+      link: "calculators/sofa-score"
     },
     {
       name: "APACHE II Score",
