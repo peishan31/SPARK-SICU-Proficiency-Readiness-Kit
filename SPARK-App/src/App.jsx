@@ -1,34 +1,33 @@
 import { useEffect, useState } from 'react'
-import MenuBar from './components/menubar/MenuBar'
 import './App.css'
-import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import About from './pages/About'
-import CreateChapter from './pages/CreateChapter'
-import Chapters from './pages/Chapters'
-import ViewCalculators from './pages/viewCalculator/ViewCalculators'
-import CreateSubchapter from './pages/CreateSubchapter'
-import Sidebar from './components/sidebar/Sidebar'
 import MiniDrawer from './components/miniDrawer/MiniDrawer'
-import PrimarySearchAppBar from './components/test'
-import SubchapterContent from './pages/subchapterContent/SubchapterContent'
-import Subchapters from './pages/Subchapters'
+import { useAppState, useActions } from './overmind'
 import Login from './pages/login/Login'
-function App() {
-  const [token, setToken] = useState()
 
-  if (!token) {
-    return <Login setToken={setToken}/>
-  }
+function App() {
+  
+  // const [token, setToken] = useState()
+  // user in overmind
+  const userState = useAppState().user
+  // const chapterActions = useActions().chapters
+  // const chaptersState = useAppState().chapters
+  // console.log("Actions: ", chapterActions.loadChapters());
+  // console.log("State", chaptersState.chapters)
+
+  // if (!userState.user) {
+  //   return <Login/>
+  // }
 
   return (
     <>
       <div className="App">
+        {
+          // if logged in or localstorage is not null then render mini drawer
+          userState.currentUser ? <MiniDrawer/> : <Login/>
+
+        }
         {/* if not logged in or localstorage is null then don't render mini drawer */}
-      
-        <MiniDrawer/>
-        
-        
+        {/* <MiniDrawer/> */}
       </div>
     </>
   )
