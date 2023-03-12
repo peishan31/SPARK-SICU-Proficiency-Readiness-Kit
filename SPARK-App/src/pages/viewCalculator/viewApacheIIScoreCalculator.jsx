@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRef } from 'react'
 import { Button, ToggleButton, ToggleButtonGroup, Paper, Divider, styled, useThemeProps } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import Typography from '@mui/material/Typography'
@@ -27,19 +28,19 @@ const ApacheIIScore = () => {
     }));
 
     //forms input state
-    const [age, setAge] = useState('');
-    const [temperature, setTemperature] = useState('');
-    const [meanArterialPressure, setMeanArterialPressure] = useState('');
-    const [pH, setPH] = useState('');
-    const [heartRate, setHeartRate] = useState('');
-    const [respiratoryRate, setRespiratoryRate] = useState('');
-    const [sodium, setSodium] = useState('');
-    const [potassium, setPotassium] = useState('');
-    const [creatinine, setCreatinine] = useState('');
-    const [hematocrit, setHematocrit] = useState('');
-    const [whiteBloodCount, setWhiteBloodCount] = useState('');
-    const [GCS, setGCS] = useState('');
-    const [history, setHistory] = useState('');
+    const age = useRef();
+    const temperature = useRef();
+    const meanArterialPressure = useRef();
+    const pH = useRef();
+    const heartRate = useRef();
+    const respiratoryRate = useRef();
+    const sodium = useRef();
+    const potassium = useRef();
+    const creatinine = useRef();
+    const hematocrit = useRef();
+    const whiteBloodCount = useRef();;
+    const GCS = useRef();
+    //const [history, setHistory] = useState('');
     const [acuteRenalFailure, setAcuteRenalFailure] = useState('');
 
 
@@ -72,22 +73,21 @@ const ApacheIIScore = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        await axios.get(
+        await axios.post(
             `http://localhost:8080/calculator/apache-ii-score/`,
             {
-                age: age,
-                history: history,
-                rectalTemp: temperature,
-                heartrate: heartRate,
-                respiratoryRate: respiratoryRate,
-                arterial: meanArterialPressure,
-                seriumSodium: sodium,
-                seriumPotassium: potassium,
-                serumCreatinine: creatinine,
-                hematocrit: hematocrit,
-                whiteBloodCount: whiteBloodCount,
-                gcs: GCS,
+                age: event.target.age.value,
+                //history: history,
+                rectalTemp: event.target.temperature.value,
+                heartrate: event.target.heartRate.value,
+                respiratoryRate: event.target.respiratoryRate.value,
+                arterial: event.target.meanArterialPressure.value,
+                seriumSodium: event.target.sodium.value,
+                seriumPotassium: event.target.potassium.value,
+                serumCreatinine: event.target.creatinine.value,
+                hematocrit: event.target.hematocrit.value,
+                whiteBloodCount: event.target.whiteBloodCount.value,
+                gcs: event.target.gcs.value
                 //oxygenation: oxygenation
             }
         ).then(
@@ -127,7 +127,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="Years" variant="outlined" value={age} onChange={ e => setAge(e.target.value)}/>
+                                <TextField label="Years" variant="outlined" name="age"/>
                             </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
@@ -139,7 +139,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="°C" variant="outlined" value={temperature} onChange={ e=>setTemperature(e.target.value)}/>
+                                <TextField label="°C" variant="outlined" name="temperature"/>
                                 {/* <Button variant="outlined" sx={{ml: 1, fontSize: 25}}>&#128177;</Button> */}
                             </Item>
                         </Grid>
@@ -155,7 +155,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="mm Hg" variant="outlined" value={meanArterialPressure} onChange={ e=>setMeanArterialPressure(e.target.value)} />
+                                <TextField label="mm Hg" variant="outlined" name="meanArterialPressure" />
                             </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
@@ -167,7 +167,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="pH" variant="outlined" value={pH} onChange={ e=>setPH(e.target.value)}/>
+                                <TextField label="pH" variant="outlined" name="pH"/>
                             </Item>
                         </Grid>
                     </Grid>
@@ -182,7 +182,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="beats/min" variant="outlined" value={heartRate} onChange={ e=>setHeartRate(e.target.value)}/>
+                                <TextField label="beats/min" variant="outlined" name="heartRate" />
                             </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
@@ -194,7 +194,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="breaths/min" variant="outlined" value={respiratoryRate} onChange={ e=>setRespiratoryRate(e.target.value)} />
+                                <TextField label="breaths/min" variant="outlined" name="respiratoryRate" />
                             </Item>
                         </Grid>
                     </Grid>
@@ -209,7 +209,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="mmol/L" variant="outlined"  value={sodium} onChange={ e=>setSodium(e.target.value)}/>
+                                <TextField label="mmol/L" variant="outlined"  name="sodium" />
                             </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
@@ -221,7 +221,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="mmol/L" variant="outlined" value={potassium} onChange={ e=>setPotassium(e.target.value)} />
+                                <TextField label="mmol/L" variant="outlined" name="potassium" />
                             </Item>
                         </Grid>
                     </Grid>
@@ -236,7 +236,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="µmol/L" variant="outlined"  value={creatinine} onChange={ e=>setCreatinine(e.target.value)} />
+                                <TextField label="µmol/L" variant="outlined"  name="creatinine" />
                             </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
@@ -248,7 +248,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="%" variant="outlined"  value={hematocrit} onChange={ e=>setHematocrit(e.target.value)} />
+                                <TextField label="%" variant="outlined"  name="hematocrit" />
                             </Item>
                         </Grid>
                     </Grid>
@@ -263,7 +263,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="× 10⁹ cells/L" variant="outlined"  value={whiteBloodCount} onChange={ e=>setWhiteBloodCount(e.target.value)}/>
+                                <TextField label="× 10⁹ cells/L" variant="outlined"  name="whiteBloodCount"/>
                             </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
@@ -275,7 +275,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="points" variant="outlined" value={GCS} onChange={ e=>setGCS(e.target.value)} />
+                                <TextField label="points" variant="outlined" name="gcs" />
                             </Item>
                         </Grid>
                     </Grid>

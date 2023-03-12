@@ -19,11 +19,11 @@ apacheIIScoreRouter.get("/health", async (req, res) => {
 // @description: Calculate Apache II Score
 // @route GET calculator/apache-ii-score/
 // Working!
-apacheIIScoreRouter.get("/", async (req, res) => {
+apacheIIScoreRouter.post("/", async (req, res) => {
     console.log(`Calculating apache ii score...`)
     try {
         var pointAllocated = 0;
-
+        console.log(req)
         const { age, history, rectalTemp, meanArterialPressure, heartrate, respiratoryRate, arterial
             , seriumSodium, seriumPotassium, serumCreatinine, hematocrit, whiteBloodCount, gcs} = req.body;
 
