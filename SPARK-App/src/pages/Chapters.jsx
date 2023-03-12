@@ -29,11 +29,10 @@ const Chapters = () => {
     const chapterActions = useActions().chapters
 
     useEffect(() => {
-        if (!chapterState.chapters || chapterState.chapters.length === 0) {
+        if (!chapterState.chapterlist || chapterState.chapterlist.length === 0) {
             chapterActions.loadChapters();
-            console.log("HERe")
         }
-    }, [chapterState.chapters, chapterActions.loadChapters])
+    }, [])
 
 
     return (
