@@ -5,6 +5,7 @@ import { TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 import axios from 'axios';
+import { useActions } from '../../overmind';
 
 const StyledButton = styled(Button)(({
     backgroundColor: 'rgb(65,173,164)',
@@ -17,37 +18,48 @@ const StyledButton = styled(Button)(({
 }));
 
 
-function Login({ setToken }) {
+function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
-    const handleLogin = () => {
-        console.log("handleLogin()")
-        const API_URL = `http://localhost:8080/user/login`
-    
-        axios.post(API_URL, {
-            email: email,
-            password: password
-          })
-          .then(res => {
-            if (res.status == 200) {
-                console.log(res.data)
-                setToken(res.data['_id'])
-            }
-            
-          })
-          .catch(err => {
-            console.log(err)
-            if (err.response.status == 400) {
-                setErrorMessage("Wrong username or password entered, please try again.")
-            }
+    const userActions = useActions().user;
+    // console.log("EMAIL", email)
+    // console.log("PASSWORD", password)
 
-            if (res.response.status == 500) {
-                alert("Server error")
-            }
-          });
+    const handleLogin = () => {
+        console.log("EMAIL handle: ", email)
+        console.log("PASSWORD handle: ", password)
+
+        userActions.loginUser({email, password})
     }
+
+    // const handleLogin = () => {
+    //     console.log("handleLogin()")
+    //     const API_URL = `http://localhost:8080/user/login`
+    
+    //     axios.post(API_URL, {
+    //         email: email,
+    //         password: password
+    //       })
+    //       .then(res => {
+    //         if (res.status == 200) {
+    //             console.log(res.data)
+    //             setToken(res.data['_id'])
+    //         }
+            
+    //       })
+    //       .catch(err => {
+    //         console.log(err)
+    //         if (err.response.status == 400) {
+    //             setErrorMessage("Wrong username or password entered, please try again.")
+    //         }
+
+    //         if (res.response.status == 500) {
+    //             alert("Server error")
+    //         }
+    //       });
+    // }
 
     return (
         <div className="login">
@@ -68,7 +80,9 @@ function Login({ setToken }) {
                         {errorMessage}
                     </div>
 
-                    <StyledButton fullWidth onClick={handleLogin}>Login</StyledButton>
+                    <StyledButton fullWidth onClick={() => {
+                        handleLogin()
+                    }}>Login</StyledButton>
                 </div>
                 <div className="loginRight">
                     <img className="sideImage" src="../../../assets/login.png"/>
