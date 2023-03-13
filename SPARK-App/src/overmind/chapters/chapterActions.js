@@ -12,3 +12,8 @@ export const loadChapters = async ({ state, effects }) => {
         console.log(err);
     }
 }
+
+export const setSelectedChapter = ({ state }, chapterObject) => {
+    state.chapters.selectedChapter = chapterObject;
+}
+

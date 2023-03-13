@@ -22,7 +22,7 @@ function App() {
     <>
       <div className="App">
         {
-          // if logged in or localstorage is not null then render mini drawer
+          // if current user exists then render mini drawer, otherwise show login component
           userState.currentUser ? <MiniDrawer/> : <Login/>
 
         }
