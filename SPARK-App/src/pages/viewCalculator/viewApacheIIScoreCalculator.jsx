@@ -1,22 +1,13 @@
 import React from 'react'
 import { useRef } from 'react'
 import { Button, ToggleButton, ToggleButtonGroup, Paper, Divider, styled} from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
-import { margin } from '@mui/system'
 import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import TextField from '@mui/material/TextField';
-import { spacing } from '@mui/system';
-import { borders } from '@mui/system';
-
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 
 const ApacheIIScore = () => {
 
@@ -28,18 +19,6 @@ const ApacheIIScore = () => {
     }));
 
     //forms input state
-    const age = useRef();
-    const temperature = useRef();
-    const meanArterialPressure = useRef();
-    const pH = useRef();
-    const heartRate = useRef();
-    const respiratoryRate = useRef();
-    const sodium = useRef();
-    const potassium = useRef();
-    const creatinine = useRef();
-    const hematocrit = useRef();
-    const whiteBloodCount = useRef();;
-    const GCS = useRef();
 
     const [acuteRenalFailure, setAcuteRenalFailure] = useState('');
     const [fiOxygen, setFiOxygen] = useState('');
@@ -105,8 +84,7 @@ const ApacheIIScore = () => {
         )
         //console.log(formValues);
         
-      };
-
+    };
 
     const tabs = [
         {
@@ -448,10 +426,709 @@ const ApacheIIScore = () => {
         {
           label: "Point System",
           Component: (
-            <div>
-              <h1>Tab with heading</h1>
-              <p>Hello I am a tab with a heading</p>
-            </div>
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid item xs={12}>Point Values</Grid>
+                    
+                    <Grid item xs={6}>
+                        <strong>Age, Years</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≤44</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>45-54</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>55-64</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>65-74</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+5</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'>'}74</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+6</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>History of severe organ insufficiency or immunocompromised</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>Yes, and nonoperative or emergency postoperative patient</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+5</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>Yes, and elective postoperative patient74</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>No</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>Rectal temperature, °C</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≥41</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>39 to {'<'}41</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>38.5 to {'<'}39</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>36 to {'<'}38.5</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>34 to {'<'}36</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>32 to {'<'}34</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>30 to {'<'}32</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'<'}30</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    
+                    <Grid item xs={6}>
+                        <strong>Mean arterial pressure, mmHg</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'>'}159</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'>'}129-159</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'>'}109-129</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'>'}69-109</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'>'}49-69</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≤49</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>Heart rate, beats per minute</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≥180</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>140 to {'<'}180</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>110 to {'<'}140</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>70 to {'<'}110</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>55 to {'<'}70</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>40 to {'<'}55</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'<'}40</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>Respiratory rate, breaths per minute</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≥50</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>35 to {'<'}50</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>25 to {'<'}35</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>12 to {'<'}25</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>10 to {'<'}12</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>6 to {'<'}10</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'<'}6</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>Oxygenation (use PaO2 if FiO2 {'<'}50%, otherwise use A-a gradient)</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>A-a gradient {'>'}499</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>A-a gradient 350-499</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>A-a gradient 200-349</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>A-a gradient {'<'}200 (if FiO2 over 49%) or pO2 {'>'}70 (if FiO2 less than 50%)</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>PaO2 = 61-70</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>PaO2 = 55-60</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>PaO2 {'<'}55</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>Arterial pH</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≥7.70</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>7.60 to {'<'}7.70</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>7.50 to {'<'}7.60</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>7.33 to {'<'}7.50</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>7.25 to {'<'}7.33</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>7.15 to {'<'}7.25</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'<'}7.15</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>Serum sodium, mmol/L</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≥180</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>160 to {'<'}180</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>155 to {'<'}160</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>150 to {'<'}155</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>130 to {'<'}150</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>120 to {'<'}130</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>111 to {'<'}120</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'<'}111</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>Serum potassium, mmol/L</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≥7.0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>6.0 to {'<'}7.0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>5.5 to {'<'}6.0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>3.5 to {'<'}5.5</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>3.0 to {'<'}3.5</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>2.5 to {'<'}3.0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'<'}2.5</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>Serum creatinine, mg/100 mL</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≥3.5 and ACUTE renal failure*</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+8</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>2.0 to {'<'}3.5 and ACUTE renal failure</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+6</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≥3.5 and CHRONIC renal failure</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>1.5 to {'<'}2.0 and ACUTE renal failure</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>2.0 to {'<'}3.5 and CHRONIC renal failure</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>1.5 to {'<'}2.0 and CHRONIC renal failure</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0.6 to {'<'}1.5</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'<'}0.6</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>Hematocrit, %</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≥60</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>50 to {'<'}60</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>46 to {'<'}50</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>30 to {'<'}46</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>20 to {'<'}30</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'<'}20</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>White blood count, total/cubic mm in</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>≥40</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>20 to {'<'}40</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>15 to {'<'}20</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>3 to {'<'}15</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>0</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>1 to {'<'}3</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+2</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>{'<'}1</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>+4</p>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <strong>Glasgow Coma Scale (GCS)</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <strong>Point values</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>1 - 15</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <p>15 - [GCS Score]</p>
+                    </Grid>
+
+                    <Grid item xs={12} mt={5}>Approximated in-hospital mortality rates</Grid>
+                    <Grid item xs={4}>
+                        <strong>APACHE II Score</strong>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <strong>Nonoperative</strong>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <strong>Postoperative</strong>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>0-4</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>4%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>1%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>5-9</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>8%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>3%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>10-14</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>15%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>7%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>15-19</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>25%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>12%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>20-24</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>40%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>30%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>25-29</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>55%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>35%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>30-34</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>73%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>73%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>{'>'}34</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>85%</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>88%</p>
+                    </Grid>
+                </Grid>
+                
+            </Box>
           )
         }
       ];
