@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@mui/material'
+import { Button, Paper, Divider, styled } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
@@ -19,18 +19,68 @@ const RoxIndex = () => {
         // console.log(formValues);
       };
 
+    const Item = styled(Paper)(({ theme }) => ({
+        padding: theme.spacing(1),
+        textAlign: 'left',
+        boxShadow: 'none',
+    }));
+
     const tabs = [
         {
           label: "General Information",
           Component: (
             <form onSubmit={handleSubmit}>
-                <Grid container alignItems="center" justify="center" direction="column" style={{margin: '50px'}}>
-                    <Grid item>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                        <Grid item xs={12} sm={6} md={3}>
+                            <Item>
+                                <Typography>
+                                    SpO₂
+                                </Typography>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={3}>
+                            <Item>
+                                <TextField label="%" variant="outlined" name="age"/>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={3}>
+                            <Item>
+                                <Typography>
+                                    FiO₂
+                                </Typography>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={3}>
+                            <Item>
+                                <TextField label="%" variant="outlined" name="temperature"/>
+                            </Item>
+                        </Grid>
                     </Grid>
-                    <Button variant="contained" color="primary" type="submit">
-                    Submit
-                    </Button>
-                </Grid>
+                    <Divider></Divider>
+                    <Grid container spacing={2} justifyContent="left" alignItems="center">
+                        <Grid item xs={12} sm={6} md={3}>
+                            <Item>
+                                <Typography>
+                                    Respiratory rate
+                                </Typography>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={3}>
+                            <Item>
+                                <TextField label="breaths/min" variant="outlined" name="age"/>
+                            </Item>
+                        </Grid>
+                    </Grid>
+                    <div>
+                        <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
+                            Reset
+                        </Button>
+                        <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
+                            Calculate
+                        </Button>
+                    </div>
+                </Box>
             </form>
             
           )

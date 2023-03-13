@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@mui/material'
+import { Button, ToggleButton, ToggleButtonGroup, Paper, Divider, styled } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
@@ -18,19 +18,160 @@ const SimplifiedPesi = () => {
         // event.preventDefault();
         // console.log(formValues);
       };
+      
+    const Item = styled(Paper)(({ theme }) => ({
+        padding: theme.spacing(1),
+        textAlign: 'left',
+        boxShadow: 'none',
+    }));
 
     const tabs = [
         {
           label: "General Information",
           Component: (
             <form onSubmit={handleSubmit}>
-                <Grid container alignItems="center" justify="center" direction="column" style={{margin: '50px'}}>
-                    <Grid item>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <Typography>
+                                    Age, years
+                                </Typography>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <ToggleButtonGroup color="primary" exclusive>
+                                    <ToggleButton value="">
+                                        ≤80
+                                    </ToggleButton>
+                                    <ToggleButton value="">
+                                        &gt;80
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
+                            </Item>
+                        </Grid>
                     </Grid>
-                    <Button variant="contained" color="primary" type="submit">
-                    Submit
-                    </Button>
-                </Grid>
+                    <Divider></Divider>
+                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <Typography>
+                                    History of cancer
+                                </Typography>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <ToggleButtonGroup color="primary" exclusive>
+                                    <ToggleButton value="">
+                                        Yes
+                                    </ToggleButton>
+                                    <ToggleButton value="">
+                                        No
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
+                            </Item>
+                        </Grid>
+                    </Grid>
+                    <Divider></Divider>
+                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <Typography>
+                                    History of chronic cardiopulmonary disease
+                                </Typography>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <ToggleButtonGroup color="primary" exclusive>
+                                    <ToggleButton value="">
+                                        Yes
+                                    </ToggleButton>
+                                    <ToggleButton value="">
+                                        No
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
+                            </Item>
+                        </Grid>
+                    </Grid>
+                    <Divider></Divider>
+                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <Typography>
+                                    Heart rate, bpm
+                                </Typography>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <ToggleButtonGroup color="primary" exclusive>
+                                    <ToggleButton value="">
+                                        &lt;110
+                                    </ToggleButton>
+                                    <ToggleButton value="">
+                                        ≥110
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
+                            </Item>
+                        </Grid>
+                    </Grid>
+                    <Divider></Divider>
+                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <Typography>
+                                    Systolic BP, mmHg
+                                </Typography>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <ToggleButtonGroup color="primary" exclusive>
+                                    <ToggleButton value="">
+                                        ≥100
+                                    </ToggleButton>
+                                    <ToggleButton value="">
+                                        &lt;100
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
+                            </Item>
+                        </Grid>
+                    </Grid>
+                    <Divider></Divider>
+                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <Typography>
+                                    O₂ saturation
+                                </Typography>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <ToggleButtonGroup color="primary" exclusive>
+                                    <ToggleButton value="">
+                                        ≥90%
+                                    </ToggleButton>
+                                    <ToggleButton value="">
+                                        &lt;90%
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
+                            </Item>
+                        </Grid>
+                    </Grid>
+                    <Divider></Divider>
+                    <div>
+                        <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
+                            Reset
+                        </Button>
+                        <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
+                            Calculate
+                        </Button>
+                    </div>
+                </Box>
             </form>
             
           )
