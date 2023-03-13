@@ -40,31 +40,33 @@ const ApacheIIScore = () => {
     const hematocrit = useRef();
     const whiteBloodCount = useRef();;
     const GCS = useRef();
-    //const [history, setHistory] = useState('');
+
     const [acuteRenalFailure, setAcuteRenalFailure] = useState('');
-
-
-
-    const [fiOxygen, setFiOxygen] = React.useState('');
-    
+    const [fiOxygen, setFiOxygen] = useState('');
+    const [history, setHistory] = useState('');
 
     const handleChange = (e, newFiOxygen) => {
-      setFiOxygen(newFiOxygen);
-      if(newFiOxygen == 'lessThan') {
-          document.getElementById('paOxygen').style.display = "flex";
-          document.getElementById('aaGradient').style.display = "none";
-    }
-      else if(newFiOxygen == 'moreOrEqualTo') {
-          document.getElementById('aaGradient').style.display = "flex";
-          document.getElementById('paOxygen').style.display = "none";
-      } else {
-          document.getElementById('paOxygen').style.display = "none";
-          document.getElementById('aaGradient').style.display = "none";
-      }
+        setFiOxygen(newFiOxygen);
+        if(newFiOxygen == 'lessThan') {
+            document.getElementById('paOxygen').style.display = "flex";
+            document.getElementById('aaGradient').style.display = "none";
+        }
+        else if(newFiOxygen == 'moreOrEqualTo') {
+            document.getElementById('aaGradient').style.display = "flex";
+            document.getElementById('paOxygen').style.display = "none";
+        } else {
+            document.getElementById('paOxygen').style.display = "none";
+            document.getElementById('aaGradient').style.display = "none";
+        }
     };
     
     const handleHistory = (event, newHistoryValue) => {
         setHistory(newHistoryValue);
+        if(newHistoryValue == 'yes') {
+            document.getElementById('surgeryType').style.display = "flex";
+        } else {
+            document.getElementById('surgeryType').style.display = "none";
+        }
     };
 
     const handleAcuteRenalFailure = (event, newAcuteRenalFailureValue) => {
@@ -293,7 +295,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <Item>
-                                <ToggleButtonGroup exclusive value="{history}" onChange={handleHistory}>
+                                <ToggleButtonGroup color="primary" exclusive value={history} onChange={handleHistory}>
                                     <ToggleButton value="yes">
                                         Yes
                                     </ToggleButton>
@@ -305,6 +307,31 @@ const ApacheIIScore = () => {
                         </Grid>
                         </Grid>
                     <Divider></Divider>
+                    <Grid id="surgeryType" container spacing={2} justifyContent="center" alignItems="center" style={{display:'none'}}>
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <Typography>
+                                    Type of surgery
+                                </Typography>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Item>
+                                <ToggleButtonGroup color="primary" exclusive>
+                                    <ToggleButton value="">
+                                        Emergency
+                                    </ToggleButton>
+                                    <ToggleButton value="">
+                                        Elective
+                                    </ToggleButton>
+                                    <ToggleButton value="">
+                                        Nonoperative
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
+                            </Item>
+                        </Grid>
+                    </Grid>
+                    <Divider></Divider>
                     <Grid container spacing={2} justifyContent="center" alignItems="center" >
                         <Grid item xs={12} sm={6}>
                             <Item>
@@ -315,7 +342,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <Item>
-                                <ToggleButtonGroup exclusive value="{acuteRenalFailure}" onChange={handleAcuteRenalFailure}>
+                                <ToggleButtonGroup color="primary" exclusive value={acuteRenalFailure} onChange={handleAcuteRenalFailure}>
                                     <ToggleButton value="yes">
                                         Yes
                                     </ToggleButton>
@@ -337,7 +364,7 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <Item>
-                                <ToggleButtonGroup color="primary" value={fiOxygen} exclusive onChange={handleChange}>
+                                <ToggleButtonGroup color="primary" exclusive value={fiOxygen} onChange={handleChange}>
                                     <ToggleButton value="lessThan">
                                         &lt;50% (or non-intubated)
                                     </ToggleButton>
