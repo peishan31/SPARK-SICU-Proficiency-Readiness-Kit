@@ -3,13 +3,10 @@ import './App.css'
 import MiniDrawer from './components/miniDrawer/MiniDrawer'
 import { useAppState, useActions } from './overmind'
 import Login from './pages/login/Login'
-import updateUser from './hooks/updateUser'
 
 
 function App() {
-  
-  // const {user, setUser} = updateUser();
-  
+    
   // user in overmind
   const userState = useAppState().user
   // const chapterActions = useActions().chapters
