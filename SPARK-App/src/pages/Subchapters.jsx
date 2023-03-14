@@ -9,6 +9,7 @@ import SubchapterCard from '../components/subchapters/SubchapterCard';
 import { useAppState, useActions } from '../overmind';
 
 const Subchapters = ({ searchInput }) => {
+
     
     const location = useLocation();
     const navigate = useNavigate();
@@ -23,20 +24,30 @@ const Subchapters = ({ searchInput }) => {
     // get current chapter from overmind state
     const currentChapter = chapterState.selectedChapter
 
-    // extract currentchapter details
-    const chapterId = currentChapter.currentChapterId
-    const chapterTitle = currentChapter.currentChapterTitle
-    const chapterIcon = currentChapter.currentChapterIcon
-
     // extract currentUser details
     const userId = userState.currentUser._id
-    
+
+    let chapterId = null
+    let chapterTitle = null
+    let chapterIcon = null
+
+
     let filtered = [];
     // const [subchapters, setSubchapters] = useState([]);
-
-    
     
     useEffect(() => {
+        // if currentChapter does not exist, then reroute to the chapters page.
+        if (!currentChapter || !userId) {
+            console.log("Current Chapter: ", currentChapter);
+            navigate(`/Chapters`);
+            return;
+        }
+
+        // extract currentchapter details
+        chapterId = currentChapter.currentChapterId
+        chapterTitle = currentChapter.currentChapterTitle
+        chapterIcon = currentChapter.currentChapterIcon
+
         subchapterActions.loadAllSubchaptersWithUserId({chapterId, userId})
         // get all subchapters
         // axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/chapters/${chapterId}`)
