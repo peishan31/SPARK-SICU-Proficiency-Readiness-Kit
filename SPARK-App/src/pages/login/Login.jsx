@@ -11,14 +11,16 @@ import jwt_decode from "jwt-decode";
 
 
 
-function Login({setUser}) {
+function Login() {
+
+    const userActions = useActions().user;
     
     function handleCallbackResponse(response) {
         console.log("Encoded JWT ID token: " + response.credential)
         var userObject = jwt_decode(response.credential);
         console.log(userObject); 
 
-        setUser(userObject);
+        userActions.updateUser(userObject)
     }
 
     useEffect(()=>{
@@ -31,30 +33,31 @@ function Login({setUser}) {
 
         google.accounts.id.renderButton(
             document.getElementById("signInDiv"),
-            {theme: "outline", size: "large"}
+            {theme: "outline", size: "large", width: "250px"}
         );
+
+        google.accounts.id.prompt();
 
     }, []);
 
 
     return (
         <div className="login">
-            <div className="loginCard">
-                <div className="loginLeft">
-                    <div className="loginBrand">
-                        <FlareIcon className="loginBrandIcon" sx={{fontSize: '30px', marginRight: '5px', color: 'rgb(65,173,164)'}}/>
-                        <Typography className="loginBrandText" fontWeight="bold" letterSpacing={-1} sx={{fontSize: '30px', color: 'rgb(65,173,164)'}}>
-                            spark
-                        </Typography>
-                    </div>
+            <div className="loginLeft">
+                <div className="loginBrand">
+                    <FlareIcon className="loginBrandIcon" sx={{fontSize: '70px', marginRight: '5px', color: 'white'}}/>
+                    <Typography className="loginBrandText" fontWeight="bold" letterSpacing={-1} sx={{fontSize: '70px', color: 'white'}}>
+                        spark
+                    </Typography>
+                </div>
+                
+                <div className="loginWrapperDiv">
+                    <div id="signInDiv">button</div>
+                </div>
                     
-                    <div id="signInDiv"></div>
-
-                </div>
-                <div className="loginRight">
-                    <img className="sideImage" src="../../../assets/login.png"/>
-                </div>
             </div>
+
+                {/* <img className="sideImage" src="../../../assets/login.png"/> */}
         </div>
     )
 }

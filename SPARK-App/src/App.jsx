@@ -8,7 +8,7 @@ import updateUser from './hooks/updateUser'
 
 function App() {
   
-  const {user, setUser} = updateUser();
+  // const {user, setUser} = updateUser();
   
   // user in overmind
   const userState = useAppState().user
@@ -21,10 +21,10 @@ function App() {
   //   return <Login/>
   // }
 
-  if (!user) {
+  if (!userState.currentUser) {
     return (
       <>
-        <Login setUser={setUser}/>
+        <Login/>
       </>
     )
   }
