@@ -14,11 +14,31 @@ import { spacing } from '@mui/system';
 import { borders } from '@mui/system';
 
 const RoxIndex = () => {
-    const handleSubmit = (event) => {
-        // event.preventDefault();
-        // console.log(formValues);
-      };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        await axios.post(
+            `http://localhost:8080/calculator/rox-index/`,
+            {
+            
+                "SpO": event.target.spo.value,
+                "FiO": event.target.fio.value,
+                "respiratoryRate": event.target.respiratoryRate.value
+        }
+        ).then(
+            res => {
+                let data = res.data
+                console.log(data)
+                return 200;
+            }
+        ).catch(
+            err => {
+                return 500
+            }
+        )
+        //console.log(formValues);
+        
+    };
     const Item = styled(Paper)(({ theme }) => ({
         padding: theme.spacing(1),
         textAlign: 'left',
@@ -41,7 +61,7 @@ const RoxIndex = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="%" variant="outlined" name="age"/>
+                                <TextField label="%" variant="outlined" name="spo"/>
                             </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
@@ -53,7 +73,7 @@ const RoxIndex = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="%" variant="outlined" name="temperature"/>
+                                <TextField label="%" variant="outlined" name="fio"/>
                             </Item>
                         </Grid>
                     </Grid>
@@ -68,7 +88,7 @@ const RoxIndex = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Item>
-                                <TextField label="breaths/min" variant="outlined" name="age"/>
+                                <TextField label="breaths/min" variant="outlined" name="respiratoryRate"/>
                             </Item>
                         </Grid>
                     </Grid>
@@ -81,7 +101,8 @@ const RoxIndex = () => {
                         </Button>
                     </div>
                 </Box>
-            </form>
+            </form>  
+            
             
           )
         },

@@ -17,9 +17,9 @@ roxIndexRouter.get("/health", async (req, res) => {
 });
 
 // @description: Calculate ROX Index
-// @route GET calculator/rox-index/
+// @route POST calculator/rox-index/
 // Working!
-roxIndexRouter.get("/", async (req, res) => {
+roxIndexRouter.post("/", async (req, res) => {
     console.log(`Calculating ROX Index score...`)
     try {
         const { SpO, FiO, respiratoryRate } = req.body;
