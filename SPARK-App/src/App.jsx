@@ -3,19 +3,13 @@ import './App.css'
 import MiniDrawer from './components/miniDrawer/MiniDrawer'
 import { useAppState, useActions } from './overmind'
 import Login from './pages/login/Login'
+import updateUser from './hooks/updateUser'
 
-function setToken(userToken) {
-  sessionStorage.setItem('token', JSON.stringify(userToken))
-}
-
-function getToken() {
-  const tokenString = sessionStorage.getItem('token');
-  return tokenString;
-}
 
 function App() {
   
-  // const [token, setToken] = useState()
+  const {user, setUser} = updateUser();
+  
   // user in overmind
   const userState = useAppState().user
   // const chapterActions = useActions().chapters
@@ -27,12 +21,10 @@ function App() {
   //   return <Login/>
   // }
 
-  const token = getToken();
-
-  if (!token) {
+  if (!user) {
     return (
       <>
-        <Login setToken={setToken}/>
+        <Login setUser={setUser}/>
       </>
     )
   }

@@ -11,21 +11,17 @@ import jwt_decode from "jwt-decode";
 
 
 
-function Login({setToken}) {
-
-    const [user, setUser] = useState();
+function Login({setUser}) {
     
     function handleCallbackResponse(response) {
         console.log("Encoded JWT ID token: " + response.credential)
         var userObject = jwt_decode(response.credential);
         console.log(userObject); 
 
-        setToken(response.credential);
         setUser(userObject);
     }
 
     useEffect(()=>{
-
         const google = window.google;
 
         google.accounts.id.initialize({
@@ -40,7 +36,6 @@ function Login({setToken}) {
 
     }, []);
 
-    
 
     return (
         <div className="login">
