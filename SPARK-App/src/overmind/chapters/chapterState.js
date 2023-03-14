@@ -1,4 +1,4 @@
 export const state = {
     chapterlist: [],
-    selectedChapter: null,
+    selectedChapter: null
 }

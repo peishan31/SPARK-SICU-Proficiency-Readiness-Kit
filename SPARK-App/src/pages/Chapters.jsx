@@ -40,7 +40,6 @@ const Chapters = () => {
             <div className="pageTitle">
                 <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Chapters</h1>
             </div>
-            {console.log("here", chapterState)}
             {
                 !chapterState.chapterlist || chapterState.chapterlist.length === 0 ? ( 
                 <div>Loading...</div>) : (

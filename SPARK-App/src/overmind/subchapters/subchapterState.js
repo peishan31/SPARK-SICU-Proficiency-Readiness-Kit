@@ -1,4 +1,5 @@
 export const state = {
     subchapterlist: [],
-    selectedSubchapterId: null
+    selectedSubchapterId: null,
+    subchapterSearchInput: ""
 }
