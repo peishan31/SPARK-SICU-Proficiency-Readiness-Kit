@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
 import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import TextField from '@mui/material/TextField';
+import CalcResultCard from '../../components/calculator/CalcResultCard';
 
 const ApacheIIScore = () => {
 
@@ -90,6 +91,7 @@ const ApacheIIScore = () => {
         {
           label: "General Information",
           Component: (
+            <div style={{marginLeft:'10%', marginRight:'10%'}}>
             <form onSubmit={handleSubmit}>
                 {/* <Box component="form" sx={{'& .MuiTextField-root': { m: 1, width: '25ch' },}}
                     noValidate autoComplete="off"
@@ -420,7 +422,11 @@ const ApacheIIScore = () => {
                     </div>
                 </Box>
             </form>
-            
+            <Typography variant="h6" mt={5} mb={1} sx={{fontWeight:'bold'}} component="div">
+                Results
+            </Typography>
+            <CalcResultCard></CalcResultCard>
+            </div>
           )
         },
         {

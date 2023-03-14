@@ -12,6 +12,7 @@ import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import TextField from '@mui/material/TextField';
 import { spacing } from '@mui/system';
 import { borders } from '@mui/system';
+import CalcResultCard from '../../components/calculator/CalcResultCard';
 
 const SofaScore = () => {
     const handleSubmit = (event) => {
@@ -29,6 +30,7 @@ const SofaScore = () => {
         {
           label: "General Information",
           Component: (
+            <div style={{marginLeft:'10%', marginRight:'10%'}}>
             <form onSubmit={handleSubmit}>
                 <Box sx={{ flexGrow: 1 }}>
                     <Grid container spacing={2} justifyContent="center" alignItems="center">
@@ -254,7 +256,11 @@ const SofaScore = () => {
                     </div>
                 </Box>
             </form>
-            
+            <Typography variant="h6" mt={5} mb={1} sx={{fontWeight:'bold'}} component="div">
+                Results
+            </Typography>
+            <CalcResultCard></CalcResultCard>
+            </div>
           )
         },
         {
