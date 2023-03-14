@@ -47,6 +47,9 @@ const Subchapters = ({ searchInput }) => {
         chapterId = currentChapter.currentChapterId
         chapterTitle = currentChapter.currentChapterTitle
         chapterIcon = currentChapter.currentChapterIcon
+        console.log("chapterId", chapterId)
+        console.log("chapterTitle", chapterTitle)
+        console.log("chapterIcon", chapterIcon)
 
         subchapterActions.loadAllSubchaptersWithUserId({chapterId, userId})
         // get all subchapters
@@ -104,7 +107,7 @@ const Subchapters = ({ searchInput }) => {
                             return (
                                 <Grid item key={subchapter._id} xs={12} sm={6} md={4} lg={3}>
                                     <SubchapterCard
-                                    subchapter={subchapter} chapterId={chapterId}/>
+                                        subchapter={subchapter} chapterId={currentChapter.currentChapterId}/>
                                 </Grid>
                             )
                         
