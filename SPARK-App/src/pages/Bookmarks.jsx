@@ -4,14 +4,19 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import BookmarkCard from '../components/bookmarks/BookmarkCard';
 import SubchapterCard from "../components/subchapters/SubchapterCard";
+import { useAppState } from '../overmind';
 
 const Bookmarks = ({ searchInput }) => {
     const [subchapters, setSubchapters] = useState([]);
     const [unbookmark, setUnbookmark] = useState(false);
+
+    const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
+
     // retrieve the unbookmark status from bookmark card component
     const isUnbookmarked = (unbookmark) => {
         setUnbookmark(unbookmark)
-        axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks`)
+        axios.get(`http://localhost:8080/user/${userId}/bookmarks`)
             .then(res => {
                 console.log(res.data)
                 setSubchapters(res.data)
@@ -22,7 +27,7 @@ const Bookmarks = ({ searchInput }) => {
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks`)
+        axios.get(`http://localhost:8080/user/${userId}/bookmarks`)
             .then(res => {
                 setSubchapters(res.data)
                 console.log(res.data)

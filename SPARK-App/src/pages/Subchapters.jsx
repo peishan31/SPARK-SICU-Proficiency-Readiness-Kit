@@ -6,6 +6,7 @@ import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SubchapterCard from '../components/subchapters/SubchapterCard';
+import { useAppState } from '../overmind';
 
 
 const Subchapters = ({ searchInput }) => {
@@ -15,6 +16,9 @@ const Subchapters = ({ searchInput }) => {
     const chapterId = location.state.parentChapterId
     const chapterTitle = location.state.parentChapterTitle
     const chapterIcon = location.state.parentChapterIcon
+
+    const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
         
     let filtered = [];
     const [subchapters, setSubchapters] = useState([]);
@@ -23,7 +27,7 @@ const Subchapters = ({ searchInput }) => {
     useEffect(() => {
         
         // get all subchapters
-        axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/chapters/${chapterId}`)
+        axios.get(`http://localhost:8080/user/${userId}/bookmarks/chapters/${chapterId}`)
             .then(res => {
                 console.log(res.data[1].subchapters)
                 setSubchapters(res.data[1].subchapters)

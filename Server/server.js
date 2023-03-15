@@ -19,8 +19,8 @@ const client = new OAuth2Client(process.env.SSO_CLIENT_ID);
 
 
 const app = express()
-app.use(cookieParser());
 app.use(express.json({limit: '50mb'}))
+app.use(cookieParser());
 app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }))
 connectDB();
 
