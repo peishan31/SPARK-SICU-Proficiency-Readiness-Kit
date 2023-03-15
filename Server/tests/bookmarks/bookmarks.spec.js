@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 const NO_BOOKMARKS_USER_ID = "63e87aed80b6c0bcb29d15d4"
-const WITH_BOOKMARKS_USER_ID = "63fb1b9e40628116ea970e57"
+const WITH_BOOKMARKS_USER_ID = "63e87a7780b6c0bcb29d15d0"
 const CHAPTER_ID = "63ea35d26c0ef100ca017647"
 
 const getBookmarks = async (userId) => {
