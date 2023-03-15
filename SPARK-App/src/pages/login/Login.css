@@ -8,29 +8,11 @@
     align-items: center;
 }
 
-.loginCard {
-    display: flex;
-    height: 450px;
-    max-width: 800px;
-    width: 90%;
-    border-radius: 10%;
-    box-shadow: -4px 12px 29px -17px rgba(0,0,0,0.76);
-    -webkit-box-shadow: -4px 12px 29px -17px rgba(0,0,0,0.76);
-    -moz-box-shadow: -4px 12px 29px -17px rgba(0,0,0,0.76);
-}
-
 .loginLeft {
     display: block;
     margin-bottom: 200px;
     /* border: 5px solid red; */
     text-align: center;
-}
-
-.loginRight {
-    background-color: #ffeb77;
-    width: 45%;
-    position: relative;
-    border-radius: 0% 10% 10% 0%;
 }
 
 .loginBrand {
@@ -46,29 +28,8 @@
     justify-content: center;
 }
 
-.sideImage {
-    height: 400px;
-    position: absolute;
-    right: 0.2em;
-}
-
-.errorMessage {
-    font-size: 13px;
-    color: red;
-    margin-bottom: 30px;
-}
-
 @media (max-width: 780px) {
-    .loginRight {
-        display: none;
-    }
-
     .loginLeft {
         width: 100%;
-    }
-
-    .loginCard {
-        max-width: 400px;
-        width: 90%;
     }
 }

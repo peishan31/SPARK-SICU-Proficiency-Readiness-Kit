@@ -6,8 +6,6 @@ import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import { useActions, useAppState } from '../../overmind';
-import jwt_decode from "jwt-decode";
-
 
 
 
@@ -16,11 +14,21 @@ function Login() {
     const userActions = useActions().user;
     
     function handleCallbackResponse(response) {
-        console.log("Encoded JWT ID token: " + response.credential)
-        var userObject = jwt_decode(response.credential);
-        console.log(userObject); 
-
-        userActions.updateUser(userObject)
+        const data = {
+            token: response.credential
+        }
+        
+        axios.post(`http://localhost:8080/user/login`, data,
+        {
+            withCredentials: true
+        })
+        .then(res => {
+            console.log(res.data)
+            userActions.updateUser(res.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
     useEffect(()=>{
@@ -54,10 +62,7 @@ function Login() {
                 <div className="loginWrapperDiv">
                     <div id="signInDiv">button</div>
                 </div>
-                    
             </div>
-
-                {/* <img className="sideImage" src="../../../assets/login.png"/> */}
         </div>
     )
 }

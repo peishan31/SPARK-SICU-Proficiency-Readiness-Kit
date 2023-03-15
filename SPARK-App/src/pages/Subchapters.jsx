@@ -28,6 +28,7 @@ const Subchapters = ({ searchInput }) => {
                 console.log(res.data[1].subchapters)
                 setSubchapters(res.data[1].subchapters)
             })
+    
             .catch(err => {
                 console.log(err)
             })

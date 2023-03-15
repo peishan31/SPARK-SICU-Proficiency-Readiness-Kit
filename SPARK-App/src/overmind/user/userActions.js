@@ -13,6 +13,6 @@ export const updateUser = async ({ state }, userObject) => {
     state.user.currentUser = userObject;
 }
 
-export const signOutUser = async ({ state }, userObject) => {
+export const signOutUser = async ({ state }) => {
     state.user.currentUser = null;
 }
