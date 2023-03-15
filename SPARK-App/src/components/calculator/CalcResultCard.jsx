@@ -6,7 +6,7 @@ const Item = styled(Paper)(({ theme }) => ({
     boxShadow: 'none',
 }));
 
-const CalcResultCard = ({result}) => {
+const CalcResultCard = ({pointAllocated, interpretation}) => {
 
     return (
         <Card>
@@ -15,8 +15,8 @@ const CalcResultCard = ({result}) => {
                     <Grid item xs={12} sm={3} mx={6}>
                         <Item>
                             <Typography variant="h1">
-                                3
-                                {/* {result.score} */}
+                                {/* 3 */}
+                                {pointAllocated}
                             </Typography>
                             <Typography variant="h5" sx={{fontWeight:'bold'}}>
                                 APACHE Score
@@ -28,7 +28,8 @@ const CalcResultCard = ({result}) => {
                     <Grid item xs={12} sm={5}>
                         <Item>
                             <Typography align="left" mx={4} my={2}>
-                                There is a low mortality risk, if any other diseases are suspected, continue to monitor, evaluate, and initiate treatment as appropriate
+                                {/* There is a low mortality risk, if any other diseases are suspected, continue to monitor, evaluate, and initiate treatment as appropriate */}
+                                {interpretation}
                                 {/* {result.desc} */}
                             </Typography>
                         </Item>

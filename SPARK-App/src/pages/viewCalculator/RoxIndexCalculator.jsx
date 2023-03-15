@@ -15,9 +15,13 @@ import { borders } from '@mui/system';
 import CalcResultCard from '../../components/calculator/CalcResultCard';
 
 const RoxIndex = () => {
+    //state for calc result card
+    const [pointAllocated , setPointAllocated] = useState(0)
+    const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        
         await axios.post(
             `http://localhost:8080/calculator/rox-index/`,
             {
@@ -29,6 +33,9 @@ const RoxIndex = () => {
         ).then(
             res => {
                 let data = res.data
+                setPointAllocated(res.data.pointAllocated)
+                setInterpretation(res.data.result.interpretation)
+                var result = res.data.result
                 console.log(data)
                 return 200;
             }
@@ -40,6 +47,21 @@ const RoxIndex = () => {
         //console.log(formValues);
         
     };
+
+    useEffect(() => {
+        // This should log offers to the console if it has been set
+        if(pointAllocated) {
+          console.log(pointAllocated)
+        }
+      }, [pointAllocated])
+
+      useEffect(() => {
+        // This should log offers to the console if it has been set
+        if(interpretation) {
+          console.log(interpretation)
+        }
+      }, [interpretation])
+
     const Item = styled(Paper)(({ theme }) => ({
         padding: theme.spacing(1),
         textAlign: 'left',
@@ -107,7 +129,7 @@ const RoxIndex = () => {
             <Typography variant="h6" mt={5} mb={1} sx={{fontWeight:'bold'}} component="div">
                 Results
             </Typography>
-            <CalcResultCard></CalcResultCard>
+            <CalcResultCard pointAllocated={pointAllocated} interpretation={interpretation}></CalcResultCard>
             </div>
           )
         },
