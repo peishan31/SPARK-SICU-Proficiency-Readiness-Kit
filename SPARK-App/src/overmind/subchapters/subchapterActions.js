@@ -12,3 +12,9 @@ export const loadAllSubchaptersWithUserId = async ( { state, effects }, idObject
 export const setSubchapterSearchInput = ( { state }, searchInput ) => {
     state.subchapters.subchapterSearchInput = searchInput;
 }
+
+export const clearSubchapterState = ( { state } ) => {
+    state.subchapters.subchapterlist = [];
+    state.subchapters.subchapterSearchInput = "";
+    state.subchapters.selectedSubchapter = null;
+}

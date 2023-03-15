@@ -9,6 +9,7 @@ function App() {
   // const [token, setToken] = useState()
   // user in overmind
   const userState = useAppState().user
+  // const userActions = useActions().user
   // const chapterActions = useActions().chapters
   // const chaptersState = useAppState().chapters
   // console.log("Actions: ", chapterActions.loadChapters());
@@ -17,13 +18,13 @@ function App() {
   // if (!userState.user) {
   //   return <Login/>
   // }
-
+    
   return (
     <>
       <div className="App">
         {
           // if current user exists then render mini drawer, otherwise show login component
-          userState.currentUser ? <MiniDrawer/> : <Login/>
+          userState.currentUser || sessionStorage.getItem("currentUser") ? <MiniDrawer/> : <Login/>
 
         }
         {/* if not logged in or localstorage is null then don't render mini drawer */}

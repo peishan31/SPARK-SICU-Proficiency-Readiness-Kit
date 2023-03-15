@@ -17,3 +17,8 @@ export const setSelectedChapter = ({ state }, chapterObject) => {
     state.chapters.selectedChapter = chapterObject;
 }
 
+export const clearChapterState = ({ state }) => {
+    state.chapters.chapterlist = [];
+    state.chapters.selectedChapter = null;
+}
+

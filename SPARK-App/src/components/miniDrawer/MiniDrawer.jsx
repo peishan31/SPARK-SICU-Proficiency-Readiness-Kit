@@ -21,7 +21,7 @@ import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import FlareIcon from '@mui/icons-material/Flare';
 // react-router-dom
-import { Navigate, Routes, Route, Link, useLocation} from 'react-router-dom'
+import { Navigate, Routes, Route, Link, useLocation, useNavigate} from 'react-router-dom'
 
 // state management
 import { useAppState, useActions } from '../../overmind';
@@ -172,10 +172,18 @@ export default function MiniDrawer() {
     const subchapterState = useAppState().subchapters
     const subchapterActions = useActions().subchapters
 
+    const chapterState = useAppState().chapters
+    const chapterActions = useActions().chapters
+
+    const userState = useAppState().user
+    const userActions = useActions().user
+
     const [data, setData] = useState('');
     const isMenuOpen = Boolean(anchorEl);
 
     // localStorage.setItem('searchInput', data);
+
+    const navigate = useNavigate();
 
     
 
@@ -199,6 +207,13 @@ export default function MiniDrawer() {
         // localStorage.setItem('searchInput', event.currentTarget.value);
         // setData(localStorage.getItem('searchInput'));
     };
+
+    const handleLogout = () => {
+        userActions.logoutUser()
+        chapterActions.clearChapterState();
+        subchapterActions.clearSubchapterState();
+        navigate('/')
+    }
 
     return (
         <Box sx={{ display: 'flex'}}>
@@ -270,7 +285,7 @@ export default function MiniDrawer() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Chapters', 'Bookmarks', 'Calculators', 'Sign In'].map((text, index) => (
+                    {['Chapters', 'Bookmarks', 'Calculators', 'Sign Out'].map((text, index) => (
                         <Link key={text} to={text} style={{ textDecoration: 'none' }}>
                             <ListItem disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
@@ -295,8 +310,9 @@ export default function MiniDrawer() {
                                                         return <span className="icon">&#128278;</span>;
                                                     case 'Calculators':
                                                         return <span className="icon">&#129518;</span>
-                                                    case 'Sign In':
-                                                        return <span className="icon">&#128104;&#8205;&#9877;&#65039;</span>
+                                                    case 'Sign Out':
+                                                        // return <span className="icon">&#128104;&#8205;&#9877;&#65039;</span>
+                                                        return <span className="icon" onClick={handleLogout}>🚪</span>
                                                     case 'Chapters':
                                                         return <span className="icon">&#128214;</span>
                                                     case 'Subchapters':
@@ -329,8 +345,8 @@ export default function MiniDrawer() {
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/login" element={<Login/>}/>
+                    <Route path="/Sign Out" element={<Navigate to={"/"}/>}/>
                 </Routes>
-
             </Box>
         </Box>
     );

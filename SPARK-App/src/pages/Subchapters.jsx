@@ -23,14 +23,11 @@ const Subchapters = ({ searchInput }) => {
 
     // get current chapter from overmind state
     const currentChapter = chapterState.selectedChapter
+    console.log("Current Chapter: ", currentChapter)
 
-    // extract currentUser details
-    const userId = userState.currentUser._id
-
-    let chapterId = null
-    let chapterTitle = null
-    let chapterIcon = null
-
+    // extract currentUser from session storage
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
+    const userId = currentUser._id
 
     let filtered = [];
     // const [subchapters, setSubchapters] = useState([]);
@@ -44,12 +41,7 @@ const Subchapters = ({ searchInput }) => {
         }
 
         // extract currentchapter details
-        chapterId = currentChapter.currentChapterId
-        chapterTitle = currentChapter.currentChapterTitle
-        chapterIcon = currentChapter.currentChapterIcon
-        console.log("chapterId", chapterId)
-        console.log("chapterTitle", chapterTitle)
-        console.log("chapterIcon", chapterIcon)
+        const chapterId = currentChapter.currentChapterId
 
         subchapterActions.loadAllSubchaptersWithUserId({chapterId, userId})
         // get all subchapters
@@ -86,7 +78,7 @@ const Subchapters = ({ searchInput }) => {
                     () => { navigate('/Chapters') }}>
                     <ArrowBackIcon />
                 </IconButton>
-                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>{chapterIcon} {chapterTitle}</Typography>
+                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>{chapterState.selectedChapter.currentChapterIcon} {chapterState.selectedChapter.currentChapterTitle}</Typography>
                 <Stack direction="row" spacing={2} ml="auto">
                     {/* <Button variant="outlined">Select</Button> */}
                     {/* <Button variant="outlined" onClick={navigateToSubChapter}>
