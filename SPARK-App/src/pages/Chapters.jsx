@@ -12,7 +12,9 @@ import { useState, useEffect } from 'react'
 import { useAppState, useActions } from '../overmind'
 
 
-const Chapters = () => {
+const Chapters = ({ searchInput }) => {
+    let filtered = [];
+
 
     // const [chapters, setChapters] = useState([]);
     // useEffect(() => {
@@ -32,7 +34,20 @@ const Chapters = () => {
         if (!chapterState.chapterlist || chapterState.chapterlist.length === 0) {
             chapterActions.loadChapters();
         }
+        
     }, [])
+    console.log("HELLOOO: " + chapterState)
+
+    const searchChapters = (searchInput, chapter) => {
+        console.log("HEREEEEE: " + chapter)
+        if (searchInput == "") {
+            return chapter
+        } 
+       
+    };
+
+    filtered = chapterState.chapterlist.filter((chapter) => searchChapters(searchInput, chapter))
+
 
 
     return (
@@ -44,17 +59,19 @@ const Chapters = () => {
             {
                 !chapterState.chapterlist || chapterState.chapterlist.length === 0 ? ( 
                 <div>Loading...</div>) : (
-                    <Grid container spacing={3}>
-                        {
-                            chapterState.chapterlist.map((chapter) => {
-                                return (
-                                    <Grid key={chapter._id} item>
-                                        <ChapterCard chapter={chapter} />
-                                    </Grid>
-                                )
-                            })
-                        }
-                    </Grid>
+                    filtered.map((chapter) => {
+                        <Grid container spacing={3}>
+                            {
+                                chapterState.chapterlist.map((chapter) => {
+                                    return (
+                                        <Grid key={chapter._id} item>
+                                            <ChapterCard chapter={chapter} />
+                                        </Grid>
+                                    )
+                                })
+                            }
+                        </Grid>
+                    })
                 )
             }
         </Box>

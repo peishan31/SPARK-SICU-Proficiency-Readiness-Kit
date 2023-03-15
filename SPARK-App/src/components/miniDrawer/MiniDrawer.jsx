@@ -222,7 +222,7 @@ export default function MiniDrawer() {
     
                     <React.Fragment>
                     {
-                    ["/Bookmarks", "/Chapters/"+localStorage.getItem("currentChapterID")+"/subchapters"].includes(path) ? 
+                    ["/Chapters","/Bookmarks", "/Chapters/"+localStorage.getItem("currentChapterID")+"/subchapters"].includes(path) ? 
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
@@ -317,7 +317,7 @@ export default function MiniDrawer() {
                     <Route path="/" element={<Navigate to={"/Chapters"}/>}/>
                     <Route path="/Bookmarks" element={<Bookmarks searchInput={localStorage.getItem('searchInput')}/>}/>
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
-                    <Route path="/Chapters" element={<Chapters/>}/>
+                    <Route path="/Chapters" element={<Chapters searchInput={localStorage.getItem('searchInput')}/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={localStorage.getItem('searchInput')}/>}/>
