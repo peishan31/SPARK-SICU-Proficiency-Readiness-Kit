@@ -5,6 +5,9 @@ const subchapterSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    thumbnailPublicId: {
+        type: String,
+    },
     thumbnail: {
         type: String,
     },

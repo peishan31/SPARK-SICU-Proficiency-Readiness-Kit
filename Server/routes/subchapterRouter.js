@@ -95,11 +95,13 @@ subchapterRouter.put("/", async (req, res) => {
                 }
             })
         }); 
-
+        console.log("********",result);
         thumbnail = result.secure_url;
+        const thumbnailPublicId = result.public_id;
         // Save subchapter to database
         const newSubchapter = {
             subchapterTitle,
+            thumbnailPublicId,
             thumbnail,
             description,
             content
@@ -124,7 +126,16 @@ subchapterRouter.delete("/:subchapterId", async (req, res) => {
     try {
         const chapterId = req.chapterId;
         const subchapterId = req.params.subchapterId;
-        const chapter = await Chapter.findByIdAndUpdate(
+        // Get the public ID of the image to delete from the request parameters to delete image from cloudinary
+        let chapter = await Chapter.findById(chapterId);
+        const publicId = chapter.subchapters.find(subchapter => subchapter._id == subchapterId).thumbnailPublicId;
+        
+        // Delete the image from Cloudinary
+        const deleteResult = await cloudinary.uploader.destroy(publicId);
+    
+        // Return a success response
+        console.log(deleteResult); // TODO: Do a validation for this response
+        chapter = await Chapter.findByIdAndUpdate(
             { _id: chapterId },
             { $pull: { subchapters: { _id: subchapterId } } },
         );
