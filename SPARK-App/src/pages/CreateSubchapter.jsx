@@ -18,9 +18,12 @@ export default function CreateSubchapter() {
     const [thumbnail, setThumbnail] = useState('');
     const [base64Thumbnail, setBase64Thumbnail] = useState('');
 
+    const BASE_URL = import.meta.env.VITE_API_URL
+    const USER_ID = import.meta.env.VITE_USER_ID
+
     useEffect(() => {
         const fetchData = async () => {
-            await axios.get('http://localhost:8080/chapters/').then((res) => {
+            await axios.get(BASE_URL + '/chapters/').then((res) => {
                 setChaps(res.data);
             });
         };
@@ -33,7 +36,7 @@ export default function CreateSubchapter() {
         
         setLoading(true);
         await axios.put(
-            'http://localhost:8080/chapters/' + chapSelected + '/subchapters/',
+            BASE_URL + '/chapters/' + chapSelected + '/subchapters/',
             {   
                 subchapterTitle: subchapTitle,
                 thumbnail: base64Thumbnail,

@@ -8,10 +8,13 @@ import SubchapterCard from "../components/subchapters/SubchapterCard";
 const Bookmarks = ({ searchInput }) => {
     const [subchapters, setSubchapters] = useState([]);
     const [unbookmark, setUnbookmark] = useState(false);
+
+    const BASE_URL = import.meta.env.VITE_API_URL
+    const USER_ID = import.meta.env.VITE_USER_ID
     // retrieve the unbookmark status from bookmark card component
     const isUnbookmarked = (unbookmark) => {
         setUnbookmark(unbookmark)
-        axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks`)
+        axios.get(BASE_URL+`/user/` + USER_ID + `/bookmarks`)
             .then(res => {
                 console.log(res.data)
                 setSubchapters(res.data)
@@ -22,7 +25,7 @@ const Bookmarks = ({ searchInput }) => {
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks`)
+        axios.get(BASE_URL + `/user/` + USER_ID + `/bookmarks`)
             .then(res => {
                 setSubchapters(res.data)
                 console.log(res.data)
