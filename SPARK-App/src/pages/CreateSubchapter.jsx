@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Box, TextField, MenuItem, Grid } from '@mui/material';
+import { Button, Box, TextField, MenuItem, Grid, Input } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import './home.css';
-import "./CreateSubchapter.css";
+import './CreateSubchapter.css';
 
 export default function CreateSubchapter() {
     let navigate = useNavigate();
@@ -13,8 +14,8 @@ export default function CreateSubchapter() {
     const [chapSelected, setChapSelected] = useState('');
     const [subchapDesc, setSubchapDesc] = useState('');
     const [chaps, setChaps] = useState([]);
-    const [file, setFile] = useState();
-    const [postImage, setPostImage] = useState('');
+    const [thumbnail, setThumbnail] = useState('');
+    const [base64Thumbnail, setBase64Thumbnail] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,13 +29,12 @@ export default function CreateSubchapter() {
     const editorRef = useRef(null);
 
     async function addSubchapter() {
-        console.log("file: " , postImage);
+        console.log("file: " , base64Thumbnail);
         await axios.put(
             'http://localhost:8080/chapters/' + chapSelected + '/subchapters/',
             {   
                 subchapterTitle: subchapTitle,
-                // thumbnail: "../../../assets/subchapters/neurology/raisedicp.jpg",
-                thumbnail: postImage,
+                thumbnail: base64Thumbnail,
                 description: subchapDesc,
                 content: editorRef.current.getContent(),
             }
@@ -42,16 +42,12 @@ export default function CreateSubchapter() {
         navigate('/Chapters/');
     }
 
-    const fileSelected = event => {
-        const file = event.target.files[0]
-        setFile(file)
-    }
-
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
+        setThumbnail(file);
         const base64 = await convertToBase64(file);
-        setPostImage(base64);
-        // console.log("file", base64);
+        setBase64Thumbnail(base64);
+        console.log("file", base64);
     }
 
     const convertToBase64 = (file) => {
@@ -104,14 +100,49 @@ export default function CreateSubchapter() {
                                 marginTop: '2ch',
                             }}
                         >
-                            <label for="upload" class="file-upload-label">Thumbnail:</label> <br/>
+                            {/* <label for="upload" class="file-upload-label">Thumbnail:</label> <br/>
                             <input 
                                 className="file-upload-input"
                                 onChange={(e) =>
                                 handleFileUpload(e)
                                 } 
                                 type="file" 
-                                accept=".jpeg, .png, .jpg"/>
+                                accept=".jpeg, .png, .jpg"/> */}
+                            <Input
+                                type="file"
+                                className="inputThumbnail"
+                                inputProps={{ accept: 'image/*' }}
+                                id="file-upload"
+                                onChange={(e) =>
+                                    handleFileUpload(e)
+                                }
+                                sx= {{
+                                    display: 'none',
+                                }}
+                            />
+                            <label htmlFor="file-upload">
+                                <Button
+                                    startIcon={<CloudUploadIcon />}
+                                    component="span"
+                                    variant="outlined"
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: 'white', // Set background color on hover
+                                        borderColor: '#41ADA4 !important', // Set border color on hover
+                                        color: '#41ADA4',
+                                        '&:hover': {
+                                            backgroundColor: '#41ADA4',
+                                            borderColor: '#41ADA4',
+                                            color: 'white',
+                                        },
+                                    }}
+                                >
+                                    Choose Thumbnail
+                                </Button>
+                            </label>
+                            { thumbnail && (
+                                <span className="fileName">{thumbnail.name}</span>
+                            ) }
                         </Box>
                     </Grid>
                     <Grid item xs={12} sm={12} lg={12}>
@@ -210,6 +241,17 @@ export default function CreateSubchapter() {
                                 onClick={() => {
                                     addSubchapter();
                                 }}
+                                component="span"
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: '#41ADA4',
+                                    borderColor: '#41ADA4',
+                                    '&:hover': {
+                                        backgroundColor: 'white', // Set background color on hover
+                                        borderColor: '#41ADA4 !important', // Set border color on hover
+                                        color: '#41ADA4',
+                                    },
+                                    }}
                             >
                                 Save
                             </Button>
