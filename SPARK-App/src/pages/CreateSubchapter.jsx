@@ -1,7 +1,15 @@
 import { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Box, TextField, MenuItem, Grid, Input, CircularProgress } from '@mui/material';
+import {
+    Button,
+    Box,
+    TextField,
+    MenuItem,
+    Grid,
+    Input,
+    CircularProgress,
+} from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import DOMPurify from 'dompurify';
@@ -19,8 +27,8 @@ export default function CreateSubchapter() {
     const [thumbnail, setThumbnail] = useState('');
     const [base64Thumbnail, setBase64Thumbnail] = useState('');
 
-    const BASE_URL = import.meta.env.VITE_API_URL
-    const USER_ID = import.meta.env.VITE_USER_ID
+    const BASE_URL = import.meta.env.VITE_API_URL;
+    const USER_ID = import.meta.env.VITE_USER_ID;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,23 +44,20 @@ export default function CreateSubchapter() {
     async function addSubchapter() {
         console.log(DOMPurify.sanitize(editorRef.current.getContent()));
         setLoading(true);
-        await axios.put(
-            BASE_URL + '/chapters/' + chapSelected + '/subchapters/',
-            {   
+        await axios
+            .put(BASE_URL + '/chapters/' + chapSelected + '/subchapters/', {
                 subchapterTitle: subchapTitle,
                 thumbnail: base64Thumbnail,
                 description: subchapDesc,
                 content: DOMPurify.sanitize(editorRef.current.getContent()),
             })
-        .then(() => {
-            setLoading(false);
-            navigate('/Chapters/');
-        })
-        .catch(
-            (error) => {
+            .then(() => {
+                setLoading(false);
+                navigate('/Chapters/');
+            })
+            .catch((error) => {
                 alert(error.response.data.message);
-            }
-        );
+            });
     }
 
     const handleFileUpload = async (e) => {
@@ -60,22 +65,22 @@ export default function CreateSubchapter() {
         setThumbnail(file);
         const base64 = await convertToBase64(file);
         setBase64Thumbnail(base64);
-    }
+    };
 
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(file);
-    
+
             fileReader.onload = () => {
                 resolve(fileReader.result);
             };
-    
+
             fileReader.onerror = (error) => {
                 reject(error);
             };
         });
-    }
+    };
 
     return (
         <div className='home'>
@@ -86,18 +91,25 @@ export default function CreateSubchapter() {
                         justifyContent: 'center',
                         alignItems: 'center',
                         height: '100vh',
-                        width: '200px', 
+                        width: '200px',
                         margin: '0 auto',
                     }}
                 >
-                    <CircularProgress color="info" size={40} thickness={4} />
+                    <CircularProgress color='info' size={40} thickness={4} />
                 </Box>
-                    
             ) : (
                 <div className='homeContainer'>
                     <div>
-                        <div className="pageTitle">
-                            <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Add Subchapters</h1>
+                        <div className='pageTitle'>
+                            <h1
+                                style={{
+                                    fontSize: '30px',
+                                    fontWeight: 'bold',
+                                    marginBottom: '25px',
+                                }}
+                            >
+                                Add Subchapters
+                            </h1>
                         </div>
                         <Grid item xs={12} sm={12} lg={12}>
                             <Box
@@ -114,9 +126,7 @@ export default function CreateSubchapter() {
                                     variant='outlined'
                                     value={subchapTitle}
                                     onChange={(event) =>
-                                        setSubchapTitle(
-                                            event.target.value
-                                        )
+                                        setSubchapTitle(event.target.value)
                                     }
                                 ></TextField>
                             </Box>
@@ -136,22 +146,20 @@ export default function CreateSubchapter() {
                                     type="file" 
                                     accept=".jpeg, .png, .jpg"/> */}
                                 <Input
-                                    type="file"
-                                    className="inputThumbnail"
+                                    type='file'
+                                    className='inputThumbnail'
                                     inputProps={{ accept: 'image/*' }}
-                                    id="file-upload"
-                                    onChange={(e) =>
-                                        handleFileUpload(e)
-                                    }
-                                    sx= {{
+                                    id='file-upload'
+                                    onChange={(e) => handleFileUpload(e)}
+                                    sx={{
                                         display: 'none',
                                     }}
                                 />
-                                <label htmlFor="file-upload">
+                                <label htmlFor='file-upload'>
                                     <Button
                                         startIcon={<CloudUploadIcon />}
-                                        component="span"
-                                        variant="outlined"
+                                        component='span'
+                                        variant='outlined'
                                         sx={{
                                             color: 'white',
                                             backgroundColor: 'white', // Set background color on hover
@@ -167,9 +175,11 @@ export default function CreateSubchapter() {
                                         Choose Thumbnail
                                     </Button>
                                 </label>
-                                { thumbnail && (
-                                    <span className="fileName">{thumbnail.name}</span>
-                                ) }
+                                {thumbnail && (
+                                    <span className='fileName'>
+                                        {thumbnail.name}
+                                    </span>
+                                )}
                             </Box>
                         </Grid>
                         <Grid item xs={12} sm={12} lg={12}>
@@ -185,9 +195,7 @@ export default function CreateSubchapter() {
                                 <TextField
                                     value={chapSelected}
                                     onChange={(event) =>
-                                        setChapSelected(
-                                            event.target.value
-                                        )
+                                        setChapSelected(event.target.value)
                                     }
                                     select
                                     label='Parent chapter'
@@ -220,9 +228,7 @@ export default function CreateSubchapter() {
                                     multiline
                                     maxRows={4}
                                     onChange={(event) =>
-                                        setSubchapDesc(
-                                            event.target.value
-                                        )
+                                        setSubchapDesc(event.target.value)
                                     }
                                 ></TextField>
                             </Box>
@@ -235,7 +241,8 @@ export default function CreateSubchapter() {
                             >
                                 <Editor
                                     apiKey={
-                                        import.meta.env.VITE_REACT_AP_TINYMCE_API_KEY
+                                        import.meta.env
+                                            .VITE_REACT_AP_TINYMCE_API_KEY
                                     }
                                     onInit={(evt, editor) =>
                                         (editorRef.current = editor)
@@ -267,7 +274,7 @@ export default function CreateSubchapter() {
                                     onClick={() => {
                                         addSubchapter();
                                     }}
-                                    component="span"
+                                    component='span'
                                     sx={{
                                         color: 'white',
                                         backgroundColor: '#41ADA4',
@@ -277,7 +284,7 @@ export default function CreateSubchapter() {
                                             borderColor: '#41ADA4 !important', // Set border color on hover
                                             color: '#41ADA4',
                                         },
-                                        }}
+                                    }}
                                 >
                                     Save
                                 </Button>
