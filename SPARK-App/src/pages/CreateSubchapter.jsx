@@ -72,7 +72,7 @@ export default function CreateSubchapter() {
     return (
         <div className='home'>
             <div className='homeContainer'>
-                <div className='container'>
+                <div>
                     <div className="pageTitle">
                         <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Add Subchapters</h1>
                     </div>
