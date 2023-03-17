@@ -6,7 +6,7 @@ const Item = styled(Paper)(({ theme }) => ({
     boxShadow: 'none',
 }));
 
-const CalcResultCard = ({pointAllocated, interpretation}) => {
+const CalcResultCard = ({pointAllocated, interpretation, scoreType}) => {
 
     return (
         <Card>
@@ -19,7 +19,7 @@ const CalcResultCard = ({pointAllocated, interpretation}) => {
                                 {pointAllocated}
                             </Typography>
                             <Typography variant="h5" sx={{fontWeight:'bold'}}>
-                                APACHE Score
+                                {scoreType} Score
                                 {/* {result.scoreTitle} */}
                             </Typography>
                         </Item>
