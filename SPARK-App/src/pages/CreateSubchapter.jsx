@@ -234,8 +234,7 @@ export default function CreateSubchapter() {
                             >
                                 <Editor
                                     apiKey={
-                                        import.meta.env
-                                            .VITE_REACT_APP_TINYMCE_API_KEY
+                                        import.meta.env.VITE_REACT_AP_TINYMCE_API_KEY
                                     }
                                     onInit={(evt, editor) =>
                                         (editorRef.current = editor)
