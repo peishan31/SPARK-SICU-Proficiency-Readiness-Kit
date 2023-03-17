@@ -14,11 +14,14 @@ export default function CreateChapter() {
     const [chapTitle, setChapTitle] = useState('');
     const [chapIcon, setChapIcon] = useState('');
 
+    const BASE_URL = process.env.API_URL
+    const USER_ID = process.env.USER_ID
+    
     async function addChapter() {
-      await axios.post("http://localhost:8080/api/addChapter", {"chapterTitle": chapTitle, "chapterIcon": chapIcon})
+        await axios.post(BASE_URL + "/api/addChapter", {"chapterTitle": chapTitle, "chapterIcon": chapIcon})
     //   navigate("/chapterData");
     }
-  
+
     return (
         <div className="home">
             <Sidebar/>
@@ -47,5 +50,4 @@ export default function CreateChapter() {
             </div>
         </div>
     )
-  }
-  
+}

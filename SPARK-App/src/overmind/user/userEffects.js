@@ -1,6 +1,8 @@
 import axios from 'axios'
+const BASE_URL = process.env.API_URL
+const USER_ID = process.env.USER_ID
 export const loginUser = async (inputObject) => {
-    const API_URL = `http://localhost:8080/user/login`
+    const API_URL = BASE_URL+`/user/login`
     try {
         const response = await axios.post(API_URL, {
             email: inputObject.email,

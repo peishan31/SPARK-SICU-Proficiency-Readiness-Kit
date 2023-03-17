@@ -18,12 +18,15 @@ const Subchapters = ({ searchInput }) => {
         
     let filtered = [];
     const [subchapters, setSubchapters] = useState([]);
+
+    const BASE_URL = process.env.API_URL
+    const USER_ID = process.env.USER_ID
     
 
     useEffect(() => {
         
         // get all subchapters
-        axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/chapters/${chapterId}`)
+        axios.get(BASE_URL + `/user/` + USER_ID + `/bookmarks/chapters/${chapterId}`)
             .then(res => {
                 console.log(res.data[1].subchapters)
                 setSubchapters(res.data[1].subchapters)

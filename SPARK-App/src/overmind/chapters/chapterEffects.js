@@ -1,7 +1,9 @@
 import axios from 'axios';
+const BASE_URL = process.env.API_URL
+const USER_ID = process.env.USER_ID
 
 export const getAllChapters = async () => {
-    const API_URL = `http://localhost:8080/chapters`
+    const API_URL = BASE_URL+`/chapters`
     try {
         const response = await axios.get(API_URL)
         if (response.status === 200) {

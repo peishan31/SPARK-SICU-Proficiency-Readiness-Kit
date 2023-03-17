@@ -13,9 +13,12 @@ export default function CreateSubchapter() {
     const [subchapDesc, setSubchapDesc] = useState('');
     const [chaps, setChaps] = useState([]);
 
+    const BASE_URL = process.env.API_URL
+    const USER_ID = process.env.USER_ID
+
     useEffect(() => {
         const fetchData = async () => {
-            await axios.get('http://localhost:8080/chapters/').then((res) => {
+            await axios.get(BASE_URL + '/chapters/').then((res) => {
                 setChaps(res.data);
             });
         };
@@ -26,7 +29,7 @@ export default function CreateSubchapter() {
 
     async function addSubchapter() {
         await axios.put(
-            'http://localhost:8080/chapters/' + chapSelected + '/subchapters/',
+            BASE_URL + '/chapters/' + chapSelected + '/subchapters/',
             {   
                 subchapterTitle: subchapTitle,
                 thumbnail: "../../../assets/subchapters/neurology/raisedicp.jpg",
