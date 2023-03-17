@@ -33,20 +33,30 @@ const Chapters = ({ searchInput }) => {
     useEffect(() => {
         if (!chapterState.chapterlist || chapterState.chapterlist.length === 0) {
             chapterActions.loadChapters();
+        // console.log("INSIDE USEeFFECT",chapterState.chapterlist)
         }
         
     }, [])
-    console.log("HELLOOO: " + chapterState)
+    // console.log("testing",chapterState.chapterlist[0])
 
     const searchChapters = (searchInput, chapter) => {
-        console.log("HEREEEEE: " + chapter)
         if (searchInput == "") {
             return chapter
-        } 
-       
-    };
+        } else{
+            // console.log(chapter.subchapters)
+            for(var subchapters of chapter.subchapters){
+                // console.log(subchapters)
+                if (
+                    subchapters.description.toLowerCase().includes(searchInput.toLowerCase()) ||
+                    subchapters.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
+                    subchapters.content.toLowerCase().includes(searchInput.toLowerCase())){
+                    return chapter
+                }
+            }
 
-    filtered = chapterState.chapterlist.filter((chapter) => searchChapters(searchInput, chapter))
+  
+    }};
+    filtered = chapterState.chapterlist.filter((chapter) => searchChapters(searchInput,chapter))
 
 
 
@@ -55,14 +65,14 @@ const Chapters = ({ searchInput }) => {
             <div className="pageTitle">
                 <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Chapters</h1>
             </div>
-            {console.log("here", chapterState)}
+            {/* {console.log("here", chapterState)} */}
             {
                 !chapterState.chapterlist || chapterState.chapterlist.length === 0 ? ( 
                 <div>Loading...</div>) : (
-                    filtered.map((chapter) => {
+                    
                         <Grid container spacing={3}>
                             {
-                                chapterState.chapterlist.map((chapter) => {
+                                filtered.map((chapter) => {
                                     return (
                                         <Grid key={chapter._id} item>
                                             <ChapterCard chapter={chapter} />
@@ -71,7 +81,7 @@ const Chapters = ({ searchInput }) => {
                                 })
                             }
                         </Grid>
-                    })
+
                 )
             }
         </Box>

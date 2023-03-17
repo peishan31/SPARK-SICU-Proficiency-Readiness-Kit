@@ -7,7 +7,7 @@
 export const loadChapters = async ({ state, effects }) => {
     try {
         state.chapters.chapterlist = await effects.chapters.getAllChapters();
-        console.log(state.chapters.chapterlist)
+        console.log("LOADCHAPTER ACTION",state.chapters.chapterlist)
     } catch (err) {
         console.log(err);
     }
