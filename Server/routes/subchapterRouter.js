@@ -1,7 +1,23 @@
 import express from 'express';
 import Chapter from '../models/ChapterModel.js';
 import querystring from 'querystring';
+import { v2 as cloudinary } from 'cloudinary';
+import dotenv from 'dotenv';
 const subchapterRouter = express.Router();
+
+dotenv.config();
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const opts = {
+    overwrite: true,
+    invalidate: true,
+    resource_type: 'auto',
+}
 
 // @description: Get health status of subchapter chapter route
 // @route GET chapter/:chapterId/subchapter/health
@@ -65,15 +81,30 @@ subchapterRouter.get('/:subchapterId', async (req, res) => {
 // @route PUT chapter/:chapterId/subchapter/
 // Working!
 subchapterRouter.put("/", async (req, res) => {
+
     try {
-        const { subchapterTitle, thumbnail, description, content } = req.body;
+        let { subchapterTitle, thumbnail, description, content } = req.body;
+        // console.log("********",thumbnail);
+        // upload image to cloudinary then get the url and save it to the database'
+        const result = await new Promise((resolve, reject) => {
+            cloudinary.uploader.upload(thumbnail, opts, async (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            })
+        }); 
+
+        thumbnail = result.secure_url;
+        // Save subchapter to database
         const newSubchapter = {
             subchapterTitle,
             thumbnail,
             description,
             content
         }
-
+        console.log("********",newSubchapter);        
         const chapterId = req.chapterId;
         const chapter = await Chapter.findByIdAndUpdate(
             { _id: chapterId },
