@@ -9,8 +9,8 @@ const Bookmarks = ({ searchInput }) => {
     const [subchapters, setSubchapters] = useState([]);
     const [unbookmark, setUnbookmark] = useState(false);
 
-    const BASE_URL = process.env.API_URL
-    const USER_ID = process.env.USER_ID
+    const BASE_URL = import.meta.env.VITE_API_URL
+    const USER_ID = import.meta.env.VITE_USER_ID
     // retrieve the unbookmark status from bookmark card component
     const isUnbookmarked = (unbookmark) => {
         setUnbookmark(unbookmark)

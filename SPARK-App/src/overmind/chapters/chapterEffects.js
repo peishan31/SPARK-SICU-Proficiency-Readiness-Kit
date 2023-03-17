@@ -1,6 +1,7 @@
 import axios from 'axios';
-const BASE_URL = process.env.API_URL
-const USER_ID = process.env.USER_ID
+
+const BASE_URL = import.meta.env.VITE_API_URL
+const USER_ID = import.meta.env.VITE_USER_ID
 
 export const getAllChapters = async () => {
     const API_URL = BASE_URL+`/chapters`
@@ -10,7 +11,7 @@ export const getAllChapters = async () => {
             const foundChapters = response.data
             return foundChapters
         }
-    } catch (err) {
+    } catch (err) { 
         console.log("HERE ERROR: ", err)
         if (err.response.status === 400) {
             alert("Request Error")
