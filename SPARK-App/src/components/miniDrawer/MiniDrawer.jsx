@@ -243,7 +243,7 @@ export default function MiniDrawer() {
     
                     <React.Fragment>
                     {
-                    ["/Bookmarks", "/Chapters/"+localStorage.getItem("currentChapterId")+"/subchapters"].includes(path) ? 
+                    ["/Bookmarks", "/Chapters", "/Chapters/"+sessionStorage.getItem("currentChapterId")+"/subchapters"].includes(path) ? 
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />

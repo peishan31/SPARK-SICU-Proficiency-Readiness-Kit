@@ -34,6 +34,8 @@ const Chapters = () => {
         }
     }, [])
 
+    console.log("here", chapterState.chapterlist)
+
 
     return (
         <Box pt={5} pl={5} >
