@@ -7,6 +7,7 @@ import "./subchapterContent.css";
 import { Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import DOMPurify from 'dompurify'; // Sanitizes HTML;  a tool that removes any potentially malicious code from HTML text;
 
 const SubchapterContent = () => {
     const location = useLocation();
@@ -120,7 +121,7 @@ const SubchapterContent = () => {
                     </div>
                 </div>
                 <div className="subchapterContentBottom">
-                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: subchapter.content}}>
+                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(subchapter.content)}}>
                     </div>
                 </div>
             </div>

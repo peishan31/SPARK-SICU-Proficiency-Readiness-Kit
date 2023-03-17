@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Box, TextField, MenuItem, Grid, Input, CircularProgress } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import DOMPurify from 'dompurify';
 import './home.css';
 import './CreateSubchapter.css';
 
@@ -33,7 +34,7 @@ export default function CreateSubchapter() {
     const editorRef = useRef(null);
 
     async function addSubchapter() {
-        
+        console.log(DOMPurify.sanitize(editorRef.current.getContent()));
         setLoading(true);
         await axios.put(
             BASE_URL + '/chapters/' + chapSelected + '/subchapters/',
@@ -41,7 +42,7 @@ export default function CreateSubchapter() {
                 subchapterTitle: subchapTitle,
                 thumbnail: base64Thumbnail,
                 description: subchapDesc,
-                content: editorRef.current.getContent(),
+                content: DOMPurify.sanitize(editorRef.current.getContent()),
             })
         .then(() => {
             setLoading(false);

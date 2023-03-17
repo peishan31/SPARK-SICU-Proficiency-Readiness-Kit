@@ -80,7 +80,7 @@ function Login() {
                     }}>Login</StyledButton>
                 </div>
                 <div className="loginRight">
-                    <img className="sideImage" src="../../../assets/login.png"/>
+                    <img className="sideImage" src="https://res.cloudinary.com/dckx3nboq/image/upload/v1679081658/login_nyxkcx.png"/>
                 </div>
             </div>
         </div>
