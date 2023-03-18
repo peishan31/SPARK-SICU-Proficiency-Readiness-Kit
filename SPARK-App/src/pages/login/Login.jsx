@@ -23,7 +23,6 @@ function Login() {
             withCredentials: true
         })
         .then(res => {
-            console.log(res.data)
             userActions.updateUser(res.data)
         })
         .catch(err => {

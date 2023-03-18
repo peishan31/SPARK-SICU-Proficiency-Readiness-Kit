@@ -257,12 +257,8 @@ export default function MiniDrawer() {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-
-                            {
-                                userState.currentUser.picture ?
-                                <img className="profilePicture" src={userState.currentUser.picture} alt="profilePic"></img> :
-                                <AccountCircle />
-                            }
+                        
+                        <img className="profilePicture" src={userState.currentUser.picture}></img>
                             
                         </IconButton>
                     </Box>

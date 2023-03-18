@@ -69,6 +69,34 @@ userRouter.post('/login', (req,res)=>{
     );
 })
 
+// // @description: Update userType for a user
+// userRouter.put('/update/:userId', (req,res)=>{
+//   const userId = req.params.id;
+
+//   async function updateUserType(userId, userType) {
+//     try {
+//       const updatedUser = await User.findOneAndUpdate(
+//         { googleId: req.userId }, 
+//         { userType: req.userType }, 
+//         { new: true }
+//       );
+
+//       return updatedUser;
+    
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
+
+//   updateUserType(userId, req.userType)
+//   .then(user => {
+//       res.send(user);
+//   })
+//   .catch (
+//     console.error
+//   )
+
+// })
 
 // // @description: Create user
 // // @route POST user/register
