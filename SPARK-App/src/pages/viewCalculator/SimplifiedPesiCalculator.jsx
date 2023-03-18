@@ -33,16 +33,13 @@ const SimplifiedPesi = () => {
             <div style={{marginLeft:'10%', marginRight:'10%'}}>
             <form onSubmit={handleSubmit}>
                 <Box sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <Typography>
                                     Age, years
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive>
                                     <ToggleButton value="">
                                         ≤80
@@ -51,20 +48,16 @@ const SimplifiedPesi = () => {
                                         &gt;80
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <Typography>
                                     History of cancer
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive>
                                     <ToggleButton value="">
                                         Yes
@@ -73,20 +66,16 @@ const SimplifiedPesi = () => {
                                         No
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <Typography>
                                     History of chronic cardiopulmonary disease
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive>
                                     <ToggleButton value="">
                                         Yes
@@ -95,20 +84,16 @@ const SimplifiedPesi = () => {
                                         No
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <Typography>
                                     Heart rate, bpm
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive>
                                     <ToggleButton value="">
                                         &lt;110
@@ -117,20 +102,16 @@ const SimplifiedPesi = () => {
                                         ≥110
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <Typography>
                                     Systolic BP, mmHg
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive>
                                     <ToggleButton value="">
                                         ≥100
@@ -139,20 +120,16 @@ const SimplifiedPesi = () => {
                                         &lt;100
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <Typography>
                                     O₂ saturation
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive>
                                     <ToggleButton value="">
                                         ≥90%
@@ -161,16 +138,12 @@ const SimplifiedPesi = () => {
                                         &lt;90%
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
                     <div>
-                        <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
+                        <Button variant="contained" sx={{mt: 2}} color="primary" type="submit">
                             Reset
-                        </Button>
-                        <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
-                            Calculate
                         </Button>
                     </div>
                 </Box>

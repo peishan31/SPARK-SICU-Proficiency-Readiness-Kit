@@ -12,13 +12,6 @@ import CalcResultCard from '../../components/calculator/CalcResultCard';
 
 const ApacheIIScore = () => {
 
-
-    const Item = styled(Paper)(({ theme }) => ({
-        padding: theme.spacing(1),
-        textAlign: 'left',
-        boxShadow: 'none',
-    }));
-
     //forms input state
 
     const [acuteRenalFailure, setAcuteRenalFailure] = useState('');
@@ -51,6 +44,17 @@ const ApacheIIScore = () => {
 
     const handleAcuteRenalFailure = (event, newAcuteRenalFailureValue) => {
         setAcuteRenalFailure(newAcuteRenalFailureValue);
+    };
+
+    // Handle min and max for number type textfield
+    const [number, setNumber] = useState('');
+    const min = 0;
+    const max = 10;
+    const validateNumber = (e) => {
+        var number = parseInt(e.target.value, 10);
+        if (number > max) number = max;
+        if (number < min) number = min;
+        setNumber(number);
     };
 
     const handleSubmit = async (event) => {
@@ -99,182 +103,134 @@ const ApacheIIScore = () => {
 
                 </Box> */}
                 <Box sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Age
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="Years" variant="outlined" name="age"/>
-                            </Item>
+                                <TextField
+                                    label="Years" type="number" value={number}
+                                    onChange={validateNumber} variant="outlined" name="age"
+                                />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Temperature
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="°C" variant="outlined" name="temperature"/>
+                                <TextField label="°C" type="number" variant="outlined" name="temperature"/>
                                 {/* <Button variant="outlined" sx={{ml: 1, fontSize: 25}}>&#128177;</Button> */}
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Mean arterial pressure
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="mm Hg" variant="outlined" name="meanArterialPressure" />
-                            </Item>
+                                <TextField label="mm Hg" type="number" variant="outlined" name="meanArterialPressure" />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     pH
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="pH" variant="outlined" name="pH"/>
-                            </Item>
+                                <TextField label="pH" type="number" variant="outlined" name="pH"/>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Heart rate/pulse
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="beats/min" variant="outlined" name="heartRate" />
-                            </Item>
+                                <TextField label="beats/min" type="number" variant="outlined" name="heartRate" />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Respiratory rate
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="breaths/min" variant="outlined" name="respiratoryRate" />
-                            </Item>
+                                <TextField label="breaths/min" type="number" variant="outlined" name="respiratoryRate" />
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Sodium
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="mmol/L" variant="outlined"  name="sodium" />
-                            </Item>
+                                <TextField label="mmol/L" type="number" variant="outlined"  name="sodium" />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Potassium
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="mmol/L" variant="outlined" name="potassium" />
-                            </Item>
+                                <TextField label="mmol/L" type="number" variant="outlined" name="potassium" />
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Creatinine
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="µmol/L" variant="outlined"  name="creatinine" />
-                            </Item>
+                                <TextField label="µmol/L" type="number" variant="outlined"  name="creatinine" />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Hematocrit
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="%" variant="outlined"  name="hematocrit" />
-                            </Item>
+                                <TextField label="%" type="number" variant="outlined"  name="hematocrit" />
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     White blood cell count
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="× 10⁹ cells/L" variant="outlined"  name="whiteBloodCount"/>
-                            </Item>
+                                <TextField label="× 10⁹ cells/L" type="number" variant="outlined"  name="whiteBloodCount"/>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Glasgow Coma Scale
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="points" variant="outlined" name="gcs" />
-                            </Item>
+                                <TextField label="points" type="number" variant="outlined" name="gcs" />
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     History of severe organ failure or immunocompromise
                                 </Typography>
-                                <Typography variant="caption">
+                                <Typography variant="caption" align='left'>
                                     Heart Failure Class IV, cirrhosis, chronic lung disease, or dialysis-dependent
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive value={history} onChange={handleHistory}>
                                     <ToggleButton value="yes">
                                         Yes
@@ -283,20 +239,16 @@ const ApacheIIScore = () => {
                                         No
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                         </Grid>
                     <Divider></Divider>
-                    <Grid id="surgeryType" container spacing={2} justifyContent="center" alignItems="center" style={{display:'none'}}>
+                    <Grid id="surgeryType" container spacing={2} my={1} justifyContent="center" alignItems="center" style={{display:'none'}}>
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Type of surgery
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive>
                                     <ToggleButton value="">
                                         Emergency
@@ -308,20 +260,16 @@ const ApacheIIScore = () => {
                                         Nonoperative
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center" >
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center" >
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Acute renal failure
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive value={acuteRenalFailure} onChange={handleAcuteRenalFailure}>
                                     <ToggleButton value="yes">
                                         Yes
@@ -330,20 +278,16 @@ const ApacheIIScore = () => {
                                         No
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     FiO₂
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive value={fiOxygen} onChange={handleChange}>
                                     <ToggleButton value="lessThan">
                                         &lt;50% (or non-intubated)
@@ -352,20 +296,16 @@ const ApacheIIScore = () => {
                                         ≥50%
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid id="paOxygen" container spacing={2} justifyContent="center" alignItems="center" style={{display:'none'}}>
+                    <Grid id="paOxygen" container spacing={2} my={1} justifyContent="center" alignItems="center" style={{display:'none'}}>
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     PaO₂, mmHg
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup exclusive>
                                     <ToggleButton value="">
                                         &gt; 70
@@ -380,20 +320,16 @@ const ApacheIIScore = () => {
                                         &lt; 55
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid id="aaGradient" container spacing={2} justifyContent="center" alignItems="center" style={{display:'none'}}>
+                    <Grid id="aaGradient" container spacing={2} my={1} justifyContent="center" alignItems="center" style={{display:'none'}}>
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     A-a gradient
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup exclusive>
                                     <ToggleButton value="">
                                         &lt; 200
@@ -408,16 +344,12 @@ const ApacheIIScore = () => {
                                         &gt; 499
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
                     <div>
-                        <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
+                        <Button variant="contained" sx={{mt: 2}} color="primary" type="submit">
                             Reset
-                        </Button>
-                        <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
-                            Calculate
                         </Button>
                     </div>
                 </Box>

@@ -51,9 +51,9 @@ function Tab1Content(props){
         <div style={{marginLeft:'10%', marginRight:'10%'}}>
             <form>
                 <Box sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={4} mb={3} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography>
+                            <Typography align='left'>
                                 SpO₂
                             </Typography>
                         </Grid>
@@ -61,7 +61,7 @@ function Tab1Content(props){
                             <TextField label="%" type="number" variant="outlined" name="spo" value={formData.spo} onChange={handleInputChange}/>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography>
+                            <Typography align='left'>
                                 FiO₂
                             </Typography>
                         </Grid>
@@ -70,9 +70,9 @@ function Tab1Content(props){
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="left" alignItems="center">
+                    <Grid container spacing={2} mb={3} justifyContent="left" alignItems="center">
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography>
+                            <Typography align='left'>
                                 Respiratory rate
                             </Typography>
                         </Grid>
@@ -81,7 +81,7 @@ function Tab1Content(props){
                         </Grid>
                     </Grid>
                     <div>
-                        <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
+                        <Button variant="contained" sx={{mt: 2}} color="primary" type="submit">
                             Reset
                         </Button>
                         {/* <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
