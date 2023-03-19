@@ -6,6 +6,7 @@ import roxIndexRouter from '../routes/roxIndexRouter.js';
 import sofaScoreRouter from '../routes/sofaScoreRouter.js';
 import candidaScoreRouter from '../routes/candidaScoreRouter.js';
 import parklandFormulaRouter from '../routes/parklandFormulaRouter.js';
+import camIcuRouter from '../routes/camIcuRouter.js';
 
 // @description: Get health status of chapter route
 // @route GET calculator/health
@@ -48,6 +49,11 @@ calculatorRouter.use("/candida-score", (req, res, next) => {
 calculatorRouter.use("/parkland-formula", (req, res, next) => {
     next();
 }, parklandFormulaRouter);
+
+// link to CAM-ICU route
+calculatorRouter.use("/cam-icu", (req, res, next) => {
+    next();
+}, camIcuRouter);
 
 
 export default calculatorRouter;

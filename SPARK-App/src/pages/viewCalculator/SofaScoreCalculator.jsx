@@ -143,9 +143,9 @@ const SofaScore = () => {
                                 <Typography align='left'>
                                     Glasgow Coma Scale
                                 </Typography>
-                                {/* <Typography variant="caption">
+                                <Typography align='left' variant='caption' display="block">
                                     If on sedatives, estimate assumed GCS off sedatives
-                                </Typography> */}
+                                </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                                 <ToggleButtonGroup color="primary" exclusive value={glasgowComaScale} onChange={handleGlasgowComaScale}>
@@ -200,9 +200,9 @@ const SofaScore = () => {
                                 <Typography align='left'>
                                     Mean arterial pressure OR administration of vasoactive agents required
                                 </Typography>
-                                {/* <Typography variant="caption">
+                                <Typography align='left' variant='caption' display="block">
                                     Listed doses are in units of mcg/kg/min
-                                </Typography> */}
+                                </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                                 <ToggleButtonGroup color="primary" exclusive orientation="vertical" value={meanArterialPressure} onChange={handleMeanArterialPressure}>
