@@ -18,7 +18,27 @@ const CandidaScore = () => {
     const handleSubmit = (event) => {
         // event.preventDefault();
         // console.log(formValues);
-      };
+    };
+
+    const [severeSepsis, setSevereSepsis] = useState('');
+    const handleSevereSepsis = (event, newSevereSepsis) => {
+        setSevereSepsis(newSevereSepsis);
+    };
+
+    const [parenteralNutrition, setParenteralNutrition] = useState('');
+    const handleParenteralNutrition = (event, newParenteralNutrition) => {
+        setParenteralNutrition(newParenteralNutrition);
+    };
+
+    const [initialSurgery, setInitialSurgery] = useState('');
+    const handleInitialSurgery = (event, newInitialSurgery) => {
+        setInitialSurgery(newInitialSurgery);
+    };
+
+    const [colonization, setColonization] = useState('');
+    const handleColonization = (event, newColonization) => {
+        setColonization(newColonization);
+    };
 
     const tabs = [
         {
@@ -34,7 +54,7 @@ const CandidaScore = () => {
                                 </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive>
+                                <ToggleButtonGroup color="primary" exclusive value={severeSepsis} onChange={handleSevereSepsis}>
                                     <ToggleButton value="yes">
                                         Yes
                                     </ToggleButton>
@@ -52,7 +72,7 @@ const CandidaScore = () => {
                                 </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive>
+                                <ToggleButtonGroup color="primary" exclusive value={parenteralNutrition} onChange={handleParenteralNutrition}>
                                     <ToggleButton value="yes">
                                         Yes
                                     </ToggleButton>
@@ -70,7 +90,7 @@ const CandidaScore = () => {
                                 </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive>
+                                <ToggleButtonGroup color="primary" exclusive value={initialSurgery} onChange={handleInitialSurgery}>
                                     <ToggleButton value="yes">
                                         Yes
                                     </ToggleButton>
@@ -88,7 +108,7 @@ const CandidaScore = () => {
                                 </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive>
+                                <ToggleButtonGroup color="primary" exclusive value={colonization} onChange={handleColonization}>
                                     <ToggleButton value="yes">
                                         Yes
                                     </ToggleButton>
