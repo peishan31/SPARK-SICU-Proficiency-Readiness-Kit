@@ -13,6 +13,14 @@ function Tab1Content(props){
 
     const {formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
 
+    const handleResetForm = (e) => {
+        const initialFormData = {
+            weight: "",
+            bodyBurnPercentage: ""
+        };
+        setFormData(initialFormData);
+    }
+
     const handleInputChange = async (e) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
@@ -81,7 +89,7 @@ function Tab1Content(props){
                         </Grid>
                     </Grid>
                     <div>
-                        <Button variant="contained" sx={{mt: 2}} color="primary" type="submit">
+                        <Button variant="contained" sx={{mt: 2}} color="primary" type="submit" onClick="{handleResetForm}"> 
                             Reset
                         </Button>
                         {/* <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
@@ -102,9 +110,37 @@ function Tab2Content(props){
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2} justifyContent="center" alignItems="center">
-        
-       
-            </Grid> 
+                <Grid item xs={12}>
+                    <p pb={2}>Formula </p>
+                    <p>ROX Index = SpO₂/FiO₂*, % / Respiratory rate, breaths/min</p>
+                </Grid>
+                <Grid item xs={12}>Results</Grid>
+                
+                <Grid item xs={3}>
+                    <strong>ROX Index</strong>
+                </Grid>
+                <Grid item xs={9}>
+                    <strong>Interpretation</strong>
+                </Grid>
+                <Grid item xs={3}>
+                    ≥4.88
+                </Grid>
+                <Grid item xs={9}>
+                    ROX Index ≥4.88 measured at 2, 6, or 12 hours after high-flow nasal cannula (HFNC) initiation is associated with a lower risk for intubation
+                </Grid>
+                <Grid item xs={3}>
+                    {'<'}3.85
+                </Grid>
+                <Grid item xs={9}>
+                    For a ROX Index {'<'}3.85, risk of HFNC failure is high, and intubating the patient should be discussed. 
+                </Grid>
+                <Grid item xs={3}>
+                3.85 to {'<'}4.88
+                </Grid>
+                <Grid item xs={9}>
+                If ROX Index 3.85 to {'<'}4.88, the scoring could be repeated one or two hours later for further evaluation.
+                </Grid>
+            </Grid>
         </Box>
     )
 }
