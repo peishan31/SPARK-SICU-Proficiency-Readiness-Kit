@@ -5,10 +5,21 @@ const calculateSimplifiedPESI = async (data) => {
     return response;
 };
 
+const calculateCandidaScore = async (data) => {
+    const response = await axios.post(`http://localhost:8080/calculator/candida-score/`, data);
+    return response;
+};
+
+const calculateParklandBurn = async (data) => {
+    const response = await axios.post(`http://localhost:8080/calculator/parkland-formula`, data);
+    return response;
+};
+
 const calculateRoxIndex = async (data) => {
     const response = await axios.post(`http://localhost:8080/calculator/rox-index/`, data);
     return response;
 };
+
 describe("Testing Calculate Simplified PESI Score by simplified pesi route", () => {
     it ("should return result as low risk with 0 points", async () => {
         const expectedResult = {
@@ -46,6 +57,94 @@ describe("Testing Calculate Simplified PESI Score by simplified pesi route", () 
                 "heartrate": "≥110",
                 "systolicBp": "<100",
                 "oxygenSaturation": "<90"
+            });
+        expect(res.data).toEqual(expectedResult);
+    })
+})
+
+describe("Testing Calculate Candida Score by candida score route", () => {
+    it ("should return result as 2 points", async () => {
+        const expectedResult = {
+            "pointAllocated": 2,
+            "result": {
+                "interpretation": "2.3% Risk of invasive candidiasis without treatment"
+            }
+        };
+        const res = await calculateCandidaScore(
+            {
+                "severeSepsis": 0,
+                "totalParenteralNutrition": 1,
+                "initialSurgery": 0,
+                "multifocalCandidaColonization": 1
+            });
+        expect(res.data).toEqual(expectedResult);
+    })
+
+    it ("should return result as 3 points", async () => {
+        const expectedResult = {
+            "pointAllocated": 3,
+            "result": {
+                "interpretation": "8.5% Risk of invasive candidiasis without treatment"
+            }
+        };
+        const res = await calculateCandidaScore(
+            {
+                "severeSepsis": 0,
+                "totalParenteralNutrition": 1,
+                "initialSurgery": 1,
+                "multifocalCandidaColonization": 1
+            });
+        expect(res.data).toEqual(expectedResult);
+    })
+
+    it ("should return result as 4 points", async () => {
+        const expectedResult = {
+            "pointAllocated": 4,
+            "result": {
+                "interpretation": "16.8% Risk of invasive candidiasis without treatment"
+            }
+        };
+        const res = await calculateCandidaScore(
+            {
+                "severeSepsis": 2,
+                "totalParenteralNutrition": 0,
+                "initialSurgery": 1,
+                "multifocalCandidaColonization": 1
+            });
+        expect(res.data).toEqual(expectedResult);
+    })
+
+    it ("should return result as 5 points", async () => {
+        const expectedResult = {
+            "pointAllocated": 5,
+            "result": {
+                "interpretation": "23.6% Risk of invasive candidiasis without treatment"
+            }
+        };
+        const res = await calculateCandidaScore(
+            {
+                "severeSepsis": 2,
+                "totalParenteralNutrition": 1,
+                "initialSurgery": 1,
+                "multifocalCandidaColonization": 1
+            });
+        expect(res.data).toEqual(expectedResult);
+    })
+})
+
+describe("Testing Calculate Parkland Burn Score by parkland formula route", () => {
+    it ("should return result as totalFluid = 3.7 and halfFluid = 1.8", async () => {
+        const expectedResult = {
+            "totalFluid": 3.7,
+            "halfFluid": 1.8,
+            "result": {
+                "interpretation": "3.7L Fluid requirements for the 1st 24 hours from time of burn; 1.8L Fluid requirements for the 1st 8 hours (1/2 of Total) from time of burn"
+            }
+        };
+        const res = await calculateParklandBurn(
+            {
+                "weight": 54,
+                "bodyBurnPercentage": 17
             });
         expect(res.data).toEqual(expectedResult);
     })

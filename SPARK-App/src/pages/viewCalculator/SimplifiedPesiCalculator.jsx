@@ -31,12 +31,11 @@ function Tab1Content(props){
           }));
         // Check if all fields are entered
         
-        const formValues = Object.values({ ...formData, [name]: value });console.log(formValues)
+        const formValues = Object.values({ ...formData, [name]: value });
         if (formValues.some((value) => value === '' || value === undefined)) {
             setPointAllocated(0);
             setInterpretation("Please enter the required values in the respective fields to perform the calculations.")
         }else{
-            console.log("entered")
             await axios.post(`http://localhost:8080/calculator/simplified-pesi/`,
                 {
                     "age": formValues[0],
