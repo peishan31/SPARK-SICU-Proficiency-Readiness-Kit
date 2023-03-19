@@ -308,7 +308,7 @@ const ApacheIIScore = () => {
                                 <Typography align='left'>
                                     History of severe organ failure or immunocompromise
                                 </Typography>
-                                <Typography variant="caption" align='left'>
+                                <Typography align='left' variant='caption' display="block">
                                     Heart Failure Class IV, cirrhosis, chronic lung disease, or dialysis-dependent
                                 </Typography>
                         </Grid>
@@ -349,6 +349,9 @@ const ApacheIIScore = () => {
                         <Grid item xs={12} sm={6}>
                                 <Typography align='left'>
                                     Acute renal failure
+                                </Typography>
+                                <Typography align='left' variant='caption' display="block">
+                                    Note: "acute renal failure" was not defined in the original study. Use clinical judgment to determine whether patient has acute kidney injury.
                                 </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>

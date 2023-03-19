@@ -41,6 +41,7 @@ import RoxIndex from '../../pages/viewCalculator/RoxIndexCalculator'
 import SofaScore from '../../pages/viewCalculator/SofaScoreCalculator'
 import CandidaScore from '../../pages/viewCalculator/CandidaScoreCalculator'
 import ParklandFormula from '../../pages/viewCalculator/ParklandFormulaCalculator'
+import CamIcu from '../../pages/viewCalculator/CamIcuCalculator'
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -335,6 +336,7 @@ export default function MiniDrawer() {
                     <Route path="/Calculators/sofa-score" element={<SofaScore/>}/>
                     <Route path="/Calculators/candida-score" element={<CandidaScore/>}/>
                     <Route path="/Calculators/parkland-formula" element={<ParklandFormula/>}/>
+                    <Route path="/Calculators/cam-icu" element={<CamIcu/>}/>
                 </Routes>
 
             </Box>

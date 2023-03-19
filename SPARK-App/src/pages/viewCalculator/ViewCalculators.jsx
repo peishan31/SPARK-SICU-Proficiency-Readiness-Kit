@@ -10,7 +10,8 @@ const ViewCalculators = () => {
     {
       name: "Confusion Assessment Method for the ICU (CAM-ICU)",
       description: "For detection of delirium in the ICU",
-      link: "https://www.mdcalc.com/calc/1870/confusion-assessment-method-icu-cam-icu"
+      link: "calculators/cam-icu"
+      // link: "https://www.mdcalc.com/calc/1870/confusion-assessment-method-icu-cam-icu"
     }, 
     {
       name: "Simplified PESI (Pulmonary Embolism Severity Index)",
