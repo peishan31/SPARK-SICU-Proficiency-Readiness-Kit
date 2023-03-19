@@ -23,8 +23,7 @@ function App() {
       <div className="App">
         {
           // if logged in or localstorage is not null then render mini drawer
-          userState.currentUser ? <MiniDrawer/> : <Login/>
-
+          <MiniDrawer/> 
         }
         {/* if not logged in or localstorage is null then don't render mini drawer */}
         {/* <MiniDrawer/> */}
