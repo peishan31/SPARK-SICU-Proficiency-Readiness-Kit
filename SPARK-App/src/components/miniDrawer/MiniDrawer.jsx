@@ -258,7 +258,7 @@ export default function MiniDrawer() {
                             color="inherit"
                         >
                         
-                        <img className="profilePicture" src={userState.currentUser.picture}></img>
+                        <img referrerPolicy="no-referrer" className="profilePicture" src={userState.currentUser.picture}></img>
                             
                         </IconButton>
                     </Box>

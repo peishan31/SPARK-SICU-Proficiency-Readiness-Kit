@@ -24,13 +24,12 @@ const Subchapters = ({ searchInput }) => {
     const [subchapters, setSubchapters] = useState([]);
 
     const BASE_URL = import.meta.env.VITE_API_URL
-    const USER_ID = import.meta.env.VITE_USER_ID
     
 
     useEffect(() => {
         
         // get all subchapters
-        axios.get(BASE_URL + `/user/` + USER_ID + `/bookmarks/chapters/${chapterId}`)
+        axios.get(BASE_URL + `/user/` + userId + `/bookmarks/chapters/${chapterId}`)
             .then(res => {
                 console.log(res.data[1].subchapters)
                 setSubchapters(res.data[1].subchapters)

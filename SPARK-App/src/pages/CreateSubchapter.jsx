@@ -14,7 +14,6 @@ export default function CreateSubchapter() {
     const [chaps, setChaps] = useState([]);
 
     const BASE_URL = import.meta.env.VITE_API_URL
-    const USER_ID = import.meta.env.VITE_USER_ID
 
     useEffect(() => {
         const fetchData = async () => {
