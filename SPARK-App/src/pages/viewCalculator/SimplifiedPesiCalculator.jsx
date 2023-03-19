@@ -36,7 +36,6 @@ function Tab1Content(props){
             setPointAllocated(0);
             setInterpretation("Please enter the required values in the respective fields to perform the calculations.")
         }else{
-            console.log("entered")
             await axios.post(`http://localhost:8080/calculator/simplified-pesi/`,
                 {
                     "age": formValues[0],
