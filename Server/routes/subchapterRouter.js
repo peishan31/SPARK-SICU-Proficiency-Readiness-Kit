@@ -84,18 +84,20 @@ subchapterRouter.put("/", async (req, res) => {
 
     try {
         let { subchapterTitle, thumbnail, description, content } = req.body;
-        // console.log("********",thumbnail);
-        // upload image to cloudinary then get the url and save it to the database'
+        // upload image to cloudinary then get the url and save it to the database
         const result = await new Promise((resolve, reject) => {
             cloudinary.uploader.upload(thumbnail, opts, async (err, result) => {
                 if (err) {
-                    reject(err);
+                    reject(false);
                 } else {
                     resolve(result);
                 }
             })
         }); 
         console.log("********",result);
+        if (result == false)  {
+            return res.status(500).json({ msg: 'Error uploading image to cloudinary' });
+        }
         thumbnail = result.secure_url;
         const thumbnailPublicId = result.public_id;
         // Save subchapter to database
@@ -112,10 +114,10 @@ subchapterRouter.put("/", async (req, res) => {
             { _id: chapterId },
             { $push: { subchapters: newSubchapter } },
         );
-        res.status(200).json(chapter)
+        return res.status(200).json(chapter)
     } catch (err) {
         console.error(err.message)
-        res.status(500).send('Server Error')
+        return res.status(500).send('Server Error')
     }
 });
 
@@ -129,12 +131,13 @@ subchapterRouter.delete("/:subchapterId", async (req, res) => {
         // Get the public ID of the image to delete from the request parameters to delete image from cloudinary
         let chapter = await Chapter.findById(chapterId);
         const publicId = chapter.subchapters.find(subchapter => subchapter._id == subchapterId).thumbnailPublicId;
-        
-        // Delete the image from Cloudinary
-        const deleteResult = await cloudinary.uploader.destroy(publicId);
-    
-        // Return a success response
-        console.log(deleteResult); // TODO: Do a validation for this response
+        // TODO: delete this. Temp solution
+        if (publicId != undefined) {
+            // Delete the image from Cloudinary
+            const deleteResult = await cloudinary.uploader.destroy(publicId);
+            // Return a success response
+            console.log(deleteResult); // TODO: Do a validation for this response
+        }
         chapter = await Chapter.findByIdAndUpdate(
             { _id: chapterId },
             { $pull: { subchapters: { _id: subchapterId } } },
