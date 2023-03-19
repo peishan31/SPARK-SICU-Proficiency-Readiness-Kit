@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
 import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
 import { useAppState, useActions } from '../overmind'
@@ -43,7 +44,19 @@ const Chapters = () => {
             {console.log("here", chapterState)}
             {
                 !chapterState.chapterlist || chapterState.chapterlist.length === 0 ? ( 
-                <div>Loading...</div>) : (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '200px',
+                            margin: '0 auto',
+                        }}
+                    >
+                        <CircularProgress color='info' size={40} thickness={4} />
+                    </Box>
+                )
+                : (
                     <Grid container spacing={3}>
                         {
                             chapterState.chapterlist.map((chapter) => {
