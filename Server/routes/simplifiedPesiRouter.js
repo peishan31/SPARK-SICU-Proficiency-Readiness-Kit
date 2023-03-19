@@ -17,9 +17,9 @@ simplifiedPesiRouter.get("/health", async (req, res) => {
 });
 
 // @description: Calculate Simplified PESI Score
-// @route GET calculator/simplified-pesi/
+// @route POST calculator/simplified-pesi/
 // Working!
-simplifiedPesiRouter.get("/", async (req, res) => {
+simplifiedPesiRouter.post("/", async (req, res) => {
     console.log(`Calculating simplifed PESI score...`)
     try {
         const { age, cancerHistory, chronicCardiopulmonaryHistory, heartrate, systolicBp, oxygenSaturation } = req.body;
@@ -27,7 +27,7 @@ simplifiedPesiRouter.get("/", async (req, res) => {
         var pointAllocated = 0;
 
         //calculations for age 
-        if (age > 80){
+        if (age == ">80"){
             pointAllocated += 1;
         }
 
@@ -42,17 +42,17 @@ simplifiedPesiRouter.get("/", async (req, res) => {
         }
 
         //calculations for heart rate
-        if (heartrate >= 110){
+        if (heartrate == "≥110"){
             pointAllocated += 1;
         }
 
         //calculations for systolic BP (mmHG)
-        if (systolicBp < 100){
+        if (systolicBp == "<100"){
             pointAllocated += 1;
         }
 
         //calculations for oxygen saturation
-        if (oxygenSaturation < 90){
+        if (oxygenSaturation == "<90"){
             pointAllocated += 1;
         }
 
