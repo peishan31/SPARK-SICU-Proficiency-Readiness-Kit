@@ -19,12 +19,19 @@ const SofaScore = () => {
         // event.preventDefault();
         // console.log(formValues);
       };
-
-    const Item = styled(Paper)(({ theme }) => ({
-        padding: theme.spacing(1),
-        textAlign: 'left',
-        boxShadow: 'none',
-    }));
+    
+    // Handle units of measurement
+    // PaOxygen unit
+    const [paOxygenUnitStatus, setPaOxygenUnit] = useState(false);
+    var paOxygenUnit = 'kPa';
+    const convertPaOxygenUnit = (e) => {
+        setPaOxygenUnit(!paOxygenUnitStatus)
+    }
+    if(paOxygenUnitStatus == true){
+        paOxygenUnit = 'mm Hg';
+    }else{
+        paOxygenUnit = 'kPa'
+    }
 
     const tabs = [
         {
@@ -33,46 +40,36 @@ const SofaScore = () => {
             <div style={{marginLeft:'10%', marginRight:'10%'}}>
             <form onSubmit={handleSubmit}>
                 <Box sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     PaO₂
                                 </Typography>
-                            </Item>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
+                                <TextField label={paOxygenUnit} variant="outlined" name="age"/>
+                                <Button variant="outlined" onClick={convertPaOxygenUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <TextField label="mm Hg" variant="outlined" name="age"/>
-                            </Item>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     FiO₂
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Item>
                                 <TextField label="%" variant="outlined" name="temperature"/>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     On mechanical ventilation
                                 </Typography>
-                                <Typography variant="caption">
+                                {/* <Typography variant="caption">
                                     Including CPAP (Continuous positive airway pressure)
-                                </Typography>
-                            </Item>
+                                </Typography> */}
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive>
                                     <ToggleButton value="yes">
                                         Yes
@@ -81,20 +78,16 @@ const SofaScore = () => {
                                         No
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                         </Grid>
                     <Divider></Divider>
-                    <Grid id="surgeryType" container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid id="surgeryType" container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Platelets, ×10³/µL
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive>
                                     <ToggleButton value="">
                                         ≥150
@@ -112,23 +105,19 @@ const SofaScore = () => {
                                         &lt;20
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center" >
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="center" >
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Glasgow Coma Scale
                                 </Typography>
-                                <Typography variant="caption">
+                                {/* <Typography variant="caption">
                                     If on sedatives, estimate assumed GCS off sedatives
-                                </Typography>
-                            </Item>
+                                </Typography> */}
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive>
                                     <ToggleButton value="">
                                         15
@@ -146,20 +135,16 @@ const SofaScore = () => {
                                         &lt;6
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="baseline">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="baseline">
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Bilirubin, mg/dL (μmol/L)
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup color="primary" exclusive orientation="vertical">
                                     <ToggleButton value="">
                                         &lt;1.2  (&lt;20)
@@ -177,23 +162,19 @@ const SofaScore = () => {
                                         ≥12.0 (&gt;204)
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="baseline">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="baseline">
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Mean arterial pressure OR administration of vasoactive agents required
                                 </Typography>
-                                <Typography variant="caption">
+                                {/* <Typography variant="caption">
                                     Listed doses are in units of mcg/kg/min
-                                </Typography>
-                            </Item>
+                                </Typography> */}
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup exclusive orientation="vertical">
                                     <ToggleButton value="">
                                         No hypotension
@@ -211,20 +192,16 @@ const SofaScore = () => {
                                         DOPamine &gt;15, EPINEPHrine &gt;0.1, or norEPINEPHrine &gt;0.1
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid container spacing={2} justifyContent="center" alignItems="baseline">
+                    <Grid container spacing={2} my={1} justifyContent="center" alignItems="baseline">
                         <Grid item xs={12} sm={6}>
-                            <Item>
-                                <Typography>
+                                <Typography align='left'>
                                     Creatinine, mg/dL (μmol/L) (or urine output)
                                 </Typography>
-                            </Item>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Item>
                                 <ToggleButtonGroup exclusive orientation="vertical">
                                     <ToggleButton value="">
                                         &lt;1.2 (&lt;110)
@@ -242,16 +219,12 @@ const SofaScore = () => {
                                         ≥5.0 (&gt;440) or UOP &lt;200 mL/day
                                     </ToggleButton>
                                 </ToggleButtonGroup>
-                            </Item>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
                     <div>
                         <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
                             Reset
-                        </Button>
-                        <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
-                            Calculate
                         </Button>
                     </div>
                 </Box>

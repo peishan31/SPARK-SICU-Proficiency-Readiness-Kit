@@ -39,6 +39,8 @@ import ApacheIIScore from '../../pages/viewCalculator/viewApacheIIScoreCalculato
 import SimplifiedPesi from '../../pages/viewCalculator/SimplifiedPesiCalculator'
 import RoxIndex from '../../pages/viewCalculator/RoxIndexCalculator'
 import SofaScore from '../../pages/viewCalculator/SofaScoreCalculator'
+import CandidaScore from '../../pages/viewCalculator/CandidaScoreCalculator'
+import ParklandFormula from '../../pages/viewCalculator/ParklandFormulaCalculator'
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -331,6 +333,8 @@ export default function MiniDrawer() {
                     <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi/>}/>
                     <Route path="/Calculators/rox-index" element={<RoxIndex/>}/>
                     <Route path="/Calculators/sofa-score" element={<SofaScore/>}/>
+                    <Route path="/Calculators/candida-score" element={<CandidaScore/>}/>
+                    <Route path="/Calculators/parkland-formula" element={<ParklandFormula/>}/>
                 </Routes>
 
             </Box>

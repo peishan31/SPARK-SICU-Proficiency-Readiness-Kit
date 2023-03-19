@@ -20,12 +20,14 @@ const ViewCalculators = () => {
     {
       name: "Candida Score",
       description: "To determine the likelihood of invasive candidiasis vs colonization in non-neutropenic critically ill patients",
-      link: "https://www.pharmacyjoe.com/candida-score-calculator/"
+      link: "calculators/candida-score"
+      // link: "https://www.pharmacyjoe.com/candida-score-calculator/"
     }, 
     {
       name: "Parkland Formula for Burns",
       description: "Calculates fluid requirements for burn patients in a 24-hour period.",
-      link: "https://www.mdcalc.com/calc/83/parkland-formula-burns"
+      link: "calculators/parkland-formula"
+      // link: "https://www.mdcalc.com/calc/83/parkland-formula-burns"
     }, 
     {
       name: "ROX index",

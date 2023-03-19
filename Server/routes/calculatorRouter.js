@@ -4,6 +4,8 @@ import apacheIIScoreRouter from '../routes/apacheIIScoreRouter.js';
 import simplifiedPesiRouter from '../routes/simplifiedPesiRouter.js';
 import roxIndexRouter from '../routes/roxIndexRouter.js';
 import sofaScoreRouter from '../routes/sofaScoreRouter.js';
+import candidaScoreRouter from '../routes/candidaScoreRouter.js';
+import parklandFormulaRouter from '../routes/parklandFormulaRouter.js';
 
 // @description: Get health status of chapter route
 // @route GET calculator/health
@@ -36,6 +38,16 @@ calculatorRouter.use("/rox-index", (req, res, next) => {
 calculatorRouter.use("/sofa-score", (req, res, next) => {
     next();
 }, sofaScoreRouter);
+
+// link to candida score route
+calculatorRouter.use("/candida-score", (req, res, next) => {
+    next();
+}, candidaScoreRouter);
+
+// link to parkland formula route
+calculatorRouter.use("/parkland-formula", (req, res, next) => {
+    next();
+}, parklandFormulaRouter);
 
 
 export default calculatorRouter;

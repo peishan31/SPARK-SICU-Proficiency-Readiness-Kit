@@ -57,6 +57,67 @@ const ApacheIIScore = () => {
         setNumber(number);
     };
 
+    // Handle units of measurement
+    // Temperature unit
+    const [tempUnitStatus, setTempUnit] = useState(false);
+    var tempUnit = '°C';
+    const convertTempUnit = (e) => {
+        setTempUnit(!tempUnitStatus)
+    }
+    if(tempUnitStatus == true){
+        tempUnit = 'F';
+    }else{
+        tempUnit = '°C'
+    }
+    
+    // Sodium unit
+    const [sodiumUnitStatus, setSodiumUnit] = useState(false);
+    var sodiumUnit = 'mmol/L';
+    const convertSodiumUnit = (e) => {
+        setSodiumUnit(!sodiumUnitStatus)
+    }
+    if(sodiumUnitStatus == true){
+        sodiumUnit = 'mEq/L';
+    }else{
+        sodiumUnit = 'mmol/L'
+    }
+
+    // Potassium unit
+    const [potassiumUnitStatus, setPotassiumUnit] = useState(false);
+    var potassiumUnit = 'mmol/L';
+    const convertPotassiumUnit = (e) => {
+        setPotassiumUnit(!potassiumUnitStatus)
+    }
+    if(potassiumUnitStatus == true){
+        potassiumUnit = 'mEq/L';
+    }else{
+        potassiumUnit = 'mmol/L'
+    }
+
+    // Creatinine unit
+    const [creatinineUnitStatus, setCreatinineUnit] = useState(false);
+    var creatinineUnit = 'µmol/L';
+    const convertCreatinineUnit = (e) => {
+        setCreatinineUnit(!creatinineUnitStatus)
+    }
+    if(creatinineUnitStatus == true){
+        creatinineUnit = 'mg/dL';
+    }else{
+        creatinineUnit = 'µmol/L'
+    }
+
+    // White blood cell count unit
+    const [wbcCountUnitStatus, setWbcCountUnit] = useState(false);
+    var wbcCountUnit = '× 10⁹ cells/L';
+    const convertWbcCountUnit = (e) => {
+        setWbcCountUnit(!wbcCountUnitStatus)
+    }
+    if(wbcCountUnitStatus == true){
+        wbcCountUnit = '× 10³ cells/µL';
+    }else{
+        wbcCountUnit = '× 10⁹ cells/L'
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         await axios.post(
@@ -115,15 +176,17 @@ const ApacheIIScore = () => {
                                     onChange={validateNumber} variant="outlined" name="age"
                                 />
                         </Grid>
+                        {/* <Grid container justifyContent="center" alignItems="center"> */}
                         <Grid item xs={12} sm={6} md={3}>
                                 <Typography align='left'>
                                     Temperature
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                                <TextField label="°C" type="number" variant="outlined" name="temperature"/>
-                                {/* <Button variant="outlined" sx={{ml: 1, fontSize: 25}}>&#128177;</Button> */}
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
+                                <TextField label={tempUnit} type="number" variant="outlined" name="temperature"/>
+                                <Button variant="outlined" onClick={convertTempUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
                         </Grid>
+                        {/* </Grid> */}
                     </Grid>
                     <Divider></Divider>
                     <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
@@ -170,16 +233,18 @@ const ApacheIIScore = () => {
                                     Sodium
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                                <TextField label="mmol/L" type="number" variant="outlined"  name="sodium" />
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
+                                <TextField label={sodiumUnit} type="number" variant="outlined"  name="sodium" />
+                                <Button variant="outlined" onClick={convertSodiumUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                                 <Typography align='left'>
                                     Potassium
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                                <TextField label="mmol/L" type="number" variant="outlined" name="potassium" />
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
+                                <TextField label={potassiumUnit} type="number" variant="outlined" name="potassium" />
+                                <Button variant="outlined" onClick={convertPotassiumUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -189,8 +254,9 @@ const ApacheIIScore = () => {
                                     Creatinine
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                                <TextField label="µmol/L" type="number" variant="outlined"  name="creatinine" />
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
+                                <TextField label={creatinineUnit} type="number" variant="outlined"  name="creatinine" />
+                                <Button variant="outlined" onClick={convertCreatinineUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                                 <Typography align='left'>
@@ -208,8 +274,9 @@ const ApacheIIScore = () => {
                                     White blood cell count
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                                <TextField label="× 10⁹ cells/L" type="number" variant="outlined"  name="whiteBloodCount"/>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
+                                <TextField label={wbcCountUnit} type="number" variant="outlined"  name="whiteBloodCount"/>
+                                <Button variant="outlined" onClick={convertWbcCountUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                                 <Typography align='left'>
