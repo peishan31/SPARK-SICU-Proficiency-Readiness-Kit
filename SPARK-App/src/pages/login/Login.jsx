@@ -12,13 +12,14 @@ import { useActions, useAppState } from '../../overmind';
 function Login() {
 
     const userActions = useActions().user;
+    const API_URL = import.meta.env.VITE_API_URL;
     
     function handleCallbackResponse(response) {
         const data = {
             token: response.credential
         }
         
-        axios.post(`http://localhost:8080/user/login`, data,
+        axios.post(API_URL + `/user/login`, data,
         {
             withCredentials: true
         })
