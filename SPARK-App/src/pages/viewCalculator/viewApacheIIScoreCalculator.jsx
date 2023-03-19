@@ -17,6 +17,9 @@ const ApacheIIScore = () => {
     const [acuteRenalFailure, setAcuteRenalFailure] = useState('');
     const [fiOxygen, setFiOxygen] = useState('');
     const [history, setHistory] = useState('');
+    const [surgeryType, setSurgeryType] = useState('');
+    const [paOxygenValue, setPaOxygenValue] = useState('');
+    const [aaGradientValue, setAaGradientValue] = useState('');
 
     const handleChange = (e, newFiOxygen) => {
         setFiOxygen(newFiOxygen);
@@ -42,8 +45,20 @@ const ApacheIIScore = () => {
         }
     };
 
+    const handleSurgeryType = (event, newSurgeryType) => {
+        setSurgeryType(newSurgeryType);
+    };
+
     const handleAcuteRenalFailure = (event, newAcuteRenalFailureValue) => {
         setAcuteRenalFailure(newAcuteRenalFailureValue);
+    };
+    
+    const handlePaOxygenValue = (event, newPaOxygenValue) => {
+        setPaOxygenValue(newPaOxygenValue);
+    };
+
+    const handleAaGradientValue = (event, newAaGradientValue) => {
+        setAaGradientValue(newAaGradientValue);
     };
 
     // Handle min and max for number type textfield
@@ -316,14 +331,14 @@ const ApacheIIScore = () => {
                                 </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive>
-                                    <ToggleButton value="">
+                                <ToggleButtonGroup color="primary" exclusive value={surgeryType} onChange={handleSurgeryType}>
+                                    <ToggleButton value="emergency">
                                         Emergency
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="elective">
                                         Elective
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="nonoperative">
                                         Nonoperative
                                     </ToggleButton>
                                 </ToggleButtonGroup>
@@ -373,17 +388,17 @@ const ApacheIIScore = () => {
                                 </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup exclusive>
-                                    <ToggleButton value="">
+                                <ToggleButtonGroup color="primary" exclusive value={paOxygenValue} onChange={handlePaOxygenValue}>
+                                    <ToggleButton value="1">
                                         &gt; 70
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="2">
                                         61 - 70
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="3">
                                         55 - 60
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="4">
                                         &lt; 55
                                     </ToggleButton>
                                 </ToggleButtonGroup>
@@ -397,17 +412,17 @@ const ApacheIIScore = () => {
                                 </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup exclusive>
-                                    <ToggleButton value="">
+                                <ToggleButtonGroup color="primary" exclusive value={aaGradientValue} onChange={handleAaGradientValue}>
+                                    <ToggleButton value="1">
                                         &lt; 200
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="2">
                                         200 - 349
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="3">
                                         350 - 499
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="4">
                                         &gt; 499
                                     </ToggleButton>
                                 </ToggleButtonGroup>

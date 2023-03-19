@@ -18,7 +18,37 @@ const SofaScore = () => {
     const handleSubmit = (event) => {
         // event.preventDefault();
         // console.log(formValues);
-      };
+    };
+
+    const [oMVentilation, setOMVentilation] = useState('');
+    const handleOMVentilation = (event, newOMVentilation) => {
+        setOMVentilation(newOMVentilation);
+    };
+
+    const [plateletsValue, setPlateletsValue] = useState('');
+    const handlePlateletsValue = (event, newPlateletsValue) => {
+        setPlateletsValue(newPlateletsValue);
+    };
+
+    const [glasgowComaScale, setGlasgowComaScale] = useState('');
+    const handleGlasgowComaScale = (event, newGlasgowComaScale) => {
+        setGlasgowComaScale(newGlasgowComaScale);
+    };
+
+    const [bilirubinValue, setBilirubinValue] = useState('');
+    const handleBilirubinValue = (event, newBilirubinValue) => {
+        setBilirubinValue(newBilirubinValue);
+    };
+
+    const [meanArterialPressure, setMeanArterialPressure] = useState('');
+    const handleMeanArterialPressure = (event, newMeanArterialPressure) => {
+        setMeanArterialPressure(newMeanArterialPressure);
+    };
+
+    const [creatinineValue, setCreatinineValue] = useState('');
+    const handleCreatinineValue = (event, newCreatinineValue) => {
+        setCreatinineValue(newCreatinineValue);
+    };
     
     // Handle units of measurement
     // PaOxygen unit
@@ -41,21 +71,21 @@ const SofaScore = () => {
             <form onSubmit={handleSubmit}>
                 <Box sx={{ flexGrow: 1 }}>
                     <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={2}>
                                 <Typography align='left'>
                                     PaO₂
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
+                        <Grid item xs={12} sm={6} md={4} style={{display: 'inline-flex'}}>
                                 <TextField label={paOxygenUnit} variant="outlined" name="age"/>
                                 <Button variant="outlined" onClick={convertPaOxygenUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={2}>
                                 <Typography align='left'>
                                     FiO₂
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={4}>
                                 <TextField label="%" variant="outlined" name="temperature"/>
                         </Grid>
                     </Grid>
@@ -70,7 +100,7 @@ const SofaScore = () => {
                                 </Typography> */}
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive>
+                                <ToggleButtonGroup color="primary" exclusive value={oMVentilation} onChange={handleOMVentilation}>
                                     <ToggleButton value="yes">
                                         Yes
                                     </ToggleButton>
@@ -88,20 +118,20 @@ const SofaScore = () => {
                                 </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive>
-                                    <ToggleButton value="">
+                                <ToggleButtonGroup color="primary" exclusive value={plateletsValue} onChange={handlePlateletsValue}>
+                                    <ToggleButton value="1">
                                         ≥150
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="2">
                                         100 - 149
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="3">
                                         50 - 99
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="4">
                                         20 - 49
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="5">
                                         &lt;20
                                     </ToggleButton>
                                 </ToggleButtonGroup>
@@ -118,20 +148,20 @@ const SofaScore = () => {
                                 </Typography> */}
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive>
-                                    <ToggleButton value="">
+                                <ToggleButtonGroup color="primary" exclusive value={glasgowComaScale} onChange={handleGlasgowComaScale}>
+                                    <ToggleButton value="1">
                                         15
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="2">
                                         13 - 14
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="3">
                                         10 - 12
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="4">
                                         6 - 9
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="5">
                                         &lt;6
                                     </ToggleButton>
                                 </ToggleButtonGroup>
@@ -145,20 +175,20 @@ const SofaScore = () => {
                                 </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive orientation="vertical">
-                                    <ToggleButton value="">
+                                <ToggleButtonGroup color="primary" exclusive orientation="vertical" value={bilirubinValue} onChange={handleBilirubinValue}>
+                                    <ToggleButton value="1">
                                         &lt;1.2  (&lt;20)
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="2">
                                         1.2 – 1.9 (20 - 32)
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="3">
                                         2.0 – 5.9 (33 - 101)
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="4">
                                         6.0 – 11.9 (102 - 204)
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="5">
                                         ≥12.0 (&gt;204)
                                     </ToggleButton>
                                 </ToggleButtonGroup>
@@ -175,20 +205,20 @@ const SofaScore = () => {
                                 </Typography> */}
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup exclusive orientation="vertical">
-                                    <ToggleButton value="">
+                                <ToggleButtonGroup color="primary" exclusive orientation="vertical" value={meanArterialPressure} onChange={handleMeanArterialPressure}>
+                                    <ToggleButton value="1">
                                         No hypotension
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="2">
                                         MAP &lt;70 mmHg
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="3">
                                         DOPamine ≤5 or DOBUTamine (any dose)
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="4">
                                         DOPamine &gt;5, EPINEPHrine ≤0.1, or norEPINEPHrine ≤0.1
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="5">
                                         DOPamine &gt;15, EPINEPHrine &gt;0.1, or norEPINEPHrine &gt;0.1
                                     </ToggleButton>
                                 </ToggleButtonGroup>
@@ -202,20 +232,20 @@ const SofaScore = () => {
                                 </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup exclusive orientation="vertical">
-                                    <ToggleButton value="">
+                                <ToggleButtonGroup color="primary" exclusive orientation="vertical" value={creatinineValue} onChange={handleCreatinineValue}>
+                                    <ToggleButton value="1">
                                         &lt;1.2 (&lt;110)
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="2">
                                         1.2 – 1.9 (110 - 170)
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="3">
                                         2.0 – 3.4 (171 - 299)
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="4">
                                         3.5 – 4.9 (300 - 440) or UOP &lt;500 mL/day
                                     </ToggleButton>
-                                    <ToggleButton value="">
+                                    <ToggleButton value="5">
                                         ≥5.0 (&gt;440) or UOP &lt;200 mL/day
                                     </ToggleButton>
                                 </ToggleButtonGroup>
