@@ -10,6 +10,11 @@ const calculateCandidaScore = async (data) => {
     return response;
 };
 
+const calculateParklandBurn = async (data) => {
+    const response = await axios.post(`http://localhost:8080/calculator/parkland-formula`, data);
+    return response;
+};
+
 const calculateRoxIndex = async (data) => {
     const response = await axios.post(`http://localhost:8080/calculator/rox-index/`, data);
     return response;
@@ -122,6 +127,24 @@ describe("Testing Calculate Candida Score by candida score route", () => {
                 "totalParenteralNutrition": 1,
                 "initialSurgery": 1,
                 "multifocalCandidaColonization": 1
+            });
+        expect(res.data).toEqual(expectedResult);
+    })
+})
+
+describe("Testing Calculate Parkland Burn Score by parkland formula route", () => {
+    it ("should return result as totalFluid = 3.7 and halfFluid = 1.8", async () => {
+        const expectedResult = {
+            "totalFluid": 3.7,
+            "halfFluid": 1.8,
+            "result": {
+                "interpretation": "3.7L Fluid requirements for the 1st 24 hours from time of burn; 1.8L Fluid requirements for the 1st 8 hours (1/2 of Total) from time of burn"
+            }
+        };
+        const res = await calculateParklandBurn(
+            {
+                "weight": 54,
+                "bodyBurnPercentage": 17
             });
         expect(res.data).toEqual(expectedResult);
     })
