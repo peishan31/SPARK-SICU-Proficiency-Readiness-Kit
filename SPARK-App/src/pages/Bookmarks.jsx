@@ -13,10 +13,13 @@ const Bookmarks = ({ searchInput }) => {
     const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
 
+
+    const BASE_URL = import.meta.env.VITE_API_URL
+    const USER_ID = import.meta.env.VITE_USER_ID
     // retrieve the unbookmark status from bookmark card component
     const isUnbookmarked = (unbookmark) => {
         setUnbookmark(unbookmark)
-        axios.get(`http://localhost:8080/user/${userId}/bookmarks`)
+        axios.get(BASE_URL+`/user/` + USER_ID + `/bookmarks`)
             .then(res => {
                 console.log(res.data)
                 setSubchapters(res.data)
@@ -27,7 +30,7 @@ const Bookmarks = ({ searchInput }) => {
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/user/${userId}/bookmarks`)
+        axios.get(BASE_URL + `/user/` + USER_ID + `/bookmarks`)
             .then(res => {
                 setSubchapters(res.data)
                 console.log(res.data)

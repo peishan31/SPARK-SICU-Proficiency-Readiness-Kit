@@ -21,8 +21,8 @@
     "sharp": "^0.30.6"
   },
   "scripts": {
-    "start": "nodemon server.js",
-    "dev": "npx nodemon server.js",
+    "start": "nodemon index.js",
+    "dev": "npx nodemon index.js",
     "test": "jest --watch"
   },
   "keywords": [],

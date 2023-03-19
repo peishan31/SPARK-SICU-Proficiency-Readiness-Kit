@@ -13,11 +13,13 @@ const SubchapterContent = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [subchapter, setSubchapter] = useState([]);
+    const BASE_URL = import.meta.env.VITE_API_URL
+    const USER_ID = import.meta.env.VITE_USER_ID
 
     const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
     
-    const API_URL = "http://localhost:8080/chapters"
+    const API_URL = BASE_URL + "/chapters"
     const chapterId = location.state.parentChapterId
     const subchapterId = location.state.parentSubchapterId
     const bookmarkId = location.state.bookmarkId
@@ -38,7 +40,7 @@ const SubchapterContent = () => {
     async function addBookmark() {
 
         await axios.put(
-            `http://localhost:8080/user/${userId}/bookmarks/`,
+            BASE_URL + '/user/' + USER_ID + '/bookmarks/',
             {
                 subchapterId: subchapterId,
                 chapterId: chapterId
@@ -57,7 +59,7 @@ const SubchapterContent = () => {
     async function removeBookmark(bookmarkId) {
 
         await axios.delete(
-            `http://localhost:8080/user/${userId}/bookmarks/${bookmarkId}`
+            BASE_URL + `/user/` + USER_ID +`/bookmarks/${bookmarkId}`
         ).then(
             res => {
                 return 200
