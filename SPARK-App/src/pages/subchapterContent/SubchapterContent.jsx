@@ -7,6 +7,7 @@ import "./subchapterContent.css";
 import { Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppState } from '../../overmind';
 
 const SubchapterContent = () => {
     const location = useLocation();
@@ -14,6 +15,9 @@ const SubchapterContent = () => {
     const [subchapter, setSubchapter] = useState([]);
     const BASE_URL = import.meta.env.VITE_API_URL
     const USER_ID = import.meta.env.VITE_USER_ID
+
+    const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
     
     const API_URL = BASE_URL + "/chapters"
     const chapterId = location.state.parentChapterId

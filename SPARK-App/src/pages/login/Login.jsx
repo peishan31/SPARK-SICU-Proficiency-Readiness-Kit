@@ -1,86 +1,65 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Login.css"
 import FlareIcon from '@mui/icons-material/Flare';
 import { TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 import axios from 'axios';
-import { useActions } from '../../overmind';
+import { useActions, useAppState } from '../../overmind';
 
-const StyledButton = styled(Button)(({
-    backgroundColor: 'rgb(65,173,164)',
-    color: 'white',
-    fontWeight: '700',
-    padding: '10px',
-    '&:hover': {
-        backgroundColor: 'rgba(245,177,97,1)',
-    }
-}));
 
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
 
     const userActions = useActions().user;
-
-    const handleLogin = () => {
-        userActions.loginUser({email, password})
+    
+    function handleCallbackResponse(response) {
+        const data = {
+            token: response.credential
+        }
+        
+        axios.post(`http://localhost:8080/user/login`, data,
+        {
+            withCredentials: true
+        })
+        .then(res => {
+            userActions.updateUser(res.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
-    // const handleLogin = () => {
-    //     console.log("handleLogin()")
-    //     const API_URL = `http://localhost:8080/user/login`
-    
-    //     axios.post(API_URL, {
-    //         email: email,
-    //         password: password
-    //       })
-    //       .then(res => {
-    //         if (res.status == 200) {
-    //             console.log(res.data)
-    //             setToken(res.data['_id'])
-    //         }
-            
-    //       })
-    //       .catch(err => {
-    //         console.log(err)
-    //         if (err.response.status == 400) {
-    //             setErrorMessage("Wrong username or password entered, please try again.")
-    //         }
+    useEffect(()=>{
+        const google = window.google;
 
-    //         if (res.response.status == 500) {
-    //             alert("Server error")
-    //         }
-    //       });
-    // }
+        google.accounts.id.initialize({
+            client_id: import.meta.env.VITE_SSO_CLIENT_ID,
+            callback: handleCallbackResponse
+        })
+
+        google.accounts.id.renderButton(
+            document.getElementById("signInDiv"),
+            {theme: "outline", size: "large", width: "250px"}
+        );
+
+        google.accounts.id.prompt();
+
+    }, []);
+
 
     return (
         <div className="login">
-            <div className="loginCard">
-                <div className="loginLeft">
-                    <div className="loginBrand">
-                        <FlareIcon className="loginBrandIcon" sx={{fontSize: '30px', marginRight: '5px', color: 'rgb(65,173,164)'}}/>
-                        <Typography className="loginBrandText" fontWeight="bold" letterSpacing={-1} sx={{fontSize: '30px', color: 'rgb(65,173,164)'}}>
-                            spark
-                        </Typography>
-                    </div>
-                    <div className="loginForm">
-                        <TextField required label="Email" sx={{width: '100%', marginBottom: '30px'}} value={email} onChange={(e)=>setEmail(e.target.value)} />
-                        <TextField required type="password" label="Password" sx={{width: '100%', marginBottom: '20px'}} value={password} onChange={(e)=>setPassword(e.target.value)}/>
-                    </div>
-
-                    <div className="errorMessage">
-                        {errorMessage}
-                    </div>
-
-                    <StyledButton fullWidth onClick={() => {
-                        handleLogin()
-                    }}>Login</StyledButton>
+            <div className="loginLeft">
+                <div className="loginBrand">
+                    <FlareIcon className="loginBrandIcon" sx={{fontSize: '70px', marginRight: '5px', color: 'white'}}/>
+                    <Typography className="loginBrandText" fontWeight="bold" letterSpacing={-1} sx={{fontSize: '70px', color: 'white'}}>
+                        spark
+                    </Typography>
                 </div>
-                <div className="loginRight">
-                    <img className="sideImage" src="../../../assets/login.png"/>
+                
+                <div className="loginWrapperDiv">
+                    <div id="signInDiv">button</div>
                 </div>
             </div>
         </div>

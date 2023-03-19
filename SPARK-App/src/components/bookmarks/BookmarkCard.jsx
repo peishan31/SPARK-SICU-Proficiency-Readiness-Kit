@@ -4,6 +4,7 @@ import { Typography, Card, CardContent, CardMedia, CardActionArea, IconButton, B
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import { useAppState } from '../../overmind';
 
 export default function MultiActionAreaCard(props) {
     
@@ -12,9 +13,12 @@ export default function MultiActionAreaCard(props) {
     const currentSubchapterId = props.subchapter._id;
     const [visible, setVisible] = useState(true);
 
+    const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
+
     async function removeBookmark(bookmarkId) {
         await axios.delete(
-            `http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/${bookmarkId}`
+            `http://localhost:8080/user/${userId}/bookmarks/${bookmarkId}`
         ).then(
             res => {
                 setVisible((prev) => !prev);

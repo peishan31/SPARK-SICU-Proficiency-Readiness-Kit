@@ -4,10 +4,15 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import BookmarkCard from '../components/bookmarks/BookmarkCard';
 import SubchapterCard from "../components/subchapters/SubchapterCard";
+import { useAppState } from '../overmind';
 
 const Bookmarks = ({ searchInput }) => {
     const [subchapters, setSubchapters] = useState([]);
     const [unbookmark, setUnbookmark] = useState(false);
+
+    const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
+
 
     const BASE_URL = import.meta.env.VITE_API_URL
     const USER_ID = import.meta.env.VITE_USER_ID

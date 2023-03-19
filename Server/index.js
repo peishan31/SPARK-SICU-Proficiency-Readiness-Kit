@@ -5,13 +5,22 @@ import express from 'express'
 // import crypto from 'crypto'
 import cors from 'cors'
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser';
+import { OAuth2Client } from 'google-auth-library'
 
 import { uploadFile, deleteFile, getObjectSignedUrl } from './s3.js'
 import chapterRouter from './routes/chapterRouter.js'
 import userRouter from './routes/userRouter.js'
 import { connectDB } from './config/db.js'
+import User from './models/UserModel.js';
+
+// Google Auth
+const client = new OAuth2Client(process.env.SSO_CLIENT_ID);
+
+
 const app = express()
 app.use(express.json({limit: '50mb'}))
+app.use(cookieParser());
 app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }))
 connectDB();
 
@@ -22,7 +31,10 @@ connectDB();
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
-app.use(cors());
+app.use(cors({ credentials: true, origin: true }));
+
+
+
 
 
 // @description: Get health status of basic route
@@ -88,10 +100,13 @@ app.get('/health', async (req, res) => {
 //   res.status(201).send(post)
 // })
 
-// create subrouter
-app.use("/chapters", chapterRouter)
+
 
 // create user
 app.use("/user", userRouter)
+
+// create subrouter
+app.use("/chapters", chapterRouter)
+
 
 app.listen(8080, () => console.log("listening on port 8080"))

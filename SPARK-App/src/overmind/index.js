@@ -2,6 +2,7 @@ import { createStateHook, createActionsHook, createEffectsHook } from 'overmind-
 import { namespaced } from 'overmind/config'
 import * as chapters from './chapters'
 import * as user from './user'
+
 export const config = namespaced({
     chapters,
     user

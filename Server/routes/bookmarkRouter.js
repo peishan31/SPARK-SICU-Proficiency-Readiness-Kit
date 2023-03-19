@@ -29,7 +29,7 @@ bookmarkRouter.get("/", async (req, res) => {
     try {
         //get user details
         const userId = req.userId;
-        const user = await User.findById(userId);
+        const user = await User.findOne({ googleId: userId });
         
         //get user's bookmark 
         const bookmarkedSubchapters = user.bookmarks;
@@ -91,7 +91,7 @@ bookmarkRouter.get("/chapters/:chapterId", async (req, res) => {
         const userId = req.userId;
 
         //get user's bookmarks
-        const user = await User.findById(userId);
+        const user = await User.findOne({ googleId: userId })
         const bookmarks = user.bookmarks;
 
         // get all the chapter's subchapters
@@ -150,7 +150,7 @@ bookmarkRouter.put("/", async (req, res) => {
         const { subchapterId, chapterId } = req.body;
         const userId = req.userId;
         // Check if subchapterId exist inside the user's bookmark list
-        const userResult = await User.findById(userId);
+        const userResult = await User.findOne({ googleId: userId })
         const bookmarks = userResult.bookmarks;
 
         const result = bookmarks.find(bookmark => bookmark.subchapterId == subchapterId && bookmark.chapterId == chapterId);
@@ -163,8 +163,8 @@ bookmarkRouter.put("/", async (req, res) => {
             chapterId
         }
 
-        const user = await User.findByIdAndUpdate(
-            { _id: userId },
+        const user = await User.findOneAndUpdate(
+            { googleId: userId },
             { $push: { bookmarks: newBookmark } },
             {new: true}
         );
@@ -182,12 +182,12 @@ bookmarkRouter.put("/", async (req, res) => {
 // @route DELETE user/:userId/bookmark/:bookmarkId
 // Working!
 bookmarkRouter.delete("/:bookmarkId", async (req, res) => {
-    console.log(`Delete bookmark by bookmark Id ${req.params.bookmarkId}`)
+    console.log(`Delete bookmark by bookmark Id ${req.params.bookmarkId} for a user by userId ${req.userId}`)
     try {
         const userId = req.userId;
         const bookmarkId = req.params.bookmarkId;
-        const user = await User.findByIdAndUpdate(
-            { _id: userId },
+        const user = await User.findOneAndUpdate(
+            { googleId: userId },
             { $pull: { bookmarks: { _id: bookmarkId } } }
         );
         res.status(200).json(user)

@@ -26,6 +26,9 @@ import { Navigate, Routes, Route, Link, useLocation} from 'react-router-dom'
 import { useState } from 'react';
 import "./MiniDrawer.css"
 
+import { useAppState, useActions } from '../../overmind';
+
+
 // pages
 import Home from '../../pages/Home'
 import Chapters from '../../pages/Chapters'
@@ -171,7 +174,9 @@ export default function MiniDrawer() {
     const isMenuOpen = Boolean(anchorEl);
 
     localStorage.setItem('searchInput', data);
-
+    
+    const userState = useAppState().user
+    const userActions = useActions().user
     
 
     const handleProfileMenuOpen = (event) => {
@@ -186,13 +191,16 @@ export default function MiniDrawer() {
         setOpen(false);
     };
 
-    
     const handleChange = event => {
         // console.log("reached here!");
         // setData(event.currentTarget.value);
         localStorage.setItem('searchInput', event.currentTarget.value);
         setData(localStorage.getItem('searchInput'));
     };
+
+    const handleSignOut = event => {
+        userActions.signOutUser();
+    }
 
     return (
         <Box sx={{ display: 'flex'}}>
@@ -249,7 +257,9 @@ export default function MiniDrawer() {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <AccountCircle />
+                        
+                        <img className="profilePicture" src={userState.currentUser.picture}></img>
+                            
                         </IconButton>
                     </Box>
                     {/* <SearchOutlinedIcon />
@@ -264,7 +274,7 @@ export default function MiniDrawer() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Chapters', 'Bookmarks', 'Calculators', 'Sign In'].map((text, index) => (
+                    {['Chapters', 'Bookmarks', 'Calculators'].map((text, index) => (
                         <Link key={text} to={text} style={{ textDecoration: 'none' }}>
                             <ListItem disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
@@ -289,8 +299,6 @@ export default function MiniDrawer() {
                                                         return <span className="icon">&#128278;</span>;
                                                     case 'Calculators':
                                                         return <span className="icon">&#129518;</span>
-                                                    case 'Sign In':
-                                                        return <span className="icon">&#128104;&#8205;&#9877;&#65039;</span>
                                                     case 'Chapters':
                                                         return <span className="icon">&#128214;</span>
                                                     case 'Subchapters':
@@ -307,6 +315,27 @@ export default function MiniDrawer() {
                             </ListItem>
                         </Link>
                     ))}
+                    <ListItem disablePadding sx={{ display: 'block' }}>
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+
+                            onClick={ (e) => handleSignOut(e) }
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}>
+                                <span className="icon">&#128104;&#8205;&#9877;&#65039;</span>
+                            </ListItemIcon>
+                            <ListItemText primary="Sign Out" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+                    </ListItem>
                 </List>
                 <Divider />
             </Drawer>
