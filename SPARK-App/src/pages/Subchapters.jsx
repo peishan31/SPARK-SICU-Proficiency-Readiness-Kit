@@ -6,7 +6,8 @@ import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SubchapterCard from '../components/subchapters/SubchapterCard';
-import { useAppState, useActions } from '../overmind';
+import { useAppState, useActions } from '../overmind';import { useAppState } from '../overmind';
+
 
 const Subchapters = ({ searchInput }) => {
 
@@ -29,8 +30,13 @@ const Subchapters = ({ searchInput }) => {
     const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
     const userId = currentUser._id
 
+    const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
+
     let filtered = [];
     // const [subchapters, setSubchapters] = useState([]);
+
+    const BASE_URL = import.meta.env.VITE_API_URL
     
     useEffect(() => {
         // if currentChapter does not exist, then reroute to the chapters page.
@@ -45,11 +51,12 @@ const Subchapters = ({ searchInput }) => {
 
         subchapterActions.loadAllSubchaptersWithUserId({chapterId, userId})
         // get all subchapters
-        // axios.get(`http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/chapters/${chapterId}`)
+        // axios.get(BASE_URL + `/user/` + userId + `/bookmarks/chapters/${chapterId}`)
         //     .then(res => {
         //         console.log(res.data[1].subchapters)
         //         setSubchapters(res.data[1].subchapters)
         //     })
+    
         //     .catch(err => {
         //         console.log(err)
         //     })

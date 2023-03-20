@@ -4,6 +4,7 @@ import * as chapters from './chapters'
 import * as user from './user'
 import * as subchapters from './subchapters'
 
+
 export const config = namespaced({
     chapters,
     user,
