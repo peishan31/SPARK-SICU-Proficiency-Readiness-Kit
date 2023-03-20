@@ -6,7 +6,7 @@ import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SubchapterCard from '../components/subchapters/SubchapterCard';
-import { useAppState, useActions } from '../overmind';import { useAppState } from '../overmind';
+import { useAppState, useActions } from '../overmind';
 
 
 const Subchapters = ({ searchInput }) => {
@@ -28,9 +28,8 @@ const Subchapters = ({ searchInput }) => {
 
     // extract currentUser from session storage
     const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
-    const userId = currentUser._id
+    // const userId = currentUser._id
 
-    const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
 
     let filtered = [];

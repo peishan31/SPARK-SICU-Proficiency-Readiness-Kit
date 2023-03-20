@@ -28,8 +28,6 @@ import { useAppState, useActions } from '../../overmind';
 import { useState } from 'react';
 import "./MiniDrawer.css"
 
-import { useAppState, useActions } from '../../overmind';
-
 
 // pages
 import Home from '../../pages/Home'
@@ -185,10 +183,6 @@ export default function MiniDrawer() {
     const isMenuOpen = Boolean(anchorEl);
 
     localStorage.setItem('searchInput', data);
-    
-    const userState = useAppState().user
-    const userActions = useActions().user
-    
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
