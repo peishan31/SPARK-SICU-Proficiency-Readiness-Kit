@@ -19,18 +19,19 @@ sofaScoreRouter.get("/health", async (req, res) => {
 });
 
 // @description: Calculate SOFA Score
-// @route GET calculator/sofa-score/
+// @route POST calculator/sofa-score/
 // Working!
-sofaScoreRouter.get("/", async (req, res) => {
+sofaScoreRouter.post("/", async (req, res) => { 
     console.log(`Calculating SOFA score...`)
     try {
         const { PaO, FiO, onMechanicalVentilation, platelets, GCS, bilirubin
             , meanArteriaPressureOrAdministrationOfVasoactiveAgents, creatinine } = req.body;
-
+            
         var pointAllocated = 0;
+       
 
         //calculations for PaO/FiO
-        const targetVar = (PaO / FiO) * 100
+        const targetVar = parseInt(PaO) / (parseInt(FiO)/100)
         if (targetVar >= 300 && targetVar <= 399){
             pointAllocated += 1;
         }else if (targetVar >= 200 && targetVar <= 299){
@@ -86,7 +87,7 @@ sofaScoreRouter.get("/", async (req, res) => {
         }else if (meanArteriaPressureOrAdministrationOfVasoactiveAgents == 'DOPamine >15, EPINEPHrine >0.1, or norEPINEPHrine >0.1'){
             pointAllocated += 4;
         }
-
+    
         //calculations for creatinine, mg/dL (μmol/L) (or urine output)
         if (creatinine == '1.2–1.9 (110-170)'){
             pointAllocated += 1;
@@ -97,7 +98,7 @@ sofaScoreRouter.get("/", async (req, res) => {
         }else if (creatinine == '≥5.0 (>440) or UOP <200 mL/day'){
             pointAllocated += 4;
         }
-
+        
         //results
         var result = "";
 
