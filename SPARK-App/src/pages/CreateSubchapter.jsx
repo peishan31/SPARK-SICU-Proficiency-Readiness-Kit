@@ -44,7 +44,13 @@ export default function CreateSubchapter() {
 
     async function addSubchapter() {
         console.log(DOMPurify.sanitize(editorRef.current.getContent()));
+        setErrorMessage(""); // initialize error message
         setLoading(true);
+        if (chapSelected == undefined || chapSelected == '' || chapSelected == null) {
+            setLoading(false);
+            setErrorMessage("Fields cannot be empty");
+            return;
+        }
         await axios
             .put(BASE_URL + '/chapters/' + chapSelected + '/subchapters/', {
                 subchapterTitle: subchapTitle,
@@ -58,12 +64,13 @@ export default function CreateSubchapter() {
             })
             .catch((error) => {
                 setLoading(false);
-                console.log(error);
+                console.log("error",error);
+                
                 if (error.response.status == 404) {
-                    alert("Fields cannot be empty");
+                    setErrorMessage(error.response.data.msg);
                     return;
                 }
-                alert(error.message);
+                setErrorMessage(error.response.data.msg);
             });
     }
 
@@ -117,7 +124,10 @@ export default function CreateSubchapter() {
                             Add Subchapters
                         </h1>
                     </div>
-                    <Grid item xs={12} sm={12} lg={12}>
+                    <div className="errorMessage">
+                        {errorMessage}
+                    </div>
+                    <Grid item xs={6} sm={12} lg={12}>
                         <Box
                             component='form'
                             sx={{
@@ -143,14 +153,6 @@ export default function CreateSubchapter() {
                                 marginTop: '2ch',
                             }}
                         >
-                            {/* <label for="upload" class="file-upload-label">Thumbnail:</label> <br/>
-                            <input 
-                                className="file-upload-input"
-                                onChange={(e) =>
-                                handleFileUpload(e)
-                                } 
-                                type="file" 
-                                accept=".jpeg, .png, .jpg"/> */}
                             <Input
                                 type='file'
                                 className='inputThumbnail'

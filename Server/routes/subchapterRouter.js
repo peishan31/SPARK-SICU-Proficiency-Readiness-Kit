@@ -84,6 +84,13 @@ subchapterRouter.put("/", async (req, res) => {
 
     try {
         let { subchapterTitle, thumbnail, description, content } = req.body;
+
+        if (subchapterTitle.length === 0 || subchapterTitle == undefined || subchapterTitle == "" || 
+            thumbnail.length===0 || thumbnail == undefined || thumbnail == "" || 
+            description.length===0 || description == undefined || description == "" || 
+            content.length===0 || content == undefined || content == "") { 
+                return res.status(404).json({ msg: 'Fields cannot be empty' });
+        }
         // upload image to cloudinary then get the url and save it to the database
         const result = await new Promise((resolve, reject) => {
             cloudinary.uploader.upload(thumbnail, opts, async (err, result) => {
@@ -94,9 +101,9 @@ subchapterRouter.put("/", async (req, res) => {
                 }
             })
         }); 
-        console.log("********",result);
+
         if (result == false)  {
-            return res.status(500).json({ msg: 'Error uploading image to cloudinary' });
+            return res.status(500).json({ msg: 'Error uploading image to cloudinary. Please choose another image or try again.' });
         }
         thumbnail = result.secure_url;
         const thumbnailPublicId = result.public_id;
@@ -116,6 +123,7 @@ subchapterRouter.put("/", async (req, res) => {
         );
         return res.status(200).json(chapter)
     } catch (err) {
+        console.log("********",err);
         console.error(err.message)
         return res.status(500).send('Server Error')
     }
