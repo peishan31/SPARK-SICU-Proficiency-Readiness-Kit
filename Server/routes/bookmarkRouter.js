@@ -126,7 +126,7 @@ bookmarkRouter.get("/chapters/:chapterId", async (req, res) => {
 
             //if bookmarkId not empty, it means the subchapter exists in the chapter. store the bookmarkid to return
             if (bookmarkId){
-               temp.bookmarkId  =  bookmarkId;
+                temp.bookmarkId  =  bookmarkId;
             }
             
             book.push(temp);

@@ -6,7 +6,7 @@ const fetchData = async (id) => {
 };
 
 describe("Testing async get function", () => {
-    it ("should return data for id 1", async () => {
+    it("should return data for id 1", async () => {
         const expectedResult = {
             userId: 1,
             id: 1,
@@ -16,8 +16,8 @@ describe("Testing async get function", () => {
         const data = await fetchData(1);
         expect(data).toEqual(expectedResult);
     })
-    
-    it ("should return data for user id 2", async () => {
+
+    it("should return data for user id 2", async () => {
         const expectedResult = {
             userId: 1,
             id: 2,
@@ -46,12 +46,12 @@ describe("animals array", () => {
         animals = ["dog", "cat", "bird"];
     })
 
-    it ("Should add animals to end of array", () => {
+    it("Should add animals to end of array", () => {
         animals.push("fish");
         expect(animals).toContain("fish");
     })
 
-    it ("Should have initial length of 3", () => {
+    it("Should have initial length of 3", () => {
         expect(animals.length).toBe(3);
     })
 })
