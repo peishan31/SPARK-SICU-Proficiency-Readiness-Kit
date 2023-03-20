@@ -1,15 +1,16 @@
 const axios = require("axios")
 
-const CHAPTER_ID = "63ea35d26c0ef100ca017647"
-const SUBCHAPTER_ID = "63f8566d984d16ee2523c3e7"
+const CHAPTER_ID = "6415b83df79d4564b394fbea"
+const SUBCHAPTER_ID = "641713712206cdb94e8b307d"
+const API_URL = "https://spark-sicu-proficiency-readiness-kit-backend.vercel.app"
 
 const getAllSubchaptersForChapter = async (chapterId) => {
-    const response = await axios.get(`http://localhost:8080/chapters/${chapterId}/subchapters/`);
+    const response = await axios.get(API_URL + `/chapters/${chapterId}/subchapters/`);
     return response.status;
 }
 
 const getSubchapterContent = async (chapterId, subchapterId) => {
-    const response = await axios.get(`http://localhost:8080/chapters/${chapterId}/subchapters/${subchapterId}`);
+    const response = await axios.get(API_URL + `/chapters/${chapterId}/subchapters/${subchapterId}`);
     return response.status;
 }
 

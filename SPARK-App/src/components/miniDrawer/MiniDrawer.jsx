@@ -21,10 +21,13 @@ import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import FlareIcon from '@mui/icons-material/Flare';
 // react-router-dom
-import { Navigate, Routes, Route, Link, useLocation} from 'react-router-dom'
+import { Navigate, Routes, Route, Link, useLocation, useNavigate} from 'react-router-dom'
 
+// state management
+import { useAppState, useActions } from '../../overmind';
 import { useState } from 'react';
 import "./MiniDrawer.css"
+
 
 // pages
 import Home from '../../pages/Home'
@@ -174,12 +177,19 @@ export default function MiniDrawer() {
     const [open, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const subchapterState = useAppState().subchapters
+    const subchapterActions = useActions().subchapters
+
+    const chapterState = useAppState().chapters
+    const chapterActions = useActions().chapters
+
+    const userState = useAppState().user
+    const userActions = useActions().user
+
     const [data, setData] = useState('');
     const isMenuOpen = Boolean(anchorEl);
 
     localStorage.setItem('searchInput', data);
-
-    
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -193,13 +203,17 @@ export default function MiniDrawer() {
         setOpen(false);
     };
 
-    
     const handleChange = event => {
         // console.log("reached here!");
         // setData(event.currentTarget.value);
-        localStorage.setItem('searchInput', event.currentTarget.value);
-        setData(localStorage.getItem('searchInput'));
+        subchapterActions.setSubchapterSearchInput(event.currentTarget.value)
+        // localStorage.setItem('searchInput', event.currentTarget.value);
+        // setData(localStorage.getItem('searchInput'));
     };
+
+    const handleSignOut = event => {
+        userActions.signOutUser();
+    }
 
     return (
         <Box sx={{ display: 'flex'}}>
@@ -229,15 +243,15 @@ export default function MiniDrawer() {
     
                     <React.Fragment>
                     {
-                    ["/Bookmarks", "/Chapters/"+localStorage.getItem("currentChapterID")+"/subchapters"].includes(path) ? 
+                    ["/Bookmarks", "/Chapters", "/Chapters/"+sessionStorage.getItem("currentChapterId")+"/subchapters"].includes(path) ? 
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase fullWidth
-                                        placeholder={localStorage.getItem('searchInput') === null || localStorage.getItem('searchInput') === ""  ? "Search…" : localStorage.getItem('searchInput')}
+                                        placeholder={subchapterState.subchapterSearchInput === "" ? "Search…" : subchapterState.subchapterSearchInput}
                             inputProps={{ 'aria-label': 'search' }}
-                            value={localStorage.getItem('searchInput')}
+                            value={subchapterState.subchapterSearchInput}
                             onChange={handleChange}
                         />
                     </Search>
@@ -256,7 +270,9 @@ export default function MiniDrawer() {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <AccountCircle />
+                        
+                        <img referrerPolicy="no-referrer" className="profilePicture" src={userState.currentUser.picture}></img>
+                            
                         </IconButton>
                     </Box>
                     {/* <SearchOutlinedIcon />
@@ -271,7 +287,7 @@ export default function MiniDrawer() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Chapters', 'Bookmarks', 'Calculators', 'Sign In'].map((text, index) => (
+                    {['Chapters', 'Bookmarks', 'Calculators'].map((text, index) => (
                         <Link key={text} to={text} style={{ textDecoration: 'none' }}>
                             <ListItem disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
@@ -296,8 +312,6 @@ export default function MiniDrawer() {
                                                         return <span className="icon">&#128278;</span>;
                                                     case 'Calculators':
                                                         return <span className="icon">&#129518;</span>
-                                                    case 'Sign In':
-                                                        return <span className="icon">&#128104;&#8205;&#9877;&#65039;</span>
                                                     case 'Chapters':
                                                         return <span className="icon">&#128214;</span>
                                                     case 'Subchapters':
@@ -314,6 +328,27 @@ export default function MiniDrawer() {
                             </ListItem>
                         </Link>
                     ))}
+                    <ListItem disablePadding sx={{ display: 'block' }}>
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+
+                            onClick={ (e) => handleSignOut(e) }
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}>
+                                <span className="icon">&#128104;&#8205;&#9877;&#65039;</span>
+                            </ListItemIcon>
+                            <ListItemText primary="Sign Out" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+                    </ListItem>
                 </List>
                 <Divider />
             </Drawer>
@@ -322,12 +357,12 @@ export default function MiniDrawer() {
                 <Routes>
                     {/* <Route path="/Home" element={<Home/>}/> */}
                     <Route path="/" element={<Navigate to={"/Chapters"}/>}/>
-                    <Route path="/Bookmarks" element={<Bookmarks searchInput={localStorage.getItem('searchInput')}/>}/>
+                    <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput}/>}/>
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent/>}/>
-                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={localStorage.getItem('searchInput')}/>}/>
+                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore/>}/>
@@ -337,8 +372,8 @@ export default function MiniDrawer() {
                     <Route path="/Calculators/candida-score" element={<CandidaScore/>}/>
                     <Route path="/Calculators/parkland-formula" element={<ParklandFormula/>}/>
                     <Route path="/Calculators/cam-icu" element={<CamIcu/>}/>
+                    <Route path="/Sign Out" element={<Navigate to={"/"}/>}/>
                 </Routes>
-
             </Box>
         </Box>
     );

@@ -9,21 +9,20 @@ import axios from 'axios'
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
-import { margin } from '@mui/system'
+import { useAppState, useActions } from '../overmind'
+
 
 const Chapters = () => {
 
-    const [chapters, setChapters] = useState([]);
+    
+    const chapterState = useAppState().chapters
+    const chapterActions = useActions().chapters
+
     useEffect(() => {
-        axios.get('http://localhost:8080/chapters')
-            .then(res => {
-                setChapters(res.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        if (!chapterState.chapterlist || chapterState.chapterlist.length === 0) {
+            chapterActions.loadChapters();
+        }
     }, [])
-    console.log(chapters)
 
 
 
@@ -32,18 +31,22 @@ const Chapters = () => {
             <div className="pageTitle">
                 <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Chapters</h1>
             </div>
-            
-            <Grid container spacing={3}>
             {
-                chapters.map((chapter) => {
-                    return (
-                        <Grid key={chapter._id} item>
-                            <ChapterCard chapter={chapter} />
-                        </Grid>
-                    )
-                })
+                !chapterState.chapterlist || chapterState.chapterlist.length === 0 ? ( 
+                <div>Loading...</div>) : (
+                    <Grid container spacing={3}>
+                        {
+                            chapterState.chapterlist.map((chapter) => {
+                                return (
+                                    <Grid key={chapter._id} item>
+                                        <ChapterCard chapter={chapter} />
+                                    </Grid>
+                                )
+                            })
+                        }
+                    </Grid>
+                )
             }
-            </Grid>
         </Box>
     )
 }
