@@ -21,12 +21,12 @@ import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import FlareIcon from '@mui/icons-material/Flare';
 // react-router-dom
-import { Navigate, Routes, Route, Link, useLocation} from 'react-router-dom'
+import { Navigate, Routes, Route, Link, useLocation, useNavigate} from 'react-router-dom'
 
+// state management
+import { useAppState, useActions } from '../../overmind';
 import { useState } from 'react';
 import "./MiniDrawer.css"
-
-import { useAppState, useActions } from '../../overmind';
 
 
 // pages
@@ -170,14 +170,19 @@ export default function MiniDrawer() {
     const [open, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const subchapterState = useAppState().subchapters
+    const subchapterActions = useActions().subchapters
+
+    const chapterState = useAppState().chapters
+    const chapterActions = useActions().chapters
+
+    const userState = useAppState().user
+    const userActions = useActions().user
+
     const [data, setData] = useState('');
     const isMenuOpen = Boolean(anchorEl);
 
     localStorage.setItem('searchInput', data);
-    
-    const userState = useAppState().user
-    const userActions = useActions().user
-    
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -194,8 +199,9 @@ export default function MiniDrawer() {
     const handleChange = event => {
         // console.log("reached here!");
         // setData(event.currentTarget.value);
-        localStorage.setItem('searchInput', event.currentTarget.value);
-        setData(localStorage.getItem('searchInput'));
+        subchapterActions.setSubchapterSearchInput(event.currentTarget.value)
+        // localStorage.setItem('searchInput', event.currentTarget.value);
+        // setData(localStorage.getItem('searchInput'));
     };
 
     const handleSignOut = event => {
@@ -230,15 +236,15 @@ export default function MiniDrawer() {
     
                     <React.Fragment>
                     {
-                    ["/Bookmarks", "/Chapters/"+localStorage.getItem("currentChapterID")+"/subchapters"].includes(path) ? 
+                    ["/Bookmarks", "/Chapters", "/Chapters/"+sessionStorage.getItem("currentChapterId")+"/subchapters"].includes(path) ? 
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase fullWidth
-                                        placeholder={localStorage.getItem('searchInput') === null || localStorage.getItem('searchInput') === ""  ? "Search…" : localStorage.getItem('searchInput')}
+                                        placeholder={subchapterState.subchapterSearchInput === "" ? "Search…" : subchapterState.subchapterSearchInput}
                             inputProps={{ 'aria-label': 'search' }}
-                            value={localStorage.getItem('searchInput')}
+                            value={subchapterState.subchapterSearchInput}
                             onChange={handleChange}
                         />
                     </Search>
@@ -344,16 +350,16 @@ export default function MiniDrawer() {
                 <Routes>
                     {/* <Route path="/Home" element={<Home/>}/> */}
                     <Route path="/" element={<Navigate to={"/Chapters"}/>}/>
-                    <Route path="/Bookmarks" element={<Bookmarks searchInput={localStorage.getItem('searchInput')}/>}/>
+                    <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput}/>}/>
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
                     <Route path="/Chapters" element={<Chapters/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent/>}/>
-                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={localStorage.getItem('searchInput')}/>}/>
+                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/login" element={<Login/>}/>
+                    <Route path="/Sign Out" element={<Navigate to={"/"}/>}/>
                 </Routes>
-
             </Box>
         </Box>
     );

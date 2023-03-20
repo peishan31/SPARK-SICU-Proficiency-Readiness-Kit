@@ -14,17 +14,7 @@ import { useAppState, useActions } from '../overmind'
 
 const Chapters = () => {
 
-    // const [chapters, setChapters] = useState([]);
-    // useEffect(() => {
-    //     axios.get('http://localhost:8080/chapters')
-    //         .then(res => {
-    //             setChapters(res.data)
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //         })
-    // }, [])
-    // console.log(chapters)
+    
     const chapterState = useAppState().chapters
     const chapterActions = useActions().chapters
 
@@ -35,12 +25,12 @@ const Chapters = () => {
     }, [])
 
 
+
     return (
         <Box pt={5} pl={5} >
             <div className="pageTitle">
                 <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Chapters</h1>
             </div>
-            {console.log("here", chapterState)}
             {
                 !chapterState.chapterlist || chapterState.chapterlist.length === 0 ? ( 
                 <div>Loading...</div>) : (
