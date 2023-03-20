@@ -15,10 +15,12 @@ export default function MultiActionAreaCard(props) {
 
     const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
+    const API_URL = import.meta.env.VITE_API_URL;
+
 
     async function removeBookmark(bookmarkId) {
         await axios.delete(
-            `http://localhost:8080/user/${userId}/bookmarks/${bookmarkId}`
+            API_URL + `/user/${userId}/bookmarks/${bookmarkId}`
         ).then(
             res => {
                 setVisible((prev) => !prev);

@@ -9,6 +9,8 @@ export default function NewPost() {
   const [caption, setCaption] = useState("")
 
   const navigate = useNavigate()
+  const API_URL = import.meta.env.VITE_API_URL;
+
 
   const submit = async event => {
     event.preventDefault()
@@ -19,7 +21,7 @@ export default function NewPost() {
     console.log(
     "formData:", formData
     )
-    await axios.post("http://localhost:8080/api/posts", formData, { headers: {'Content-Type': 'multipart/form-data'}})
+    await axios.post(API_URL + "/api/posts", formData, { headers: {'Content-Type': 'multipart/form-data'}})
 
     navigate("/")
   }

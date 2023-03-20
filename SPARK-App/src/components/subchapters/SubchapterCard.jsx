@@ -15,12 +15,14 @@ export default function SubchapterCard({ subchapter, chapterId }) {
 
     const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
+    const API_URL = import.meta.env.VITE_API_URL;
+
 
     async function addBookmark() {
         console.log("add")
         console.log(userId)
         await axios.put(
-            `http://localhost:8080/user/${userId}/bookmarks/`,
+            API_URL + `/user/${userId}/bookmarks/`,
             {
                 subchapterId: currentSubchapterId,
                 chapterId: chapterId
@@ -42,7 +44,7 @@ export default function SubchapterCard({ subchapter, chapterId }) {
         console.log("remove")
         console.log(userId)
         await axios.delete(
-            `http://localhost:8080/user/${userId}/bookmarks/${bookmarkId}`
+            API_URL + `/user/${userId}/bookmarks/${bookmarkId}`
         ).then(
             res => {
                 subchapter.isBookmarked = false

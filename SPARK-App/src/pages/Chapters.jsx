@@ -14,17 +14,7 @@ import { useAppState, useActions } from '../overmind'
 
 const Chapters = () => {
 
-    // const [chapters, setChapters] = useState([]);
-    // useEffect(() => {
-    //     axios.get('http://localhost:8080/chapters')
-    //         .then(res => {
-    //             setChapters(res.data)
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //         })
-    // }, [])
-    // console.log(chapters)
+    
     const chapterState = useAppState().chapters
     const chapterActions = useActions().chapters
 
@@ -34,7 +24,6 @@ const Chapters = () => {
         }
     }, [])
 
-    console.log("here", chapterState.chapterlist)
 
 
     return (
