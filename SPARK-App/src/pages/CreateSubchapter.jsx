@@ -9,9 +9,12 @@ import {
     Grid,
     Input,
     CircularProgress,
+    IconButton,
+    Typography
 } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DOMPurify from 'dompurify';
 import './home.css';
 import './CreateSubchapter.css';
@@ -114,15 +117,16 @@ export default function CreateSubchapter() {
             ) : (
                 <div className='homeContainer'>
                     <div className='pageTitle'>
-                        <h1
-                            style={{
-                                fontSize: '30px',
-                                fontWeight: 'bold',
-                                marginBottom: '25px',
-                            }}
-                        >
-                            Add Subchapters
-                        </h1>
+                        <Grid pb={2} display="flex" alignItems="center" mb={1}>
+                            <IconButton onClick={
+                                () => { navigate(-1) }}>
+                                <ArrowBackIcon />
+                            </IconButton>
+                            <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
+                                Add Subchapters
+                            </Typography>
+                        </Grid>
+                        {/* <p className='fs-1 fw-bold'>Add Subchapter</p> */}
                     </div>
                     <div className="errorMessage">
                         {errorMessage}

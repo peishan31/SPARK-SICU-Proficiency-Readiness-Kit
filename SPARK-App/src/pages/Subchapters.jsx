@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Button, IconButton, Stack, Grid, Box } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -87,10 +87,25 @@ const Subchapters = ({ searchInput }) => {
                 <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>{chapterState.selectedChapter.currentChapterIcon} {chapterState.selectedChapter.currentChapterTitle}</Typography>
                 <Stack direction="row" spacing={2} ml="auto">
                     {/* <Button variant="outlined">Select</Button> */}
-                    {/* <Button variant="outlined" onClick={navigateToSubChapter}>
+                    <Button 
+                        component={Link}
+                        to="/CreateSubchapter"
+                        variant="outlined"
+                        sx={{
+                            color: 'white',
+                            backgroundColor: 'white', // Set background color on hover
+                            borderColor: '#41ADA4 !important', // Set border color on hover
+                            color: '#41ADA4',
+                            '&:hover': {
+                                backgroundColor: '#41ADA4',
+                                borderColor: '#41ADA4',
+                                color: 'white',
+                            },
+                        }}
+                        >
                         <AddIcon />
                             Create new subchapter
-                    </Button> */}
+                    </Button>
                 </Stack>
             </Grid>
                     
