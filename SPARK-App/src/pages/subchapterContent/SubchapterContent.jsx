@@ -8,13 +8,16 @@ import { Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify'; // Sanitizes HTML;  a tool that removes any potentially malicious code from HTML text;
+import { useAppState } from '../../overmind';
 
 const SubchapterContent = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [subchapter, setSubchapter] = useState([]);
     const BASE_URL = import.meta.env.VITE_API_URL
-    const USER_ID = import.meta.env.VITE_USER_ID
+
+    const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
     
     const API_URL = BASE_URL + "/chapters"
     const chapterId = location.state.parentChapterId
@@ -37,7 +40,7 @@ const SubchapterContent = () => {
     async function addBookmark() {
 
         await axios.put(
-            BASE_URL + '/user/' + USER_ID + '/bookmarks/',
+            BASE_URL + '/user/' + userId + '/bookmarks/',
             {
                 subchapterId: subchapterId,
                 chapterId: chapterId
@@ -56,7 +59,7 @@ const SubchapterContent = () => {
     async function removeBookmark(bookmarkId) {
 
         await axios.delete(
-            BASE_URL + `/user/` + USER_ID +`/bookmarks/${bookmarkId}`
+            BASE_URL + `/user/` + userId +`/bookmarks/${bookmarkId}`
         ).then(
             res => {
                 return 200

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL
-const USER_ID = import.meta.env.VITE_USER_ID
 
 export const getAllChapters = async () => {
     const API_URL = BASE_URL+`/chapters`

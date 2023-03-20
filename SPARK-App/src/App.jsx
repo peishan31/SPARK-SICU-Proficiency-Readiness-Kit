@@ -4,11 +4,12 @@ import MiniDrawer from './components/miniDrawer/MiniDrawer'
 import { useAppState, useActions } from './overmind'
 import Login from './pages/login/Login'
 
+
 function App() {
-  
-  // const [token, setToken] = useState()
+    
   // user in overmind
   const userState = useAppState().user
+  // const userActions = useActions().user
   // const chapterActions = useActions().chapters
   // const chaptersState = useAppState().chapters
   // console.log("Actions: ", chapterActions.loadChapters());
@@ -18,15 +19,24 @@ function App() {
   //   return <Login/>
   // }
 
+  if (!userState.currentUser) {
+    return (
+      <>
+        <Login/>
+      </>
+    )
+  }
+    
   return (
     <>
       <div className="App">
         {
-          // if logged in or localstorage is not null then render mini drawer
-          <MiniDrawer/> 
+          // if current user exists then render mini drawer, otherwise show login component
+          // userState.currentUser || sessionStorage.getItem("currentUser") ? <MiniDrawer/> : <Login/>
+
         }
         {/* if not logged in or localstorage is null then don't render mini drawer */}
-        {/* <MiniDrawer/> */}
+        <MiniDrawer/>
       </div>
     </>
   )

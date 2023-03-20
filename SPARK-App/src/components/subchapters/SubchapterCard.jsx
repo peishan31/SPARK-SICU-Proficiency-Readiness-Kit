@@ -6,16 +6,23 @@ import axios from 'axios';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import Button from '@mui/material/Button';
+import { useAppState } from '../../overmind';
 
 export default function SubchapterCard({ subchapter, chapterId }) {
     const navigate = useNavigate();
     const currentSubchapterId = subchapter._id;
     const [isBookmarked, setIsBookmarked] = useState(subchapter.isBookmarked);
 
+    const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
+    const API_URL = import.meta.env.VITE_API_URL;
+
+
     async function addBookmark() {
-        // console.log("add")
+        console.log("add")
+        console.log(userId)
         await axios.put(
-            'http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/',
+            API_URL + `/user/${userId}/bookmarks/`,
             {
                 subchapterId: currentSubchapterId,
                 chapterId: chapterId
@@ -34,9 +41,10 @@ export default function SubchapterCard({ subchapter, chapterId }) {
     }
 
     async function removeBookmark(bookmarkId) {
-        // console.log("remove")
+        console.log("remove")
+        console.log(userId)
         await axios.delete(
-            `http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/${bookmarkId}`
+            API_URL + `/user/${userId}/bookmarks/${bookmarkId}`
         ).then(
             res => {
                 subchapter.isBookmarked = false

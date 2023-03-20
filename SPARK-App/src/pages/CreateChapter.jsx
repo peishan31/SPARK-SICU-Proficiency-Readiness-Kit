@@ -15,7 +15,6 @@ export default function CreateChapter() {
     const [chapIcon, setChapIcon] = useState('');
 
     const BASE_URL = import.meta.env.VITE_API_URL
-    const USER_ID = import.meta.env.VITE_USER_ID
     
     async function addChapter() {
         await axios.post(BASE_URL + "/api/addChapter", {"chapterTitle": chapTitle, "chapterIcon": chapIcon})

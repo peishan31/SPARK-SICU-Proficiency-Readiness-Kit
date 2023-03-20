@@ -6,34 +6,59 @@ import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SubchapterCard from '../components/subchapters/SubchapterCard';
+import { useAppState, useActions } from '../overmind';
 
 
 const Subchapters = ({ searchInput }) => {
+
     
     const location = useLocation();
     const navigate = useNavigate();
-    const chapterId = location.state.parentChapterId
-    const chapterTitle = location.state.parentChapterTitle
-    const chapterIcon = location.state.parentChapterIcon
-        
+    // overmind states
+    const chapterState = useAppState().chapters;
+    const subchapterState = useAppState().subchapters
+    const userState = useAppState().user
+    
+    // overmind actions
+    const subchapterActions = useActions().subchapters
+
+    // get current chapter from overmind state
+    const currentChapter = chapterState.selectedChapter
+    console.log("Current Chapter: ", currentChapter)
+
+    // extract currentUser from session storage
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
+    // const userId = currentUser._id
+
+    const userId = userState.currentUser.googleId;
+
     let filtered = [];
-    const [subchapters, setSubchapters] = useState([]);
+    // const [subchapters, setSubchapters] = useState([]);
 
     const BASE_URL = import.meta.env.VITE_API_URL
-    const USER_ID = import.meta.env.VITE_USER_ID
     
-
     useEffect(() => {
-        
+        // if currentChapter does not exist, then reroute to the chapters page.
+        if (!currentChapter || !userId) {
+            console.log("Current Chapter: ", currentChapter);
+            navigate(`/Chapters`);
+            return;
+        }
+
+        // extract currentchapter details
+        const chapterId = currentChapter.currentChapterId
+
+        subchapterActions.loadAllSubchaptersWithUserId({chapterId, userId})
         // get all subchapters
-        axios.get(BASE_URL + `/user/` + USER_ID + `/bookmarks/chapters/${chapterId}`)
-            .then(res => {
-                console.log(res.data[1].subchapters)
-                setSubchapters(res.data[1].subchapters)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        // axios.get(BASE_URL + `/user/` + userId + `/bookmarks/chapters/${chapterId}`)
+        //     .then(res => {
+        //         console.log(res.data[1].subchapters)
+        //         setSubchapters(res.data[1].subchapters)
+        //     })
+    
+        //     .catch(err => {
+        //         console.log(err)
+        //     })
     }, [])
 
 
@@ -49,7 +74,7 @@ const Subchapters = ({ searchInput }) => {
         }
     };
 
-    filtered = subchapters.filter((subchapter) => searchSubchapters(searchInput, subchapter))
+    filtered = subchapterState.subchapterlist.filter((subchapter) => searchSubchapters(searchInput, subchapter))
 
 
     return (
@@ -59,7 +84,7 @@ const Subchapters = ({ searchInput }) => {
                     () => { navigate('/Chapters') }}>
                     <ArrowBackIcon />
                 </IconButton>
-                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>{chapterIcon} {chapterTitle}</Typography>
+                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>{chapterState.selectedChapter.currentChapterIcon} {chapterState.selectedChapter.currentChapterTitle}</Typography>
                 <Stack direction="row" spacing={2} ml="auto">
                     {/* <Button variant="outlined">Select</Button> */}
                     {/* <Button variant="outlined" onClick={navigateToSubChapter}>
@@ -80,7 +105,7 @@ const Subchapters = ({ searchInput }) => {
                             return (
                                 <Grid item key={subchapter._id} xs={12} sm={6} md={4} lg={3}>
                                     <SubchapterCard
-                                    subchapter={subchapter} chapterId={chapterId}/>
+                                        subchapter={subchapter} chapterId={currentChapter.currentChapterId}/>
                                 </Grid>
                             )
                         
