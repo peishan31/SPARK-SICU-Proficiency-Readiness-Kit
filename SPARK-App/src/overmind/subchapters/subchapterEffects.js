@@ -1,7 +1,8 @@
 import axios from 'axios'
+const BASE_URL = import.meta.env.VITE_API_URL
 
 export const getAllSubchaptersWithChapterId = async (chapterId, userId) => {
-    const API_URL = `http://localhost:8080/user/${userId}/bookmarks/chapters/${chapterId}`
+    const API_URL = BASE_URL + `/user/${userId}/bookmarks/chapters/${chapterId}`
     try {
         const response = await axios.get(API_URL)
         if (response.status === 200) {
