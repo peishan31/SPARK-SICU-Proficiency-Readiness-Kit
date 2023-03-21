@@ -63,7 +63,7 @@ export default function CreateSubchapter() {
             })
             .then(() => {
                 setLoading(false);
-                navigate('/Chapters/');
+                navigate(-1);
             })
             .catch((error) => {
                 setLoading(false);
