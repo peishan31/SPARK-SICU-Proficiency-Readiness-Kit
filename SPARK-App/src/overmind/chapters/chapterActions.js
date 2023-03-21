@@ -19,6 +19,11 @@ export const setSelectedChapter = ({ state }, chapterObject) => {
 
 export const clearChapterState = ({ state }) => {
     state.chapters.chapterlist = [];
+    state.chapters.chapterSearchInput = "";
     state.chapters.selectedChapter = null;
+}
+
+export const setChapterSearchInput = ( { state }, searchInput ) => {
+    state.chapters.chapterSearchInput = searchInput;
 }
 

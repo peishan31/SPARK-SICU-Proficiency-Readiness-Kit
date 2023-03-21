@@ -197,8 +197,9 @@ export default function MiniDrawer() {
     };
 
     const handleChange = event => {
-        // console.log("reached here!");
+        console.log("reached here!");
         // setData(event.currentTarget.value);
+        chapterActions.setChapterSearchInput(event.currentTarget.value)
         subchapterActions.setSubchapterSearchInput(event.currentTarget.value)
         // localStorage.setItem('searchInput', event.currentTarget.value);
         // setData(localStorage.getItem('searchInput'));
@@ -352,7 +353,7 @@ export default function MiniDrawer() {
                     <Route path="/" element={<Navigate to={"/Chapters"}/>}/>
                     <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput}/>}/>
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
-                    <Route path="/Chapters" element={<Chapters searchInput={localStorage.getItem('searchInput')}/>}/>
+                    <Route path="/Chapters" element={<Chapters searchInput={chapterState.chapterSearchInput}/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput}/>}/>
