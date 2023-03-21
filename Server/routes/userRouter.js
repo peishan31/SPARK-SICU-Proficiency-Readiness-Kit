@@ -85,7 +85,7 @@ const checkAdmin = function (req, res, next) {
     });
 }
 
-// // @description: Update userType for a user
+// @description: Middleware function to check if user is admin
 userRouter.put('/update', checkAdmin, (req, res)=>{
   async function updateUserType(userId, userType) {
     try {

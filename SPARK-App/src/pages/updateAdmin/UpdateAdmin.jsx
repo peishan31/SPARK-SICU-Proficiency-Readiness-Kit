@@ -20,7 +20,7 @@ function UpdateAdmin() {
     const [ modalText, setModalText ] = useState("");
 
     function handleSubmit() {
-        setModalText('');
+        setModalText("");
         
         console.log("handleSubmit")
         console.log(toUpdate)
