@@ -28,11 +28,17 @@ function UpdateAdmin() {
         const API_URL = import.meta.env.VITE_API_URL + `/user/update`;
         
         try {
-            axios.put(API_URL, toUpdate)
+            axios.put(API_URL, toUpdate, {
+                withCredentials: true
+            })
             .then((response) => {
                 console.log(response.status)
                 setModalText("✅ Updated successfully!");
-            })
+            }).catch((err) => {
+                console.log(err)
+                setModalText("❌ Something went wrong.");
+            }
+            )
         } catch (err) {
             console.log(err)
             setModalText("❌ Something went wrong.");

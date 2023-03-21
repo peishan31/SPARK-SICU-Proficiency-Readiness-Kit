@@ -2,6 +2,7 @@ import express from 'express';
 import bookmarkRouter from './bookmarkRouter.js';
 import User from '../models/UserModel.js';
 import { OAuth2Client } from 'google-auth-library'
+import jwt_decode from 'jwt-decode';
 
 const userRouter = express.Router();
 
@@ -23,7 +24,6 @@ userRouter.get("/health", async (req, res) => {
 // @description: Authenticate user
 // @route POST user/login
 userRouter.post('/login', (req,res)=>{
-  console.log("login route accessed")
   let token = req.body.token;
   let user = {}
   
@@ -59,9 +59,10 @@ userRouter.post('/login', (req,res)=>{
   
   verify()
   .then(user => {
-      console.log(token)
-
-      res.cookie('session-token', token);
+      res.cookie('session-token', token, {
+        secure: false,
+        httpOnly: true
+      });
       res.send(user);
   })
   .catch(
@@ -69,9 +70,23 @@ userRouter.post('/login', (req,res)=>{
     );
 })
 
-// // @description: Update userType for a user
-userRouter.put('/update', (req, res)=>{
+const checkAdmin = function (req, res, next) {
+  let token = req.cookies['session-token'];
+  let decoded = jwt_decode(token);
+  let id = decoded['sub'];
+      
+  const currentUser = User.findOne({googleId: id}, 
+    function(err,obj) { 
+      if ( obj.userType != "senior" ) {
+        res.status(401).json({ message: "Unauthorized" });
+      } else {
+        return next()
+      }
+    });
+}
 
+// // @description: Update userType for a user
+userRouter.put('/update', checkAdmin, (req, res)=>{
   async function updateUserType(userId, userType) {
     try {
       const updatedUser = await User.findOneAndUpdate(
@@ -95,7 +110,7 @@ userRouter.put('/update', (req, res)=>{
         res.end();
     })
     .catch (
-      console.error
+      // console.error
     )
   }
 })
