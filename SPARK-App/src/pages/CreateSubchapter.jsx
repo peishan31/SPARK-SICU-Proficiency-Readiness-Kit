@@ -79,9 +79,31 @@ export default function CreateSubchapter() {
 
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
+
+        // convert file to base64 string
+        const base64String = await convertToBase64(file);
+
+        // check image size is less than 1~2mb
+        // convert base64 string to Blob object
+        const byteString = atob(base64String.split(',')[1]);
+        const mimeType = base64String.split(",")[0].split(":")[1].split(";")[0];
+        const arrayBuffer = new ArrayBuffer(byteString.length);
+        const uint8Array = new Uint8Array(arrayBuffer);
+
+        for (let i = 0; i < byteString.length; i++) {
+            uint8Array[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([arrayBuffer], { type: mimeType });
+        
+        // Check if Blob size is bigger than 2MB
+        if (blob.size / 1024 / 1024 > 2) {
+            alert("Image size is more than 2MB. Please upload an image size less than 2MB.");
+            return;
+        } 
+
+        // Image size is less than 2MB
         setThumbnail(file);
-        const base64 = await convertToBase64(file);
-        setBase64Thumbnail(base64);
+        setBase64Thumbnail(base64String);
     };
 
     const convertToBase64 = (file) => {
