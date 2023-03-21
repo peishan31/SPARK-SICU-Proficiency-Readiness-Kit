@@ -12,6 +12,14 @@ const SUBCHAPTER_CONTENT = {
     "content": "<h1> This is html content in subchapter 2 for chapter 2 </h1>" 
 }
 
+const SUBCHAPTER_EMPTY_CONTENT = {
+    "subchapterTitle": "",
+    "thumbnailPublicId": "",
+    "thumbnail": "",
+    "description": "",
+    "content": "" 
+}
+
 const getAllSubchaptersForChapter = async (chapterId) => {
     const response = await axios.get(API_URL + `/chapters/${chapterId}/subchapters/`);
     return response.status;
@@ -46,6 +54,19 @@ describe("Testing getSubchapterContent route", () => {
         expect(status).toEqual(200)
     })
 })
+
+describe("Testing add empty subchapter content route", () => {
+    it("should return a 404 error status", async () => {
+
+        try{
+            const res = await insertSubchapterContent(CHAPTER_ID, SUBCHAPTER_EMPTY_CONTENT);
+        } catch(error) {
+            console.log("error: ", error.response.data);
+            expect(error.response.status).toEqual(404);
+        }
+    })
+})
+
 
 describe("Testing add new subchapter and delete subchapter content route", () => {
 
