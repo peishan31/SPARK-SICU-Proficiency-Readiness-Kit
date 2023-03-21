@@ -234,7 +234,7 @@ const CamIcu = () => {
                     </Grid>
                     </Grid>
                     <div>
-                        <Button variant="contained" sx={{m: 2}} color="primary" type="submit">
+                        <Button variant="contained" sx={{m: 2, backgroundColor: '#41ADA4'}} type="submit">
                             Reset
                         </Button>
                     </div>

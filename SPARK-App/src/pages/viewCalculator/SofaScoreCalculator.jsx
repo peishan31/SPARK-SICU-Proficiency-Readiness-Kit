@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, ToggleButton, ToggleButtonGroup, Paper, Divider, styled } from '@mui/material'
+import { Button, ToggleButton, ToggleButtonGroup, IconButton, Divider, styled } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import TextField from '@mui/material/TextField';
 import CalcResultCard from '../../components/calculator/CalcResultCard';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
 function Tab1Content(props){
 
@@ -110,15 +111,20 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} style={{display: 'inline-flex'}}>
                             <TextField label={paOxygenUnit} type="number" variant="outlined" name="PaO" value={formData.PaO} onChange={handleInputChange}/>
-                            <Button variant="outlined" onClick={convertPaOxygenUnit} sx={{ml: 1, fontSize: 25}}>&#128260;</Button>
+                            <IconButton onClick={convertPaOxygenUnit} sx={{color: '#41ADA4'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={2}>
                             <Typography align='left'>
                                 FiO₂
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item xs={12} sm={6} md={4} style={{display: 'inline-flex'}}>
                             <TextField label="%" type="number" variant="outlined" name="FiO" value={formData.FiO} onChange={handleInputChange}/>
+                            <IconButton sx={{visibility: 'hidden'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -285,7 +291,7 @@ function Tab1Content(props){
                     </Grid>
                     <Divider></Divider>
                     <div>
-                    <Button variant="contained" sx={{mt: 2}} color="primary" type="submit" onClick="{handleResetForm}">
+                    <Button variant="contained" sx={{mt: 2, backgroundColor: '#41ADA4'}} type="submit" onClick="{handleResetForm}">
                             Reset
                         </Button>
                     </div>

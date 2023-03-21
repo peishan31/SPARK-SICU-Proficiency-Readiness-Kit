@@ -37,10 +37,15 @@ export default function BasicTabs({ tabs }) {
         <Tabs
           value={value}
           onChange={handleChange}
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "#41ADA4"
+            }
+          }}
           aria-label="basic tabs example" centered
         >
           {tabs.map(({ label }, i) => (
-            <Tab label={label} key={i} />
+            <Tab label={label} key={i} style={{color: "#41ADA4"}} />
           ))}
         </Tabs>
       </Box>

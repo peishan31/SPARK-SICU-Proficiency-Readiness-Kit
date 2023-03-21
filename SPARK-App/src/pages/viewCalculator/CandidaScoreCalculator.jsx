@@ -134,7 +134,7 @@ function Tab1Content(props){
                     </Grid>
                     <Divider></Divider>
                     <div>
-                        <Button variant="contained" sx={{mt: 2}} color="primary" type="submit" onClick="{handleResetForm}">
+                        <Button variant="contained" sx={{mt: 2, backgroundColor: '#41ADA4'}} type="submit" onClick="{handleResetForm}">
                             Reset
                         </Button>
                     </div>

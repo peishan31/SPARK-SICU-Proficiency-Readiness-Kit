@@ -18,7 +18,7 @@ const CalcResultCard = ({pointAllocated, interpretation, scoreType}) => {
                                 {/* 3 */}
                                 {pointAllocated}
                             </Typography>
-                            <Typography variant="h5" sx={{fontWeight:'bold'}}>
+                            <Typography variant="h5" sx={{fontWeight:'bold', color: '#41ADA4'}}>
                                 {scoreType} Score
                                 {/* {result.scoreTitle} */}
                             </Typography>

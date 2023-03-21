@@ -1,19 +1,19 @@
 import React from 'react'
 import { useRef } from 'react'
-import { Button, ToggleButton, ToggleButtonGroup, Paper, Divider, styled} from '@mui/material'
+import { Button, ToggleButton, ToggleButtonGroup, Paper, Divider, IconButton, styled} from '@mui/material'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
 import Box from '@mui/material/Box';
-import { useState, useEffect } from 'react'
+import { useStyles, useState, useEffect } from 'react'
 import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import TextField from '@mui/material/TextField';
 import CalcResultCard from '../../components/calculator/CalcResultCard';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
 const ApacheIIScore = () => {
 
     //forms input state
-
     const [acuteRenalFailure, setAcuteRenalFailure] = useState('');
     const [fiOxygen, setFiOxygen] = useState('');
     const [history, setHistory] = useState('');
@@ -178,18 +178,21 @@ const ApacheIIScore = () => {
                 >
 
                 </Box> */}
-                <Box sx={{ flexGrow: 1 }}>
+                <Box sx={{ flexGrow: 1,}}>
                     <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={6} md={3}>
                                 <Typography align='left'>
                                     Age
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField
                                     label="Years" type="number" value={number}
                                     onChange={validateNumber} variant="outlined" name="age"
                                 />
+                                <IconButton sx={{visibility: 'hidden'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                         {/* <Grid container justifyContent="center" alignItems="center"> */}
                         <Grid item xs={12} sm={6} md={3}>
@@ -199,7 +202,9 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField label={tempUnit} type="number" variant="outlined" name="temperature"/>
-                                <Button variant="outlined" onClick={convertTempUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
+                                <IconButton onClick={convertTempUnit} sx={{color: '#41ADA4'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                         {/* </Grid> */}
                     </Grid>
@@ -210,16 +215,22 @@ const ApacheIIScore = () => {
                                     Mean arterial pressure
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField label="mm Hg" type="number" variant="outlined" name="meanArterialPressure" />
+                                <IconButton sx={{visibility: 'hidden'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                                 <Typography align='left'>
                                     pH
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField label="pH" type="number" variant="outlined" name="pH"/>
+                                <IconButton sx={{visibility: 'hidden'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -229,16 +240,22 @@ const ApacheIIScore = () => {
                                     Heart rate/pulse
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField label="beats/min" type="number" variant="outlined" name="heartRate" />
+                                <IconButton sx={{visibility: 'hidden'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                                 <Typography align='left'>
                                     Respiratory rate
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField label="breaths/min" type="number" variant="outlined" name="respiratoryRate" />
+                                <IconButton sx={{visibility: 'hidden'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -250,7 +267,9 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField label={sodiumUnit} type="number" variant="outlined"  name="sodium" />
-                                <Button variant="outlined" onClick={convertSodiumUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
+                                <IconButton onClick={convertSodiumUnit} sx={{color: '#41ADA4'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                                 <Typography align='left'>
@@ -259,7 +278,9 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField label={potassiumUnit} type="number" variant="outlined" name="potassium" />
-                                <Button variant="outlined" onClick={convertPotassiumUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
+                                <IconButton onClick={convertPotassiumUnit} sx={{color: '#41ADA4'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -271,15 +292,20 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField label={creatinineUnit} type="number" variant="outlined"  name="creatinine" />
-                                <Button variant="outlined" onClick={convertCreatinineUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
+                                <IconButton onClick={convertCreatinineUnit} sx={{color: '#41ADA4'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                                 <Typography align='left'>
                                     Hematocrit
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField label="%" type="number" variant="outlined"  name="hematocrit" />
+                                <IconButton sx={{visibility: 'hidden'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -291,15 +317,20 @@ const ApacheIIScore = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField label={wbcCountUnit} type="number" variant="outlined"  name="whiteBloodCount"/>
-                                <Button variant="outlined" onClick={convertWbcCountUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
+                                <IconButton onClick={convertWbcCountUnit} sx={{color: '#41ADA4'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                                 <Typography align='left'>
                                     Glasgow Coma Scale
                                 </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField label="points" type="number" variant="outlined" name="gcs" />
+                                <IconButton sx={{visibility: 'hidden'}}>
+                                    <ChangeCircleIcon/>
+                                </IconButton>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -433,7 +464,7 @@ const ApacheIIScore = () => {
                     </Grid>
                     <Divider></Divider>
                     <div>
-                        <Button variant="contained" sx={{mt: 2}} color="primary" type="submit">
+                        <Button id="button" variant="contained" sx={{mt: 2, backgroundColor: '#41ADA4'}} type="submit">
                             Reset
                         </Button>
                     </div>

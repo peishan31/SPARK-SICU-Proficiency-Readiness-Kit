@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, ToggleButton, ToggleButtonGroup, Paper, Divider, styled } from '@mui/material'
+import { Button, ToggleButton, ToggleButtonGroup, IconButton, Divider, styled } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react'
 import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import TextField from '@mui/material/TextField';
 import CalcResultCard from '../../components/calculator/CalcResultCard';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
 function Tab1Content(props){
     const {formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
@@ -97,20 +98,25 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label={weightUnit} variant="outlined" type="number" name="weight" value={formData.weight} onChange={handleInputChange}/>
-                            <Button variant="outlined" onClick={convertWeightUnit} sx={{ml: 1, fontSize: 25}}>&#128260;</Button>
+                            <IconButton onClick={convertWeightUnit} sx={{color: '#41ADA4'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography align='left'>
                                 Estimated percentage body burned
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label="%" variant="outlined" type="number" name="bodyBurnPercentage" value={formData.bodyBurnPercentage} onChange={handleInputChange}/>
+                            <IconButton sx={{visibility: 'hidden'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                     </Grid>
                     
                     <div>
-                        <Button variant="contained" sx={{mt: 2}} color="primary" type="submit" onClick="{handleResetForm}"> 
+                        <Button variant="contained" sx={{mt: 2, backgroundColor: '#41ADA4'}} type="submit" onClick="{handleResetForm}"> 
                             Reset
                         </Button>
                     </div>
