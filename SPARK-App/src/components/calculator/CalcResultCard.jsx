@@ -12,25 +12,21 @@ const CalcResultCard = ({pointAllocated, interpretation, scoreType}) => {
         <Card>
             <CardContent sx={{ m: 1.5 }}>
                 <Grid container justifyContent="center" alignItems="center">
-                    <Grid item xs={12} sm={3} mx={6}>
+                    <Grid item xs={12} sm={3} mx={6} sx={{display: 'inline-table'}}>
                         <Item>
-                            <Typography variant="h1">
-                                {/* 3 */}
+                            <Typography variant="h3">
                                 {pointAllocated}
                             </Typography>
-                            <Typography variant="h5" sx={{fontWeight:'bold', color: '#41ADA4'}}>
+                            <Typography variant="subtitle" sx={{fontWeight:'bold', color: '#41ADA4'}}>
                                 {scoreType} Score
-                                {/* {result.scoreTitle} */}
                             </Typography>
                         </Item>
                     </Grid>
-                    <Divider orientation="vertical" flexItem style={{background: 'black'}}></Divider>
+                    <Divider flexItem sx={{background: 'black', borderWidth: '1px'}}></Divider>
                     <Grid item xs={12} sm={5}>
                         <Item>
-                            <Typography align="left" mx={4} my={2}>
-                                {/* There is a low mortality risk, if any other diseases are suspected, continue to monitor, evaluate, and initiate treatment as appropriate */}
+                            <Typography align="center" mx={3} my={2}>
                                 {interpretation}
-                                {/* {result.desc} */}
                             </Typography>
                         </Item>
                     </Grid>

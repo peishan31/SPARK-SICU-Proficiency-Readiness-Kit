@@ -61,16 +61,13 @@ const ApacheIIScore = () => {
         setAaGradientValue(newAaGradientValue);
     };
 
-    // Handle min and max for number type textfield
+    // Show error message when number is out of min and max range
     const [number, setNumber] = useState('');
-    const min = 0;
-    const max = 10;
     const validateNumber = (e) => {
         var number = parseInt(e.target.value, 10);
-        if (number > max) number = max;
-        if (number < min) number = min;
         setNumber(number);
     };
+    const error = number < 0 || number >= 10;
 
     // Handle units of measurement
     // Temperature unit
@@ -188,7 +185,8 @@ const ApacheIIScore = () => {
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                                 <TextField
                                     label="Years" type="number" value={number}
-                                    onChange={validateNumber} variant="outlined" name="age"
+                                    onChange={validateNumber} helperText={error ? "Number is out of range" : ""}
+                                    error={error} variant="outlined" name="age"
                                 />
                                 <IconButton sx={{visibility: 'hidden'}}>
                                     <ChangeCircleIcon/>
