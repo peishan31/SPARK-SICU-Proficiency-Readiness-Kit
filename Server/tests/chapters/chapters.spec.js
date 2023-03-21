@@ -1,6 +1,7 @@
 const axios = require("axios")
 const PORT = 8080 || process.env.PORT;
-const API_URL = "https://spark-sicu-proficiency-readiness-kit-backend.vercel.app"
+// const API_URL = "https://spark-sicu-proficiency-readiness-kit-backend.vercel.app"
+const API_URL = "http://localhost:8080"
 const getAllChapters = async () => {
     const response = await axios.get(API_URL + "/chapters/");
     return response.status;
