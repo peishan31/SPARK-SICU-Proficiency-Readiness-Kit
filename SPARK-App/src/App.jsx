@@ -36,7 +36,12 @@ function App() {
 
         }
         {/* if not logged in or localstorage is null then don't render mini drawer */}
-        <MiniDrawer/>
+
+        { 
+          userState.currentUser.userType == "senior" ? 
+          <MiniDrawer admin/> :
+          <MiniDrawer/>
+        }
       </div>
     </>
   )

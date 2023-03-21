@@ -4,3 +4,22 @@
     margin-top: 40px;
     margin-right: 20px;
 }
+
+@media (max-width: 700px) {
+    .MuiTableCell-body > span {
+        display: block;
+    }
+
+    .MuiTableCell-body > .name {
+        margin-top: 10px;
+    }
+
+}
+
+@media (max-width: 500px) {
+    .MuiTableCell-body > .email {
+        max-width: 100px;
+        overflow-wrap: break-word; 
+    }
+}
+

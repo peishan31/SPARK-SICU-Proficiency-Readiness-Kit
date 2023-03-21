@@ -92,7 +92,7 @@ userRouter.put('/update', (req, res)=>{
 
     updateUserType(key, value)
     .then(user => {
-        res.send(user);
+        res.end();
     })
     .catch (
       console.error

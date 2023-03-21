@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import React, { useState } from "react";
 import "./Modal.css";
 
-export default function Modal({setModalBool, modalContent}) {
+export default function Modal({setModalBool, modalText}) {
 
     return (
     <>
@@ -10,7 +10,7 @@ export default function Modal({setModalBool, modalContent}) {
             <div className="overlay" onClick={()=>setModalBool(false)}></div>
             <div className="modal-content">
                 <p className="modalText">
-                    {modalContent}
+                    {modalText}
                 </p>
                 <Button sx={{ 
                         color: "white",
