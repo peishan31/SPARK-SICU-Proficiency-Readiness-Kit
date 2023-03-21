@@ -4,7 +4,6 @@ import MiniDrawer from './components/miniDrawer/MiniDrawer'
 import { useAppState, useActions } from './overmind'
 import Login from './pages/login/Login'
 
-
 function App() {
     
   // user in overmind
@@ -36,7 +35,12 @@ function App() {
 
         }
         {/* if not logged in or localstorage is null then don't render mini drawer */}
-        <MiniDrawer/>
+        <div className="content-wrap">
+          <MiniDrawer/>
+        </div>
+        <footer className='footer'>
+          &copy; 2023 Team CLT. 
+        </footer>
       </div>
     </>
   )
