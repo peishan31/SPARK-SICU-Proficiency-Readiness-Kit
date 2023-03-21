@@ -47,7 +47,6 @@ export default function CreateSubchapter() {
 
     async function addSubchapter() {
         console.log(DOMPurify.sanitize(editorRef.current.getContent()));
-        let subchapterContentBackup;
         setErrorMessage(""); // initialize error message
         setLoading(true);
         if (chapSelected == undefined || chapSelected == '' || chapSelected == null) {
@@ -55,7 +54,6 @@ export default function CreateSubchapter() {
             setErrorMessage("Fields cannot be empty");
             return;
         }
-        
         await axios
             .put(BASE_URL + '/chapters/' + chapSelected + '/subchapters/', {
                 subchapterTitle: subchapTitle,
