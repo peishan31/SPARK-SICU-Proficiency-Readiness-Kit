@@ -84,7 +84,7 @@ const SubchapterContent = () => {
 
     async function deleteSubchapter() {
 
-        if (confirm("Are you sure you want to delete this subchapter?") == true) {
+        if (confirm("Are you sure you want to delete this subchapter?")) {
             await axios.delete(
                 BASE_URL + `/chapters/` + chapterId +`/subchapters/${subchapterId}`
             ).then(
