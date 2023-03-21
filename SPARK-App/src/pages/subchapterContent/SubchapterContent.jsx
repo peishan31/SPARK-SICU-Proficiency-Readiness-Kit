@@ -3,6 +3,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import DeleteIcon from '@mui/icons-material/Delete';
 import "./subchapterContent.css";
 import { Tooltip } from '@mui/material';
 import axios from 'axios';
@@ -80,7 +81,25 @@ const SubchapterContent = () => {
             setIsBookmarked(true)
         }
     }
-    
+
+    async function deleteSubchapter() {
+
+        if (confirm("Are you sure you want to delete this subchapter?") == true) {
+            await axios.delete(
+                BASE_URL + `/chapters/` + chapterId +`/subchapters/${subchapterId}`
+            ).then(
+                res => {
+                    alert("Subchapter deleted successfully!")
+                    navigate(-1);
+                    //return 200
+                }
+            ).catch(
+                err => {
+                    return 500
+                }
+            )}
+    }
+        
     useEffect(() => {
         getSubchapterContent(chapterId, subchapterId)
     }, [])
@@ -99,6 +118,10 @@ const SubchapterContent = () => {
                         <div className="subchapterAction">
                             <Tooltip title="Edit" placement="top">
                                 <EditIcon className="subchapterActionIcon"/>
+                            </Tooltip>
+                            &nbsp; &nbsp;
+                            <Tooltip title="Delete" placement="top">
+                                <DeleteIcon className="subchapterActionIcon" onClick={ e => { deleteSubchapter() }}/> 
                             </Tooltip>
                         </div>
                         <div className="subchapterAction">
