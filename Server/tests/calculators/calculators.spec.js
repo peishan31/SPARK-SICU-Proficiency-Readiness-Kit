@@ -1,5 +1,10 @@
 const axios = require('axios')
 
+const calculateCamIcu = async (data) => {
+    const response = await axios.post(`http://localhost:8080/calculator/cam-icu/`, data);
+    return response;
+};
+
 const calculateSimplifiedPESI = async (data) => {
     const response = await axios.post(`http://localhost:8080/calculator/simplified-pesi/`, data);
     return response;
@@ -24,6 +29,59 @@ const calculateRoxIndex = async (data) => {
     const response = await axios.post(`http://localhost:8080/calculator/rox-index/`, data);
     return response;
 };
+
+describe("Testing Calculate CAM ICU Score by cam icu route", () => {
+    it ("should return result as too sedated", async () => {
+        const expectedResult = {
+            "result": "Too sedated",
+            "interpretation": "Patient is too sedated. Complete CAM-ICU at a later time."
+        };
+        const res = await calculateCamIcu(
+            {
+                "rass": "no",
+                "acuteOnset": "no",
+                "fluctuatingCourse": "no",
+                "inattention": "no",
+                "levelOfConsciousness": "no",
+                "disorganizedThinking": "no"
+            });
+        expect(res.data).toEqual(expectedResult);
+    })
+
+    it ("should return result as negative", async () => {
+        const expectedResult = {
+            "result": "Negative",
+            "interpretation": "CAM-ICU negative. Delirium absent."
+        };
+        const res = await calculateCamIcu(
+            {
+                "rass": "yes",
+                "acuteOnset": "yes",
+                "fluctuatingCourse": "no",
+                "inattention": "no",
+                "levelOfConsciousness": "no",
+                "disorganizedThinking": "no"
+            });
+        expect(res.data).toEqual(expectedResult);
+    })
+
+    it ("should return result as posiitve", async () => {
+        const expectedResult = {
+            "result": "Positive",
+            "interpretation": "CAM-ICU positive. Delirium present."
+        };
+        const res = await calculateCamIcu(
+            {
+                "rass": "yes",
+                "acuteOnset": "yes",
+                "fluctuatingCourse": "no",
+                "inattention": "yes",
+                "levelOfConsciousness": "yes",
+                "disorganizedThinking": "no"
+            });
+        expect(res.data).toEqual(expectedResult);
+    })
+})
 
 describe("Testing Calculate Simplified PESI Score by simplified pesi route", () => {
     it ("should return result as low risk with 0 points", async () => {

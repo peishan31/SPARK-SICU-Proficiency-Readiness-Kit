@@ -1,28 +1,60 @@
 import React from 'react'
 import { Button, ToggleButton, ToggleButtonGroup, Paper, Divider, styled } from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
-import { margin } from '@mui/system'
 import CalculatorTab from '../../components/calculatorIcon/TabPanel'
-import TextField from '@mui/material/TextField';
-import { spacing } from '@mui/system';
-import { borders } from '@mui/system';
 import CalcResultCard from '../../components/calculator/CalcResultCard';
 
+
 const CamIcu = () => {
-    const handleSubmit = (event) => {
+    //state for calc result card
+    const [pointAllocated , setPointAllocated] = useState("-")
+    const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
+    const [scoreType, setScoreType] = useState('CAM-ICU')
+
+    const handleCalculate = async (q1Value, q2Value, q3Value, q4Value, q5Value, q6Value) => {
         // event.preventDefault();
-        // console.log(formValues);
+        await axios.post(`http://localhost:8080/calculator/cam-icu/`,
+                {
+                    "rass": q1Value,
+                    "acuteOnset": q2Value,
+                    "fluctuatingCourse": q3Value,
+                    "inattention": q4Value,
+                    "levelOfConsciousness": q5Value,
+                    "disorganizedThinking": q6Value
+                }
+            ).then(
+                res => {
+                    let data = res.data
+                    setPointAllocated(res.data.result)
+                    setInterpretation(res.data.interpretation)
+                    return 200;
+                }
+            ).catch(
+                err => {
+                    return 500
+                }
+            )
+        
     };
 
-    const [q1Value, setQ1Value] = useState('no');
+    const handleResetForm = (e) => {
+        setQ1Value("no");
+        setQ2Value("no");
+        setQ3Value("no");
+        setQ4Value("no");
+        setQ5Value("no");
+        setQ6Value("no");
+    }
+
+    const [q1Value, setQ1Value] = useState('');
     const handleQ1Value = (event, newQ1Value) => {
         setQ1Value(newQ1Value);
+        {handleCalculate(newQ1Value, q2Value, q3Value, q4Value, q5Value, q6Value)};
+
         if(newQ1Value == 'yes') {
             document.getElementById('q2and3').style.display = "block";
         } else {
@@ -41,12 +73,14 @@ const CamIcu = () => {
     const [q2Value, setQ2Value] = useState('no');
     const handleQ2Value = (event, newQ2Value) => {
         setQ2Value(newQ2Value);
+        {handleCalculate(q1Value, newQ2Value, q3Value, q4Value, q5Value, q6Value)};
         if(newQ2Value == 'yes' || q3Value == 'yes') {
             document.getElementById('q4').style.display = "block";
         } else {
             document.getElementById('q4').style.display = "none";
             document.getElementById('q5').style.display = "none";
             document.getElementById('q6').style.display = "none";
+            {handleCalculate(q1Value, q2Value, q3Value, "no", "no", "no")};
             setQ4Value('no');
             setQ6Value('no');
             setQ5Value('no');
@@ -56,12 +90,14 @@ const CamIcu = () => {
     const [q3Value, setQ3Value] = useState('no');
     const handleQ3Value = (event, newQ3Value) => {
         setQ3Value(newQ3Value);
+        {handleCalculate(q1Value, q2Value, newQ3Value, q4Value, q5Value, q6Value)};
         if(newQ3Value == 'yes' || q2Value == 'yes') {
             document.getElementById('q4').style.display = "block";
         } else {
             document.getElementById('q4').style.display = "none";
             document.getElementById('q5').style.display = "none";
             document.getElementById('q6').style.display = "none";
+            {handleCalculate(q1Value, q2Value, q3Value, "no", "no", "no")};
             setQ4Value('no');
             setQ6Value('no');
             setQ5Value('no');
@@ -71,12 +107,14 @@ const CamIcu = () => {
     const [q4Value, setQ4Value] = useState('no');
     const handleQ4Value = (event, newQ4Value) => {
         setQ4Value(newQ4Value);
+        {handleCalculate(q1Value, q2Value, q3Value, newQ4Value, q5Value, q6Value)};
         if(newQ4Value == 'yes') {
             document.getElementById('q5').style.display = "block";
             document.getElementById('q6').style.display = "block";
         } else {
             document.getElementById('q5').style.display = "none";
             document.getElementById('q6').style.display = "none";
+            {handleCalculate(q1Value, q2Value, q3Value, q4Value, "no", "no")};
             setQ5Value('no');
             setQ6Value('no');
         }
@@ -85,11 +123,13 @@ const CamIcu = () => {
     const [q5Value, setQ5Value] = useState('no');
     const handleQ5Value = (event, newQ5Value) => {
         setQ5Value(newQ5Value);
+        {handleCalculate(q1Value, q2Value, q3Value, q4Value, newQ5Value, q6Value)};
     };
 
     const [q6Value, setQ6Value] = useState('no');
     const handleQ6Value = (event, newQ6Value) => {
         setQ6Value(newQ6Value);
+        {handleCalculate(q1Value, q2Value, q3Value, q4Value, q5Value, newQ6Value)};
     };
 
     const tabs = [
@@ -97,7 +137,7 @@ const CamIcu = () => {
           label: "General Information",
           Component: (
             <div style={{marginLeft:'10%', marginRight:'10%'}}>
-            <form onSubmit={handleSubmit}>
+            <form>
                 <Box sx={{ flexGrow: 1 }}>
                     <Typography align='left' variant='overline' display="block" p={1} style={{fontWeight: 'bold', color: 'white', backgroundColor: '#41ADA4'}}>
                         Level of Consciousnss
@@ -113,12 +153,13 @@ const CamIcu = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                                 <ToggleButtonGroup color="primary" exclusive value={q1Value} onChange={handleQ1Value}>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
                                     <ToggleButton value="no">
                                         No
                                     </ToggleButton>
+                                    <ToggleButton value="yes">
+                                        Yes
+                                    </ToggleButton>
+                                    
                                 </ToggleButtonGroup>
                         </Grid>
                     </Grid>
@@ -134,11 +175,11 @@ const CamIcu = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                                 <ToggleButtonGroup color="primary" exclusive value={q2Value} onChange={handleQ2Value}>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
                                     <ToggleButton value="no">
                                         No
+                                    </ToggleButton>
+                                    <ToggleButton value="yes">
+                                        Yes
                                     </ToggleButton>
                                 </ToggleButtonGroup>
                         </Grid>
@@ -151,12 +192,13 @@ const CamIcu = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                                 <ToggleButtonGroup color="primary" exclusive value={q3Value} onChange={handleQ3Value}>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
                                     <ToggleButton value="no">
                                         No
                                     </ToggleButton>
+                                    <ToggleButton value="yes">
+                                        Yes
+                                    </ToggleButton>
+                                    
                                 </ToggleButtonGroup>
                         </Grid>
                     </Grid>
@@ -176,11 +218,11 @@ const CamIcu = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                                 <ToggleButtonGroup color="primary" exclusive value={q4Value} onChange={handleQ4Value}>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
                                     <ToggleButton value="no">
                                         No
+                                    </ToggleButton>
+                                    <ToggleButton value="yes">
+                                        Yes
                                     </ToggleButton>
                                 </ToggleButtonGroup>
                         </Grid>
@@ -198,12 +240,13 @@ const CamIcu = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                                 <ToggleButtonGroup color="primary" exclusive value={q5Value} onChange={handleQ5Value}>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
                                     <ToggleButton value="no">
                                         No
                                     </ToggleButton>
+                                    <ToggleButton value="yes">
+                                        Yes
+                                    </ToggleButton>
+                                    
                                 </ToggleButtonGroup>
                         </Grid>
                     </Grid>
@@ -223,18 +266,18 @@ const CamIcu = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                                 <ToggleButtonGroup color="primary" exclusive value={q6Value} onChange={handleQ6Value}>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
                                     <ToggleButton value="no">
                                         No
+                                    </ToggleButton>
+                                    <ToggleButton value="yes">
+                                        Yes
                                     </ToggleButton>
                                 </ToggleButtonGroup>
                         </Grid>
                     </Grid>
                     </Grid>
                     <div>
-                        <Button variant="contained" sx={{m: 2, backgroundColor: '#41ADA4'}} type="submit">
+                        <Button variant="contained" sx={{mt: 2, backgroundColor: '#41ADA4'}} type="submit" onClick="{handleResetForm}"> 
                             Reset
                         </Button>
                     </div>
@@ -243,7 +286,7 @@ const CamIcu = () => {
             <Typography variant="h6" mt={5} mb={1} sx={{fontWeight:'bold'}} component="div">
                 Results
             </Typography>
-            <CalcResultCard></CalcResultCard>
+            <CalcResultCard pointAllocated={pointAllocated} interpretation={interpretation} scoreType={scoreType}></CalcResultCard>
             </div>
           )
         },
@@ -251,8 +294,12 @@ const CamIcu = () => {
           label: "Point System",
           Component: (
             <div>
-              <h1>Tab with heading</h1>
-              <p>Hello I am a tab with a heading</p>
+              <p>The patient is CAM-ICU positive (patient has delirium) if:</p>
+              <p>RASS ≥ -3, AND</p>
+              <p>Acute onset change in mental status or fluctuating course in mental status, AND</p>
+              <p>2 errors in letters attention test, AND</p>
+              <p>Either RASS is not 0, OR combined number of errors to questions and commands {'>'}1</p>
+              <p>2 errors in letters attention test, AND</p>
             </div>
           )
         }
