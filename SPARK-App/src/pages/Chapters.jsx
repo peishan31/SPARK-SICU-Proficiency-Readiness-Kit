@@ -60,6 +60,7 @@ const Chapters = ({ searchInput }) => {
 
 
 
+
     return (
         <Box pt={5} pl={5} >
             <div className="pageTitle">

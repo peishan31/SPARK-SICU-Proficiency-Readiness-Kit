@@ -7,13 +7,18 @@ import "./subchapterContent.css";
 import { Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppState } from '../../overmind';
 
 const SubchapterContent = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [subchapter, setSubchapter] = useState([]);
+    const BASE_URL = import.meta.env.VITE_API_URL
+
+    const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
     
-    const API_URL = "http://localhost:8080/chapters"
+    const API_URL = BASE_URL + "/chapters"
     const chapterId = location.state.parentChapterId
     const subchapterId = location.state.parentSubchapterId
     const bookmarkId = location.state.bookmarkId
@@ -34,7 +39,7 @@ const SubchapterContent = () => {
     async function addBookmark() {
 
         await axios.put(
-            'http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/',
+            BASE_URL + '/user/' + userId + '/bookmarks/',
             {
                 subchapterId: subchapterId,
                 chapterId: chapterId
@@ -53,7 +58,7 @@ const SubchapterContent = () => {
     async function removeBookmark(bookmarkId) {
 
         await axios.delete(
-            `http://localhost:8080/user/63e87a7780b6c0bcb29d15d0/bookmarks/${bookmarkId}`
+            BASE_URL + `/user/` + userId +`/bookmarks/${bookmarkId}`
         ).then(
             res => {
                 return 200
