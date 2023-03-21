@@ -97,7 +97,7 @@ export default function CreateSubchapter() {
         
         // Check if Blob size is bigger than 2MB
         if (blob.size / 1024 / 1024 > 2) {
-            alert("Image size is more than 2MB. Please upload an image size less than 2MB.");
+            alert("The image size exceeds 2MB. Please upload an image with a size smaller than 2MB.");
             return;
         } 
 
