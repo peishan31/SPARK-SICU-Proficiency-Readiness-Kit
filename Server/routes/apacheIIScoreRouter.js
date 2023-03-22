@@ -23,10 +23,11 @@ apacheIIScoreRouter.post("/", async (req, res) => {
     console.log(`Calculating apache ii score...`)
     try {
         var pointAllocated = 0;
-        console.log(req)
-        const { age, history, rectalTemp, meanArterialPressure, heartrate, respiratoryRate, arterial
-            , seriumSodium, seriumPotassium, serumCreatinine, hematocrit, whiteBloodCount, gcs} = req.body;
-
+        console.log(req.body)
+        const { cancerHistory, typeOfSurgery, age, temperature, meanArterialPressure, pH, heartrate
+            , respiratoryRate, sodium, potassium, creatinine, acuteRenalFailure, hematocrit, whiteBloodCell
+            ,gcs, fio, pao, aaGradient} = req.body;
+            
         //calculations for age
         if (age >= 45 && age <= 54){
             pointAllocated += 2;
@@ -38,30 +39,24 @@ apacheIIScoreRouter.post("/", async (req, res) => {
             pointAllocated += 6;
         }
 
-        console.log("point Allocated for age " + age + " is " + pointAllocated);
-
         //calculations for history of severe organ insufficiency or immunocompromised
         //expecting no/ emergency/ elective/ nonoperative
-        if (history == "nonoperative" || history == "emergency"){
+        if (cancerHistory == "Yes" && (typeOfSurgery == "nonoperative" || typeOfSurgery == "elective")){
             pointAllocated += 5; 
-        }else if (history == "elective") {
+        }else if (cancerHistory == "Yes" && typeOfSurgery == "elective") {
             pointAllocated += 2;
         }
 
-        console.log("point Allocated for history " + history + " is " + pointAllocated);
-    
         //calcuations for rectal temperature (°C)
-        if (rectalTemp >= 41 || rectalTemp < 30){
+        if (temperature >= 41 || temperature < 30){
             pointAllocated += 4;
-        }else if ((rectalTemp >= 39 || rectalTemp < 41) || (rectalTemp >= 30 || rectalTemp < 32)){
+        }else if ((temperature >= 39 || temperature < 41) || (rectalTemp >= 30 || rectalTemp < 32)){
             pointAllocated += 3;
-        }else if (rectalTemp >= 32 && rectalTemp < 34){
+        }else if (temperature >= 32 && temperature < 34){
             pointAllocated += 2;
-        }else if ((rectalTemp >= 38.5 && rectalTemp < 39) || (rectalTemp >= 34 && rectalTemp < 36)) {
+        }else if ((temperature >= 38.5 && temperature < 39) || (rectalTemp >= 34 && rectalTemp < 36)) {
             pointAllocated += 1;
         }
-
-        console.log("point Allocated for rectalTemp " + rectalTemp + " is " + pointAllocated);
 
         //calculations for mean arterial pressure (mmHg)
         if (meanArterialPressure <= 49 || meanArterialPressure > 159){
@@ -72,8 +67,6 @@ apacheIIScoreRouter.post("/", async (req, res) => {
             pointAllocated += 2;
         }
 
-        console.log("point Allocated for meanArterialPressure " + meanArterialPressure + " is " + pointAllocated);
-
         //calculations for heart rate (beats per min)
         if (heartrate < 40 || heartrate >= 180){ 
             pointAllocated += 4;
@@ -82,8 +75,6 @@ apacheIIScoreRouter.post("/", async (req, res) => {
         }else if ((heartrate >= 110 && heartrate < 140) || (heartrate >= 55 && heartrate < 70)){
             pointAllocated += 2;
         }
-        
-        console.log("point Allocated for heartrate " + heartrate + " is " + pointAllocated);
 
         //calculations for respiratory rate (breaths per minute)
         if (respiratoryRate >= 50 || respiratoryRate < 6){
@@ -96,51 +87,74 @@ apacheIIScoreRouter.post("/", async (req, res) => {
             pointAllocated += 1;
         }
 
-        console.log("point Allocated for heartrate " + heartrate + " is " + pointAllocated);
-
         //calculations for oxygenation (use PaO2 if FiO2 <50%, otherwise use A-a gradient)
-
+        if (fio == '<50% (or non-intubated)'){
+            if (pao == "61-70"){
+                pointAllocated += 1;
+            }else if (pao == "55-60"){
+                pointAllocated += 3;
+            }else if (pao == "<55"){
+                pointAllocated += 4;
+            }
+        }else{
+            if (aaGradient == ">499"){
+                pointAllocated += 4;
+            }else if (aaGradient == "350-499"){
+                pointAllocated += 3;
+            }else if (aaGradient == "200-349"){
+                pointAllocated += 2;
+            }
+        }
 
         //calculations for arterial pH
-        if (arterial >= 7.70 || arterial < 7.15){
+        if (pH >= 7.70 || pH < 7.15){
             pointAllocated += 4;
-        }else if ((arterial >= 7.60 && arterial < 7.70) || (arterial >= 7.15 || arterial < 7.25)){
+        }else if ((pH >= 7.60 && pH < 7.70) || (pH >= 7.15 || pH < 7.25)){
             pointAllocated += 3;
-        }else if (arterial >= 7.25 || arterial < 7.33){
+        }else if (pH >= 7.25 || pH < 7.33){
             pointAllocated += 2;
-        }else if (arterial >= 7.50 && arterial < 7.60){
+        }else if (pH >= 7.50 && pH < 7.60){
             pointAllocated += 1;
         }
-
-        console.log("point Allocated for arteria " + arterial + " is " + pointAllocated);
 
         //calcuations for seriumSodium (mmol/L)
-        if (seriumSodium >= 180 || seriumSodium < 111){
+        if (sodium >= 180 || sodium < 111){
             pointAllocated += 4;
-        }else if ((seriumSodium >= 160 && seriumSodium < 180) || (seriumSodium >= 111 && seriumSodium < 120)){
+        }else if ((sodium >= 160 && sodium < 180) || (sodium >= 111 && sodium < 120)){
             pointAllocated += 3;
-        }else if ((seriumSodium >= 155 && seriumSodium < 160) || (seriumSodium >= 120 && seriumSodium < 130)){
+        }else if ((sodium >= 155 && sodium < 160) || (sodium >= 120 && sodium < 130)){
             pointAllocated += 2;
-        } else if (seriumSodium >= 150 && seriumSodium < 155){
+        } else if (sodium >= 150 && sodium < 155){
             pointAllocated += 1;
         }
-
-        console.log("point Allocated for serum sodium " + seriumSodium + " is " + pointAllocated);
 
         //calculations for serium potassium (mmol/L)
-        if (seriumPotassium >= 7.0 || seriumPotassium < 2.5){
+        if (potassium >= 7.0 || potassium < 2.5){
             pointAllocated += 4;
-        }else if (seriumPotassium >= 6.0 && seriumPotassium < 7.0){
+        }else if (potassium >= 6.0 && potassium < 7.0){
             pointAllocated += 3;
-        }else if (seriumPotassium >= 2.5 && seriumPotassium < 3.0){
+        }else if (potassium >= 2.5 && potassium < 3.0){
             pointAllocated += 2;
-        }else if ((seriumPotassium >= 5.5 && seriumPotassium  < 6.0) || (seriumPotassium >= 3.0 && seriumPotassium < 3.5)){
+        }else if ((potassium >= 5.5 && potassium  < 6.0) || (potassium >= 3.0 && potassium < 3.5)){
             pointAllocated += 1;
         }
-        console.log("point Allocated for serum potassium " + seriumPotassium + " is " + pointAllocated);
 
-        //calculations for serum creatinine (mg/100mL)
-        
+        // //calculations for serum creatinine (mg/100mL)
+        if (creatinine >= 3.5 && acuteRenalFailure == "Yes"){
+            pointAllocated += 8;
+        }else if ((creatinine >= 2.0 && creatinine < 3.5) && acuteRenalFailure == "Yes"){
+            pointAllocated += 6;
+        }else if (creatinine >= 3.5 && acuteRenalFailure == "No"){
+            pointAllocated += 4;
+        }else if ((creatinine >= 1.5 && creatinine < 2.0) && acuteRenalFailure == "Yes"){
+            pointAllocated += 4;
+        }else if ((creatinine >= 2.0 && creatinine < 3.5) && acuteRenalFailure == "No"){
+            pointAllocated += 3;
+        }else if ((creatinine >= 1.5 && creatinine < 2.0) && acuteRenalFailure == "No"){
+            pointAllocated += 2;
+        }else if (creatinine < 0.6){
+            pointAllocated += 2;
+        }
 
 
         //calculations for hematocrit (%)
@@ -151,14 +165,13 @@ apacheIIScoreRouter.post("/", async (req, res) => {
         }else if(hematocrit >= 46 && hematocrit < 50){
             pointAllocated += 1;
         }
-        console.log("point Allocated for hematocrit " + hematocrit + " is " + pointAllocated);
 
         //calculations for white blood count (total/cubic mm in)
-        if (whiteBloodCount >= 40 || whiteBloodCount < 1){
+        if (whiteBloodCell >= 40 || whiteBloodCell < 1){
             pointAllocated += 4;
-        }else if ((whiteBloodCount >= 20 && whiteBloodCount < 40) || (whiteBloodCount >= 1 && whiteBloodCount <3)){
+        }else if ((whiteBloodCell >= 20 && whiteBloodCell < 40) || (whiteBloodCell >= 1 && whiteBloodCell <3)){
             pointAllocated += 2;
-        }else if (whiteBloodCount >= 15 && whiteBloodCount < 20){
+        }else if (whiteBloodCell >= 15 && whiteBloodCell < 20){
             pointAllocated += 1;
         }
 
@@ -194,7 +207,7 @@ apacheIIScoreRouter.post("/", async (req, res) => {
             nonoperativeResult = "85% estimated nonoperative mortality";
             postoperativeResult = "88% estimated postoperative mortality"
         } 
-
+        
         res.status(200).json( {"pointAllocated" : pointAllocated, "result": {"postoperativeResult": postoperativeResult, "nonoperative": nonoperativeResult}})
     } catch (err) {
         console.error(err.message)
