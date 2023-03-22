@@ -60,7 +60,7 @@ export default function CreateSubchapter() {
                 thumbnail: base64Thumbnail,
                 description: subchapDesc,
                 content: DOMPurify.sanitize(editorRef.current.getContent()),
-            })
+            }, { withCredentials: true })
             .then(() => {
                 setLoading(false);
                 navigate(-1);
@@ -68,6 +68,11 @@ export default function CreateSubchapter() {
             .catch((error) => {
                 setLoading(false);
                 console.log("error",error);
+
+                if (error.response.status == 401) {
+                    setErrorMessage("You are not authorized to perform this action.")
+                    return;
+                }
                 
                 if (error.response.status == 404) {
                     setErrorMessage(error.response.data.msg);

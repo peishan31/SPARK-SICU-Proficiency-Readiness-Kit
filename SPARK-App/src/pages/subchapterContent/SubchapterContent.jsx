@@ -86,7 +86,9 @@ const SubchapterContent = () => {
 
         if (confirm("Are you sure you want to delete this subchapter?")) {
             await axios.delete(
-                BASE_URL + `/chapters/` + chapterId +`/subchapters/${subchapterId}`
+                BASE_URL + `/chapters/` + chapterId +`/subchapters/${subchapterId}`, {
+                    withCredentials: true
+                }
             ).then(
                 res => {
                     alert("Subchapter deleted successfully!")
@@ -95,6 +97,9 @@ const SubchapterContent = () => {
                 }
             ).catch(
                 err => {
+                    if (err.response.status == 401) {
+                        alert("You are not authorized to perform this action")
+                    }
                     return 500
                 }
             )}

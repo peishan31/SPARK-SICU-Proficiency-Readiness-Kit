@@ -207,6 +207,7 @@ export default function MiniDrawer({admin}) {
     };
 
     const handleSignOut = event => {
+        sessionStorage.clear();
         userActions.signOutUser();
     }
 

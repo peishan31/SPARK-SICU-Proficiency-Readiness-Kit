@@ -25,6 +25,8 @@ function Login() {
         })
         .then(res => {
             console.log(res.data)
+            sessionStorage.setItem("isLoggedIn", "yes");
+            sessionStorage.setItem('user', JSON.stringify(res.data));
             userActions.updateUser(res.data)
         })
         .catch(err => {
