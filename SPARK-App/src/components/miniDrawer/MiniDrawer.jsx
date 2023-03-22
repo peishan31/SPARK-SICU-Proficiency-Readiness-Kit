@@ -38,6 +38,7 @@ import Bookmarks from '../../pages/Bookmarks'
 import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 import CreateSubchapter from '../../pages/CreateSubchapter';
 import Login from "../../pages/login/Login";
+import UpdateAdmin from '../../pages/updateAdmin/UpdateAdmin';
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -164,7 +165,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function MiniDrawer() {
+export default function MiniDrawer({admin}) {
     const path = useLocation().pathname
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -322,6 +323,36 @@ export default function MiniDrawer() {
                             </ListItem>
                         </Link>
                     ))}
+
+                    {
+
+                        admin &&
+                        
+                        <Link to={"/updateAdmin"} style={{ textDecoration: 'none' }}>
+                            <ListItem disablePadding sx={{ display: 'block' }}>
+                                <ListItemButton
+                                    sx={{
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
+                                    }}
+                                >
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                        }}>
+                                        <span className="icon">👥</span>
+                                    </ListItemIcon>
+                                    <ListItemText primary={"Manage Admins"} sx={{ opacity: open ? 1 : 0 }} />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+
+                    }
+                    
+
                     <ListItem disablePadding sx={{ display: 'block' }}>
                         <ListItemButton
                             sx={{
@@ -359,6 +390,7 @@ export default function MiniDrawer() {
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/login" element={<Login/>}/>
+                    <Route path="/updateAdmin" element={<UpdateAdmin/>}/>
                     <Route path="/Sign Out" element={<Navigate to={"/"}/>}/>
                 </Routes>
             </Box>

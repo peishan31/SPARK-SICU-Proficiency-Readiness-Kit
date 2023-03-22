@@ -63,7 +63,7 @@ const Chapters = ({searchInput}) => {
 
 
     return (
-        <Box pt={5} pl={5} >
+        <Box pt={5} pl={5}>
             <div className="pageTitle">
                 <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Chapters</h1>
             </div>

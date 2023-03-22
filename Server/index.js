@@ -49,57 +49,17 @@ app.get('/health', async (req, res) => {
   }
 })
 
-// app.get("/api/posts", async (req, res) => {
-//   const posts = await prisma.posts.findMany({orderBy: [{ created: 'desc'}]})
-//   for (let post of posts) {
-//     post.imageUrl = await getObjectSignedUrl(post.imageName)
-//     console.log("imageUrl: ", post.imageUrl);
-//   }
-//   res.send(posts)
-// })
 
-// app.post('/api/posts', upload.single('image'), async (req, res) => {
-
-//   const file = req.file
-//   const caption = req.body.caption
-//   const imageName = generateFileName()
-
-//   const fileBuffer = await sharp(file.buffer)
-//     .toBuffer() //can delete this later
-
-//   await uploadFile(fileBuffer, imageName, file.mimetype).then( (i) => {
-//     console.log("Upload image done! ",imageName);
-//     console.log("Upload image done! ImageUrl: https://testing-bucket-clt.s3.us-east-1.amazonaws.com/"+imageName);
-//     res.send({'location': "https://testing-bucket-clt.s3.us-east-1.amazonaws.com/"+ imageName})
-//   })
-  
-// })
-// app.delete("/api/posts/:id", async (req, res) => {
-//   const id = +req.params.id
-//   const post = await prisma.posts.findUnique({where: {id}}) 
-
-//   await deleteFile(post.imageName)
-
-//   // await prisma.posts.delete({where: {id: post.id}})
-//   res.send(post)
-// })
-
-// // Rich-text-editor stuffs
-// app.get("/testing", async (req, res) => {
-//   const notes = await prisma.notes.findMany()
-//   res.send(notes)
-// })
-
-// app.post('/api/newpost', async (req, res) => {
-  
-//   const post = await prisma.notes.create({
-//     data: {
-//       richText: req.body.richText 
-//     }
-//   })
-//   res.status(201).send(post)
-// })
-
+app.get('/users', async(req, res) => {
+  try {
+    const userList = await User.find();
+    res.status(200).json(userList);
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).send('Server Error')
+  }
+})
 
 
 // create user

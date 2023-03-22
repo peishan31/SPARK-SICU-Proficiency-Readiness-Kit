@@ -2,6 +2,7 @@ import express from 'express';
 import bookmarkRouter from './bookmarkRouter.js';
 import User from '../models/UserModel.js';
 import { OAuth2Client } from 'google-auth-library'
+import jwt_decode from 'jwt-decode';
 
 const userRouter = express.Router();
 
@@ -23,7 +24,6 @@ userRouter.get("/health", async (req, res) => {
 // @description: Authenticate user
 // @route POST user/login
 userRouter.post('/login', (req,res)=>{
-  console.log("login route accessed")
   let token = req.body.token;
   let user = {}
   
@@ -59,9 +59,10 @@ userRouter.post('/login', (req,res)=>{
   
   verify()
   .then(user => {
-      console.log(token)
-
-      res.cookie('session-token', token);
+      res.cookie('session-token', token, {
+        secure: false,
+        httpOnly: true
+      });
       res.send(user);
   })
   .catch(
@@ -69,34 +70,50 @@ userRouter.post('/login', (req,res)=>{
     );
 })
 
-// // @description: Update userType for a user
-// userRouter.put('/update/:userId', (req,res)=>{
-//   const userId = req.params.id;
+const checkAdmin = function (req, res, next) {
+  let token = req.cookies['session-token'];
+  let decoded = jwt_decode(token);
+  let id = decoded['sub'];
+      
+  const currentUser = User.findOne({googleId: id}, 
+    function(err,obj) { 
+      if ( obj.userType != "senior" ) {
+        res.status(401).json({ message: "Unauthorized" });
+      } else {
+        return next()
+      }
+    });
+}
 
-//   async function updateUserType(userId, userType) {
-//     try {
-//       const updatedUser = await User.findOneAndUpdate(
-//         { googleId: req.userId }, 
-//         { userType: req.userType }, 
-//         { new: true }
-//       );
+// @description: Middleware function to check if user is admin
+userRouter.put('/update', checkAdmin, (req, res)=>{
+  async function updateUserType(userId, userType) {
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { googleId: userId }, 
+        { userType: userType },
+        { returnDocument: 'after' }
+      );
 
-//       return updatedUser;
+      return updatedUser;
     
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  for (const [key, value] of Object.entries(req.body)) {
+    console.log(`Update ${key}'s userType to ${value}`)
 
-//   updateUserType(userId, req.userType)
-//   .then(user => {
-//       res.send(user);
-//   })
-//   .catch (
-//     console.error
-//   )
-
-// })
+    updateUserType(key, value)
+    .then(user => {
+        res.end();
+    })
+    .catch (
+      // console.error
+    )
+  }
+})
 
 // // @description: Create user
 // // @route POST user/register
