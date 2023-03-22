@@ -33,6 +33,17 @@ app.get('/health', async (req, res) => {
 })
 
 
+app.get('/users', async(req, res) => {
+  try {
+    const userList = await User.find();
+    res.status(200).json(userList);
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).send('Server Error')
+  }
+})
+
 
 // create user
 app.use("/user", userRouter)

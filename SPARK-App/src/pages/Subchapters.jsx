@@ -63,6 +63,7 @@ const Subchapters = ({ searchInput }) => {
 
 
     const searchSubchapters = (searchInput, subchapter) => {
+        // console.log(searchInput, "SUBCHAPTERS")
         if (searchInput == "") {
             return subchapter
         } 
@@ -70,6 +71,7 @@ const Subchapters = ({ searchInput }) => {
             subchapter.description.toLowerCase().includes(searchInput.toLowerCase()) ||
             subchapter.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
             subchapter.content.toLowerCase().includes(searchInput.toLowerCase())){
+                // console.log(subchapter.content)
             return subchapter
         }
     };

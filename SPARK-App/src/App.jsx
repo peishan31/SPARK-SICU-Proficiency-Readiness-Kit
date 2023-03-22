@@ -36,8 +36,13 @@ function App() {
         }
         {/* if not logged in or localstorage is null then don't render mini drawer */}
         <div className="content-wrap">
+  
+        { 
+          userState.currentUser.userType == "senior" ? 
+          <MiniDrawer admin/> :
           <MiniDrawer/>
-        </div>
+          }
+      </div>
         <footer className='footer'>
           &copy; 2023 Team CLT. 
         </footer>
