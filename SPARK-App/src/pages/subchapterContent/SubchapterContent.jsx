@@ -10,6 +10,8 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify'; // Sanitizes HTML;  a tool that removes any potentially malicious code from HTML text;
 import { useAppState } from '../../overmind';
+import { map, trim,join } from 'lodash';
+import Subchapters from '../Subchapters';
 
 const SubchapterContent = () => {
     const location = useLocation();
@@ -104,7 +106,27 @@ const SubchapterContent = () => {
         getSubchapterContent(chapterId, subchapterId)
     }, [])
 
+
+
+    // const highlight = "Passive";
+    function getHighlightedText(text,subchapterSearchInput) {
+        // console.log(useAppState().subchapters,"HEREEEEEEEEEEEEEEE")
+        if(subchapterSearchInput=="" || text ==undefined){
+            return text;
+        }else{
+
+            let rgx = "?![^<>]*>";
+            const regex = new RegExp(`(${trim(subchapterSearchInput)})(${rgx})`, 'gi');
+
+            text = text.replaceAll(regex, "<span style=\"background-color:yellow\">" + subchapterSearchInput + "</span>");
+            // console.log(text);
+            return text
+
+        }
+      }
+
     return (
+        
         <div className="subchapterContent" style={{paddingBottom: "100px"}}>
             <div className="subchapterContentContainer">
                 <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
@@ -147,7 +169,7 @@ const SubchapterContent = () => {
                     </div>
                 </div>
                 <div className="subchapterContentBottom">
-                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(subchapter.content)}}>
+                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(getHighlightedText(subchapter.content,useAppState().subchapters.subchapterSearchInput))}}>
                     </div>
                 </div>
             </div>

@@ -24,7 +24,7 @@ const Subchapters = ({ searchInput }) => {
 
     // get current chapter from overmind state
     const currentChapter = chapterState.selectedChapter
-    console.log("Current Chapter: ", currentChapter)
+    // console.log("Current Chapter: ", currentChapter)
 
     // extract currentUser from session storage
     const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
@@ -40,7 +40,7 @@ const Subchapters = ({ searchInput }) => {
     useEffect(() => {
         // if currentChapter does not exist, then reroute to the chapters page.
         if (!currentChapter || !userId) {
-            console.log("Current Chapter: ", currentChapter);
+            // console.log("Current Chapter: ", currentChapter);
             navigate(`/Chapters`);
             return;
         }
@@ -61,7 +61,7 @@ const Subchapters = ({ searchInput }) => {
         //     })
     }, [])
 
-
+ 
     const searchSubchapters = (searchInput, subchapter) => {
         // console.log(searchInput, "SUBCHAPTERS")
         if (searchInput == "") {
@@ -72,6 +72,8 @@ const Subchapters = ({ searchInput }) => {
             subchapter.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
             subchapter.content.toLowerCase().includes(searchInput.toLowerCase())){
                 // console.log(subchapter.content)
+                
+              
             return subchapter
         }
     };
@@ -122,6 +124,7 @@ const Subchapters = ({ searchInput }) => {
                             return (
                                 <Grid item key={subchapter._id} xs={12} sm={6} md={4} lg={3}>
                                     <SubchapterCard
+                                        
                                         subchapter={subchapter} chapterId={currentChapter.currentChapterId}/>
                                 </Grid>
                             )
