@@ -207,7 +207,7 @@ function Tab1Content(props){
                                 Age
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField
                                 label="Years" type="number" variant="outlined" name="age" value={formData.age} onChange={handleInputChange}
                             />
@@ -236,7 +236,7 @@ function Tab1Content(props){
                                 Mean arterial pressure
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label="mm Hg" type="number" variant="outlined"  name="meanArterialPressure" value={formData.meanArterialPressure} onChange={handleInputChange} />
                             <IconButton sx={{visibility: 'hidden'}}>
                                 <ChangeCircleIcon/>
@@ -247,7 +247,7 @@ function Tab1Content(props){
                                 pH
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label="pH" type="number" variant="outlined" name="pH" value={formData.pH} onChange={handleInputChange}/>
                             <IconButton sx={{visibility: 'hidden'}}>
                                 <ChangeCircleIcon/>
@@ -261,7 +261,7 @@ function Tab1Content(props){
                                 Heart rate/pulse
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label="beats/min" type="number" variant="outlined" name="heartrate" value={formData.heartrate} onChange={handleInputChange}/>
                             <IconButton sx={{visibility: 'hidden'}}>
                                 <ChangeCircleIcon/>
@@ -272,7 +272,7 @@ function Tab1Content(props){
                                 Respiratory rate
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label="breaths/min" type="number" variant="outlined" name="respiratoryRate" value={formData.respiratoryRate} onChange={handleInputChange} />
                             <IconButton sx={{visibility: 'hidden'}}>
                                 <ChangeCircleIcon/>
@@ -322,7 +322,7 @@ function Tab1Content(props){
                                 Hematocrit
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label="%" type="number" variant="outlined" name="hematocrit" value={formData.hematocrit} onChange={handleInputChange}/>
                             <IconButton sx={{visibility: 'hidden'}}>
                                 <ChangeCircleIcon/>
@@ -347,7 +347,7 @@ function Tab1Content(props){
                                 Glasgow Coma Scale
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label="points" type="number" variant="outlined" name="gcs" value={formData.gcs} onChange={handleInputChange}/>
                             <IconButton sx={{visibility: 'hidden'}}>
                                 <ChangeCircleIcon/>
