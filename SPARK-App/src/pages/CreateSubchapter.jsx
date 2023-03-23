@@ -18,6 +18,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DOMPurify from 'dompurify';
 import './home.css';
 import './CreateSubchapter.css';
+import { useAppState } from '../overmind';
 
 export default function CreateSubchapter() {
     let navigate = useNavigate();
@@ -34,7 +35,14 @@ export default function CreateSubchapter() {
     const BASE_URL = import.meta.env.VITE_API_URL;
     const USER_ID = import.meta.env.VITE_USER_ID;
 
+    const userState = useAppState().user;
+
     useEffect(() => {
+
+        if ( userState.currentUser.userType != "senior" ) {
+            navigate("/");
+        }
+
         const fetchData = async () => {
             await axios.get(BASE_URL + '/chapters/').then((res) => {
                 setChaps(res.data);

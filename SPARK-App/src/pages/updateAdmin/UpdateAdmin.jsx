@@ -49,6 +49,8 @@ function UpdateAdmin() {
 
             let userObj = {...userState.currentUser};
             userObj.userType = newStatus;
+            
+            sessionStorage.setItem('user', JSON.stringify(userObj));
             userActions.updateUser(userObj)
 
             console.log("updated state")
@@ -66,9 +68,9 @@ function UpdateAdmin() {
     }
 
     useEffect(() => {
-        if ( userState.currentUser.userType != "senior" ) {
-            navigate("/");
-        }
+        // if ( userState.currentUser.userType != "senior" ) {
+        //     navigate("/");
+        // }
 
         const API_URL = import.meta.env.VITE_API_URL + `/users`
         

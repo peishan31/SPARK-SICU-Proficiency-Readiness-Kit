@@ -34,8 +34,18 @@ export default function ChapterCard({ chapter }) {
         onClick={
             () => {
                 // set current chapter id in overmind chapter state
-                chapterActions.setSelectedChapter({ currentChapterId, currentChapterTitle, currentChapterIcon });
+                let selectedChapter = { 
+                                    currentChapterId, 
+                                    currentChapterTitle, 
+                                    currentChapterIcon 
+                                }
+                
+                
+                chapterActions.setSelectedChapter(selectedChapter);
                 sessionStorage.setItem("currentChapterId", currentChapterId)
+                sessionStorage.setItem('selectedChapter', JSON.stringify(selectedChapter));
+
+
                 navigate(`${currentChapterId}/subchapters`)
                 // navigate(`${currentChapterId}/subchapters`,
                 //     {
