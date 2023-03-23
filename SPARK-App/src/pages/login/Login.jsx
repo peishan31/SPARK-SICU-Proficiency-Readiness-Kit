@@ -6,12 +6,12 @@ import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import { useActions, useAppState } from '../../overmind';
+import { useNavigate } from 'react-router-dom';
 
 
 
-function Login() {
+function Login({setUser}) {
 
-    const userActions = useActions().user;
     const API_URL = import.meta.env.VITE_API_URL;
     
     function handleCallbackResponse(response) {
@@ -24,10 +24,8 @@ function Login() {
             withCredentials: true
         })
         .then(res => {
-            console.log(res.data)
-            sessionStorage.setItem("isLoggedIn", "yes");
-            sessionStorage.setItem('user', JSON.stringify(res.data));
-            userActions.updateUser(res.data)
+            console.log("Loggin in")
+            setUser(res.data)
         })
         .catch(err => {
             console.log(err)
@@ -46,8 +44,11 @@ function Login() {
             document.getElementById("signInDiv"),
             {theme: "outline", size: "large", width: "250px"}
         );
-
-        google.accounts.id.prompt();
+        
+        if ( !("user" in sessionStorage) ) {
+            google.accounts.id.prompt();
+        }
+        
     }, []);
 
 

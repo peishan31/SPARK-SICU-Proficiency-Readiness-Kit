@@ -165,7 +165,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function MiniDrawer({admin}) {
+export default function MiniDrawer({admin, clearUser}) {
     const path = useLocation().pathname
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -206,9 +206,17 @@ export default function MiniDrawer({admin}) {
         // setData(localStorage.getItem('searchInput'));
     };
 
+    const navigate = useNavigate();
+
     const handleSignOut = event => {
-        sessionStorage.clear();
-        userActions.signOutUser();
+        // localStorage.clear();
+        clearUser();
+        userActions.updateUser(null);
+        // navigate(0);
+
+        // console.log("Logout: clear local storage and state, refresh")
+
+        // setLoggedInUser(null);
     }
 
     return (
