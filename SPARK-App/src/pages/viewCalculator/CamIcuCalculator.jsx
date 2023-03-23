@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, ToggleButton, ToggleButtonGroup, Paper, Divider, styled } from '@mui/material'
+import { Button, ToggleButtonGroup, Paper, Divider, styled } from '@mui/material'
+import MuiToggleButton from "@mui/material/ToggleButton"
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
@@ -14,6 +15,13 @@ const CamIcu = () => {
     const [pointAllocated , setPointAllocated] = useState("-")
     const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
     const [scoreType, setScoreType] = useState('CAM-ICU')
+
+    const ToggleButton = styled(MuiToggleButton)({
+        "&.Mui-selected": {
+          color: "white",
+          backgroundColor: '#41ADA4'
+        }
+    });
 
     const handleCalculate = async (q1Value, q2Value, q3Value, q4Value, q5Value, q6Value) => {
         // event.preventDefault();

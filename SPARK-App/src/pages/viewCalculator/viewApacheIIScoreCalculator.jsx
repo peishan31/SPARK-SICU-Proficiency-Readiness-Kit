@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRef } from 'react'
-import { Button, ToggleButton, ToggleButtonGroup, Paper, Divider, IconButton, styled} from '@mui/material'
+import { Button, ToggleButtonGroup, Paper, Divider, IconButton, styled} from '@mui/material'
+import MuiToggleButton from "@mui/material/ToggleButton"
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
@@ -14,6 +15,13 @@ import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 function Tab1Content(props){
 
     const {formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
+
+    const ToggleButton = styled(MuiToggleButton)({
+        "&.Mui-selected": {
+          color: "white",
+          backgroundColor: '#41ADA4'
+        }
+    });
 
     // Handle min and max for number type textfield
     const [number, setNumber] = useState('');

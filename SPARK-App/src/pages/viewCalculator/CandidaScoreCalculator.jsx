@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, ToggleButton, ToggleButtonGroup, Paper, Divider, styled } from '@mui/material'
+import { Button, ToggleButtonGroup, Paper, Divider, styled } from '@mui/material'
+import MuiToggleButton from "@mui/material/ToggleButton"
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
@@ -11,6 +12,13 @@ import CalcResultCard from '../../components/calculator/CalcResultCard';
 function Tab1Content(props){
 
     const {formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
+
+    const ToggleButton = styled(MuiToggleButton)({
+        "&.Mui-selected": {
+          color: "white",
+          backgroundColor: '#41ADA4'
+        }
+    });
 
     const handleResetForm = (e) => {
         const initialFormData = {
