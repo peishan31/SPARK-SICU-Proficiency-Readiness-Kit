@@ -211,6 +211,9 @@ function Tab1Content(props){
                             <TextField
                                 label="Years" type="number" variant="outlined" name="age" value={formData.age} onChange={handleInputChange}
                             />
+                            <IconButton sx={{visibility: 'hidden'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                         {/* <Grid container justifyContent="center" alignItems="center"> */}
                         <Grid item xs={12} sm={6} md={3}>
@@ -220,7 +223,9 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label={tempUnit} type="number" variant="outlined" name="temperature" value={formData.temperature} onChange={handleInputChange}/>
-                            <Button variant="outlined" onClick={convertTempUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
+                            <IconButton onClick={convertTempUnit} sx={{color: '#41ADA4'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                         {/* </Grid> */}
                     </Grid>
@@ -233,6 +238,9 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <TextField label="mm Hg" type="number" variant="outlined"  name="meanArterialPressure" value={formData.meanArterialPressure} onChange={handleInputChange} />
+                            <IconButton sx={{visibility: 'hidden'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography align='left'>
@@ -241,6 +249,9 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <TextField label="pH" type="number" variant="outlined" name="pH" value={formData.pH} onChange={handleInputChange}/>
+                            <IconButton sx={{visibility: 'hidden'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -252,6 +263,9 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <TextField label="beats/min" type="number" variant="outlined" name="heartrate" value={formData.heartrate} onChange={handleInputChange}/>
+                            <IconButton sx={{visibility: 'hidden'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography align='left'>
@@ -260,6 +274,9 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <TextField label="breaths/min" type="number" variant="outlined" name="respiratoryRate" value={formData.respiratoryRate} onChange={handleInputChange} />
+                            <IconButton sx={{visibility: 'hidden'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -271,7 +288,9 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label={sodiumUnit} type="number" variant="outlined" name="sodium" value={formData.sodium} onChange={handleInputChange}  />
-                            <Button variant="outlined" onClick={convertSodiumUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
+                            <IconButton onClick={convertSodiumUnit} sx={{color: '#41ADA4'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography align='left'>
@@ -280,7 +299,9 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label={potassiumUnit} type="number" variant="outlined" name="potassium" value={formData.potassium} onChange={handleInputChange}/>
-                            <Button variant="outlined" onClick={convertPotassiumUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
+                            <IconButton onClick={convertPotassiumUnit} sx={{color: '#41ADA4'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -292,7 +313,9 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label={creatinineUnit} type="number" variant="outlined" name="creatinine" value={formData.creatinine} onChange={handleInputChange}/>
-                            <Button variant="outlined" onClick={convertCreatinineUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
+                            <IconButton onClick={convertCreatinineUnit} sx={{color: '#41ADA4'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography align='left'>
@@ -301,6 +324,9 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <TextField label="%" type="number" variant="outlined" name="hematocrit" value={formData.hematocrit} onChange={handleInputChange}/>
+                            <IconButton sx={{visibility: 'hidden'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -312,7 +338,9 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3} style={{display: 'inline-flex'}}>
                             <TextField label={wbcCountUnit} type="number" variant="outlined" name="whiteBloodCell" value={formData.whiteBloodCell} onChange={handleInputChange}/>
-                            <Button variant="outlined" onClick={convertWbcCountUnit} sx={{ml: 1, fontSize: 25}}>&#128177;</Button>
+                            <IconButton onClick={convertWbcCountUnit} sx={{color: '#41ADA4'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography align='left'>
@@ -321,6 +349,9 @@ function Tab1Content(props){
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <TextField label="points" type="number" variant="outlined" name="gcs" value={formData.gcs} onChange={handleInputChange}/>
+                            <IconButton sx={{visibility: 'hidden'}}>
+                                <ChangeCircleIcon/>
+                            </IconButton>
                         </Grid>
                     </Grid>
                     <Divider></Divider>
@@ -454,7 +485,7 @@ function Tab1Content(props){
                     </Grid>
                     <Divider></Divider>
                     <div>
-                    <Button variant="contained" sx={{mt: 2}} color="primary" type="submit" onClick="{handleResetForm}">
+                    <Button variant="contained" sx={{mt: 2, backgroundColor: '#41ADA4'}} color="primary" type="submit" onClick="{handleResetForm}">
                         Reset
                     </Button>
                     </div>
