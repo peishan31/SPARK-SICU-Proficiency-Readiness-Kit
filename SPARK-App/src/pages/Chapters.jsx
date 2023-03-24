@@ -11,6 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
 import { useAppState, useActions } from '../overmind'
+import {  trim} from 'lodash';
 
 
 const Chapters = ({searchInput}) => {
@@ -46,12 +47,14 @@ const Chapters = ({searchInput}) => {
         } else{
             // console.log(chapter, " IN CHAPTERS.JSX")
             // console.log(chapter.subchapters)
+            let rgx = "?![^<>]*>";
+            const regex = new RegExp(`(${trim(searchInput)})(${rgx})`, 'gi');
             for(var subchapters of chapter.subchapters){
                 // console.log(subchapters)
                 if (
                     subchapters.description.toLowerCase().includes(searchInput.toLowerCase()) ||
                     subchapters.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
-                    subchapters.content.toLowerCase().includes(searchInput.toLowerCase())){
+                    regex.test(subchapters.content) ){
                     return chapter
                 }
             }

@@ -7,6 +7,8 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SubchapterCard from '../components/subchapters/SubchapterCard';
 import { useAppState, useActions } from '../overmind';
+import { trim } from 'lodash';
+
 
 
 const Subchapters = ({ searchInput }) => {
@@ -64,16 +66,16 @@ const Subchapters = ({ searchInput }) => {
  
     const searchSubchapters = (searchInput, subchapter) => {
         // console.log(searchInput, "SUBCHAPTERS")
+        let rgx = "?![^<>]*>";
+        const regex = new RegExp(`(${trim(searchInput)})(${rgx})`, 'gi');
         if (searchInput == "") {
             return subchapter
         } 
         else if (
             subchapter.description.toLowerCase().includes(searchInput.toLowerCase()) ||
             subchapter.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
-            subchapter.content.toLowerCase().includes(searchInput.toLowerCase())){
-                // console.log(subchapter.content)
-                
-              
+            regex.test(subchapter.content) ){
+
             return subchapter
         }
     };
