@@ -157,52 +157,52 @@ function Tab1Content(props){
 
         
         // Check if all fields are entered
-        const formValues = Object.values({ ...formData, [name]: value });
-            console.log(formValues[0] + " formValue[0] missing");
-            console.log(formValues[1] + " formValue[1] missing");
+        // const formValues = Object.values({ ...formData, [name]: value });
+        //     console.log(formValues[0] + " formValue[0] missing");
+        //     console.log(formValues[1] + " formValue[1] missing");
 
             //formValues.some(value => value !== undefined && value !== '' && value === 'someValue')
 
-        if (formValues.some((value) => value === '' || value === undefined)) {
-            setPointAllocated(0);
-            setInterpretation("Please enter the required values in the respective fields to perform the calculations.")
-        }else{
-            console.log(formValues[0] + " formValue[0]");
-            console.log(formValues[1] + " formValue[1]");
-            await axios.post(`http://localhost:8080/calculator/apache-ii-score`,
-                {
-                    "cancerHistory": formValues[0],
-                    "typeOfSurgery": formValues[1],
-                    "age": formValues[2],
-                    "temperature": formValues[3],
-                    "meanArterialPressure": formValues[4],
-                    "pH" : formValues[5],
-                    "heartrate": formValues[6],
-                    "respiratoryRate": formValues[7],
-                    "sodium": formValues[8],
-                    "potassium": formValues[9],
-                    "creatinine": formValues[10],
-                    "acuteRenalFailure": formValues[11],
-                    "hematocrit": formValues[12],
-                    "whiteBloodCell": formValues[13],
-                    "gcs": formValues[14],
-                    "fio": formValues[15],
-                    "pao": formValues[16],
-                    "aaGradient": formValues[17]
-                }
-            ).then(
-                res => {
-                    let data = res.data
-                    setPointAllocated(res.data.pointAllocated)
-                    setInterpretation(res.data.result.interpretation)
-                    return 200;
-                }
-            ).catch(
-                err => {
-                    return 500
-                }
-            )
-        }
+        // if (formValues.some((value) => value === '' || value === undefined)) {
+        //     setPointAllocated(0);
+        //     setInterpretation("Please enter the required values in the respective fields to perform the calculations.")
+        // }else{
+        //     console.log(formValues[0] + " formValue[0]");
+        //     console.log(formValues[1] + " formValue[1]");
+        //     await axios.post(`http://localhost:8080/calculator/apache-ii-score`,
+        //         {
+        //             "cancerHistory": formValues[0],
+        //             "typeOfSurgery": formValues[1],
+        //             "age": formValues[2],
+        //             "temperature": formValues[3],
+        //             "meanArterialPressure": formValues[4],
+        //             "pH" : formValues[5],
+        //             "heartrate": formValues[6],
+        //             "respiratoryRate": formValues[7],
+        //             "sodium": formValues[8],
+        //             "potassium": formValues[9],
+        //             "creatinine": formValues[10],
+        //             "acuteRenalFailure": formValues[11],
+        //             "hematocrit": formValues[12],
+        //             "whiteBloodCell": formValues[13],
+        //             "gcs": formValues[14],
+        //             "fio": formValues[15],
+        //             "pao": formValues[16],
+        //             "aaGradient": formValues[17]
+        //         }
+        //     ).then(
+        //         res => {
+        //             let data = res.data
+        //             setPointAllocated(res.data.pointAllocated)
+        //             setInterpretation(res.data.result.interpretation)
+        //             return 200;
+        //         }
+        //     ).catch(
+        //         err => {
+        //             return 500
+        //         }
+        //     )
+        // }
     };
 
     return (
@@ -1220,43 +1220,98 @@ const ApacheIIScore = () => {
 
     //state for form fields
     const [formData, setFormData] = useState({
-        "cancerHistory": "",
-        "typeOfSurgery": "",
-        "age": "",
-        "temperature": "",
-        "meanArterialPressure": "",
-        "pH" : "",
-        "heartrate": "",
-        "respiratoryRate": "",
-        "sodium": "",
-        "potassium": "",
-        "creatinine": "",
-        "acuteRenalFailure": "",
-        "hematocrit": "",
-        "whiteBloodCell": "",
-        "gcs": "",
-        "fio": "",
-        "pao": "",
-        "aaGradient": ""
         // "cancerHistory": "",
         // "typeOfSurgery": "",
-        // "age": "1",
-        // "temperature": "1",
-        // "meanArterialPressure": "1",
-        // "pH" : "1",
-        // "heartrate": "1",
-        // "respiratoryRate": "1",
-        // "sodium": "1",
-        // "potassium": "1",
-        // "creatinine": "1",
-        // "acuteRenalFailure": "1",
-        // "hematocrit": "1",
-        // "whiteBloodCell": "1",
-        // "gcs": "1",
+        // "age": "",
+        // "temperature": "",
+        // "meanArterialPressure": "",
+        // "pH" : "",
+        // "heartrate": "",
+        // "respiratoryRate": "",
+        // "sodium": "",
+        // "potassium": "",
+        // "creatinine": "",
+        // "acuteRenalFailure": "",
+        // "hematocrit": "",
+        // "whiteBloodCell": "",
+        // "gcs": "",
         // "fio": "",
         // "pao": "",
         // "aaGradient": ""
+        "cancerHistory": "",
+        "typeOfSurgery": "",
+        "age": "1",
+        "temperature": "1",
+        "meanArterialPressure": "1",
+        "pH" : "1",
+        "heartrate": "1",
+        "respiratoryRate": "1",
+        "sodium": "1",
+        "potassium": "1",
+        "creatinine": "1",
+        "acuteRenalFailure": "1",
+        "hematocrit": "1",
+        "whiteBloodCell": "1",
+        "gcs": "1",
+        "fio": "",
+        "pao": "",
+        "aaGradient": ""
     });
+
+    useEffect(() => {
+        console.log("formData changed");
+        console.log(formData);
+        console.log("=================================");
+        // Check if all fields are entered
+        const formValues = Object.values({ ...formData });
+            console.log(formValues[0] + " formValue[0] missing");
+            console.log(formValues[1] + " formValue[1] missing");
+        console.log("form values: " + formValues);
+        if (formValues.some((value) => value === '' || value === undefined)) {
+            setPointAllocated(0);
+            setInterpretation("Please enter the required values in the respective fields to perform the calculations.")
+        } else{
+            // console.log(formValues[0] + " formValue[0]");
+            // console.log(formValues[1] + " formValue[1]");
+            const sendToBackend = async () => { 
+                await axios.post(`http://localhost:8080/calculator/apache-ii-score`,
+                    {
+                        "cancerHistory": formValues[0],
+                        "typeOfSurgery": formValues[1],
+                        "age": formValues[2],
+                        "temperature": formValues[3],
+                        "meanArterialPressure": formValues[4],
+                        "pH" : formValues[5],
+                        "heartrate": formValues[6],
+                        "respiratoryRate": formValues[7],
+                        "sodium": formValues[8],
+                        "potassium": formValues[9],
+                        "creatinine": formValues[10],
+                        "acuteRenalFailure": formValues[11],
+                        "hematocrit": formValues[12],
+                        "whiteBloodCell": formValues[13],
+                        "gcs": formValues[14],
+                        "fio": formValues[15],
+                        "pao": formValues[16],
+                        "aaGradient": formValues[17]
+                    }
+                ).then(
+                    res => {
+                        let data = res.data
+                        setPointAllocated(res.data.pointAllocated)
+                        setInterpretation(res.data.result.interpretation)
+                        return 200;
+                    }
+                ).catch(
+                    err => {
+                        return 500
+                    }
+                )
+            };
+            sendToBackend();
+        }
+    }, [formData])
+
 
     //state for calc result card
     const [pointAllocated , setPointAllocated] = useState(0)
