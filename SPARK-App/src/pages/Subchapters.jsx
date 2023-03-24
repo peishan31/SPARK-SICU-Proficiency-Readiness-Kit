@@ -62,6 +62,9 @@ const Subchapters = ({ searchInput }) => {
         //     })
     }, [])
 
+    function toTwemoji(string) {
+        return twemoji.parse(string)
+    };
 
     const searchSubchapters = (searchInput, subchapter) => {
         // console.log(searchInput, "SUBCHAPTERS")
@@ -88,7 +91,12 @@ const Subchapters = ({ searchInput }) => {
                     () => { navigate('/Chapters') }}>
                     <ArrowBackIcon />
                 </IconButton>
-                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>{chapterState.selectedChapter.currentChapterIcon} {chapterState.selectedChapter.currentChapterTitle}</Typography>
+                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
+                    <span dangerouslySetInnerHTML={{__html: toTwemoji(chapterState.selectedChapter.currentChapterIcon)}}></span> {chapterState.selectedChapter.currentChapterTitle}
+                </Typography>
+                
+
+                
                 <Stack direction="row" spacing={2} ml="auto">
                     {/* <Button variant="outlined">Select</Button> */}
                     <Button 

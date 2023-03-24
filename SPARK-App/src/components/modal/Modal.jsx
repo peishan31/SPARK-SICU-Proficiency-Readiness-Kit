@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import "./Modal.css";
 
 export default function Modal({setModalBool, modalText}) {
+    function toTwemoji(string) {
+        return twemoji.parse(string)
+    };
 
     return (
     <>
@@ -10,7 +13,7 @@ export default function Modal({setModalBool, modalText}) {
             <div className="overlay" onClick={()=>setModalBool(false)}></div>
             <div className="modal-content">
                 <p className="modalText">
-                    {modalText}
+                    <span dangerouslySetInnerHTML={{__html: toTwemoji(modalText)}}></span>
                 </p>
                 <Button sx={{ 
                         color: "white",

@@ -220,6 +220,10 @@ export default function MiniDrawer({admin, clearUser}) {
         // setLoggedInUser(null);
     }
 
+    function toTwemoji(string) {
+        return twemoji.parse(string)
+    };
+
     return (
         <Box sx={{ display: 'flex'}}>
             <CssBaseline />
@@ -314,13 +318,11 @@ export default function MiniDrawer({admin, clearUser}) {
                                                     // case 'Home':
                                                     //     return <span className="icon">&#127968;</span>;
                                                     case 'Bookmarks':
-                                                        return <span className="icon">&#128278;</span>;
+                                                        return <span dangerouslySetInnerHTML={{__html: toTwemoji("🔖")}}></span>
                                                     case 'Calculators':
-                                                        return <span className="icon">&#129518;</span>
+                                                        return <span dangerouslySetInnerHTML={{__html: toTwemoji("🧮")}}></span>
                                                     case 'Chapters':
-                                                        return <span className="icon">&#128214;</span>
-                                                    case 'Subchapters':
-                                                        return <span className="icon">&#128218;</span>
+                                                        return <span dangerouslySetInnerHTML={{__html: toTwemoji("📖")}}></span>
                                                     default:
                                                         return null;
                                                 }
@@ -353,7 +355,7 @@ export default function MiniDrawer({admin, clearUser}) {
                                             mr: open ? 3 : 'auto',
                                             justifyContent: 'center',
                                         }}>
-                                        <span className="icon">👥</span>
+                                        <span dangerouslySetInnerHTML={{__html: toTwemoji("👥")}}></span>
                                     </ListItemIcon>
                                     <ListItemText primary={"Manage Admins"} sx={{ opacity: open ? 1 : 0 }} />
                                 </ListItemButton>
@@ -379,7 +381,7 @@ export default function MiniDrawer({admin, clearUser}) {
                                     mr: open ? 3 : 'auto',
                                     justifyContent: 'center',
                                 }}>
-                                <span className="icon">&#128104;&#8205;&#9877;&#65039;</span>
+                                <span dangerouslySetInnerHTML={{__html: toTwemoji("🧑")}}></span>
                             </ListItemIcon>
                             <ListItemText primary="Sign Out" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>

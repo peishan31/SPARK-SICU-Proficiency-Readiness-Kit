@@ -105,6 +105,10 @@ const SubchapterContent = () => {
                 }
             )}
     }
+
+    function toTwemoji(string) {
+        return twemoji.parse(string)
+    };
         
     useEffect(() => {
         getSubchapterContent(chapterId, subchapterId)
@@ -129,7 +133,7 @@ const SubchapterContent = () => {
                         <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage"/>
                         {/* <img className="headerImage" src={"../../../../assets/subchapters/neurology/severetbi.jpg"} alt="headerImage"/> */}
                         <div className="subchapterIcon">
-                            {subchapter.chapterIcon}
+                            <span dangerouslySetInnerHTML={{__html: toTwemoji(subchapter.chapterIcon)}}></span>
                         </div>
                         <div className="subchapterActions">
                             <div className="subchapterAction">
@@ -164,7 +168,7 @@ const SubchapterContent = () => {
                         </div>
                     </div>
                     <div className="subchapterContentBottom">
-                        <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(subchapter.content)}}>
+                        <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: toTwemoji(DOMPurify.sanitize(subchapter.content))}}>
                         </div>
                     </div>
                 </div>

@@ -68,9 +68,9 @@ function UpdateAdmin() {
     }
 
     useEffect(() => {
-        // if ( userState.currentUser.userType != "senior" ) {
-        //     navigate("/");
-        // }
+        if ( userState.currentUser.userType != "senior" ) {
+            navigate("/");
+        }
 
         const API_URL = import.meta.env.VITE_API_URL + `/users`
         

@@ -20,6 +20,10 @@ export default function ChapterCard({ chapter }) {
     // use naviate hook to navigate to subchapters route
     const navigate = useNavigate();
     
+    function toTwemoji(string) {
+        return twemoji.parse(string)
+    };
+      
     return (
         <Card style={{ height: '150px', width: '150px' }}
         sx={{
@@ -62,7 +66,7 @@ export default function ChapterCard({ chapter }) {
             <CardActionArea style={{ height: '100%', width: '100%' }}>
                 <CardContent>
                     <Typography  sx={{fontSize: "35px", mb: 1}}>
-                        {currentChapterIcon} 
+                        <span dangerouslySetInnerHTML={{__html: toTwemoji(currentChapterIcon)}}></span>
                     </Typography>
                     <Typography  sx={{fontSize: "15px", fontWeight: "bold", lineHeight: 1.3}}>
                     {currentChapterTitle}
