@@ -5,6 +5,7 @@ import axios from 'axios';
 import BookmarkCard from '../components/bookmarks/BookmarkCard';
 import SubchapterCard from "../components/subchapters/SubchapterCard";
 import { useAppState } from '../overmind';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Bookmarks = ({ searchInput }) => {
     const [subchapters, setSubchapters] = useState([]);
@@ -53,6 +54,16 @@ const Bookmarks = ({ searchInput }) => {
 
     filtered = subchapters.filter((subchapter) => searchSubchapters(searchInput, subchapter))
 
+
+    if ( subchapters.length == 0 ) {
+        return (
+            <div
+                style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}
+                >
+                    <CircularProgress color='info' size={40} thickness={4} />
+            </div>
+        )
+    }
 
     return (
         <Box margin={4} >

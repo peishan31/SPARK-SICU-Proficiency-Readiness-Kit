@@ -36,12 +36,13 @@ export default function useLoginUser() {
         sessionStorage.setItem('user', JSON.stringify(user));
         userActions.updateUser(user);
         setUser(user);
-        navigate(`/`);
+        
     };
 
     const clearUser = () => {
         sessionStorage.clear();
         setUser(null);
+        navigate(`/`);
     };
 
     return {

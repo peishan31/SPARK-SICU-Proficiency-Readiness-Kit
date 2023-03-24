@@ -6,6 +6,7 @@ import { useAppState, useActions } from './overmind'
 import Login from './pages/login/Login'
 import { useNavigate } from "react-router-dom"
 import useLoginUser from './hooks/useLoginUser'
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 function App() {
@@ -23,6 +24,16 @@ function App() {
   useEffect(() => {
     getUser()
   }, [user])
+
+  if (!user && "user" in sessionStorage) {
+    return (
+      <div
+          style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}
+          >
+              <CircularProgress color='info' size={40} thickness={4} />
+      </div>
+    )
+  }
 
   if (!user) {
     return (
