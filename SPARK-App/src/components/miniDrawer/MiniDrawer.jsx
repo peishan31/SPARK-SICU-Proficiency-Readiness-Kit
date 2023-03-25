@@ -206,7 +206,7 @@ export default function MiniDrawer({admin, clearUser}) {
     };
 
     const handleChange = event => {
-        console.log("reached here!");
+        // console.log("reached here!");
         // setData(event.currentTarget.value);
         chapterActions.setChapterSearchInput(event.currentTarget.value)
         subchapterActions.setSubchapterSearchInput(event.currentTarget.value)
