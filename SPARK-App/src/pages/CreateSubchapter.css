@@ -1,19 +1,9 @@
-/* .inputThumbnail {
-    display: none;
-} */
-
-/* .button {
-    margin: 10px;
-    color: 'white'; 
-    background-color: 'yellow';
-}
-
-.button:hover {
-    color: 'white';
-    background-color: 'darkRed';
-} */
-
 .fileName {
     margin-left: 10px;
     color: '#41ADA4';
+}
+
+.errorMessage {
+    font-size: 13px;
+    color: red;
 }

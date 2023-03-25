@@ -20,9 +20,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import FlareIcon from '@mui/icons-material/Flare';
+import { ExitToApp } from '@material-ui/icons';
 // react-router-dom
 import { Navigate, Routes, Route, Link, useLocation, useNavigate} from 'react-router-dom'
-
 // state management
 import { useAppState, useActions } from '../../overmind';
 import { useState } from 'react';
@@ -38,13 +38,6 @@ import Bookmarks from '../../pages/Bookmarks'
 import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 import CreateSubchapter from '../../pages/CreateSubchapter';
 import Login from "../../pages/login/Login";
-import ApacheIIScore from '../../pages/viewCalculator/viewApacheIIScoreCalculator'
-import SimplifiedPesi from '../../pages/viewCalculator/SimplifiedPesiCalculator'
-import RoxIndex from '../../pages/viewCalculator/RoxIndexCalculator'
-import SofaScore from '../../pages/viewCalculator/SofaScoreCalculator'
-import CandidaScore from '../../pages/viewCalculator/CandidaScoreCalculator'
-import ParklandFormula from '../../pages/viewCalculator/ParklandFormulaCalculator'
-import CamIcu from '../../pages/viewCalculator/CamIcuCalculator'
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -171,7 +164,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function MiniDrawer() {
+export default function MiniDrawer({admin}) {
     const path = useLocation().pathname
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -204,8 +197,9 @@ export default function MiniDrawer() {
     };
 
     const handleChange = event => {
-        // console.log("reached here!");
+        console.log("reached here!");
         // setData(event.currentTarget.value);
+        chapterActions.setChapterSearchInput(event.currentTarget.value)
         subchapterActions.setSubchapterSearchInput(event.currentTarget.value)
         // localStorage.setItem('searchInput', event.currentTarget.value);
         // setData(localStorage.getItem('searchInput'));
@@ -328,6 +322,36 @@ export default function MiniDrawer() {
                             </ListItem>
                         </Link>
                     ))}
+
+                    {
+
+                        admin &&
+                        
+                        <Link to={"/updateAdmin"} style={{ textDecoration: 'none' }}>
+                            <ListItem disablePadding sx={{ display: 'block' }}>
+                                <ListItemButton
+                                    sx={{
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
+                                    }}
+                                >
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                        }}>
+                                        <span className="icon">👥</span>
+                                    </ListItemIcon>
+                                    <ListItemText primary={"Manage Admins"} sx={{ opacity: open ? 1 : 0 }} />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+
+                    }
+                    
+
                     <ListItem disablePadding sx={{ display: 'block' }}>
                         <ListItemButton
                             sx={{
@@ -344,7 +368,8 @@ export default function MiniDrawer() {
                                     mr: open ? 3 : 'auto',
                                     justifyContent: 'center',
                                 }}>
-                                <span className="icon">&#128104;&#8205;&#9877;&#65039;</span>
+                                {/* <span className="icon">&#128104;&#8205;&#9877;&#65039;</span> */}
+                                <ExitToApp />
                             </ListItemIcon>
                             <ListItemText primary="Sign Out" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
@@ -359,19 +384,12 @@ export default function MiniDrawer() {
                     <Route path="/" element={<Navigate to={"/Chapters"}/>}/>
                     <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput}/>}/>
                     <Route path="/Calculators" element={<ViewCalculators/>}/>
-                    <Route path="/Chapters" element={<Chapters/>}/>
+                    <Route path="/Chapters" element={<Chapters searchInput={chapterState.chapterSearchInput}/>}/>
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/login" element={<Login/>}/>
-                    <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore/>}/>
-                    <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi/>}/>
-                    <Route path="/Calculators/rox-index" element={<RoxIndex/>}/>
-                    <Route path="/Calculators/sofa-score" element={<SofaScore/>}/>
-                    <Route path="/Calculators/candida-score" element={<CandidaScore/>}/>
-                    <Route path="/Calculators/parkland-formula" element={<ParklandFormula/>}/>
-                    <Route path="/Calculators/cam-icu" element={<CamIcu/>}/>
                     <Route path="/Sign Out" element={<Navigate to={"/"}/>}/>
                 </Routes>
             </Box>

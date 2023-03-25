@@ -24,6 +24,7 @@ function Login() {
             withCredentials: true
         })
         .then(res => {
+            console.log(res.data)
             userActions.updateUser(res.data)
         })
         .catch(err => {
@@ -45,7 +46,6 @@ function Login() {
         );
 
         google.accounts.id.prompt();
-
     }, []);
 
 

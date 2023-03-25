@@ -3,10 +3,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import DeleteIcon from '@mui/icons-material/Delete';
 import "./subchapterContent.css";
 import { Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import DOMPurify from 'dompurify'; // Sanitizes HTML;  a tool that removes any potentially malicious code from HTML text;
 import { useAppState } from '../../overmind';
 
 const SubchapterContent = () => {
@@ -79,7 +81,25 @@ const SubchapterContent = () => {
             setIsBookmarked(true)
         }
     }
-    
+
+    async function deleteSubchapter() {
+
+        if (confirm("Are you sure you want to delete this subchapter?")) {
+            await axios.delete(
+                BASE_URL + `/chapters/` + chapterId +`/subchapters/${subchapterId}`
+            ).then(
+                res => {
+                    alert("Subchapter deleted successfully!")
+                    navigate(-1);
+                    //return 200
+                }
+            ).catch(
+                err => {
+                    return 500
+                }
+            )}
+    }
+        
     useEffect(() => {
         getSubchapterContent(chapterId, subchapterId)
     }, [])
@@ -89,7 +109,7 @@ const SubchapterContent = () => {
             <div className="subchapterContentContainer">
                 <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
                 <div className="subchapterContentTop">
-                    <img className="headerImage" src={`../${subchapter.thumbnail}`} alt="headerImage"/>
+                    <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage"/>
                     {/* <img className="headerImage" src={"../../../../assets/subchapters/neurology/severetbi.jpg"} alt="headerImage"/> */}
                     <div className="subchapterIcon">
                         {subchapter.chapterIcon}
@@ -98,6 +118,10 @@ const SubchapterContent = () => {
                         <div className="subchapterAction">
                             <Tooltip title="Edit" placement="top">
                                 <EditIcon className="subchapterActionIcon"/>
+                            </Tooltip>
+                            &nbsp; &nbsp;
+                            <Tooltip title="Delete" placement="top">
+                                <DeleteIcon className="subchapterActionIcon" onClick={ e => { deleteSubchapter() }}/> 
                             </Tooltip>
                         </div>
                         <div className="subchapterAction">
@@ -123,7 +147,7 @@ const SubchapterContent = () => {
                     </div>
                 </div>
                 <div className="subchapterContentBottom">
-                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: subchapter.content}}>
+                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(subchapter.content)}}>
                     </div>
                 </div>
             </div>
