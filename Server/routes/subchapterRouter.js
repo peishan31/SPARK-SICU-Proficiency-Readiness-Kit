@@ -138,7 +138,7 @@ subchapterRouter.put("/:subchapterId", async (req, res) => {
     try {
 
         const chapterId = req.chapterId;
-        const subchapterId = req.params.subchapterId;
+        let subchapterId = req.params.subchapterId;
 
         if (!chapterId || !subchapterId) { 
             return res.status(404).json({ msg: 'Missing chapter and/or subchapter id' });
@@ -198,13 +198,17 @@ subchapterRouter.put("/:subchapterId", async (req, res) => {
             { new: true }
         );
 
+        // get latest subchapter id by running chapter again because the previous one is not updated
+        let chapter = await Chapter.findById(selectedChapter);
+        // subchapterId = chapter.subchapters[chapter.subchapters.length - 1]._id;
         // await Chapter.findOneAndUpdate(
         //     { _id: chapterId, "subchapters._id": subchapterId },
         //     { $set: { "subchapters.$": updatedSubchapter },},
         //     { new: true }
         // );
-
-        return res.status(200).json("Subchapter updated successfully.");
+        subchapterId = chapter.subchapters[chapter.subchapters.length - 1]._id;
+        
+        return res.status(200).json(subchapterId);
     } catch (err) {
         console.error(err.message)
         return res.status(500).send('Server Error')
