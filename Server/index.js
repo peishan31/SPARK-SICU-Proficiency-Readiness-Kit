@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import chapterRouter from './routes/chapterRouter.js'
 import userRouter from './routes/userRouter.js'
 import flashcardRouter from './routes/flashcardRouter.js'
+import calculatorRouter from './routes/calculatorRouter.js'
 import { connectDB } from './config/db.js'
 import User from './models/UserModel.js';
 
@@ -49,6 +50,8 @@ app.get('/users', async(req, res) => {
 // create user
 app.use("/user", userRouter)
 
+// create calculator subrouter
+app.use("/calculator", calculatorRouter)
 // create subrouter
 app.use("/chapters", chapterRouter)
 

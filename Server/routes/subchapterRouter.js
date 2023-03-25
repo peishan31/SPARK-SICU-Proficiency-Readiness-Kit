@@ -4,6 +4,8 @@ import querystring from 'querystring';
 import { v2 as cloudinary } from 'cloudinary';
 import dotenv from 'dotenv';
 const subchapterRouter = express.Router();
+import jwt_decode from 'jwt-decode';
+import User from '../models/UserModel.js';
 
 dotenv.config();
 
@@ -77,11 +79,32 @@ subchapterRouter.get('/:subchapterId', async (req, res) => {
     }
 });
 
+const checkAdmin = function (req, res, next) {
+    let token = req.cookies['session-token'];
+    let decoded = jwt_decode(token);
+    let id = decoded['sub'];
+        
+    const currentUser = User.findOne({googleId: id}, 
+      function(err,obj) { 
+        if (err) {
+            console.error(err.message)
+            return res.status(500).send('Server Error')
+        }
+
+        if ( obj.userType != "senior" ) {
+            console.log("Unauthorized")
+            return res.status(401).send("Unauthorized");
+        } else {
+          return next()
+        }
+      });
+  }
+
 // @description: Add subchapter to chapter by chapter Id
 // @route PUT chapter/:chapterId/subchapter/
 // Working!
-subchapterRouter.put("/", async (req, res) => {
-
+subchapterRouter.put("/", checkAdmin, async (req, res) => {
+    console.log("add subchapter")
     try {
         let { subchapterTitle, thumbnail, description, content } = req.body;
 
@@ -135,7 +158,8 @@ subchapterRouter.put("/", async (req, res) => {
 // @description: Delete subchapter by subchapterId in chapter by chapter Id
 // @route DELETE chapter/:chapterId/subchapter/:subchapterId
 // Working!
-subchapterRouter.delete("/:subchapterId", async (req, res) => {
+subchapterRouter.delete("/:subchapterId", checkAdmin, async (req, res) => {
+    console.log("delete subchapter")
     try {
         const chapterId = req.chapterId;
         const subchapterId = req.params.subchapterId;
