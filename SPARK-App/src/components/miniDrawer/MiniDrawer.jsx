@@ -20,9 +20,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import FlareIcon from '@mui/icons-material/Flare';
+import { ExitToApp } from '@material-ui/icons';
 // react-router-dom
 import { Navigate, Routes, Route, Link, useLocation, useNavigate} from 'react-router-dom'
-
 // state management
 import { useAppState, useActions } from '../../overmind';
 import { useState } from 'react';
@@ -381,7 +381,8 @@ export default function MiniDrawer({admin, clearUser}) {
                                     mr: open ? 3 : 'auto',
                                     justifyContent: 'center',
                                 }}>
-                                <span dangerouslySetInnerHTML={{__html: toTwemoji("🧑")}}></span>
+                                {/* <span className="icon">&#128104;&#8205;&#9877;&#65039;</span> */}
+                                <ExitToApp />
                             </ListItemIcon>
                             <ListItemText primary="Sign Out" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
