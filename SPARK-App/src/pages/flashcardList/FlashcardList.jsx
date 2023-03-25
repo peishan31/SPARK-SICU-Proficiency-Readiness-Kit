@@ -6,13 +6,40 @@ import './FlashcardList.css'
 
 function FlashcardList() {
     const [flashcards, setFlashcards] = useState([]);
+    const [allFlashcards, setAllFlashcards] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [dropdownValue, setDropdownValue] = useState("All");
+
+    function getCategories() {
+        console.log("getCategories")
+        let result = allFlashcards.map(flashcard => flashcard.category);
+        setCategories(result);
+    }
+
+    function handleChange(e) {
+        setDropdownValue(e.target.value)
+    }
+
+    function filterFlashcards() {
+        if (dropdownValue != "All") {
+            let filteredArray = allFlashcards.filter(flashcard => flashcard.category === dropdownValue)
+            setFlashcards(filteredArray)
+        } else {
+            setFlashcards(allFlashcards)
+        }
+    }
 
     useEffect(() => {
         axios.get(import.meta.env.VITE_API_URL + '/flashcards/')
         .then((res) => {
             setFlashcards(res.data)
+            setAllFlashcards(res.data)
         })
     }, [])
+
+    useEffect(() => {
+        getCategories();
+    }, [allFlashcards])
 
     return (
         <Box p={4}>
@@ -20,19 +47,32 @@ function FlashcardList() {
                 <div className="pageTitle">
                     <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Flashcards</h1>
                 </div>
-                {/* <div className="dropdownContainerDiv">
-                    <div className="dropdown">
-                        <FormControl fullWidth>
-                            <Select value={"Option 1"}>
-                                <MenuItem value={"Option 1"}>Option 1</MenuItem>
-                                <MenuItem value={"Option 2"}>Option 2</MenuItem>
-                                <MenuItem value={"Option 3"}>Option 3</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </div>
-                    <Button sx={{height: "90%"}} variant="contained">Search</Button>
-                </div> */}
             </div>
+
+            <div className="dropdownContainerDiv">
+                <div className="dropdown">
+                    <FormControl sx={{width: "200px"}}>
+                        <Select value={dropdownValue} onChange={(e) => handleChange(e)}>
+                            <MenuItem value="All">All</MenuItem>
+                            {
+                                categories.map((category) => {
+                                    return (
+                                        <MenuItem key={category} value={category}>{category}</MenuItem>
+                                    )
+                                })
+                            }
+                        </Select>
+                    </FormControl>
+                </div>
+                <Button variant="contained" 
+                    onClick={filterFlashcards}
+                    sx={{ 
+                        backgroundColor: "#41ADA4",
+                        ':hover': {
+                            bgcolor: '#41ADA4'
+                        }
+                    }}>Search</Button>
+        </div>
             
             <div className="card-grid">
                 {

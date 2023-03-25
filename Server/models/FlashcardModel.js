@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
 const FlashcardSchema = new mongoose.Schema({
+    category: {
+        type: String
+    },
     question: {
         type: String,
         required: true,

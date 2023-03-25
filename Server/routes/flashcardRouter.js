@@ -49,8 +49,9 @@ flashcardRouter.get('/:flashcardId', async (req, res) => {
 // Working!
 flashcardRouter.post("/", async (req, res) => {
     try {
-        const { question, answer } = req.body;
+        const { question, answer, category } = req.body;
         const newFlashcard = new Flashcard ({
+            category,
             question,
             answer
         });
@@ -68,7 +69,7 @@ flashcardRouter.post("/", async (req, res) => {
 flashcardRouter.put("/:flashcardId", async (req, res) => {
 
     try {
-        let { question, answer } = req.body;
+        let { category, question, answer } = req.body;
 
         if (question.length === 0 || question == undefined || question == "" || 
             answer.length === 0 || answer == undefined || answer == "") { 
@@ -81,7 +82,7 @@ flashcardRouter.put("/:flashcardId", async (req, res) => {
         if (!flashcard) {
             return res.status(404).json({ msg: 'Flashcard not found! Cannot be updated.' })
         }else{
-           var newFlashcard = await Flashcard.findByIdAndUpdate(flashcardId, {question: question, answer: answer}, {new: true});
+           var newFlashcard = await Flashcard.findByIdAndUpdate(flashcardId, {category: category, question: question, answer: answer}, {new: true});
            newFlashcard = await Flashcard.findById(flashcardId);
             return res.status(200).json(newFlashcard) 
         }
