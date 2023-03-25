@@ -1,5 +1,6 @@
 import express from 'express';
 import Chapter from '../models/ChapterModel.js';
+import User from '../models/UserModel.js';
 import querystring from 'querystring';
 import { v2 as cloudinary } from 'cloudinary';
 import dotenv from 'dotenv';
@@ -62,6 +63,7 @@ subchapterRouter.get('/:subchapterId', async (req, res) => {
         .map((finalResult) => {
             return {
                 ...finalResult._doc,
+                "chapterId": chapter._id,
                 "chapterIcon": chapter.chapterIcon,
                 "chapterTitle": chapter.title,
             }
@@ -92,28 +94,24 @@ subchapterRouter.put("/", async (req, res) => {
                 return res.status(404).json({ msg: 'Fields cannot be empty' })
         }
         // upload image to cloudinary then get the url and save it to the database
-        const result = await new Promise((resolve, reject) => {
-            cloudinary.uploader.upload(thumbnail, opts, async (err, result) => {
-                if (err) {
-                    reject(false)
-                } else {
-                    resolve(result)
-                }
-            })
-        }); 
+        const addImageResult = await addImage(thumbnail);
 
-        if (result == false)  {
+        if (addImageResult == false)  {
             return res.status(500).json({ msg: 'Error uploading image to cloudinary. Please choose another image or try again.' });
         }
-        thumbnail = result.secure_url;
-        const thumbnailPublicId = result.public_id;
+
+        thumbnail = addImageResult.thumbnail;
+        const thumbnailPublicId = addImageResult.thumbnailPublicId;
         // Save subchapter to database
         const newSubchapter = {
             subchapterTitle,
             thumbnailPublicId,
             thumbnail,
             description,
-            content
+            content,
+            lastModifiedDateTime: "",
+            lastModifiedUserID: "",
+            lastModifiedUsername: ""
         }
         console.log("********",newSubchapter);        
         const chapterId = req.chapterId;
@@ -132,6 +130,87 @@ subchapterRouter.put("/", async (req, res) => {
     }
 });
 
+// @description: Add subchapter to chapter by chapter Id
+// @route PUT chapter/:chapterId/subchapter/
+// Working!
+subchapterRouter.put("/:subchapterId", async (req, res) => {
+
+    try {
+
+        const chapterId = req.chapterId;
+        const subchapterId = req.params.subchapterId;
+
+        if (!chapterId || !subchapterId) { 
+            return res.status(404).json({ msg: 'Missing chapter and/or subchapter id' });
+        }
+        
+        let { subchapterTitle, thumbnail, description, content, lastModifiedUserID, selectedChapter } = req.body;
+        let thumbnailPublicId = "";
+
+        // edit subchapter
+        if (subchapterTitle.length === 0 || subchapterTitle == undefined || subchapterTitle == "" || 
+            description.length===0 || description == undefined || description == "" || 
+            content.length===0 || content == undefined || content == "") { 
+                return res.status(404).json({ msg: 'Fields cannot be empty' })
+        }
+        // upload image to cloudinary then get the url and save it to the database
+        if (thumbnail != "") {
+            await deleteImage(chapterId, subchapterId);
+            const addImageResult = await addImage(thumbnail);
+
+            if (addImageResult == false)  {
+                return res.status(500).json({ msg: 'Error uploading image to cloudinary. Please choose another image or try again.' });
+            }
+            thumbnail = addImageResult.thumbnail;
+            thumbnailPublicId = addImageResult.thumbnailPublicId;
+        } else { // if no image is uploaded, get the old image from the database
+            let chapter = await Chapter.findById(chapterId);
+            thumbnail = chapter.subchapters.find(subchapter => subchapter._id == subchapterId).thumbnail;
+            thumbnailPublicId = chapter.subchapters.find(subchapter => subchapter._id == subchapterId).thumbnailPublicId;
+        }        
+        
+        const lastModifiedDateTime = new Date();
+        let lastModifiedUsername = await User.findOne({googleId: lastModifiedUserID}).then(user => ({name: user.name}));
+        lastModifiedUsername = lastModifiedUsername.name;
+        // Save subchapter to database
+        const updatedSubchapter = {
+            subchapterTitle,
+            thumbnailPublicId,
+            thumbnail,
+            description,
+            content,
+            lastModifiedDateTime,
+            lastModifiedUserID,
+            lastModifiedUsername
+        }
+        console.log("********",updatedSubchapter);        
+
+        // delete old subchapter and add new subchapter
+        await Chapter.findByIdAndUpdate(
+            { _id: chapterId },
+            { $pull: { subchapters: { _id: subchapterId } } },
+            { new: true }
+        );
+        
+        await Chapter.findByIdAndUpdate(
+            { _id: selectedChapter }, // this is the one from dropdown
+            { $push: { subchapters: updatedSubchapter } },
+            { new: true }
+        );
+
+        // await Chapter.findOneAndUpdate(
+        //     { _id: chapterId, "subchapters._id": subchapterId },
+        //     { $set: { "subchapters.$": updatedSubchapter },},
+        //     { new: true }
+        // );
+
+        return res.status(200).json("Subchapter updated successfully.");
+    } catch (err) {
+        console.error(err.message)
+        return res.status(500).send('Server Error')
+    }
+});
+
 // @description: Delete subchapter by subchapterId in chapter by chapter Id
 // @route DELETE chapter/:chapterId/subchapter/:subchapterId
 // Working!
@@ -140,24 +219,16 @@ subchapterRouter.delete("/:subchapterId", async (req, res) => {
         const chapterId = req.chapterId;
         const subchapterId = req.params.subchapterId;
         
-        if (chapterId.length === 0 || chapterId == undefined || chapterId == "" ||
-            subchapterId.length === 0 || subchapterId == undefined || subchapterId == "") { 
-                return res.status(404).json({ msg: 'Missing chapter and/or subchapter id' });
-            }
-
-        // Get the public ID of the image to delete from the request parameters to delete image from cloudinary
-        let chapter = await Chapter.findById(chapterId);
-        const publicId = chapter.subchapters.find(subchapter => subchapter._id == subchapterId).thumbnailPublicId;
-        // TODO: delete this. Temp solution
-        if (publicId != undefined) {
-            // Delete the image from Cloudinary
-            const deleteResult = await cloudinary.uploader.destroy(publicId);
-            // Return a success response
-            console.log(deleteResult); // TODO: Do a validation for this response
+        if (!chapterId || !subchapterId) { 
+            return res.status(404).json({ msg: 'Missing chapter and/or subchapter id' });
         }
-        chapter = await Chapter.findByIdAndUpdate(
+
+        await deleteImage(chapterId, subchapterId);
+
+        const chapter = await Chapter.findByIdAndUpdate(
             { _id: chapterId },
             { $pull: { subchapters: { _id: subchapterId } } },
+            { new: true }
         );
         res.status(200).json(chapter)
     } catch (err) {
@@ -165,5 +236,47 @@ subchapterRouter.delete("/:subchapterId", async (req, res) => {
         res.status(500).send('Server Error')
     }
 });
+
+async function deleteImage(chapterId, subchapterId) {
+    
+    // Get the public ID of the image to delete from the request parameters to delete image from cloudinary
+    let chapter = await Chapter.findById(chapterId);
+    const subchapter = chapter.subchapters.find(subchapter => subchapter._id == subchapterId);
+    
+    if (subchapter == undefined) {
+        return;
+    }
+    const publicId = subchapter.thumbnailPublicId;
+
+    if (publicId != undefined || publicId != "" || publicId.length > 0) {
+        // Delete the image from Cloudinary
+        const deleteResult = await cloudinary.uploader.destroy(publicId);
+        // Return a success response
+        console.log(deleteResult); 
+    }
+}
+
+async function addImage(thumbnail) {
+    // upload image to cloudinary then get the url and save it to the database
+    const result = await new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(thumbnail, opts, async (err, result) => {
+            if (err) {
+                reject(false)
+            } else {
+                resolve(result)
+            }
+        })
+    }); 
+
+    if (result == false)  {
+        //return res.status(500).json({ msg: 'Error uploading image to cloudinary. Please choose another image or try again.' });
+        return;
+    }
+
+    return {
+        thumbnail: result.secure_url,
+        thumbnailPublicId: result.public_id
+    }
+}
 
 export default subchapterRouter;
