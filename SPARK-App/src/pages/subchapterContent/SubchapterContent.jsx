@@ -106,10 +106,13 @@ const SubchapterContent = () => {
         getSubchapterContent(chapterId, subchapterId)
     }, [])
 
+    const searchInput = useAppState().subchapters.subchapterSearchInput
 
 
-    // const highlight = "Passive";
+    
     function getHighlightedText(text,subchapterSearchInput) {
+        // for HTML strings with tags and text 
+
         // console.log(useAppState().subchapters,"HEREEEEEEEEEEEEEEE")
         if(subchapterSearchInput=="" || text ==undefined){
             return text;
@@ -117,11 +120,29 @@ const SubchapterContent = () => {
 
             let rgx = "?![^<>]*>";
             const regex = new RegExp(`(${trim(subchapterSearchInput)})(${rgx})`, 'gi');
-            text = text.replaceAll(regex, "<span style=\"background-color:yellow\">" + subchapterSearchInput + "</span>");
+            text = text.replaceAll(regex, "<span style=\"background-color:#e8bb49\">" + subchapterSearchInput + "</span>");
             // console.log(text);
             return text
 
         }
+      }
+
+      function HighlightText(text) {
+        // for plain text highlighting
+        if(searchInput=="" || text ==undefined){
+            return text;
+        }
+        // Split text on higlight term, include term itself into parts, ignore case
+        var parts = text.split(new RegExp(`(${searchInput})`, "gi"));
+        return parts.map((part, index) => (
+          <React.Fragment key={index}>
+            {part.toLowerCase() === searchInput.toLowerCase() ? (
+              <b style={{ backgroundColor: "#e8bb49" }}>{part}</b>
+            ) : (
+              part
+            )}
+          </React.Fragment>
+        ));
       }
 
     return (
@@ -157,18 +178,18 @@ const SubchapterContent = () => {
                     </div>
                     <div className="subchapterText">
                         <h1 className="subchapterTitle">
-                            {subchapter.subchapterTitle}
+                            {HighlightText(subchapter.subchapterTitle)}
                         </h1>
                         <div className="subchapterCategory">
-                            {subchapter.chapterTitle}
+                            {HighlightText(subchapter.chapterTitle)}
                         </div>
                         <div className="subchapterDescription">
-                            {subchapter.description}
+                            {HighlightText(subchapter.description)}
                         </div>
                     </div>
                 </div>
                 <div className="subchapterContentBottom">
-                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(getHighlightedText(subchapter.content,useAppState().subchapters.subchapterSearchInput))}}>
+                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(getHighlightedText(subchapter.content,searchInput))}}>
                     </div>
                 </div>
             </div>

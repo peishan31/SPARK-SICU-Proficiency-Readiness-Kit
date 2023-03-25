@@ -52,6 +52,7 @@ const Chapters = ({searchInput}) => {
             for(var subchapters of chapter.subchapters){
                 // console.log(subchapters)
                 if (
+                    chapter.title.toLowerCase().includes(searchInput.toLowerCase()) ||
                     subchapters.description.toLowerCase().includes(searchInput.toLowerCase()) ||
                     subchapters.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
                     regex.test(subchapters.content) ){
