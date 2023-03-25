@@ -5,13 +5,14 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import "./subchapterContent.css";
-import { Tooltip } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify'; // Sanitizes HTML;  a tool that removes any potentially malicious code from HTML text;
 import { useAppState } from '../../overmind';
 import { map, trim,join } from 'lodash';
 import Subchapters from '../Subchapters';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const SubchapterContent = () => {
     const location = useLocation();
@@ -88,7 +89,9 @@ const SubchapterContent = () => {
 
         if (confirm("Are you sure you want to delete this subchapter?")) {
             await axios.delete(
-                BASE_URL + `/chapters/` + chapterId +`/subchapters/${subchapterId}`
+                BASE_URL + `/chapters/` + chapterId +`/subchapters/${subchapterId}`, {
+                    withCredentials: true
+                }
             ).then(
                 res => {
                     alert("Subchapter deleted successfully!")
@@ -97,10 +100,17 @@ const SubchapterContent = () => {
                 }
             ).catch(
                 err => {
+                    if (err.response.status == 401) {
+                        alert("You are not authorized to perform this action")
+                    }
                     return 500
                 }
             )}
     }
+
+    function toTwemoji(string) {
+        return twemoji.parse(string)
+    };
         
     useEffect(() => {
         getSubchapterContent(chapterId, subchapterId)
@@ -145,35 +155,77 @@ const SubchapterContent = () => {
         ));
       }
 
-    return (
+    // return (
         
-        <div className="subchapterContent" style={{paddingBottom: "100px"}}>
-            <div className="subchapterContentContainer">
-                <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
-                <div className="subchapterContentTop">
-                    <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage"/>
-                    {/* <img className="headerImage" src={"../../../../assets/subchapters/neurology/severetbi.jpg"} alt="headerImage"/> */}
-                    <div className="subchapterIcon">
-                        {subchapter.chapterIcon}
-                    </div>
-                    <div className="subchapterActions">
-                        <div className="subchapterAction">
-                            <Tooltip title="Edit" placement="top">
-                                <EditIcon className="subchapterActionIcon"/>
-                            </Tooltip>
-                            &nbsp; &nbsp;
-                            <Tooltip title="Delete" placement="top">
-                                <DeleteIcon className="subchapterActionIcon" onClick={ e => { deleteSubchapter() }}/> 
-                            </Tooltip>
+    //     <div className="subchapterContent" style={{paddingBottom: "100px"}}>
+    //         <div className="subchapterContentContainer">
+    //             <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
+    //             <div className="subchapterContentTop">
+    //                 <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage"/>
+    //                 {/* <img className="headerImage" src={"../../../../assets/subchapters/neurology/severetbi.jpg"} alt="headerImage"/> */}
+    //                 <div className="subchapterIcon">
+    //                     {subchapter.chapterIcon}
+    //                 </div>
+    //                 <div className="subchapterActions">
+    //                     <div className="subchapterAction">
+    //                         <Tooltip title="Edit" placement="top">
+    //                             <EditIcon className="subchapterActionIcon"/>
+    //                         </Tooltip>
+    //                         &nbsp; &nbsp;
+    //                         <Tooltip title="Delete" placement="top">
+    //                             <DeleteIcon className="subchapterActionIcon" onClick={ e => { deleteSubchapter() }}/> 
+    //                         </Tooltip>
+    if ( subchapter.length == 0 ) {
+        return (
+            <div
+                style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}
+                >
+                    <CircularProgress color='info' size={40} thickness={4} />
+            </div>
+        )
+    }
+
+    return (
+
+            <div className="subchapterContent" style={{paddingBottom: "100px"}}>
+                <div className="subchapterContentContainer">
+                    <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
+                    <div className="subchapterContentTop">
+                        <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage"/>
+                        {/* <img className="headerImage" src={"../../../../assets/subchapters/neurology/severetbi.jpg"} alt="headerImage"/> */}
+                        <div className="subchapterIcon">
+                            <span dangerouslySetInnerHTML={{__html: toTwemoji(subchapter.chapterIcon)}}></span>
                         </div>
-                        <div className="subchapterAction">
-                            <Tooltip title="Bookmark" placement="top">
-                                {/* <BookmarkBorderIcon className="subchapterActionIcon"/> */}
-                                {
-                                    isBookmarked ? 
-                                        <BookmarkIcon margin={"4"} sx={{color: "#41ADA4"}} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon sx={{color: "#41ADA4"}} margin={"4"} onClick={e => { bookmarkHandler() }} />
-                                }
-                            </Tooltip>
+                        <div className="subchapterActions">
+                            <div className="subchapterAction">
+                                <Tooltip title="Edit" placement="top">
+                                    <EditIcon className="subchapterActionIcon"/>
+                                </Tooltip>
+                                &nbsp; &nbsp;
+                                <Tooltip title="Delete" placement="top">
+                                    <DeleteIcon className="subchapterActionIcon" onClick={ e => { deleteSubchapter() }}/> 
+                                </Tooltip>
+                            </div>
+                            <div className="subchapterAction">
+                                <Tooltip title="Bookmark" placement="top">
+                                    {/* <BookmarkBorderIcon className="subchapterActionIcon"/> */}
+                                    {
+                                        isBookmarked ? 
+                                            <BookmarkIcon margin={"4"} sx={{color: "#41ADA4"}} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon sx={{color: "#41ADA4"}} margin={"4"} onClick={e => { bookmarkHandler() }} />
+                                    }
+                                </Tooltip>
+                            </div>
+                        </div>
+                        <div className="subchapterText">
+                            <h1 className="subchapterTitle">
+                                {subchapter.subchapterTitle}
+                            </h1>
+                            <div className="subchapterCategory">
+                                {subchapter.chapterTitle}
+                            </div>
+                            <div className="subchapterDescription">
+                                {subchapter.description}
+                            </div>
                         </div>
                     </div>
                     <div className="subchapterText">
@@ -193,8 +245,7 @@ const SubchapterContent = () => {
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        )
 }
 
 export default SubchapterContent;

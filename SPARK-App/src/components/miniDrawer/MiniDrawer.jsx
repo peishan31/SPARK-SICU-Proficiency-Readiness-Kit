@@ -39,6 +39,14 @@ import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 import CreateSubchapter from '../../pages/CreateSubchapter';
 import Login from "../../pages/login/Login";
 import UpdateAdmin from '../../pages/updateAdmin/UpdateAdmin';
+import CreateChapter from '../../pages/CreateChapter';
+import ApacheIIScore from '../../pages/viewCalculator/viewApacheIIScoreCalculator'
+import SimplifiedPesi from '../../pages/viewCalculator/SimplifiedPesiCalculator'
+import RoxIndex from '../../pages/viewCalculator/RoxIndexCalculator'
+import SofaScore from '../../pages/viewCalculator/SofaScoreCalculator'
+import CandidaScore from '../../pages/viewCalculator/CandidaScoreCalculator'
+import ParklandFormula from '../../pages/viewCalculator/ParklandFormulaCalculator'
+import CamIcu from '../../pages/viewCalculator/CamIcuCalculator'
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -165,7 +173,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function MiniDrawer({admin}) {
+export default function MiniDrawer({admin, clearUser}) {
     const path = useLocation().pathname
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -206,9 +214,22 @@ export default function MiniDrawer({admin}) {
         // setData(localStorage.getItem('searchInput'));
     };
 
+    const navigate = useNavigate();
+
     const handleSignOut = event => {
-        userActions.signOutUser();
+        // localStorage.clear();
+        clearUser();
+        userActions.updateUser(null);
+        // navigate(0);
+
+        // console.log("Logout: clear local storage and state, refresh")
+
+        // setLoggedInUser(null);
     }
+
+    function toTwemoji(string) {
+        return twemoji.parse(string)
+    };
 
     return (
         <Box sx={{ display: 'flex'}}>
@@ -304,13 +325,11 @@ export default function MiniDrawer({admin}) {
                                                     // case 'Home':
                                                     //     return <span className="icon">&#127968;</span>;
                                                     case 'Bookmarks':
-                                                        return <span className="icon">&#128278;</span>;
+                                                        return <span dangerouslySetInnerHTML={{__html: toTwemoji("🔖")}}></span>
                                                     case 'Calculators':
-                                                        return <span className="icon">&#129518;</span>
+                                                        return <span dangerouslySetInnerHTML={{__html: toTwemoji("🧮")}}></span>
                                                     case 'Chapters':
-                                                        return <span className="icon">&#128214;</span>
-                                                    case 'Subchapters':
-                                                        return <span className="icon">&#128218;</span>
+                                                        return <span dangerouslySetInnerHTML={{__html: toTwemoji("📖")}}></span>
                                                     default:
                                                         return null;
                                                 }
@@ -343,7 +362,7 @@ export default function MiniDrawer({admin}) {
                                             mr: open ? 3 : 'auto',
                                             justifyContent: 'center',
                                         }}>
-                                        <span className="icon">👥</span>
+                                        <span dangerouslySetInnerHTML={{__html: toTwemoji("👥")}}></span>
                                     </ListItemIcon>
                                     <ListItemText primary={"Manage Admins"} sx={{ opacity: open ? 1 : 0 }} />
                                 </ListItemButton>
@@ -390,8 +409,16 @@ export default function MiniDrawer({admin}) {
                     <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
+                    <Route path="/CreateChapter" element={<CreateChapter/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/updateAdmin" element={<UpdateAdmin/>}/>
+                    <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore/>}/>
+                    <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi/>}/>
+                    <Route path="/Calculators/rox-index" element={<RoxIndex/>}/>
+                    <Route path="/Calculators/sofa-score" element={<SofaScore/>}/>
+                    <Route path="/Calculators/candida-score" element={<CandidaScore/>}/>
+                    <Route path="/Calculators/parkland-formula" element={<ParklandFormula/>}/>
+                    <Route path="/Calculators/cam-icu" element={<CamIcu/>}/>
                     <Route path="/Sign Out" element={<Navigate to={"/"}/>}/>
                 </Routes>
             </Box>

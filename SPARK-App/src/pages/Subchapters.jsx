@@ -9,6 +9,7 @@ import SubchapterCard from '../components/subchapters/SubchapterCard';
 import { useAppState, useActions } from '../overmind';
 import { trim } from 'lodash';
 
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const Subchapters = ({ searchInput }) => {
@@ -64,6 +65,10 @@ const Subchapters = ({ searchInput }) => {
     }, [])
 
  
+    function toTwemoji(string) {
+        return twemoji.parse(string)
+    };
+
     const searchSubchapters = (searchInput, subchapter) => {
         // console.log(searchInput, "SUBCHAPTERS")
         let rgx = "?![^<>]*>";
@@ -84,13 +89,19 @@ const Subchapters = ({ searchInput }) => {
 
 
     return (
+
         <Box margin={4}>
             <Grid pb={2} display="flex" alignItems="center" mb={1}>
                 <IconButton onClick={
                     () => { navigate('/Chapters') }}>
                     <ArrowBackIcon />
                 </IconButton>
-                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>{chapterState.selectedChapter.currentChapterIcon} {chapterState.selectedChapter.currentChapterTitle}</Typography>
+                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
+                    <span dangerouslySetInnerHTML={{__html: toTwemoji(chapterState.selectedChapter.currentChapterIcon)}}></span> {chapterState.selectedChapter.currentChapterTitle}
+                </Typography>
+                
+
+                
                 <Stack direction="row" spacing={2} ml="auto">
                     {/* <Button variant="outlined">Select</Button> */}
                     <Button 
@@ -114,27 +125,47 @@ const Subchapters = ({ searchInput }) => {
                     </Button>
                 </Stack>
             </Grid>
-                    
-            <Grid container spacing={4}>
-                { !filtered.length ? 
-                        <Grid item sm={6}>
-                            <Typography variant="h6" ml={""}>No subchapters found</Typography>
-                        </Grid> :
+        {
+            !subchapterState.subchapterlist || subchapterState.subchapterlist.length === 0 ? 
+            ( 
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '200px',
+                        margin: '0 auto',
+                    }}
+                >
+                    <CircularProgress color='info' size={40} thickness={4} />
+                </Box>
+            ) :
+            (
 
-                        filtered.map((subchapter) => 
-                        {
-                            return (
-                                <Grid item key={subchapter._id} xs={12} sm={6} md={4} lg={3}>
-                                    <SubchapterCard
-                                        
-                                        subchapter={subchapter} chapterId={currentChapter.currentChapterId}/>
-                                </Grid>
-                            )
-                        
-                        })
-                }
-            </Grid>
+                            
+                    <Grid container spacing={4}>
+                        { !filtered.length ? 
+                                <Grid item sm={6}>
+                                    <Typography variant="h6" ml={""}>No subchapters found</Typography>
+                                </Grid> :
+
+                                filtered.map((subchapter) => 
+                                {
+                                    return (
+                                        <Grid item key={subchapter._id} xs={12} sm={6} md={4} lg={3}>
+                                            <SubchapterCard
+                                                subchapter={subchapter} chapterId={currentChapter.currentChapterId}/>
+                                        </Grid>
+                                    )
+                                
+                                })
+                        }
+                    </Grid>
+            )
+        }
+
         </Box>
+        
     )
 }
 
