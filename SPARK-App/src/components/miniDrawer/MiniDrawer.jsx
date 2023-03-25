@@ -38,7 +38,13 @@ import Bookmarks from '../../pages/Bookmarks'
 import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 import CreateSubchapter from '../../pages/CreateSubchapter';
 import Login from "../../pages/login/Login";
-import UpdateAdmin from '../../pages/updateAdmin/UpdateAdmin';
+import ApacheIIScore from '../../pages/viewCalculator/viewApacheIIScoreCalculator'
+import SimplifiedPesi from '../../pages/viewCalculator/SimplifiedPesiCalculator'
+import RoxIndex from '../../pages/viewCalculator/RoxIndexCalculator'
+import SofaScore from '../../pages/viewCalculator/SofaScoreCalculator'
+import CandidaScore from '../../pages/viewCalculator/CandidaScoreCalculator'
+import ParklandFormula from '../../pages/viewCalculator/ParklandFormulaCalculator'
+import CamIcu from '../../pages/viewCalculator/CamIcuCalculator'
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -391,7 +397,13 @@ export default function MiniDrawer({admin}) {
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput}/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/login" element={<Login/>}/>
-                    <Route path="/updateAdmin" element={<UpdateAdmin/>}/>
+                    <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore/>}/>
+                    <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi/>}/>
+                    <Route path="/Calculators/rox-index" element={<RoxIndex/>}/>
+                    <Route path="/Calculators/sofa-score" element={<SofaScore/>}/>
+                    <Route path="/Calculators/candida-score" element={<CandidaScore/>}/>
+                    <Route path="/Calculators/parkland-formula" element={<ParklandFormula/>}/>
+                    <Route path="/Calculators/cam-icu" element={<CamIcu/>}/>
                     <Route path="/Sign Out" element={<Navigate to={"/"}/>}/>
                 </Routes>
             </Box>
