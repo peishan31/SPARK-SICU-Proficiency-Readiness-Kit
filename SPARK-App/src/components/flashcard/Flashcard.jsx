@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import "./Flashcard.css"
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function Flashcard({flashcard}) {
 
@@ -25,6 +26,7 @@ function Flashcard({flashcard}) {
     return (
         <div className={`card ${flip ? 'flip' : ''}`} style={{ height: height }} onClick={() => setFlip(!flip)}>
             <div className="front" ref={frontEl}>
+                <DeleteIcon/>
                 <h5>{ flashcard.question }</h5>
             </div>
             <div className="back" ref={backEl} style={{ height: height }}>
