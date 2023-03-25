@@ -10,37 +10,40 @@ const ViewCalculators = () => {
     {
       name: "Confusion Assessment Method for the ICU (CAM-ICU)",
       description: "For detection of delirium in the ICU",
-      link: "https://www.mdcalc.com/calc/1870/confusion-assessment-method-icu-cam-icu"
+      link: "calculators/cam-icu"
+      // link: "https://www.mdcalc.com/calc/1870/confusion-assessment-method-icu-cam-icu"
     }, 
     {
       name: "Simplified PESI (Pulmonary Embolism Severity Index)",
       description: "Predicts 30-day outcome of patients with PE",
-      link: "https://www.mdcalc.com/calc/1247/simplified-pesi-pulmonary-embolism-severity-index#evidence"
+      link: "calculators/simplified-pesi"
     }, 
     {
       name: "Candida Score",
       description: "To determine the likelihood of invasive candidiasis vs colonization in non-neutropenic critically ill patients",
-      link: "https://www.pharmacyjoe.com/candida-score-calculator/"
+      link: "calculators/candida-score"
+      // link: "https://www.pharmacyjoe.com/candida-score-calculator/"
     }, 
     {
       name: "Parkland Formula for Burns",
       description: "Calculates fluid requirements for burn patients in a 24-hour period.",
-      link: "https://www.mdcalc.com/calc/83/parkland-formula-burns"
+      link: "calculators/parkland-formula"
+      // link: "https://www.mdcalc.com/calc/83/parkland-formula-burns"
     }, 
     {
       name: "ROX index",
       description: "Predicts high-flow nasal cannula (HFNC) failure/need for intubation",
-      link: "https://www.mdcalc.com/calc/10302/rox-index-intubation-hfnc#evidence"
+      link: "calculators/rox-index"
     }, 
     {
       name: "Sequential Organ Failure Assessment (SOFA) Score",
       description: "Predicts ICU mortality based on lab results and clinical data.",
-      link: "https://www.mdcalc.com/calc/691/sequential-organ-failure-assessment-sofa-score"
+      link: "calculators/sofa-score"
     },
     {
       name: "APACHE II Score",
       description: "Estimates ICU mortality based on a number of laboratory values and patient signs taking both acute and chronic disease into account. ",
-      link: "https://www.mdcalc.com/calc/1868/apache-ii-score"
+      link: "calculators/apache-ii-score"
     }
   ]
 
