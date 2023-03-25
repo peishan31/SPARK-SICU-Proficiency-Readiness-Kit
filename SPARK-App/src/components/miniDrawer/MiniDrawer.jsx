@@ -411,6 +411,7 @@ export default function MiniDrawer({admin, clearUser}) {
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/CreateChapter" element={<CreateChapter/>}/>
                     <Route path="/login" element={<Login/>}/>
+                    <Route path="/updateAdmin" element={<UpdateAdmin/>}/>
                     <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore/>}/>
                     <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi/>}/>
                     <Route path="/Calculators/rox-index" element={<RoxIndex/>}/>
