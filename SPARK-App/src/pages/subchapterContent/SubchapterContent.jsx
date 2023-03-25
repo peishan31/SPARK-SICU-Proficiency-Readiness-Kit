@@ -154,27 +154,6 @@ const SubchapterContent = () => {
           </React.Fragment>
         ));
       }
-
-    // return (
-        
-    //     <div className="subchapterContent" style={{paddingBottom: "100px"}}>
-    //         <div className="subchapterContentContainer">
-    //             <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
-    //             <div className="subchapterContentTop">
-    //                 <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage"/>
-    //                 {/* <img className="headerImage" src={"../../../../assets/subchapters/neurology/severetbi.jpg"} alt="headerImage"/> */}
-    //                 <div className="subchapterIcon">
-    //                     {subchapter.chapterIcon}
-    //                 </div>
-    //                 <div className="subchapterActions">
-    //                     <div className="subchapterAction">
-    //                         <Tooltip title="Edit" placement="top">
-    //                             <EditIcon className="subchapterActionIcon"/>
-    //                         </Tooltip>
-    //                         &nbsp; &nbsp;
-    //                         <Tooltip title="Delete" placement="top">
-    //                             <DeleteIcon className="subchapterActionIcon" onClick={ e => { deleteSubchapter() }}/> 
-    //                         </Tooltip>
     if ( subchapter.length == 0 ) {
         return (
             <div
@@ -218,30 +197,20 @@ const SubchapterContent = () => {
                         </div>
                         <div className="subchapterText">
                             <h1 className="subchapterTitle">
-                                {subchapter.subchapterTitle}
+                                {HighlightText(subchapter.subchapterTitle)}
                             </h1>
                             <div className="subchapterCategory">
-                                {subchapter.chapterTitle}
+                                {HighlightText(subchapter.chapterTitle)}
                             </div>
                             <div className="subchapterDescription">
-                                {subchapter.description}
+                                {HighlightText(subchapter.description)}
                             </div>
                         </div>
                     </div>
-                    <div className="subchapterText">
-                        <h1 className="subchapterTitle">
-                            {HighlightText(subchapter.subchapterTitle)}
-                        </h1>
-                        <div className="subchapterCategory">
-                            {HighlightText(subchapter.chapterTitle)}
-                        </div>
-                        <div className="subchapterDescription">
-                            {HighlightText(subchapter.description)}
-                        </div>
-                    </div>
+                    
                 </div>
                 <div className="subchapterContentBottom">
-                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(getHighlightedText(subchapter.content,searchInput))}}>
+                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: toTwemoji(DOMPurify.sanitize(getHighlightedText(subchapter.content,searchInput)))}}>
                     </div>
                 </div>
             </div>
