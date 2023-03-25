@@ -38,7 +38,7 @@ function FlashcardList() {
                 {
                     flashcards.map((flashcard) => {
                         return (
-                            <Flashcard key={flashcard._id} flashcard={flashcard} />
+                            <Flashcard key={flashcard._id} flashcard={flashcard} flashcardsList={flashcards} setFlashcards={setFlashcards} />
                         )
                     })
                 }
