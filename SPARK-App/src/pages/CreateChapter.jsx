@@ -38,7 +38,8 @@ export default function CreateChapter() {
             })
             .then(() => {
                 setLoading(false);
-                navigate(-1);
+                window.location.href = "/Chapters"
+                // navigate(-1);
             })
             .catch((error) => {
                 setLoading(false);
