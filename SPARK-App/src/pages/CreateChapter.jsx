@@ -8,15 +8,19 @@ import {Button, Box, TextField, MenuItem, Grid, Input, CircularProgress, IconBut
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddIcon from '@mui/icons-material/Add';
 import "./home.css"
+import { useAppState } from '../overmind';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function CreateChapter() {  
-    let navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("")
     const [chapterTitle, setChapterTitle] = useState('');
     const [chapterIcon, setChapterIcon] = useState('');
+
+    const userState = useAppState().user
+    const navigate = useNavigate();
 
     const BASE_URL = import.meta.env.VITE_API_URL
     
@@ -49,36 +53,34 @@ export default function CreateChapter() {
             });
     }
 
+    useEffect(() => {
+        if ( userState.currentUser.userType != "senior" ) {
+            navigate("/");
+        }
+    }, [])
+
     return (
-        <div className='home'>
-            {loading ? (
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100vh',
-                        width: '200px',
-                        margin: '0 auto',
-                    }}
-                >
-                    <CircularProgress color='info' size={40} thickness={4} />
-                </Box>
-            ) : (
-                <div className='homeContainer'>
-                    <div className='pageTitle'>
-                        <Grid pb={2} display="flex" alignItems="center" mb={1}>
-                            <IconButton onClick={
-                                () => { navigate(-1) }}>
-                                <ArrowBackIcon />
-                            </IconButton>
-                            <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
-                                Add Chapters
-                            </Typography>
-                        </Grid>
-                    </div>
-                    <div className="errorMessage">
-                        {errorMessage}
+        <div className="home">
+            <Sidebar/>
+            <div className="homeContainer">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-12 col-md-7">
+                            <div class="m-5">
+                                <p class="fs-1 fw-bold">Add Chapter</p>
+                                <div class="form-group">
+                                    <div class="mt-3">
+                                        <label for="chapTitle">Title</label>
+                                        <input type="text" class="form-control" id="chapTitle" value={chapTitle} onChange={event => setChapTitle(event.target.value)}></input>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="chapIcon">Icon</label>
+                                        <input type="text" class="form-control" id="chapIcon" value={chapIcon} onChange={event => setChapIcon(event.target.value)}></input>
+                                    </div>
+                                </div>
+                                <Button className="mt-5" variant="outlined" onClick={() => { addChapter(); }} >Add</Button>
+                            </div>
+                        </div>                        
                     </div>
                     <Grid item xs={6} sm={12} lg={12}>
                         <Box
