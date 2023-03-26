@@ -20,8 +20,9 @@ import './home.css';
 import './CreateSubchapter.css';
 import { useAppState } from '../overmind';
 
-export default function CreateSubchapter() {
-    let navigate = useNavigate();
+export default function EditSubchapter() {
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
     const [subchapTitle, setSubchapTitle] = useState('');
@@ -33,23 +34,39 @@ export default function CreateSubchapter() {
     const [errorMessage, setErrorMessage] = useState('');
     const [content, setContent] = useState('');
 
-    const BASE_URL = import.meta.env.VITE_API_URL;
-
     const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
+    const BASE_URL = import.meta.env.VITE_API_URL;
+    const chapterId = location.state.parentChapterId;
+    const subchapterId = location.state.parentSubchapterId;
+
+    console.log("user id: ", userId);
 
     useEffect(() => {
-
-        if ( userState.currentUser.userType != "senior" ) {
-            navigate("/");
-        }
-
         const fetchData = async () => {
             await axios.get(BASE_URL + '/chapters/').then((res) => {
                 setChaps(res.data);
             });
         };
+        const getSubchapterContent = async (chapterId, subchapterId) => {
+            axios.get(`${BASE_URL}/chapters/${chapterId}/subchapters/${subchapterId}`)
+            .then(res => {
+                console.log("data",res.data)
+                setSubchapTitle(res.data.subchapterTitle);
+                setChapSelected(res.data.chapterId);
+                setSubchapDesc(res.data.description);
+                setContent(res.data.content);
+                // setBase64Thumbnail("old");
+                setThumbnail({"name": res.data.thumbnail});
+            })
+        }
         fetchData();
+        getSubchapterContent(chapterId, subchapterId)
     }, []);
+
+    const handleEditorChange = (content, editor) => {
+        setContent(content);
+    };
 
     async function addSubchapter() {
         console.log("hjsdfdv")
@@ -61,25 +78,33 @@ export default function CreateSubchapter() {
             setErrorMessage("Fields cannot be empty");
             return;
         }
-        await axios
-            .put(BASE_URL + '/chapters/' + chapSelected + '/subchapters/', {
+        console.log(
+            {
                 subchapterTitle: subchapTitle,
                 thumbnail: base64Thumbnail,
                 description: subchapDesc,
                 content: DOMPurify.sanitize(content),
-            }, { withCredentials: true })
+                lastModifiedUserID: userId,
+                selectedChapter: chapSelected
+            }
+
+        )
+        await axios
+            .put(BASE_URL + '/chapters/' + chapterId + '/subchapters/' + subchapterId+'/', {
+                subchapterTitle: subchapTitle,
+                thumbnail: base64Thumbnail,
+                description: subchapDesc,
+                content: DOMPurify.sanitize(content),
+                lastModifiedUserID: userId,
+                selectedChapter: chapSelected
+            })
             .then(() => {
                 setLoading(false);
-                navigate(-1);
+                navigate("/chapters");
             })
             .catch((error) => {
                 setLoading(false);
                 console.log("error",error);
-
-                if (error.response.status == 401) {
-                    setErrorMessage("You are not authorized to perform this action.")
-                    return;
-                }
                 
                 if (error.response.status == 404) {
                     setErrorMessage(error.response.data.msg);
@@ -88,10 +113,6 @@ export default function CreateSubchapter() {
                 setErrorMessage(error.response.data.msg);
             });
     }
-
-    const handleEditorChange = (content, editor) => {
-        setContent(content);
-    };
 
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
@@ -118,6 +139,7 @@ export default function CreateSubchapter() {
         } 
 
         // Image size is less than 2MB
+        console.log("Image size is less than 2MB: ", file);
         setThumbnail(file);
         setBase64Thumbnail(base64String);
     };
@@ -161,7 +183,7 @@ export default function CreateSubchapter() {
                                 <ArrowBackIcon />
                             </IconButton>
                             <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
-                                Add Subchapter
+                                Edit Subchapter
                             </Typography>
                         </Grid>
                         {/* <p className='fs-1 fw-bold'>Add Subchapter</p> */}
