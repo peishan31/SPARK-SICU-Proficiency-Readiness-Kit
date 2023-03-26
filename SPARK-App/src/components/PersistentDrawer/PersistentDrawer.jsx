@@ -62,7 +62,7 @@ const menuId = 'primary-search-account-menu';
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(0),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -343,33 +343,35 @@ export default function PersistentDrawer({admin, clearUser}) {
                 </List>
                 <Divider />
             </Drawer>
-            <Main open={open}>
-                <DrawerHeader />
-                <Routes>
-                    <Route path="/" element={<Navigate to={"/Chapters"} />} />
-                    <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput} />} />
-                    <Route path="/Calculators" element={<ViewCalculators />} />
-                    <Route path="/Chapters" element={<Chapters searchInput={chapterState.chapterSearchInput} />} />
-                    <Route path="/subchapterContent" element={<SubchapterContent />} />
-                    <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent />} />
-                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput} />} />
-                    <Route path="/CreateSubchapter" element={<CreateSubchapter />} />
-                    <Route path="/CreateChapter" element={<CreateChapter />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/updateAdmin" element={<UpdateAdmin />} />
-                    <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore />} />
-                    <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi />} />
-                    <Route path="/Calculators/rox-index" element={<RoxIndex />} />
-                    <Route path="/Calculators/sofa-score" element={<SofaScore />} />
-                    <Route path="/Calculators/candida-score" element={<CandidaScore />} />
-                    <Route path="/Calculators/parkland-formula" element={<ParklandFormula />} />
-                    <Route path="/Calculators/cam-icu" element={<CamIcu />} />
-                    <Route path="/Sign Out" element={<Navigate to={"/"} />} />
-                    <Route path='*' element={<Error404 />}/>
-                    <Route path='/500' element={<Error500 />}/>
-                    <Route path='/other-errors' element={<OtherErrors />}/>
-                </Routes>
-            </Main>
+            <Box component="main" sx={{ flexGrow: 1 }}>
+                <Main open={open}>
+                    <DrawerHeader />
+                    <Routes>
+                        <Route path="/" element={<Navigate to={"/Chapters"} />} />
+                        <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput} />} />
+                        <Route path="/Calculators" element={<ViewCalculators />} />
+                        <Route path="/Chapters" element={<Chapters searchInput={chapterState.chapterSearchInput} />} />
+                        <Route path="/subchapterContent" element={<SubchapterContent />} />
+                        <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent />} />
+                        <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput} />} />
+                        <Route path="/CreateSubchapter" element={<CreateSubchapter />} />
+                        <Route path="/CreateChapter" element={<CreateChapter />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/updateAdmin" element={<UpdateAdmin />} />
+                        <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore />} />
+                        <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi />} />
+                        <Route path="/Calculators/rox-index" element={<RoxIndex />} />
+                        <Route path="/Calculators/sofa-score" element={<SofaScore />} />
+                        <Route path="/Calculators/candida-score" element={<CandidaScore />} />
+                        <Route path="/Calculators/parkland-formula" element={<ParklandFormula />} />
+                        <Route path="/Calculators/cam-icu" element={<CamIcu />} />
+                        <Route path="/Sign Out" element={<Navigate to={"/"} />} />
+                        <Route path='*' element={<Error404 />}/>
+                        <Route path='/500' element={<Error500 />}/>
+                        <Route path='/other-errors' element={<OtherErrors />}/>
+                    </Routes>
+                </Main>
+            </Box>
         </Box>
     );
 }
