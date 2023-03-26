@@ -51,11 +51,15 @@ chapterRouter.get('/:chapterId', async (req, res) => {
 chapterRouter.post("/", async (req, res) => {
     try {
         const { title, description, chapterIcon, subchapters } = req.body;
+        if (title.length === 0 || title == undefined || title == "" || 
+            chapterIcon.length===0 || chapterIcon == undefined || chapterIcon == "") { 
+                return res.status(404).json({ msg: 'Fields cannot be empty' })
+        }
         const newChapter = new Chapter({
             title,
-            description,
+            // description,
             chapterIcon,
-            subchapters
+            // subchapters
         });
         const chapter = await newChapter.save();
         res.status(201).json(chapter);
