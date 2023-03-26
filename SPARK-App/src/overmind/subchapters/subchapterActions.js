@@ -18,3 +18,11 @@ export const clearSubchapterState = ( { state } ) => {
     state.subchapters.subchapterSearchInput = "";
     state.subchapters.selectedSubchapter = null;
 }
+
+export const setBookmarkId = ({ state }, bookmarkId) => {
+    state.subchapters.bookmarkId = bookmarkId;
+}
+
+export const setIsBookmarked = ({ state }, isBookmarked) => {
+    state.subchapters.isBookmarked = isBookmarked;
+}
