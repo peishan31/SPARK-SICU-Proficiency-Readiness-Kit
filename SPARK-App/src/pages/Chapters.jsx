@@ -75,7 +75,7 @@ const Chapters = ({searchInput}) => {
                 <Stack direction="row" spacing={2} ml="auto">
                     <Button 
                         component={Link}
-                        to="/"
+                        to="/CreateChapter"
                         variant="outlined"
                         sx={{
                             color: 'white',
