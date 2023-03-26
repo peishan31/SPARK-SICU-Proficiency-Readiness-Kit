@@ -51,8 +51,9 @@ import SofaScore from '../../pages/viewCalculator/SofaScoreCalculator'
 import CandidaScore from '../../pages/viewCalculator/CandidaScoreCalculator'
 import ParklandFormula from '../../pages/viewCalculator/ParklandFormulaCalculator'
 import CamIcu from '../../pages/viewCalculator/CamIcuCalculator'
-
-
+import Error404 from '../../pages/error/Error404';
+import Error500 from '../../pages/error/Error500';
+import OtherErrors from '../../pages/error/OtherErrors';
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -365,6 +366,9 @@ export default function PersistentDrawer({admin, clearUser}) {
                         <Route path="/Calculators/parkland-formula" element={<ParklandFormula />} />
                         <Route path="/Calculators/cam-icu" element={<CamIcu />} />
                         <Route path="/Sign Out" element={<Navigate to={"/"} />} />
+                        <Route path='*' element={<Error404 />}/>
+                        <Route path='/500' element={<Error500 />}/>
+                        <Route path='/other-errors' element={<OtherErrors />}/>
                     </Routes>
                 </Main>
             </Box>
