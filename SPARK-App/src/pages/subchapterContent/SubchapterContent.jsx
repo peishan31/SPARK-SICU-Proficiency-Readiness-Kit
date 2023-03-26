@@ -10,6 +10,8 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify'; // Sanitizes HTML;  a tool that removes any potentially malicious code from HTML text;
 import { useAppState } from '../../overmind';
+import { map, trim,join } from 'lodash';
+import Subchapters from '../Subchapters';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const SubchapterContent = () => {
@@ -135,6 +137,44 @@ const SubchapterContent = () => {
         getSubchapterContent(chapterId, subchapterId)
     }, [])
 
+    const searchInput = useAppState().subchapters.subchapterSearchInput
+
+
+    
+    function getHighlightedText(text,subchapterSearchInput) {
+        // for HTML strings with tags and text 
+
+        // console.log(useAppState().subchapters,"HEREEEEEEEEEEEEEEE")
+        if(subchapterSearchInput=="" || text ==undefined){
+            return text;
+        }else{
+
+            let rgx = "?![^<>]*>";
+            const regex = new RegExp(`(${trim(subchapterSearchInput)})(${rgx})`, 'gi');
+            text = text.replaceAll(regex, "<span style=\"background-color:#e8bb49\">" + subchapterSearchInput + "</span>");
+            // console.log(text);
+            return text
+
+        }
+      }
+
+      function HighlightText(text) {
+        // for plain text highlighting
+        if(searchInput=="" || text ==undefined){
+            return text;
+        }
+        // Split text on higlight term, include term itself into parts, ignore case
+        var parts = text.split(new RegExp(`(${searchInput})`, "gi"));
+        return parts.map((part, index) => (
+          <React.Fragment key={index}>
+            {part.toLowerCase() === searchInput.toLowerCase() ? (
+              <b style={{ backgroundColor: "#e8bb49" }}>{part}</b>
+            ) : (
+              part
+            )}
+          </React.Fragment>
+        ));
+      }
     if ( subchapter.length == 0 ) {
         return (
             <div
@@ -178,19 +218,20 @@ const SubchapterContent = () => {
                         </div>
                         <div className="subchapterText">
                             <h1 className="subchapterTitle">
-                                {subchapter.subchapterTitle}
+                                {HighlightText(subchapter.subchapterTitle)}
                             </h1>
                             <div className="subchapterCategory">
-                                {subchapter.chapterTitle}
+                                {HighlightText(subchapter.chapterTitle)}
                             </div>
                             <div className="subchapterDescription">
-                                {subchapter.description}
+                                {HighlightText(subchapter.description)}
                             </div>
                         </div>
                     </div>
-                    <div className="subchapterContentBottom">
-                        <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: toTwemoji(DOMPurify.sanitize(subchapter.content))}}>
-                        </div>
+                    
+                </div>
+                <div className="subchapterContentBottom">
+                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: toTwemoji(DOMPurify.sanitize(getHighlightedText(subchapter.content,searchInput)))}}>
                     </div>
                 </div>
             </div>
