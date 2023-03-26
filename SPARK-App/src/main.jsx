@@ -6,9 +6,10 @@ import { BrowserRouter } from 'react-router-dom'
 import { createOvermind } from 'overmind'
 import { Provider } from 'overmind-react'
 import { config } from './overmind'
-
+import { inject } from "@vercel/analytics"
 
 const overmind = createOvermind(config)
+inject();
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Provider value={overmind}>

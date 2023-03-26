@@ -49,6 +49,8 @@ function UpdateAdmin() {
 
             let userObj = {...userState.currentUser};
             userObj.userType = newStatus;
+            
+            sessionStorage.setItem('user', JSON.stringify(userObj));
             userActions.updateUser(userObj)
 
             console.log("updated state")
