@@ -874,6 +874,7 @@ function Tab2Content(props){
                     <caption>*Note: "acute renal failure" was not defined in the original study. Use clinical judgment to determine whether has acute kidney injury. Cutoffs differ slightly from original study (by less than 0.1 mg/dL) in order to account for all possible values in this electronic calculator.</caption>
                 </Table>
             </TableContainer>
+            <Typography variant="h6" align="left" mt={4} mb={1}>Approximated in-hospital mortality rates</Typography>
             <TableContainer component={Paper} p={5}>
                 <Table aria-label="simple table">
                     <TableHead>
