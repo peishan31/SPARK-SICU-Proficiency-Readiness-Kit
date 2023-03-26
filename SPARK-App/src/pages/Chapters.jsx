@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@mui/material'
+import { Button, Stack } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import AddIcon from '@mui/icons-material/Add'
 import ChapterCard from '../components/chapters/ChapterCard'
@@ -11,6 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
 import { useAppState, useActions } from '../overmind'
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 
 
 const Chapters = ({searchInput}) => {
@@ -64,11 +65,31 @@ const Chapters = ({searchInput}) => {
 
 
     return (
-        <Box pt={5} pl={5}>
-            <div className="pageTitle">
-                <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Chapters</h1>
-            </div>
-            {/* {console.log("here", chapterState)} */}
+        <Box margin={4}>
+            <Grid pb={2} display="flex" alignItems="center" mb={1}>
+                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>Chapters</Typography>
+                <Stack direction="row" spacing={2} ml="auto">
+                    <Button 
+                        component={Link}
+                        to="/"
+                        variant="outlined"
+                        sx={{
+                            color: 'white',
+                            backgroundColor: 'white', // Set background color on hover
+                            borderColor: '#41ADA4 !important', // Set border color on hover
+                            color: '#41ADA4',
+                            '&:hover': {
+                                backgroundColor: '#41ADA4',
+                                borderColor: '#41ADA4',
+                                color: 'white',
+                            },
+                        }}
+                        >
+                        <AddIcon />
+                            Create new chapter
+                    </Button>
+                </Stack>
+            </Grid>
             {
                 !chapterState.chapterlist || chapterState.chapterlist.length === 0 ? ( 
                     <Box
@@ -83,14 +104,11 @@ const Chapters = ({searchInput}) => {
                         <CircularProgress color='info' size={40} thickness={4} />
                     </Box>
                     ) : (
-                    
                         <Grid container spacing={3}>
-
                     { !filtered.length ? 
                             <Grid item sm={6}>
                                 <Typography variant="h6" ml={""}>No chapters found</Typography>
                             </Grid> :
-                            
                                 filtered.map((chapter) => {
                                     return (
                                         <Grid key={chapter._id} item>
@@ -98,7 +116,6 @@ const Chapters = ({searchInput}) => {
                                         </Grid>
                                     )
                                 })
-                            
                             }
                         </Grid>
                 )
