@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, ToggleButtonGroup, IconButton, Divider, styled } from '@mui/material'
+import { Button, ToggleButtonGroup, IconButton, Divider, Paper, styled } from '@mui/material'
 import MuiToggleButton from "@mui/material/ToggleButton"
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
@@ -10,6 +10,13 @@ import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import TextField from '@mui/material/TextField';
 import CalcResultCard from '../../components/calculator/CalcResultCard';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 function Tab1Content(props){
 
@@ -314,367 +321,280 @@ function Tab1Content(props){
 }
 function Tab2Content(props){
     const {formData} = props;
+
+    function createData(criteria, pointValues ) {
+        return { criteria, pointValues };
+    }
+      
+    const paOxygens = [
+        createData('≥400', '0'),
+        createData('300-399', '+1'),
+        createData('200-299', '+2'),
+        createData('≤199 and NOT mechanically ventilated', '+2'),
+        createData('100-199 and mechanically ventilated', '+3'),
+        createData('<100 and mechanically ventilated', '+4')
+    ];
+
+    const platelets = [
+        createData('≥150', '0'),
+        createData('100-149', '+1'),
+        createData('50-99', '+2'),
+        createData('20-49', '+3'),
+        createData('<20', '+4')
+    ];
+
+    const glasgowComas = [
+        createData('15', '0'),
+        createData('13-14', '+1'),
+        createData('10-12', '+2'),
+        createData('6-9', '+3'),
+        createData('<6', '+4')
+    ];
+
+    const bilirubins = [
+        createData('<1.2 (<20)', '0'),
+        createData('1.2–1.9 (20-32)', '+1'),
+        createData('2.0–5.9 (33-101)', '+2'),
+        createData('6.0–11.9 (102-204)', '+3'),
+        createData('≥12.0 (>204)', '+4')
+    ];
+
+    const pressures = [
+        createData('No hypotension', '0'),
+        createData('MAP <70 mmHg', '+1'),
+        createData('DOPamine ≤5 or DOBUTamine (any dose)', '+2'),
+        createData('DOPamine >5, EPINEPHrine ≤0.1, or norEPINEPHrine ≤0.1', '+3'),
+        createData('DOPamine >15, EPINEPHrine >0.1, or norEPINEPHrine >0.1', '+4')
+    ];
+
+    const creatinines = [
+        createData('<1.2 (<110)', '0'),
+        createData('1.2–1.9 (110-170)', '+1'),
+        createData('2.0–3.4 (171-299)', '+2'),
+        createData('3.5–4.9 (300-440) or UOP <500 mL/day)', '+3'),
+        createData('≥5.0 (>440) or UOP <200 mL/day', '+4')
+    ];
+
+    function createData2( type, flowRates, fiOxygen ) {
+        return { type, flowRates, fiOxygen };
+    }
+
+    const rows = [
+        createData2('Nasal cannula', '1-6', 
+                    <div>
+                        <Typography>~4% FiO₂ added above room air* per 1 L/min</Typography>
+                        <Typography variant='subtitle'>*refer to the checklist below</Typography>
+                    </div>),
+        createData2('Simple face mask', '~6-12', '35-60%*'),
+        createData2('Non-rebreather mask', '10-15', '~70-90%'),
+        createData2('High-flow nasal cannula', 'Up to 60', '30-100%')
+    ];
+
+    function createData3( score, initial, highest ) {
+        return { score, initial, highest };
+    }
+
+    const sofaScores = [
+        createData3('0-1', '0.0%', '0.0%'),
+        createData3('2-3', '6.4%', '1.5%'),
+        createData3('4-5', '20.2%', '6.7%'),
+        createData3('6-7', '21.5%', '18.2%'),
+        createData3('8-9', '33.3%', '26.3%'),
+        createData3('10-11', '50.0%', '45.8%'),
+        createData3('12-14', '95.2%', '80.0%'),
+        createData3('>14', '95.2%', '89.7%')
+    ];
+
+    function createData4( meanScore, mortality ) {
+        return { meanScore, mortality };
+    }
+
+    const meanSofaScores = [
+        createData4('0-1.0', '1.2%'),
+        createData4('1.1-2.0', '5.4%'),
+        createData4('2.1-3.0', '20.0%'),
+        createData4('3.1-4.0', '36.1%'),
+        createData4('4.1-5.0', '73.1%'),
+        createData4('>5.1', '84.4%')
+    ];
+
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2} justifyContent="center" alignItems="center">
-                <Grid item xs={12}>Point Values</Grid>
-                
-                <Grid item xs={6}>
-                    <strong>PaO2/FiO2*, mmHg</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    ≥400
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    300-399
-                </Grid>
-                <Grid item xs={6}>
-                    +1  
-                </Grid>
-                <Grid item xs={6}>
-                    200-299
-                </Grid>
-                <Grid item xs={6}>
-                    +2
-                </Grid>
-                <Grid item xs={6}>
-                    ≤199 and NOT mechanically ventilated
-                </Grid>
-                <Grid item xs={6}>
-                    +2
-                </Grid>
-                <Grid item xs={6}>
-                    100-199 and mechanically ventilated
-                </Grid>
-                <Grid item xs={6}>
-                    +3
-                </Grid>
-                <Grid item xs={6}>
-                    {'<'}100 and mechanically ventilated
-                </Grid>
-                <Grid item xs={6}>
-                    +4
-                </Grid>
-
-                <Grid item xs={6}>
-                    <strong>Platelets, ×103/µL</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    ≥150
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    100-149
-                </Grid>
-                <Grid item xs={6}>
-                    +1
-                </Grid>
-                <Grid item xs={6}>
-                    50-99
-                </Grid>
-                <Grid item xs={6}>
-                    +2
-                </Grid>
-                <Grid item xs={6}>
-                    20-49
-                </Grid>
-                <Grid item xs={6}>
-                    +3
-                </Grid>
-                <Grid item xs={6}>
-                    {'<'}20
-                </Grid>
-                <Grid item xs={6}>
-                    +4
-                </Grid>
-
-                <Grid item xs={6}>
-                    <strong>Glasgow Coma Scale</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    15
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    13–14
-                </Grid>
-                <Grid item xs={6}>
-                    +1
-                </Grid>
-                <Grid item xs={6}>
-                    10–12
-                </Grid>
-                <Grid item xs={6}>
-                    +2
-                </Grid>
-                <Grid item xs={6}>
-                    6–9
-                </Grid>
-                <Grid item xs={6}>
-                    +3
-                </Grid>
-                <Grid item xs={6}>
-                    {'<'}6
-                </Grid>
-                <Grid item xs={6}>
-                    +4
-                </Grid>
-                
-                <Grid item xs={6}>
-                    <strong>Bilirubin, mg/dL (μmol/L)</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    {'<'}1.2 ({'<'}20)
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    1.2–1.9 (20-32)
-                </Grid>
-                <Grid item xs={6}>
-                    +1
-                </Grid>
-                <Grid item xs={6}>
-                    2.0–5.9 (33-101)
-                </Grid>
-                <Grid item xs={6}>
-                    +2
-                </Grid>
-                <Grid item xs={6}>
-                    6.0–11.9 (102-204)
-                </Grid>
-                <Grid item xs={6}>
-                    +3
-                </Grid>
-                <Grid item xs={6}>
-                    ≥12.0 ({'>'}204)
-                </Grid>
-                <Grid item xs={6}>
-                    +4
-                </Grid>
-
-                <Grid item xs={6}>
-                    <strong>Mean arterial pressure OR administration of vasoactive agents required (listed doses are in units of mcg/kg/min)</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    No hypotension
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    MAP {'<'}70 mmHg
-                </Grid>
-                <Grid item xs={6}>
-                    +1
-                </Grid>
-                <Grid item xs={6}>
-                    DOPamine ≤5 or DOBUTamine (any dose)
-                </Grid>
-                <Grid item xs={6}>
-                    +2
-                </Grid>
-                <Grid item xs={6}>
-                    DOPamine {'>'}5, EPINEPHrine ≤0.1, or norEPINEPHrine ≤0.1
-                </Grid>
-                <Grid item xs={6}>
-                    +3
-                </Grid>
-                <Grid item xs={6}>
-                    DOPamine {'>'}15, EPINEPHrine {'>'}0.1, or norEPINEPHrine {'>'}0.1
-                </Grid>
-                <Grid item xs={6}>
-                    +4
-                </Grid>
-
-                <Grid item xs={6}>
-                    <strong>Creatinine, mg/dL (μmol/L) (or urine output)</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    {'<'}1.2 ({'<'}110)
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    1.2–1.9 (110-170)
-                </Grid>
-                <Grid item xs={6}>
-                    +1
-                </Grid>
-                <Grid item xs={6}>
-                    2.0–3.4 (171-299)
-                </Grid>
-                <Grid item xs={6}>
-                    +2
-                </Grid>
-                <Grid item xs={6}>
-                    3.5–4.9 (300-440) or UOP {'<'}500 mL/day)
-                </Grid>
-                <Grid item xs={6}>
-                    +3
-                </Grid>
-                <Grid item xs={6}>
-                    ≥5.0 ({'>'}440) or UOP {'<'}200 mL/day
-                </Grid>
-                <Grid item xs={6}>
-                    +4
-                </Grid>
-
-                <Grid item xs={12} mt={5}>Facts & Figure</Grid>
-                
-                <Grid item xs={4}>
-                    <strong>SOFA Score</strong>
-                </Grid>
-                <Grid item xs={4}>
-                    <strong>Mortality if initial score</strong>
-                </Grid>
-                <Grid item xs={4}>
-                    <strong>Mortality if highest score</strong>
-                </Grid>
-                <Grid item xs={4}>
-                    0-1
-                </Grid>
-                <Grid item xs={4}>
-                    0.0%
-                </Grid>
-                <Grid item xs={4}>
-                    0.0%
-                </Grid>
-                <Grid item xs={4}>
-                    2-3
-                </Grid>
-                <Grid item xs={4}>
-                    6.4%
-                </Grid>
-                <Grid item xs={4}>
-                    1.5%
-                </Grid>
-                <Grid item xs={4}>
-                    4-5
-                </Grid>
-                <Grid item xs={4}>
-                    20.2%
-                </Grid>
-                <Grid item xs={4}>
-                    6.7%
-                </Grid>
-                <Grid item xs={4}>
-                    6-7
-                </Grid>
-                <Grid item xs={4}>
-                    21.5%
-                </Grid>
-                <Grid item xs={4}>
-                    18.2%
-                </Grid>
-                <Grid item xs={4}>
-                    8-9
-                </Grid>
-                <Grid item xs={4}>
-                    33.3%
-                </Grid>
-                <Grid item xs={4}>
-                    26.3%
-                </Grid>
-                <Grid item xs={4}>
-                    10-11
-                </Grid>
-                <Grid item xs={4}>
-                    50.0%
-                </Grid>
-                <Grid item xs={4}>
-                    45.8%
-                </Grid>
-                <Grid item xs={4}>
-                    12-14
-                </Grid>
-                <Grid item xs={4}>
-                    95.2%
-                </Grid>
-                <Grid item xs={4}>
-                    80.0%
-                </Grid>
-                <Grid item xs={4}>
-                    {'>'}14
-                </Grid>
-                <Grid item xs={4}>
-                    95.2%
-                </Grid>
-                <Grid item xs={4}>
-                    89.7%
-                </Grid>
-
-                <Grid item xs={6}>
-                    <strong>Mean SOFA Score</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Mortality</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    0-1.0
-                </Grid>
-                <Grid item xs={6}>
-                    1.2%
-                </Grid>
-                <Grid item xs={6}>
-                    1.1-2.0
-                </Grid>
-                <Grid item xs={6}>
-                    5.4%
-                </Grid>
-                <Grid item xs={6}>
-                    2.1-3.0
-                </Grid>
-                <Grid item xs={6}>
-                    20.0%
-                </Grid>
-                <Grid item xs={6}>
-                    3.1-4.0
-                </Grid>
-                <Grid item xs={6}>
-                    36.1%
-                </Grid>
-                <Grid item xs={6}>
-                    4.1-5.0
-                </Grid>
-                <Grid item xs={6}>
-                    73.1%
-                </Grid>
-                <Grid item xs={6}>
-                    {'>'}5.1
-                </Grid>
-                <Grid item xs={6}>
-                    84.4%
-                </Grid>
-            </Grid>
-        </Box>
+        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+            <Typography variant="h6" align="left" mt={4} mb={1} style={{fontWeight: 'bold'}}>Formula</Typography>
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{fontWeight: 'bold'}}>Criteria</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Points</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>PaO2/FiO2*, mmHg</TableCell>
+                    <TableBody>
+                    {paOxygens.map((paOxygen) => (
+                        <TableRow
+                        key={paOxygen.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {paOxygen.criteria}
+                        </TableCell>
+                        <TableCell align="center">{paOxygen.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Platelets, ×103/µL</TableCell>
+                    <TableBody>
+                    {platelets.map((platelet) => (
+                        <TableRow
+                        key={platelet.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {platelet.criteria}
+                        </TableCell>
+                        <TableCell align="center">{platelet.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Glasgow Coma Scale</TableCell>
+                    <TableBody>
+                    {glasgowComas.map((glasgowComa) => (
+                        <TableRow
+                        key={glasgowComa.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {glasgowComa.criteria}
+                        </TableCell>
+                        <TableCell align="center">{glasgowComa.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Bilirubin, mg/dL (μmol/L)</TableCell>
+                    <TableBody>
+                    {bilirubins.map((bilirubin) => (
+                        <TableRow
+                        key={bilirubin.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {bilirubin.criteria}
+                        </TableCell>
+                        <TableCell align="center">{bilirubin.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Mean arterial pressure OR administration of vasoactive agents required (listed doses are in units of mcg/kg/min)</TableCell>
+                    <TableBody>
+                    {pressures.map((pressure) => (
+                        <TableRow
+                        key={pressure.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {pressure.criteria}
+                        </TableCell>
+                        <TableCell align="center">{pressure.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Creatinine, mg/dL (μmol/L) (or urine output)</TableCell>
+                    <TableBody>
+                    {creatinines.map((creatinine) => (
+                        <TableRow
+                        key={creatinine.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {creatinine.criteria}
+                        </TableCell>
+                        <TableCell align="center">{creatinine.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Typography variant="h6" align="left" mt={4} mb={1} style={{fontWeight: 'bold'}}>*Estimating FiO₂ from oxygen flow/delivery rates:</Typography>
+            <TableContainer component={Paper} p={5}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Type of O₂ delivery</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Flow rates, L/min</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="left">FiO₂</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {rows.map((row) => (
+                        <TableRow
+                        key={row.type}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell align="center" component="th" scope="row">{row.type}</TableCell>
+                        <TableCell align="center">{row.flowRates}</TableCell>
+                        <TableCell align="left">{row.fiOxygen}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <caption>Nasal cannula FiO₂ checklist:
+                        <ul>
+                            <li>Room air = 21% </li>
+                            <li>1 L/min = 25%</li>
+                            <li>2 L/min = 29%</li>
+                            <li>3 L/min = 33%</li>
+                            <li>4 L/min = 37%</li>
+                            <li>5 L/min = 41%</li>
+                            <li>6 L/min = 45%</li>
+                        </ul>
+                    </caption>
+                    <caption>*Varies based on respiratory rate and minute ventilation.</caption>
+                </Table>
+            </TableContainer>
+            <Typography variant="h6" align="left" mt={4} mb={1} style={{fontWeight: 'bold'}}>Facts & Figures</Typography>
+            <TableContainer component={Paper} p={5}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">SOFA Score</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Mortality if initial score</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="left">Mortality if highest score</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {sofaScores.map((sofaScore) => (
+                        <TableRow
+                        key={sofaScore.score}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell align="center" component="th" scope="row">{sofaScore.score}</TableCell>
+                        <TableCell align="center">{sofaScore.initial}</TableCell>
+                        <TableCell align="left">{sofaScore.highest}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Mean SOFA Score</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Mortality</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {meanSofaScores.map((sofaScore) => (
+                        <TableRow
+                        key={sofaScore.meanScore}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell align="center" component="th" scope="row">{sofaScore.meanScore}</TableCell>
+                        <TableCell align="center">{sofaScore.mortality}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
     )
 }
 
