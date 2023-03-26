@@ -6,7 +6,6 @@ import { v2 as cloudinary } from 'cloudinary';
 import dotenv from 'dotenv';
 const subchapterRouter = express.Router();
 import jwt_decode from 'jwt-decode';
-import User from '../models/UserModel.js';
 
 dotenv.config();
 
