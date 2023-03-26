@@ -7,7 +7,7 @@ import Login from './pages/login/Login'
 import { useNavigate } from "react-router-dom"
 import useLoginUser from './hooks/useLoginUser'
 import CircularProgress from '@mui/material/CircularProgress';
-
+import PersistentDrawer from './components/PersistentDrawer/PersistentDrawer'
 
 function App() {
   // const chapterActions = useActions().chapters
@@ -64,8 +64,8 @@ function App() {
 
           { 
             user.userType == "senior" ? 
-            <MiniDrawer clearUser={clearUser} admin/> :
-            <MiniDrawer clearUser={clearUser} />
+            <PersistentDrawer clearUser={clearUser} admin /> :
+            <PersistentDrawer clearUser={clearUser} />
           }
         </div>
         <footer className='footer'>
