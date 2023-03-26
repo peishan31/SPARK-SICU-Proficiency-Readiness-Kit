@@ -155,8 +155,8 @@ subchapterRouter.put("/", checkAdmin, async (req, res) => {
 // @description: Add subchapter to chapter by chapter Id
 // @route PUT chapter/:chapterId/subchapter/
 // Working!
-subchapterRouter.put("/:subchapterId", async (req, res) => {
-
+subchapterRouter.put("/:subchapterId", checkAdmin, async (req, res) => {
+    console.log("edit subchapter")
     try {
 
         const chapterId = req.chapterId;
@@ -166,7 +166,21 @@ subchapterRouter.put("/:subchapterId", async (req, res) => {
             return res.status(404).json({ msg: 'Missing chapter and/or subchapter id' });
         }
         
-        let { subchapterTitle, thumbnail, description, content, lastModifiedUserID, selectedChapter } = req.body;
+        let { subchapterTitle, thumbnail, description, content, selectedChapter } = req.body;
+        let token = req.cookies['session-token'];
+        let decoded = jwt_decode(token);
+        let lastModifiedUserID = decoded['sub'];
+        console.log("lastModifiedUserID", token);
+        
+        const users = await User.find()
+
+        users.forEach(user => {
+            User.findOneAndUpdate(
+                { googleId: user.googleId },
+                { $pull: { bookmarks: { subchapterId: subchapterId } } }
+            );
+        })
+        
         let thumbnailPublicId = "";
 
         // edit subchapter
@@ -245,6 +259,14 @@ subchapterRouter.delete("/:subchapterId", checkAdmin, async (req, res) => {
     try {
         const chapterId = req.chapterId;
         const subchapterId = req.params.subchapterId;
+        const users = await User.find()
+
+        users.forEach(user => {
+            User.findOneAndUpdate(
+                { googleId: user.googleId },
+                { $pull: { bookmarks: { subchapterId: subchapterId } } }
+            );
+        })
         
         if (!chapterId || !subchapterId) { 
             return res.status(404).json({ msg: 'Missing chapter and/or subchapter id' });
