@@ -35,7 +35,14 @@ export default function SubchapterCard({ subchapter, chapterId }) {
             }
         ).catch(
             err => {
-                return 500
+                // return 500
+                if(err.response.status == 500) {
+                    navigate("/500");
+                } else if(err.response.status == 404) {
+                    navigate("/404");
+                } else {
+                    navigate("/other-errors");
+                }
             }
         )
     }
@@ -52,7 +59,14 @@ export default function SubchapterCard({ subchapter, chapterId }) {
             }
         ).catch(
             err => {
-                return 500
+                // return 500
+                if(err.response.status == 500) {
+                    navigate("/500");
+                } else if(err.response.status == 404) {
+                    navigate("/404");
+                } else {
+                    navigate("/other-errors");
+                }
             }
         )}
 

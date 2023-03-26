@@ -55,7 +55,14 @@ const SubchapterContent = () => {
             }
         ).catch(
             err => {
-                return 500
+                // return 500
+                if(err.response.status == 500) {
+                    navigate("/500");
+                } else if(err.response.status == 404) {
+                    navigate("/404");
+                } else {
+                    navigate("/other-errors");
+                }
             }
         )
     }
@@ -70,7 +77,14 @@ const SubchapterContent = () => {
             }
         ).catch(
             err => {
-                return 500
+                // return 500
+                if(err.response.status == 500) {
+                    navigate("/500");
+                } else if(err.response.status == 404) {
+                    navigate("/404");
+                } else {
+                    navigate("/other-errors");
+                }
             }
         )}
 
@@ -103,7 +117,14 @@ const SubchapterContent = () => {
                     if (err.response.status == 401) {
                         alert("You are not authorized to perform this action")
                     }
-                    return 500
+                    // return 500
+                    else if(err.response.status == 500) {
+                        navigate("/500");
+                    } else if(err.response.status == 404) {
+                        navigate("/404");
+                    } else {
+                        navigate("/other-errors");
+                    }
                 }
             )}
     }
