@@ -83,7 +83,7 @@ function FlashcardList() {
                     user.userType === "senior" ?
                         <Button
                             component={Link}
-                            to="/createFlashcards"
+                            to="createFlashcards"
                             variant="outlined"
                             sx={{
                                 color: 'white',

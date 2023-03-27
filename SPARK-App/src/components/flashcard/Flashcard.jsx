@@ -5,8 +5,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios'
 import { Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Link } from 'react-router-dom';
+
 
 function Flashcard({flashcard, flashcardsList, setFlashcards}) {
+
+    // const navigate = useNavigate()
 
     const [flip, setFlip] = useState(false);
     const [height, setHeight] = useState('initial')
@@ -30,7 +34,7 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
 
     const handleClose = (event) => {
         setAnchorEl(null);
-      
+    
         if (!event) {
             var event = window.event;
         }
@@ -54,7 +58,6 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
     }
 
     function handleDelete(e) {
-
         axios.delete(import.meta.env.VITE_API_URL + '/flashcards/' + flashcard._id)
         .then((res) => {
             if (res.status == "200") {
@@ -85,7 +88,6 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
 
     useEffect(() => {
         setMaxHeight();
-
     }, [flashcard.question, flashcard.answer])
 
 
@@ -102,7 +104,7 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
                     />
-                  
+                
                     <Menu
                         id="basic-menu"
                         anchorEl={anchorEl}
@@ -112,8 +114,14 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
                         'aria-labelledby': 'basic-button',
                         }}
                     >
-                        <MenuItem onClick={handleDelete}>Delete</MenuItem>
-                        <MenuItem onClick={handleClose}>Edit</MenuItem>
+                        <MenuItem onClick={handleDelete}>
+                            Delete
+                        </MenuItem>
+                        <MenuItem>
+                            <Link to={`/Flashcards/${flashcard._id}`}>
+                                    Edit
+                            </Link>
+                        </MenuItem>
                     </Menu>
                 </div>
                 <div>

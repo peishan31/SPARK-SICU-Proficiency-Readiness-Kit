@@ -54,6 +54,9 @@ import CamIcu from '../../pages/viewCalculator/CamIcuCalculator'
 import Error404 from '../../pages/error/Error404';
 import Error500 from '../../pages/error/Error500';
 import OtherErrors from '../../pages/error/OtherErrors';
+import FlashcardList from '../../pages/flashcardList/FlashcardList';
+import CreateFlashcards from '../../pages/createFlashcards/CreateFlashcards';
+import EditFlashcards from '../../pages/editFlashcards/EditFlashcards';
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -264,7 +267,7 @@ export default function PersistentDrawer({admin, clearUser}) {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Chapters', 'Bookmarks', 'Calculators'].map((text, index) => (
+                    {['Chapters', 'Bookmarks', 'Calculators', 'Flashcards'].map((text, index) => (
                         <Link key={text} to={text} style={{ textDecoration: 'none'}}>
                             <ListItem key={text} disablePadding>
                                 <ListItemButton>
@@ -281,6 +284,8 @@ export default function PersistentDrawer({admin, clearUser}) {
                                                         return <span dangerouslySetInnerHTML={{ __html: toTwemoji("🧮") }}></span>
                                                     case 'Chapters':
                                                         return <span dangerouslySetInnerHTML={{ __html: toTwemoji("📖") }}></span>
+                                                    case 'Flashcards':
+                                                        return <span dangerouslySetInnerHTML={{ __html: toTwemoji("📚") }}></span>
                                                     default:
                                                         return null;
                                                 }
@@ -369,6 +374,9 @@ export default function PersistentDrawer({admin, clearUser}) {
                         <Route path='*' element={<Error404 />}/>
                         <Route path='/500' element={<Error500 />}/>
                         <Route path='/other-errors' element={<OtherErrors />}/>
+                        <Route path="/Flashcards" element={<FlashcardList />} />
+                        <Route path="/Flashcards/createFlashcards" element={<CreateFlashcards />} />
+                        <Route path="/Flashcards/:flashcardId" element={<EditFlashcards />} />
                     </Routes>
                 </Main>
             </Box>

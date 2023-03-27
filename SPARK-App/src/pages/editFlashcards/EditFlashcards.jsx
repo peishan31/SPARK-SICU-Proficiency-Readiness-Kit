@@ -1,7 +1,9 @@
 import React from 'react'
-import axios from 'axios'
-
 import { useState, useEffect } from 'react'
+import {
+    useParams,
+    useNavigate
+} from "react-router-dom";
 import {
     Button,
     Box,
@@ -14,42 +16,44 @@ import {
     Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate } from 'react-router-dom'
-import { useAppState, useActions } from '../../overmind'
+import axios from 'axios'
 
-const CreateFlashcards = () => {
-    const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(false)
-    const [category, setCategory] = useState("")
-    const [flashcardQuestion, setFlashcardQuestion] = useState("")
-    const [flashcardAnswer, setFlashcardAnswer] = useState("")
+const EditFlashcards = () => {
+    const { flashcardId } = useParams();
+    const [currentFlashCard, setCurrentFlashCard] = useState(null);
+    const [loading, setLoading] = useState(true)
 
-    const userState = useAppState().user;
-
-    const BASE_URL = import.meta.env.VITE_API_URL;
-
+    const navigate = useNavigate()
 
     useEffect(() => {
-
-        if (userState.currentUser.userType != "senior") {
-            navigate("/");
-        }
-    }, []);
-
-    async function addFlashcard() {
+        // fetch flashcard with id
         setLoading(true)
-        await axios.post(BASE_URL + "/flashcards", {
-            "category": category,
-            "question": flashcardQuestion,
-            "answer": flashcardAnswer
+        const fetchFlashcard = async () => {
+            await axios.get(import.meta.env.VITE_API_URL + '/flashcards/' + flashcardId)
+            .then((res) => {
+                const currentFlashCard = res.data
+                console.log(currentFlashCard)
+                setCurrentFlashCard(currentFlashCard);
+            })
+            setLoading(false)
+        }
+
+        fetchFlashcard()
+    }, [setCurrentFlashCard, flashcardId])
+
+    async function updateFlashcard() {
+        setLoading(true)
+        await axios.put(import.meta.env.VITE_API_URL + "/flashcards/" + flashcardId, {
+            "category": currentFlashCard.category,
+            "question": currentFlashCard.question,
+            "answer": currentFlashCard.answer
         })
-        alert("Flashcard added successfully")
+        alert("Flashcard edited successfully")
         setLoading(false)
         navigate("/Flashcards");
     }
-
-
+    
     return (
         <div>
             {
@@ -67,7 +71,7 @@ const CreateFlashcards = () => {
                         <CircularProgress color='info' size={40} thickness={4} />
                     </Box>
                 ) : (
-                    <div className='homeContainer'>
+                        <div className='homeContainer'>
                             <div className='pageTitle'>
                                 <Grid pb={2} display="flex" alignItems="center" mb={1}>
                                     <IconButton onClick={
@@ -75,7 +79,7 @@ const CreateFlashcards = () => {
                                         <ArrowBackIcon />
                                     </IconButton>
                                     <Typography style={{ fontSize: '25px', fontWeight: 'bold' }}>
-                                        Add Flashcards
+                                        Edit Flashcard
                                     </Typography>
                                 </Grid>
                             </div>
@@ -93,10 +97,14 @@ const CreateFlashcards = () => {
                                     <TextField
                                         label='Flashcard Question'
                                         variant='outlined'
+                                        value={currentFlashCard.question}
                                         onChange={(event) => {
-                                            setFlashcardQuestion(event.target.value);
+                                            setCurrentFlashCard({
+                                                ...currentFlashCard,
+                                                question: event.target.value
+                                            })
                                         }}
-                                        error={flashcardQuestion.length < 1}
+                                        error={currentFlashCard.question.length < 1}
                                     ></TextField>
                                 </Box>
                             </Grid>
@@ -112,12 +120,15 @@ const CreateFlashcards = () => {
                                     }}
                                 >
                                     <TextField
-                                        value={category}
+                                        value={currentFlashCard.category}
                                         onChange={(event) =>
-                                            setCategory(event.target.value)
+                                            setCurrentFlashCard({
+                                                ...currentFlashCard,
+                                                category: event.target.value,
+                                            })
                                         }
                                         label='Category'
-                                        error={category.length < 1}
+                                        error={currentFlashCard.category.length < 1}
                                     >
                                     </TextField>
                                 </Box>
@@ -136,17 +147,22 @@ const CreateFlashcards = () => {
                                     <TextField
                                         id="outlined-textarea"
                                         label="Answer"
-                                        placeholder="Placeholder"
-                                        rows={8}
+                                        placeholder="Placeholder"                                        
                                         multiline
+                                        rows={8}
+                                        value={currentFlashCard.answer}
                                         onChange={(event) => {
-                                            setFlashcardAnswer(event.target.value);
+                                            setCurrentFlashCard({
+                                                ...currentFlashCard,
+                                                answer: event.target.value,
+                                            })
                                         }}
-                                        error={flashcardAnswer.length < 1}
+                                        error={currentFlashCard.answer.length < 1}
+
                                     />
                                 </Box>
                             </Grid>
-                            
+
                             {/* Save button */}
                             <Grid item xs={12} sm={12} lg={12}>
                                 <Box
@@ -157,7 +173,7 @@ const CreateFlashcards = () => {
                                     <Button
                                         variant='outlined'
                                         onClick={() => {
-                                            addFlashcard();
+                                            updateFlashcard();
                                         }}
                                         component='span'
                                         sx={{
@@ -171,20 +187,20 @@ const CreateFlashcards = () => {
                                             },
                                         }}
                                         disabled={
-                                            flashcardQuestion.length < 1 ||
-                                            flashcardAnswer.length < 1 ||
-                                            category.length < 1
+                                            currentFlashCard.question.length < 1 ||
+                                            currentFlashCard.category.length < 1 ||
+                                            currentFlashCard.answer.length < 1
                                         }
                                     >
                                         Save
                                     </Button>
                                 </Box>
                             </Grid>
-                    </div>
+                        </div>
                 )
             }
         </div>
     )
 }
 
-export default CreateFlashcards
+export default EditFlashcards
