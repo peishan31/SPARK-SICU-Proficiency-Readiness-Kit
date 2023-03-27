@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { styled, useTheme, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -16,18 +16,22 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import FlareIcon from '@mui/icons-material/Flare';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import FlareIcon from '@mui/icons-material/Flare';
 import { ExitToApp } from '@material-ui/icons';
+
+
+
+
 // react-router-dom
-import { Navigate, Routes, Route, Link, useLocation, useNavigate} from 'react-router-dom'
+import { Navigate, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
+
 // state management
 import { useAppState, useActions } from '../../overmind';
 import { useState } from 'react';
-import "./MiniDrawer.css"
-
 
 // pages
 import Home from '../../pages/Home'
@@ -50,15 +54,15 @@ import CamIcu from '../../pages/viewCalculator/CamIcuCalculator'
 import Error404 from '../../pages/error/Error404';
 import Error500 from '../../pages/error/Error500';
 import OtherErrors from '../../pages/error/OtherErrors';
-import FlashcardList from '../../pages/flashcardList/FlashcardList';
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
 
+
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(0),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -70,9 +74,27 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
                 duration: theme.transitions.duration.enteringScreen,
             }),
             marginLeft: 0,
-        })
+        }),
     }),
 );
+
+const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+    backgroundColor: "#41ADA4",
+    transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: `${drawerWidth}px`,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    }),
+}));
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -100,6 +122,15 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'center',
 }));
 
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+}));
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
@@ -111,78 +142,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const openedMixin = (theme) => ({
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-});
-
-const closedMixin = (theme) => ({
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
-    },
-});
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0,1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-}));
-
-const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-    zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "#41ADA4",
-    transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(open && {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    })
-}));
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-        boxSizing: 'border-box',
-        ...(open && {
-            ...openedMixin(theme),
-            '& .MuiDrawer-paper': openedMixin(theme),
-        }),
-        ...(!open && {
-            ...closedMixin(theme),
-            '& .MuiDrawer-paper': closedMixin(theme),
-        }),
-    }),
-);
-
-export default function MiniDrawer({admin, clearUser}) {
+export default function PersistentDrawer({admin, clearUser}) {
     const path = useLocation().pathname
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
+    
     const subchapterState = useAppState().subchapters
     const subchapterActions = useActions().subchapters
 
@@ -193,9 +156,10 @@ export default function MiniDrawer({admin, clearUser}) {
     const userActions = useActions().user
 
     const [data, setData] = useState('');
-    const isMenuOpen = Boolean(anchorEl);
 
-    localStorage.setItem('searchInput', data);
+    const [open, setOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -210,33 +174,21 @@ export default function MiniDrawer({admin, clearUser}) {
     };
 
     const handleChange = event => {
-        // console.log("reached here!");
-        // setData(event.currentTarget.value);
         chapterActions.setChapterSearchInput(event.currentTarget.value)
         subchapterActions.setSubchapterSearchInput(event.currentTarget.value)
-        // localStorage.setItem('searchInput', event.currentTarget.value);
-        // setData(localStorage.getItem('searchInput'));
     };
-
-    const navigate = useNavigate();
-
-    const handleSignOut = event => {
-        // localStorage.clear();
-        clearUser();
-        userActions.updateUser(null);
-        // navigate(0);
-
-        // console.log("Logout: clear local storage and state, refresh")
-
-        // setLoggedInUser(null);
-    }
 
     function toTwemoji(string) {
         return twemoji.parse(string)
     };
 
+    const handleSignOut = event => {
+        clearUser();
+        userActions.updateUser(null);
+    }
+
     return (
-        <Box sx={{ display: 'flex'}}>
+        <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <AppBar position="fixed" open={open}>
                 <Toolbar>
@@ -245,39 +197,34 @@ export default function MiniDrawer({admin, clearUser}) {
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
-                        sx={{
-                            marginRight: 3.5,
-                            ...(open && { display: 'none' }),
-                        }}
+                        sx={{ mr: 2, ...(open && { display: 'none' }) }}
                     >
                         <MenuIcon />
                     </IconButton>
-                    
                     <div className="navbarBrand">
                         <FlareIcon className="navbarBrandIcon"/>
                         <Typography className="navbarBrandText" fontWeight="bold" letterSpacing={-1} sx={{ fontSize: "25px", display: {xs: 'none', sm: 'flex', md: 'flex', ld: 'flex'}}}>
                             spark
                         </Typography>
                     </div>
-                    
-    
+
                     <React.Fragment>
-                    {
-                    ["/Bookmarks", "/Chapters", "/Chapters/"+sessionStorage.getItem("currentChapterId")+"/subchapters"].includes(path) ? 
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase fullWidth
+                        {
+                            ["/Bookmarks", "/Chapters", "/Chapters/" + sessionStorage.getItem("currentChapterId") + "/subchapters"].includes(path) ?
+                                <Search>
+                                    <SearchIconWrapper>
+                                        <SearchIcon />
+                                    </SearchIconWrapper>
+                                    <StyledInputBase fullWidth
                                         placeholder={subchapterState.subchapterSearchInput === "" ? "Search…" : subchapterState.subchapterSearchInput}
-                            inputProps={{ 'aria-label': 'search' }}
-                            value={subchapterState.subchapterSearchInput}
-                            onChange={handleChange}
-                        />
-                    </Search>
-                        :null}
+                                        inputProps={{ 'aria-label': 'search' }}
+                                        value={subchapterState.subchapterSearchInput}
+                                        onChange={handleChange}
+                                    />
+                                </Search>
+                                : null
+                        }
                     </React.Fragment>
-                    
 
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex', ld: 'end' } }}>
@@ -290,89 +237,64 @@ export default function MiniDrawer({admin, clearUser}) {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                        
-                        <img referrerPolicy="no-referrer" className="profilePicture" src={userState.currentUser.picture}></img>
-                            
+
+                            <img referrerPolicy="no-referrer" className="profilePicture" src={userState.currentUser.picture}></img>
+
                         </IconButton>
                     </Box>
-                    {/* <SearchOutlinedIcon />
-                    <input type="text" placeholder="Search chapter or subchapter..." /> */}
                 </Toolbar>
             </AppBar>
-            <Drawer variant="permanent" open={open}>
+            <Drawer
+                sx={{
+                    width: drawerWidth,
+                    flexShrink: 0,
+                    '& .MuiDrawer-paper': {
+                        width: drawerWidth,
+                        boxSizing: 'border-box',
+                    },
+                }}
+                variant="persistent"
+                anchor="left"
+                open={open}
+            >
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
                 <List>
                     {['Chapters', 'Bookmarks', 'Calculators'].map((text, index) => (
-                        <Link key={text} to={text} style={{ textDecoration: 'none' }}>
-                            <ListItem disablePadding sx={{ display: 'block' }}>
-                                <ListItemButton
-                                    sx={{
-                                        minHeight: 48,
-                                        justifyContent: open ? 'initial' : 'center',
-                                        px: 2.5,
-                                    }}
-                                >
-                                    <ListItemIcon
-                                        sx={{
-                                            minWidth: 0,
-                                            mr: open ? 3 : 'auto',
-                                            justifyContent: 'center',
-                                        }}>
+                        <Link key={text} to={text} style={{ textDecoration: 'none'}}>
+                            <ListItem key={text} disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                                         {
                                             (() => {
                                                 switch (text) {
                                                     // case 'Home':
                                                     //     return <span className="icon">&#127968;</span>;
                                                     case 'Bookmarks':
-                                                        return <span dangerouslySetInnerHTML={{__html: toTwemoji("🔖")}}></span>
+                                                        return <span dangerouslySetInnerHTML={{ __html: toTwemoji("🔖") }}></span>
                                                     case 'Calculators':
-                                                        return <span dangerouslySetInnerHTML={{__html: toTwemoji("🧮")}}></span>
+                                                        return <span dangerouslySetInnerHTML={{ __html: toTwemoji("🧮") }}></span>
                                                     case 'Chapters':
-                                                        return <span dangerouslySetInnerHTML={{__html: toTwemoji("📖")}}></span>
+                                                        return <span dangerouslySetInnerHTML={{ __html: toTwemoji("📖") }}></span>
                                                     default:
                                                         return null;
                                                 }
                                             })()
                                         }
-                                        {/* {index % 2 === 0 ? <HomeIcon /> : <BookmarksIcon />} */}
                                     </ListItemIcon>
-                                    <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                                    <ListItemText primary={text} />
                                 </ListItemButton>
                             </ListItem>
                         </Link>
                     ))}
 
-                    <Link to={"/flashcards"} style={{ textDecoration: 'none' }}>
-                        <ListItem disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                }}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
-                                    }}>
-                                    <span dangerouslySetInnerHTML={{__html: toTwemoji("⚡")}}></span>
-                                </ListItemIcon>
-                                <ListItemText primary={"Flashcards"} sx={{ opacity: open ? 1 : 0 }} />
-                            </ListItemButton>
-                        </ListItem>
-                    </Link>
-
                     {
-
                         admin &&
-                        
                         <Link to={"/updateAdmin"} style={{ textDecoration: 'none' }}>
                             <ListItem disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
@@ -388,17 +310,13 @@ export default function MiniDrawer({admin, clearUser}) {
                                             mr: open ? 3 : 'auto',
                                             justifyContent: 'center',
                                         }}>
-                                        <span dangerouslySetInnerHTML={{__html: toTwemoji("👥")}}></span>
+                                        <span dangerouslySetInnerHTML={{ __html: toTwemoji("👥") }}></span>
                                     </ListItemIcon>
                                     <ListItemText primary={"Manage Admins"} sx={{ opacity: open ? 1 : 0 }} />
                                 </ListItemButton>
                             </ListItem>
                         </Link>
-
                     }
-
-
-                    
 
                     <ListItem disablePadding sx={{ display: 'block' }}>
                         <ListItemButton
@@ -408,7 +326,7 @@ export default function MiniDrawer({admin, clearUser}) {
                                 px: 2.5,
                             }}
 
-                            onClick={ (e) => handleSignOut(e) }
+                            onClick={(e) => handleSignOut(e)}
                         >
                             <ListItemIcon
                                 sx={{
@@ -425,34 +343,34 @@ export default function MiniDrawer({admin, clearUser}) {
                 </List>
                 <Divider />
             </Drawer>
-            <Box component="main" sx={{flexGrow: 1}}>
-                <DrawerHeader />
-                <Routes>
-                    {/* <Route path="/Home" element={<Home/>}/> */}
-                    <Route path="/" element={<Navigate to={"/Chapters"}/>}/>
-                    <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput}/>}/>
-                    <Route path="/Calculators" element={<ViewCalculators/>}/>
-                    <Route path="/Chapters" element={<Chapters searchInput={chapterState.chapterSearchInput}/>}/>
-                    <Route path="/subchapterContent" element={<SubchapterContent/>}/>
-                    <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent/>}/>
-                    <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput}/>}/>
-                    <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
-                    <Route path="/CreateChapter" element={<CreateChapter/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/updateAdmin" element={<UpdateAdmin/>}/>
-                    <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore/>}/>
-                    <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi/>}/>
-                    <Route path="/Calculators/rox-index" element={<RoxIndex/>}/>
-                    <Route path="/Calculators/sofa-score" element={<SofaScore/>}/>
-                    <Route path="/Calculators/candida-score" element={<CandidaScore/>}/>
-                    <Route path="/Calculators/parkland-formula" element={<ParklandFormula/>}/>
-                    <Route path="/Calculators/cam-icu" element={<CamIcu/>}/>
-                    <Route path="/flashcards" element={<FlashcardList/>}/>
-                    <Route path="/Sign Out" element={<Navigate to={"/"}/>}/>
-                    <Route path='*' element={<Error404 />}/>
-                    <Route path='/500' element={<Error500 />}/>
-                    <Route path='/other-errors' element={<OtherErrors />}/>
-                </Routes>
+            <Box component="main" sx={{ flexGrow: 1 }}>
+                <Main open={open}>
+                    <DrawerHeader />
+                    <Routes>
+                        <Route path="/" element={<Navigate to={"/Chapters"} />} />
+                        <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput} />} />
+                        <Route path="/Calculators" element={<ViewCalculators />} />
+                        <Route path="/Chapters" element={<Chapters searchInput={chapterState.chapterSearchInput} />} />
+                        <Route path="/subchapterContent" element={<SubchapterContent />} />
+                        <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent />} />
+                        <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput} />} />
+                        <Route path="/CreateSubchapter" element={<CreateSubchapter />} />
+                        <Route path="/CreateChapter" element={<CreateChapter />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/updateAdmin" element={<UpdateAdmin />} />
+                        <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore />} />
+                        <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi />} />
+                        <Route path="/Calculators/rox-index" element={<RoxIndex />} />
+                        <Route path="/Calculators/sofa-score" element={<SofaScore />} />
+                        <Route path="/Calculators/candida-score" element={<CandidaScore />} />
+                        <Route path="/Calculators/parkland-formula" element={<ParklandFormula />} />
+                        <Route path="/Calculators/cam-icu" element={<CamIcu />} />
+                        <Route path="/Sign Out" element={<Navigate to={"/"} />} />
+                        <Route path='*' element={<Error404 />}/>
+                        <Route path='/500' element={<Error500 />}/>
+                        <Route path='/other-errors' element={<OtherErrors />}/>
+                    </Routes>
+                </Main>
             </Box>
         </Box>
     );

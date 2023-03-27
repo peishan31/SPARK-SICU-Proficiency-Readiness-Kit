@@ -7,6 +7,8 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SubchapterCard from '../components/subchapters/SubchapterCard';
 import { useAppState, useActions } from '../overmind';
+import { trim } from 'lodash';
+
 import CircularProgress from '@mui/material/CircularProgress';
 
 
@@ -28,6 +30,7 @@ const Subchapters = ({ searchInput }) => {
 
     // get current chapter from overmind state
     const currentChapter = chapterState.selectedChapter
+    // console.log("Current Chapter: ", currentChapter)
     // console.log("Current Chapter: ", currentChapter)
 
     // extract currentUser from session storage
@@ -68,11 +71,11 @@ const Subchapters = ({ searchInput }) => {
     
     useEffect(() => {
         // if currentChapter does not exist, then reroute to the chapters page.
-        // if (!currentChapter || !userId) {
-        //     console.log("Current Chapter: ", currentChapter);
-        //     navigate(`/Chapters`);
-        //     return;
-        // }
+        if (!currentChapter || !userId) {
+            // console.log("Current Chapter: ", currentChapter);
+            navigate(`/Chapters`);
+            return;
+        }
 
         // extract currentchapter details
         // const chapterId = currentChapter.currentChapterId
@@ -90,20 +93,23 @@ const Subchapters = ({ searchInput }) => {
         //     })
     }, [])
 
+ 
     function toTwemoji(string) {
         return twemoji.parse(string)
     };
 
     const searchSubchapters = (searchInput, subchapter) => {
         // console.log(searchInput, "SUBCHAPTERS")
+        let rgx = "?![^<>]*>";
+        const regex = new RegExp(`(${trim(searchInput)})(${rgx})`, 'gi');
         if (searchInput == "") {
             return subchapter
         } 
         else if (
             subchapter.description.toLowerCase().includes(searchInput.toLowerCase()) ||
             subchapter.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
-            subchapter.content.toLowerCase().includes(searchInput.toLowerCase())){
-                // console.log(subchapter.content)
+            regex.test(subchapter.content) ){
+
             return subchapter
         }
     };
@@ -165,7 +171,6 @@ const Subchapters = ({ searchInput }) => {
                     </Button>
                 </Stack>
             </Grid>
-
         {
             !subchapterState.subchapterlist || subchapterState.subchapterlist.length === 0   ? 
             ( 
