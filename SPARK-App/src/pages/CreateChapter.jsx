@@ -83,7 +83,7 @@ export default function CreateChapter() {
                                 <ArrowBackIcon />
                             </IconButton>
                             <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
-                                Add Subchapters
+                                Add Chapter
                             </Typography>
                         </Grid>
                         {/* <p className='fs-1 fw-bold'>Add Subchapter</p> */}
