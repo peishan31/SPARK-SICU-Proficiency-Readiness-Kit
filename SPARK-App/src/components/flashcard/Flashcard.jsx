@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 function Flashcard({flashcard, flashcardsList, setFlashcards}) {
 
     // const navigate = useNavigate()
+    const user = JSON.parse(localStorage.getItem("user"))
 
     const [flip, setFlip] = useState(false);
     const [height, setHeight] = useState('initial')
@@ -104,25 +105,29 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
                     />
-                
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                        }}
-                    >
-                        <MenuItem onClick={handleDelete}>
-                            Delete
-                        </MenuItem>
-                        <MenuItem>
-                            <Link to={`/Flashcards/${flashcard._id}`}>
-                                    Edit
-                            </Link>
-                        </MenuItem>
-                    </Menu>
+
+                    {
+                        user.userType == "senior" ? (
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                MenuListProps={{
+                                    'aria-labelledby': 'basic-button',
+                                }}
+                            >
+                                <MenuItem onClick={handleDelete}>
+                                    Delete
+                                </MenuItem>
+
+                                <MenuItem>
+                                    <Link to={`/Flashcards/${flashcard._id}`}>
+                                        Edit
+                                    </Link>
+                                </MenuItem>
+                            </Menu> ) : null
+                    }
                 </div>
                 <div>
                     <h5 className="cardText">{ flashcard.question }</h5>
