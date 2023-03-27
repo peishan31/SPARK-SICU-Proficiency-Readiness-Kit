@@ -3,12 +3,19 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Flashcard from '../../components/flashcard/Flashcard';
 import './FlashcardList.css'
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 
 function FlashcardList() {
     const [flashcards, setFlashcards] = useState([]);
     const [allFlashcards, setAllFlashcards] = useState([]);
     const [categories, setCategories] = useState([]);
     const [dropdownValue, setDropdownValue] = useState("All");
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    
+    // get user details from session storage
+    const user = JSON.parse(sessionStorage.getItem('user'));
 
     function getCategories() {
         console.log("getCategories")
@@ -72,6 +79,29 @@ function FlashcardList() {
                             bgcolor: '#41ADA4'
                         }
                     }}>Search</Button>
+                {
+                    user.userType === "senior" ?
+                        <Button
+                            component={Link}
+                            to="/createFlashcards"
+                            variant="outlined"
+                            sx={{
+                                color: 'white',
+                                marginLeft: "15px",
+                                backgroundColor: "white",
+                                borderColor: "#41ADA4 !important",
+                                color: "#41ADA4",
+                                '&:hover': {
+                                    backgroundColor: '#41ADA4',
+                                    borderColor: '#41ADA4',
+                                    color: 'white',
+                                },
+                            }}
+                            onClick={() => { }}
+                        >
+                            Add Flashcard
+                        </Button> : null
+                }
         </div>
             
             <div className="card-grid">

@@ -82,8 +82,8 @@ flashcardRouter.put("/:flashcardId", async (req, res) => {
         if (!flashcard) {
             return res.status(404).json({ msg: 'Flashcard not found! Cannot be updated.' })
         }else{
-           var newFlashcard = await Flashcard.findByIdAndUpdate(flashcardId, {category: category, question: question, answer: answer}, {new: true});
-           newFlashcard = await Flashcard.findById(flashcardId);
+            var newFlashcard = await Flashcard.findByIdAndUpdate(flashcardId, {category: category, question: question, answer: answer}, {new: true});
+            newFlashcard = await Flashcard.findById(flashcardId);
             return res.status(200).json(newFlashcard) 
         }
         
