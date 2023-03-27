@@ -7,12 +7,17 @@ import { Button } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddIcon from '@mui/icons-material/Add';
 import "./home.css"
+import { useAppState } from '../overmind';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function CreateChapter() {  
     
     const [chapTitle, setChapTitle] = useState('');
     const [chapIcon, setChapIcon] = useState('');
+
+    const userState = useAppState().user
+    const navigate = useNavigate();
 
     const BASE_URL = import.meta.env.VITE_API_URL
     
@@ -21,9 +26,14 @@ export default function CreateChapter() {
     //   navigate("/chapterData");
     }
 
+    useEffect(() => {
+        if ( userState.currentUser.userType != "senior" ) {
+            navigate("/");
+        }
+    }, [])
+
     return (
         <div className="home">
-            <Sidebar/>
             <div className="homeContainer">
                 <div className="container">
                     <div className="row">

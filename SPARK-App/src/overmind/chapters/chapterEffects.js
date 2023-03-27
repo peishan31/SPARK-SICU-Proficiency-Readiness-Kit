@@ -13,11 +13,13 @@ export const getAllChapters = async () => {
     } catch (err) { 
         console.log("HERE ERROR: ", err)
         if (err.response.status === 400) {
-            alert("Request Error")
+            // alert("Request Error")
+            window.location.href="/other-errors"
 
         }
         if (err.response.status === 500) {
-            alert("Server Error")
+            // alert("Server Error")
+            window.location.href="/500"
         }
         throw err
     }

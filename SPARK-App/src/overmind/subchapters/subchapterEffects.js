@@ -16,7 +16,8 @@ export const getAllSubchaptersWithChapterId = async (chapterId, userId) => {
 
         }
         if (err.response.status === 500) {
-            alert("server error")
+            // alert("server error")
+            window.location.href="/500"
         }
         throw err
     }
