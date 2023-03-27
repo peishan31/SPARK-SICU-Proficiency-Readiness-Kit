@@ -172,15 +172,6 @@ subchapterRouter.put("/:subchapterId", checkAdmin, async (req, res) => {
         let lastModifiedUserID = decoded['sub'];
         console.log("lastModifiedUserID", token);
         
-        const users = await User.find()
-
-        users.forEach(user => {
-            User.findOneAndUpdate(
-                { googleId: user.googleId },
-                { $pull: { bookmarks: { subchapterId: subchapterId } } }
-            );
-        })
-        
         let thumbnailPublicId = "";
 
         // edit subchapter
@@ -219,7 +210,17 @@ subchapterRouter.put("/:subchapterId", checkAdmin, async (req, res) => {
             lastModifiedUserID,
             lastModifiedUsername
         }
-        console.log("********",updatedSubchapter);        
+        console.log("********",updatedSubchapter);      
+        
+        
+        const users = await User.find()
+
+        users.forEach(user => {
+            User.findOneAndUpdate(
+                { googleId: user.googleId },
+                { $pull: { bookmarks: { subchapterId: subchapterId } } }
+            );
+        })
 
         // delete old subchapter and add new subchapter
         await Chapter.findByIdAndUpdate(
@@ -259,6 +260,13 @@ subchapterRouter.delete("/:subchapterId", checkAdmin, async (req, res) => {
     try {
         const chapterId = req.chapterId;
         const subchapterId = req.params.subchapterId;
+        
+        if (!chapterId || !subchapterId) { 
+            return res.status(404).json({ msg: 'Missing chapter and/or subchapter id' });
+        }
+
+        await deleteImage(chapterId, subchapterId);
+
         const users = await User.find()
 
         users.forEach(user => {
@@ -267,12 +275,6 @@ subchapterRouter.delete("/:subchapterId", checkAdmin, async (req, res) => {
                 { $pull: { bookmarks: { subchapterId: subchapterId } } }
             );
         })
-        
-        if (!chapterId || !subchapterId) { 
-            return res.status(404).json({ msg: 'Missing chapter and/or subchapter id' });
-        }
-
-        await deleteImage(chapterId, subchapterId);
 
         const chapter = await Chapter.findByIdAndUpdate(
             { _id: chapterId },
