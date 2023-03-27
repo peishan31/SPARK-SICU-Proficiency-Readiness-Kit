@@ -21,7 +21,7 @@ import TableRow from '@mui/material/TableRow';
 
 function Tab1Content(props){
 
-    const {formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
+    const {tempUnitStatus, setTempUnit, creatinineUnitStatus, setCreatinineUnit, formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
 
     const ToggleButton = styled(MuiToggleButton)({
         "&.Mui-selected": {
@@ -40,10 +40,21 @@ function Tab1Content(props){
 
     // Handle units of measurement
     // Temperature unit
-    const [tempUnitStatus, setTempUnit] = useState(false);
     var tempUnit = '°C';
     const convertTempUnit = (e) => {
         setTempUnit(!tempUnitStatus)
+        var priorTempUnit = tempUnit;
+        if(priorTempUnit == 'F'){
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                temperature: ((formData.temperature - 32) * (5/9)).toFixed(2)
+            }));
+        }else{
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                temperature: ((formData.temperature * (9/5)) + 32).toFixed(2)
+            }));
+        }
     }
     if(tempUnitStatus == true){
         tempUnit = 'F';
@@ -76,10 +87,21 @@ function Tab1Content(props){
     }
 
     // Creatinine unit
-    const [creatinineUnitStatus, setCreatinineUnit] = useState(false);
     var creatinineUnit = 'µmol/L';
     const convertCreatinineUnit = (e) => {
         setCreatinineUnit(!creatinineUnitStatus)
+        var priorCreatinineUnit = creatinineUnit;
+        if(priorCreatinineUnit == 'µmol/L'){
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                creatinine: (formData.creatinine / 88.40).toFixed(2)
+            }));
+        }else{
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                creatinine: (formData.creatinine * 88.40).toFixed(2)
+            }));
+        }
     }
     if(creatinineUnitStatus == true){
         creatinineUnit = 'mg/dL';
@@ -101,8 +123,24 @@ function Tab1Content(props){
 
     const handleResetForm = (e) => {
         const initialFormData = {
-            weight: "",
-            bodyBurnPercentage: ""
+            "cancerHistory": "",
+            "typeOfSurgery": "",
+            "age": "",
+            "temperature": "",
+            "meanArterialPressure": "",
+            "pH" : "",
+            "heartrate": "",
+            "respiratoryRate": "",
+            "sodium": "",
+            "potassium": "",
+            "creatinine": "",
+            "acuteRenalFailure": "",
+            "hematocrit": "",
+            "whiteBloodCell": "",
+            "gcs": "",
+            "fio": "",
+            "pao": "",
+            "aaGradient": ""
         };
         setFormData(initialFormData);
     }
@@ -115,7 +153,7 @@ function Tab1Content(props){
             if(value == 'Yes') {
                 setFormData((prevFormData) => ({
                     ...prevFormData,
-                    typeOfSurgery: "emergency"
+                    typeOfSurgery: ""
                 }));
                 document.getElementById('surgeryType').style.display = "flex";
 
@@ -907,73 +945,70 @@ const ApacheIIScore = () => {
 
     //state for form fields
     const [formData, setFormData] = useState({
-        // "cancerHistory": "",
-        // "typeOfSurgery": "",
-        // "age": "",
-        // "temperature": "",
-        // "meanArterialPressure": "",
-        // "pH" : "",
-        // "heartrate": "",
-        // "respiratoryRate": "",
-        // "sodium": "",
-        // "potassium": "",
-        // "creatinine": "",
-        // "acuteRenalFailure": "",
-        // "hematocrit": "",
-        // "whiteBloodCell": "",
-        // "gcs": "",
-        // "fio": "",
-        // "pao": "",
-        // "aaGradient": ""
         "cancerHistory": "",
         "typeOfSurgery": "",
-        "age": "1",
-        "temperature": "1",
-        "meanArterialPressure": "1",
-        "pH" : "1",
-        "heartrate": "1",
-        "respiratoryRate": "1",
-        "sodium": "1",
-        "potassium": "1",
-        "creatinine": "1",
-        "acuteRenalFailure": "1",
-        "hematocrit": "1",
-        "whiteBloodCell": "1",
-        "gcs": "1",
+        "age": "",
+        "temperature": "",
+        "meanArterialPressure": "",
+        "pH" : "",
+        "heartrate": "",
+        "respiratoryRate": "",
+        "sodium": "",
+        "potassium": "",
+        "creatinine": "",
+        "acuteRenalFailure": "",
+        "hematocrit": "",
+        "whiteBloodCell": "",
+        "gcs": "",
         "fio": "",
         "pao": "",
         "aaGradient": ""
     });
 
+    const [tempUnitStatus, setTempUnit] = useState(false);
+    const [creatinineUnitStatus, setCreatinineUnit] = useState(false);
+    
+    //state for calc result card
+    const [pointAllocated , setPointAllocated] = useState("-")
+    const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
+    const [scoreType, setScoreType] = useState('APACHE II Index')
+
     useEffect(() => {
-        console.log("formData changed");
-        console.log(formData);
-        console.log("=================================");
         // Check if all fields are entered
         const formValues = Object.values({ ...formData });
-            console.log(formValues[0] + " formValue[0] missing");
-            console.log(formValues[1] + " formValue[1] missing");
-        console.log("form values: " + formValues);
         if (formValues.some((value) => value === '' || value === undefined)) {
-            setPointAllocated(0);
+            setPointAllocated("-");
             setInterpretation("Please enter the required values in the respective fields to perform the calculations.")
         } else{
-            // console.log(formValues[0] + " formValue[0]");
-            // console.log(formValues[1] + " formValue[1]");
+            
+            //checking temperature unit of measurement b4 sending backend
+            var formTemperatureValue = formValues[3]
+            
+            if (tempUnitStatus == true){
+                formTemperatureValue = ((formTemperatureValue - 32) * (5/9)).toFixed(2)
+            }
+
+            //checking creatinine
+            var formCreatinineValue = formValues[10]
+
+            if (creatinineUnitStatus == false){
+                formCreatinineValue = (formCreatinineValue / 88.40).toFixed(2)
+            }
+            console.log("form values: " + formValues);
             const sendToBackend = async () => { 
                 await axios.post(`http://localhost:8080/calculator/apache-ii-score`,
                     {
                         "cancerHistory": formValues[0],
                         "typeOfSurgery": formValues[1],
                         "age": formValues[2],
-                        "temperature": formValues[3],
+                        "temperature": formTemperatureValue,
                         "meanArterialPressure": formValues[4],
                         "pH" : formValues[5],
                         "heartrate": formValues[6],
                         "respiratoryRate": formValues[7],
                         "sodium": formValues[8],
                         "potassium": formValues[9],
-                        "creatinine": formValues[10],
+                        "creatinine": formCreatinineValue,
                         "acuteRenalFailure": formValues[11],
                         "hematocrit": formValues[12],
                         "whiteBloodCell": formValues[13],
@@ -986,7 +1021,7 @@ const ApacheIIScore = () => {
                     res => {
                         let data = res.data
                         setPointAllocated(res.data.pointAllocated)
-                        setInterpretation(res.data.result.interpretation)
+                        setInterpretation(res.data.result.postoperativeResult + "; " + res.data.result.nonoperative)
                         return 200;
                     }
                 ).catch(
@@ -1007,16 +1042,12 @@ const ApacheIIScore = () => {
     }, [formData])
 
 
-    //state for calc result card
-    const [pointAllocated , setPointAllocated] = useState(0)
-    const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
-    const [scoreType, setScoreType] = useState('APACHE II Index')
 
     const tabs = [
         {
           label: "General Information",
           Component: (
-            <Tab1Content formData={formData} setFormData={setFormData} pointAllocated={pointAllocated} setPointAllocated={setPointAllocated} interpretation={interpretation} setInterpretation={setInterpretation} scoreType={scoreType}/>
+            <Tab1Content tempUnitStatus={tempUnitStatus} setTempUnit={setTempUnit} creatinineUnitStatus={creatinineUnitStatus} setCreatinineUnit={setCreatinineUnit} formData={formData} setFormData={setFormData} pointAllocated={pointAllocated} setPointAllocated={setPointAllocated} interpretation={interpretation} setInterpretation={setInterpretation} scoreType={scoreType}/>
           )
         },
         {
