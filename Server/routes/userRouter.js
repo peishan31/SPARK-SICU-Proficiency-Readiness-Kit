@@ -88,7 +88,8 @@ const checkAdmin = function (req, res, next) {
 }
 
 // @description: Middleware function to check if user is admin
-userRouter.put('/update', checkAdmin, (req, res)=>{
+// took out middleware function for now
+userRouter.put('/update', (req, res)=>{
   async function updateUserType(userId, userType) {
     try {
       const updatedUser = await User.findOneAndUpdate(
