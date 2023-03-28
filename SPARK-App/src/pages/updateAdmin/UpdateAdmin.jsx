@@ -35,7 +35,7 @@ function UpdateAdmin() {
                 console.log(response.status)
                 setModalText("✅ Updated successfully!");
             }).catch((err) => {
-                console.log(err)
+                console.log(err.response.data)
                 setModalText("❌ Something went wrong.");
             }
             )
