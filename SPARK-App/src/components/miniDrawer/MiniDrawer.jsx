@@ -50,6 +50,7 @@ import CamIcu from '../../pages/viewCalculator/CamIcuCalculator'
 import Error404 from '../../pages/error/Error404';
 import Error500 from '../../pages/error/Error500';
 import OtherErrors from '../../pages/error/OtherErrors';
+import FlashcardList from '../../pages/flashcardList/FlashcardList';
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -346,6 +347,28 @@ export default function MiniDrawer({admin, clearUser}) {
                         </Link>
                     ))}
 
+                    <Link to={"/flashcards"} style={{ textDecoration: 'none' }}>
+                        <ListItem disablePadding sx={{ display: 'block' }}>
+                            <ListItemButton
+                                sx={{
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                            >
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}>
+                                    <span dangerouslySetInnerHTML={{__html: toTwemoji("⚡")}}></span>
+                                </ListItemIcon>
+                                <ListItemText primary={"Flashcards"} sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
+
                     {
 
                         admin &&
@@ -373,6 +396,8 @@ export default function MiniDrawer({admin, clearUser}) {
                         </Link>
 
                     }
+
+
                     
 
                     <ListItem disablePadding sx={{ display: 'block' }}>
@@ -422,6 +447,7 @@ export default function MiniDrawer({admin, clearUser}) {
                     <Route path="/Calculators/candida-score" element={<CandidaScore/>}/>
                     <Route path="/Calculators/parkland-formula" element={<ParklandFormula/>}/>
                     <Route path="/Calculators/cam-icu" element={<CamIcu/>}/>
+                    <Route path="/flashcards" element={<FlashcardList/>}/>
                     <Route path="/Sign Out" element={<Navigate to={"/"}/>}/>
                     <Route path='*' element={<Error404 />}/>
                     <Route path='/500' element={<Error500 />}/>

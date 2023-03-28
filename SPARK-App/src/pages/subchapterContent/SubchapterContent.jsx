@@ -18,12 +18,14 @@ const SubchapterContent = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [subchapter, setSubchapter] = useState([]);
+    
     const BASE_URL = import.meta.env.VITE_API_URL
 
     const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
     
     const API_URL = BASE_URL + "/chapters"
+
     const chapterId = location.state.parentChapterId
     const subchapterId = location.state.parentSubchapterId
     const bookmarkId = location.state.bookmarkId
