@@ -152,7 +152,7 @@ subchapterRouter.put("/", checkAdmin, async (req, res) => {
     }
 });
 
-// @description: Add subchapter to chapter by chapter Id
+// @description: Edit subchapter to chapter by chapter Id
 // @route PUT chapter/:chapterId/subchapter/
 // Working!
 subchapterRouter.put("/:subchapterId", checkAdmin, async (req, res) => {
@@ -196,7 +196,8 @@ subchapterRouter.put("/:subchapterId", checkAdmin, async (req, res) => {
             thumbnailPublicId = chapter.subchapters.find(subchapter => subchapter._id == subchapterId).thumbnailPublicId;
         }        
         
-        const lastModifiedDateTime = new Date();
+        const date = new Date();
+        const lastModifiedDateTime = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
         let lastModifiedUsername = await User.findOne({googleId: lastModifiedUserID}).then(user => ({name: user.name}));
         lastModifiedUsername = lastModifiedUsername.name;
         // Save subchapter to database
