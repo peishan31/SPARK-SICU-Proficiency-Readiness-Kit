@@ -105,13 +105,24 @@ userRouter.put('/update', checkAdmin, (req, res)=>{
   for (const [key, value] of Object.entries(req.body)) {
     console.log(`Update ${key}'s userType to ${value}`)
 
-    updateUserType(key, value)
-    .then(user => {
-        res.end();
-    })
-    .catch (
-      // console.error
-    )
+    try {
+      const updatedUser = updateUserType(key, value)
+      .then(user => {
+        res.status(200).send(user);
+      })
+
+    } catch(error) {
+      console.error(error.message);
+      res.status(500).send('Server Error')
+    }
+
+    // .then(user => {
+    //     res.end();
+    // })
+    // catch(err){
+    //   console.log(err.response.data)
+    //   res.status(500).send('Server Error')
+    // } 
   }
 })
 
