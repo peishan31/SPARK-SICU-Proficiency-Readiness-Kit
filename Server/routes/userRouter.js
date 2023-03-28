@@ -74,7 +74,9 @@ const checkAdmin = function (req, res, next) {
   let token = req.cookies['session-token'];
   let decoded = jwt_decode(token);
   let id = decoded['sub'];
-      
+  console.log("token", token)
+  console.log("decoded", decoded)
+  console.log("id", id)
   const currentUser = User.findOne({googleId: id}, 
     function(err,obj) { 
       if ( obj.userType != "senior" ) {
