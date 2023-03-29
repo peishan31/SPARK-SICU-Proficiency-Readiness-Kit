@@ -62,7 +62,6 @@ userRouter.post('/login', (req,res)=>{
       res.cookie('session-token', token, {
         secure: false,
         httpOnly: true,
-        domain: 'spark-sicu-proficiency-readiness-kit-frontend-new.vercel.app'
       });
       res.send(user);
   })

@@ -4,6 +4,7 @@ import axios from 'axios'
 import Flashcard from '../../components/flashcard/Flashcard';
 import './FlashcardList.css'
 import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useAppState } from '../../overmind';
 
 function FlashcardList() {
     const [flashcards, setFlashcards] = useState([]);
@@ -14,8 +15,8 @@ function FlashcardList() {
     const location = useLocation();
     const navigate = useNavigate();
     
-    // get user details from session storage
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    // get user details from overmind state
+    const user = useAppState().user.currentUser;
 
     function getCategories() {
         console.log("getCategories")

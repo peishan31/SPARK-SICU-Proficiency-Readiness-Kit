@@ -6,12 +6,13 @@ import axios from 'axios'
 import { Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
+import { useAppState } from '../../overmind';
 
 
 function Flashcard({flashcard, flashcardsList, setFlashcards}) {
 
-    // const navigate = useNavigate()
-    const user = JSON.parse(localStorage.getItem("user"))
+    // get user details from overmind state
+    const user = useAppState().user.currentUser;
 
     const [flip, setFlip] = useState(false);
     const [height, setHeight] = useState('initial')
@@ -88,6 +89,7 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
     }
 
     useEffect(() => {
+        console.log(user.userType)
         setMaxHeight();
     }, [flashcard.question, flashcard.answer])
 
@@ -96,18 +98,21 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
         <div className={`card ${flip ? 'flip' : ''}`} style={{ height: height }} onClick={() => setFlip(!flip)}>
             <div className="front" ref={frontEl}>
                 <div className="deleteButton">
-                    <MoreVertIcon 
-                        sx={{color: "#b5b5b5"}} 
-                        // onClick={handleDelete}
-                        id="basic-button"
-                        aria-controls={open ? 'basic-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
-                    />
+                    
 
                     {
                         user.userType == "senior" ? (
+                            <>
+                            
+                            <MoreVertIcon 
+                                    sx={{color: "#b5b5b5"}} 
+                                    // onClick={handleDelete}
+                                    id="basic-button"
+                                    aria-controls={open ? 'basic-menu' : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}
+                                    onClick={handleClick}
+                                />
                             <Menu
                                 id="basic-menu"
                                 anchorEl={anchorEl}
@@ -126,7 +131,9 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
                                         Edit
                                     </Link>
                                 </MenuItem>
-                            </Menu> ) : null
+                            </Menu> 
+                            </>) : 
+                            null
                     }
                 </div>
                 <div>

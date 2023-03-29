@@ -103,7 +103,7 @@ const checkAdmin = function (req, res, next) {
 // @description: Add subchapter to chapter by chapter Id
 // @route PUT chapter/:chapterId/subchapter/
 // Working!
-subchapterRouter.put("/", checkAdmin, async (req, res) => {
+subchapterRouter.put("/", async (req, res) => {
     console.log("add subchapter")
     try {
         let { subchapterTitle, thumbnail, description, content } = req.body;
@@ -158,7 +158,7 @@ subchapterRouter.put("/", checkAdmin, async (req, res) => {
 // @description: Delete subchapter by subchapterId in chapter by chapter Id
 // @route DELETE chapter/:chapterId/subchapter/:subchapterId
 // Working!
-subchapterRouter.delete("/:subchapterId", checkAdmin, async (req, res) => {
+subchapterRouter.delete("/:subchapterId", async (req, res) => {
     console.log("delete subchapter")
     try {
         const chapterId = req.chapterId;
