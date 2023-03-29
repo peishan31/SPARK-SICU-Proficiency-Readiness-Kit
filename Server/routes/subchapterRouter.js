@@ -118,8 +118,10 @@ subchapterRouter.put("/", async (req, res) => {
         const result = await new Promise((resolve, reject) => {
             cloudinary.uploader.upload(thumbnail, opts, async (err, result) => {
                 if (err) {
+                    return res.status(302).json({ msg: 'Cannot.' });
                     reject(false)
                 } else {
+                    return res.status(303).json({ msg: 'Can.' });
                     resolve(result)
                 }
             })
