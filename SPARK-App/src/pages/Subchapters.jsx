@@ -5,6 +5,7 @@ import { useLocation, useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SubchapterCard from '../components/subchapters/SubchapterCard';
 import { useAppState, useActions } from '../overmind';
@@ -24,6 +25,7 @@ const Subchapters = ({ searchInput }) => {
     const chapterState = useAppState().chapters;
     const subchapterState = useAppState().subchapters
     const userState = useAppState().user
+    const userType = userState.currentUser.userType
     
     // overmind actions
     const subchapterActions = useActions().subchapters
@@ -31,6 +33,7 @@ const Subchapters = ({ searchInput }) => {
 
     // get current chapter from overmind state
     const currentChapter = chapterState.selectedChapter
+    const currentChapterID = chapterState.selectedChapter.currentChapterId
     // console.log("Current Chapter: ", currentChapter)
     // console.log("Current Chapter: ", currentChapter)
 
@@ -115,6 +118,38 @@ const Subchapters = ({ searchInput }) => {
         }
     };
 
+
+    async function deleteChapter(){
+        // console.log("DELTE CHAPTER",currentChapterID)
+        if (confirm("Are you sure you want to delete this chapter?")) {
+            await axios.delete(
+                BASE_URL + `/chapters/` + currentChapterID , {
+                    withCredentials: true
+                }
+            ).then(
+                res => {
+                    alert("Chapter deleted successfully!")
+                    // navigate(-1);
+                    window.location.href = "/Chapters"
+                    //return 200
+                }
+            ).catch(
+                err => {
+                    if (err.response.status == 401) {
+                        alert("You are not authorized to perform this action")
+                    }
+                    // return 500
+                    else if(err.response.status == 500) {
+                        navigate("/500");
+                    } else if(err.response.status == 404) {
+                        navigate("/404");
+                    } else {
+                        navigate("/other-errors");
+                    }
+                }
+            )}
+    }
+
     filtered = subchapterState.subchapterlist.filter((subchapter) => searchSubchapters(searchInput, subchapter))
 
     if (!currentChapter) {
@@ -146,11 +181,37 @@ const Subchapters = ({ searchInput }) => {
                 <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
                     <span dangerouslySetInnerHTML={{__html: toTwemoji(chapterState.selectedChapter.currentChapterIcon)}}></span> {chapterState.selectedChapter.currentChapterTitle}
                 </Typography>
-                
 
-                
+                <React.Fragment>
+                    {userType !="junior"
+                        ? 
+
                 <Stack direction="row" spacing={2} ml="auto">
                     {/* <Button variant="outlined">Select</Button> */}
+
+                    <Button 
+                        // component={Link}
+                        onClick={
+                            e => { deleteChapter() }
+                        }
+                        variant="outlined"
+                        sx={{
+                            color: 'white',
+                            backgroundColor: 'white', // Set background color on hover
+                            borderColor: '#41ADA4 !important', // Set border color on hover
+                            color: '#41ADA4',
+                            '&:hover': {
+                                backgroundColor: '#41ADA4',
+                                borderColor: '#41ADA4',
+                                color: 'white',
+                            },
+                        }}
+                        >
+                        <DeleteOutlinedIcon />
+                            Delete chapter
+                    </Button>
+
+
                     <Button 
                         // component={Link}
                         onClick={
@@ -201,6 +262,11 @@ const Subchapters = ({ searchInput }) => {
                             Create new subchapter
                     </Button>
                 </Stack>
+                        : null
+                    }
+                </React.Fragment>
+
+                
             </Grid>
         {
             !subchapterState.subchapterlist || subchapterState.subchapterlist.length === 0   ? 

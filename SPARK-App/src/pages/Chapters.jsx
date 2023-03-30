@@ -17,20 +17,11 @@ import {  trim} from 'lodash';
 
 const Chapters = ({searchInput}) => {
     let filtered =[];
-    // const [chapters, setChapters] = useState([]);
-    // useEffect(() => {
-    //     axios.get('http://localhost:8080/chapters')
-    //         .then(res => {
-    //             setChapters(res.data)
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //         })
-    // }, [])
-    // console.log(chapters)
+
     const chapterState = useAppState().chapters
     const chapterActions = useActions().chapters
-
+    const userState = useAppState().user
+    const userType = userState.currentUser.userType
 
     useEffect(() => {
         if (!chapterState.chapterlist || chapterState.chapterlist.length === 0) {
@@ -67,12 +58,18 @@ const Chapters = ({searchInput}) => {
 
 
 
-
     return (
         <Box margin={4}>
             <Grid pb={2} display="flex" alignItems="center" mb={1}>
                 <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>Chapters</Typography>
+                
+
+                <React.Fragment>
+                    {
+                        userType !="junior"? 
+                        
                 <Stack direction="row" spacing={2} ml="auto">
+
                     <Button 
                         component={Link}
                         to="/CreateChapter"
@@ -93,6 +90,10 @@ const Chapters = ({searchInput}) => {
                             Create new chapter
                     </Button>
                 </Stack>
+                        :null
+                    }
+                </React.Fragment>
+            
             </Grid>
             {
                 !chapterState.chapterlist || chapterState.chapterlist.length === 0 ? ( 
