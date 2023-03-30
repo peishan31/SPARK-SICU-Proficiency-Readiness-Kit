@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, Grid, MenuItem, Select } from '@mui/material'
+import { Box, Button, CircularProgress, FormControl, Grid, MenuItem, Select } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Flashcard from '../../components/flashcard/Flashcard';
@@ -10,6 +10,7 @@ function FlashcardList() {
     const [flashcards, setFlashcards] = useState([]);
     const [allFlashcards, setAllFlashcards] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [loaded, setLoaded] = useState(false);
     const [dropdownValue, setDropdownValue] = useState("All");
 
     const location = useLocation();
@@ -40,8 +41,9 @@ function FlashcardList() {
     useEffect(() => {
         axios.get(import.meta.env.VITE_API_URL + '/flashcards/')
         .then((res) => {
-            setFlashcards(res.data)
             setAllFlashcards(res.data)
+            setFlashcards(res.data)
+            setLoaded(true)
         })
     }, [])
 
@@ -57,63 +59,78 @@ function FlashcardList() {
                 </div>
             </div>
 
-            <div className="dropdownContainerDiv">
-                <div className="dropdown">
-                    <FormControl sx={{width: "200px"}}>
-                        <Select value={dropdownValue} onChange={(e) => handleChange(e)}>
-                            <MenuItem value="All">All</MenuItem>
+            {
+                !loaded ?
+                (
+                    <div
+                        style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}
+                        >
+                        <CircularProgress color='info' size={40} thickness={4} />
+                    </div>
+                ) :
+                (
+                    <>
+                        <div className="dropdownContainerDiv">
+                            <div className="dropdown">
+                                <FormControl sx={{width: "200px"}}>
+                                    <Select value={dropdownValue} onChange={(e) => handleChange(e)}>
+                                        <MenuItem value="All">All</MenuItem>
+                                        {
+                                            categories.map((category) => {
+                                                return (
+                                                    <MenuItem value={category}>{category}</MenuItem>
+                                                )
+                                            })
+                                        }
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <Button variant="contained" 
+                                onClick={filterFlashcards}
+                                sx={{ 
+                                    backgroundColor: "#41ADA4",
+                                    ':hover': {
+                                        bgcolor: '#41ADA4'
+                                    }
+                                }}>Search</Button>
                             {
-                                categories.map((category) => {
+                                user.userType === "senior" ?
+                                    <Button
+                                        component={Link}
+                                        to="createFlashcards"
+                                        variant="outlined"
+                                        sx={{
+                                            color: 'white',
+                                            marginLeft: "15px",
+                                            backgroundColor: "white",
+                                            borderColor: "#41ADA4 !important",
+                                            color: "#41ADA4",
+                                            '&:hover': {
+                                                backgroundColor: '#41ADA4',
+                                                borderColor: '#41ADA4',
+                                                color: 'white',
+                                            },
+                                        }}
+                                        onClick={() => { }}
+                                    >
+                                        Add Flashcard
+                                    </Button> : null
+                            }
+                        </div>
+                        
+                        <div className="card-grid">
+                            {
+                                flashcards.map((flashcard) => {
                                     return (
-                                        <MenuItem value={category}>{category}</MenuItem>
+                                        <Flashcard key={flashcard._id} flashcard={flashcard} flashcardsList={flashcards} setFlashcards={setFlashcards} />
                                     )
                                 })
                             }
-                        </Select>
-                    </FormControl>
-                </div>
-                <Button variant="contained" 
-                    onClick={filterFlashcards}
-                    sx={{ 
-                        backgroundColor: "#41ADA4",
-                        ':hover': {
-                            bgcolor: '#41ADA4'
-                        }
-                    }}>Search</Button>
-                {
-                    user.userType === "senior" ?
-                        <Button
-                            component={Link}
-                            to="createFlashcards"
-                            variant="outlined"
-                            sx={{
-                                color: 'white',
-                                marginLeft: "15px",
-                                backgroundColor: "white",
-                                borderColor: "#41ADA4 !important",
-                                color: "#41ADA4",
-                                '&:hover': {
-                                    backgroundColor: '#41ADA4',
-                                    borderColor: '#41ADA4',
-                                    color: 'white',
-                                },
-                            }}
-                            onClick={() => { }}
-                        >
-                            Add Flashcard
-                        </Button> : null
-                }
-        </div>
+                        </div>
+                </>
+                )
+            }
             
-            <div className="card-grid">
-                {
-                    flashcards.map((flashcard) => {
-                        return (
-                            <Flashcard key={flashcard._id} flashcard={flashcard} flashcardsList={flashcards} setFlashcards={setFlashcards} />
-                        )
-                    })
-                }
-            </div>
         </Box>
     )
 }
