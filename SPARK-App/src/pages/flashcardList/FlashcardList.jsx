@@ -55,7 +55,7 @@ function FlashcardList() {
         <Box p={4}>
             <div className="pageTop">
                 <div className="pageTitle">
-                    <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Flashcards1</h1>
+                    <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px"}}>Flashcards</h1>
                 </div>
             </div>
 
@@ -73,7 +73,10 @@ function FlashcardList() {
                         <div className="dropdownContainerDiv">
                             <div className="dropdown">
                                 <FormControl sx={{width: "200px"}}>
-                                    <Select value={dropdownValue}
+                                    <Select value={dropdownValue} 
+                                            MenuProps={{
+                                                style: {zIndex: 999}
+                                            }}
                                             onChange={(e) => handleChange(e)}>
                                         <MenuItem value="All">All</MenuItem>
                                         {
