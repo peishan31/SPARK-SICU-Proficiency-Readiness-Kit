@@ -8,9 +8,10 @@
     background-color: white;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
+    -webkit-transform: perspective(1000px) rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0));
+    transform: perspective(1000px) rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0));
     transition: 150ms;
     cursor: pointer;
-    transform: perspective(1000px) rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0));
   }
 
   .card:hover {
@@ -33,15 +34,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: rotateY(0deg) translateZ(1px); 
+    /* transform: rotateY(0deg) translateZ(1px);  */
   }
 
   .card .back {
     position: absolute;
     padding: 1rem;
     -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    transform: rotateY(180deg) translateZ(1px); 
+    backface-visibility: hidden; 
+    /* anything that is flipped 180 deg is going to be hidden */
+    transform: rotateY(180deg); 
     overflow-y: auto;
   }
   
