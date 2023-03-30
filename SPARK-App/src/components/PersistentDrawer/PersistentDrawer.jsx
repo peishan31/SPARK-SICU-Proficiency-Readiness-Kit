@@ -36,11 +36,13 @@ import { useState } from 'react';
 // pages
 import Home from '../../pages/Home'
 import Chapters from '../../pages/Chapters'
+import EditChapter from '../../pages/EditChapter';
 import Subchapters from '../../pages/Subchapters'
 import ViewCalculators from '../../pages/viewCalculator/ViewCalculators'
 import Bookmarks from '../../pages/Bookmarks'
 import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 import CreateSubchapter from '../../pages/CreateSubchapter';
+import EditSubchapter from '../../pages/EditSubchapter';
 import Login from "../../pages/login/Login";
 import UpdateAdmin from '../../pages/updateAdmin/UpdateAdmin';
 import CreateChapter from '../../pages/CreateChapter';
@@ -359,8 +361,10 @@ export default function PersistentDrawer({admin, clearUser}) {
                         <Route path="/subchapterContent" element={<SubchapterContent />} />
                         <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent />} />
                         <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput} />} />
+                        <Route path="/Chapters/:chapterId/subchapters/:subchapterId/EditSubchapter" element={<EditSubchapter/>}/>
                         <Route path="/CreateSubchapter" element={<CreateSubchapter />} />
                         <Route path="/CreateChapter" element={<CreateChapter />} />
+                        <Route path="/Chapters/:chapterId/EditChapter" element={<EditChapter/>}/>
                         <Route path="/login" element={<Login />} />
                         <Route path="/updateAdmin" element={<UpdateAdmin />} />
                         <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore />} />

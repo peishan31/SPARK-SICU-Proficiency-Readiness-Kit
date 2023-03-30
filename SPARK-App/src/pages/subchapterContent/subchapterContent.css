@@ -69,6 +69,13 @@
 
 }
 
+.subchapterLastEditedBy {
+    font-style: italic;
+    font-size: smaller;
+    margin-top: 2px;;
+    color: grey;
+}
+
 .subchapterAction {
     cursor: pointer;
     color: #41ADA4;
