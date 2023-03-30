@@ -18,26 +18,53 @@ const SubchapterContent = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [subchapter, setSubchapter] = useState([]);
+    
     const BASE_URL = import.meta.env.VITE_API_URL
 
     const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
     
     const API_URL = BASE_URL + "/chapters"
+
     const chapterId = location.state.parentChapterId
     const subchapterId = location.state.parentSubchapterId
     const bookmarkId = location.state.bookmarkId
     const [isBookmarked, setIsBookmarked] = useState(location.state.bookmarkStatus);
+    const [lastEditedBool, setLastEditedBool] = useState(false);
+    const [lastEditedByTime, setLastEditedByTime] = useState("");
 
     // console.log(location.state.bookmarkStatus)
 
     const getSubchapterContent = async (chapterId, subchapterId) => {
         axios.get(`${API_URL}/${chapterId}/subchapters/${subchapterId}`)
         .then(res => {
+            setLastEditedBool(false)
             setSubchapter(res.data)
+            console.log(res.data)
+            if (res.data.lastModifiedUsername != "") {
 
+                setLastEditedBool(true)
+                const timestamp = res.data.lastModifiedDateTime;
+                const date = new Date(timestamp);
+
+                // convert to Singapore time
+                date.setHours(date.getHours() + 8);
+
+                // format the date and time as a string
+                const options = { 
+                    year: "numeric", 
+                    month: "long", 
+                    day: "numeric", 
+                    hour: "numeric", 
+                    minute: "numeric", 
+                    second: "numeric", 
+                    hour12: false,
+                    timeZone: "Asia/Singapore" // set the timezone to Singapore
+                };
+                const singaporeTime = date.toLocaleString("en-SG", options);
+                setLastEditedByTime(singaporeTime);
+            }
             // console.log(res.data)
-
         })
     }
 
@@ -55,7 +82,14 @@ const SubchapterContent = () => {
             }
         ).catch(
             err => {
-                return 500
+                // return 500
+                if(err.response.status == 500) {
+                    navigate("/500");
+                } else if(err.response.status == 404) {
+                    navigate("/404");
+                } else {
+                    navigate("/other-errors");
+                }
             }
         )
     }
@@ -70,7 +104,14 @@ const SubchapterContent = () => {
             }
         ).catch(
             err => {
-                return 500
+                // return 500
+                if(err.response.status == 500) {
+                    navigate("/500");
+                } else if(err.response.status == 404) {
+                    navigate("/404");
+                } else {
+                    navigate("/other-errors");
+                }
             }
         )}
 
@@ -103,7 +144,14 @@ const SubchapterContent = () => {
                     if (err.response.status == 401) {
                         alert("You are not authorized to perform this action")
                     }
-                    return 500
+                    // return 500
+                    else if(err.response.status == 500) {
+                        navigate("/500");
+                    } else if(err.response.status == 404) {
+                        navigate("/404");
+                    } else {
+                        navigate("/other-errors");
+                    }
                 }
             )}
     }
@@ -122,8 +170,6 @@ const SubchapterContent = () => {
     
     function getHighlightedText(text,subchapterSearchInput) {
         // for HTML strings with tags and text 
-
-        // console.log(useAppState().subchapters,"HEREEEEEEEEEEEEEEE")
         if(subchapterSearchInput=="" || text ==undefined){
             return text;
         }else{
@@ -178,7 +224,19 @@ const SubchapterContent = () => {
                         <div className="subchapterActions">
                             <div className="subchapterAction">
                                 <Tooltip title="Edit" placement="top">
-                                    <EditIcon className="subchapterActionIcon"/>
+                                    <EditIcon className="subchapterActionIcon" 
+                                        onClick={
+                                            () => {
+                                                navigate(`/Chapters/${chapterId}/Subchapters/${subchapterId}/editSubchapter`,
+                                                    {
+                                                        state: {
+                                                            parentChapterId: chapterId,
+                                                            parentSubchapterId: subchapterId
+                                                        }
+                                                    })
+                                            }
+                                        }
+                                    />
                                 </Tooltip>
                                 &nbsp; &nbsp;
                                 <Tooltip title="Delete" placement="top">
@@ -204,6 +262,17 @@ const SubchapterContent = () => {
                             </div>
                             <div className="subchapterDescription">
                                 {HighlightText(subchapter.description)}
+                            </div>
+                            <div className="subchapterLastEditedBy">
+                                {
+                                    lastEditedBool ? (
+                                        <div className="subchapterLastEditedBy">
+                                            Last Edited by <b>{subchapter.lastModifiedUsername}</b> on {lastEditedByTime}
+                                        </div>
+                                    ):(
+                                        <div></div>
+                                    )
+                                }
                             </div>
                         </div>
                     </div>

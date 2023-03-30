@@ -9,6 +9,13 @@ import { useState, useEffect } from 'react'
 import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import CalcResultCard from '../../components/calculator/CalcResultCard';
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
 function Tab1Content(props){
     const {formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
     
@@ -199,175 +206,172 @@ function Tab1Content(props){
 
 function Tab2Content(props){
     const {formData} = props;
+
+    function createData(criteria, pointValues ) {
+        return { criteria, pointValues };
+    }
+      
+    const ages = [
+        createData('≤80', '0'),
+        createData('>80', '1')
+    ];
+
+    const cancerHistories = [
+        createData('No', '0'),
+        createData('Yes', '1')
+    ];
+
+    const diseaseHistories = [
+        createData('No', '0'),
+        createData('Yes', '1')
+    ];
+
+    const heartRates = [
+        createData('<110', '0'),
+        createData('≥110', '1')
+    ];
+
+    const systolicBps = [
+        createData('≥100', '0'),
+        createData('<100', '1')
+    ];
+
+    const saturations = [
+        createData('≥90%', '0'),
+        createData('<90%', '1')
+    ];
+
+    function createData2( score, riskGrp, interpretation ) {
+        return { score, riskGrp, interpretation };
+    }
+
+    const rows = [
+        createData2('0 points', 'Low', '1.1% risk of death, with 1.5% having recurrent thromboembolism or non-fatal bleeding'),
+        createData2('≥1 points', 'High', '8.9% risk of death')
+    ];
+
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2} justifyContent="center" alignItems="center">
-                <Grid item xs={12}>Point Values</Grid>
-                
-                <Grid item xs={6}>
-                    <strong>Age, Years</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    ≤80
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    {">"}80
-                </Grid>
-                <Grid item xs={6}>
-                    1
-                </Grid>
-                
-                <Grid item xs={6}>
-                    <strong>History of cancer</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    No
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    Yes
-                </Grid>
-                <Grid item xs={6}>
-                    1
-                </Grid>
-
-                <Grid item xs={6}>
-                    <strong>History of cancer</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    No
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    Yes
-                </Grid>
-                <Grid item xs={6}>
-                    1
-                </Grid>
-
-                <Grid item xs={6}>
-                    <strong>History of chronic cardiopulmonary disease</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    No
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    Yes
-                </Grid>
-                <Grid item xs={6}>
-                    1
-                </Grid>
-
-                <Grid item xs={6}>
-                    <strong>Heart rate, bpm</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    {"<"}110
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    ≥110
-                </Grid>
-                <Grid item xs={6}>
-                    1
-                </Grid>
-                
-                <Grid item xs={6}>
-                    <strong>Systolic BP, mmHg</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    ≥100
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    {"<"}100
-                </Grid>
-                <Grid item xs={6}>
-                    1
-                </Grid>
-
-                <Grid item xs={6}>
-                    <strong>O₂ saturation</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    ≥100
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                <Grid item xs={6}>
-                    {"<"}100
-                </Grid>
-                <Grid item xs={6}>
-                    1
-                </Grid>
-
-                <Grid item xs={12} mt={5}>Facts & Figure</Grid>
-                
-                <Grid item xs={4}>
-                    <strong>Score</strong>
-                </Grid>
-                <Grid item xs={4}>
-                    <strong>Risk group</strong>
-                </Grid>
-                <Grid item xs={4}>
-                    <strong>Interpretation</strong>
-                </Grid>
-                <Grid item xs={4}>
-                    0 points
-                </Grid>
-                <Grid item xs={4}>
-                    Low
-                </Grid>
-                <Grid item xs={4}>
-                    1.1% risk of death, with 1.5% having recurrent thromboembolism or non-fatal bleeding
-                </Grid>
-                <Grid item xs={4}>
-                    ≥1 points
-                </Grid>
-                <Grid item xs={4}>
-                    High
-                </Grid>
-                <Grid item xs={4}>
-                    8.9% risk of death
-                </Grid>
-            </Grid> 
-        </Box>
+        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+            <Typography variant="h6" align="left" mt={4} mb={1} style={{fontWeight: 'bold'}}>Formula</Typography>
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{fontWeight: 'bold'}}>Criteria</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Points</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Age, years</TableCell>
+                    <TableBody>
+                    {ages.map((age) => (
+                        <TableRow
+                        key={age.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {age.criteria}
+                        </TableCell>
+                        <TableCell align="center">{age.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>History of cancer</TableCell>
+                    <TableBody>
+                    {cancerHistories.map((cancerHistory) => (
+                        <TableRow
+                        key={cancerHistory.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {cancerHistory.criteria}
+                        </TableCell>
+                        <TableCell align="center">{cancerHistory.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>History of chronic cardiopulmonary disease</TableCell>
+                    <TableBody>
+                    {diseaseHistories.map((diseaseHistory) => (
+                        <TableRow
+                        key={diseaseHistory.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {diseaseHistory.criteria}
+                        </TableCell>
+                        <TableCell align="center">{diseaseHistory.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Heart rate, bpm</TableCell>
+                    <TableBody>
+                    {heartRates.map((heartRate) => (
+                        <TableRow
+                        key={heartRate.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {heartRate.criteria}
+                        </TableCell>
+                        <TableCell align="center">{heartRate.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Systolic BP, mmHg</TableCell>
+                    <TableBody>
+                    {systolicBps.map((systolicBp) => (
+                        <TableRow
+                        key={systolicBp.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {systolicBp.criteria}
+                        </TableCell>
+                        <TableCell align="center">{systolicBp.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>O2 saturation</TableCell>
+                    <TableBody>
+                    {saturations.map((saturation) => (
+                        <TableRow
+                        key={saturation.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {saturation.criteria}
+                        </TableCell>
+                        <TableCell align="center">{saturation.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Typography variant="h6" align="left" mt={4} mb={1} style={{fontWeight: 'bold'}}>Facts & Figures</Typography>
+            <TableContainer component={Paper} p={5}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">APACHE II Score</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Nonoperative</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="left">Postoperative</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {rows.map((row) => (
+                        <TableRow
+                        key={row.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell align="center" component="th" scope="row">{row.score}</TableCell>
+                        <TableCell align="center">{row.riskGrp}</TableCell>
+                        <TableCell align="left">{row.interpretation}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
     )
 }
 

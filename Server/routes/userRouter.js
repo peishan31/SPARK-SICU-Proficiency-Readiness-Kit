@@ -61,7 +61,7 @@ userRouter.post('/login', (req,res)=>{
   .then(user => {
       res.cookie('session-token', token, {
         secure: false,
-        httpOnly: true
+        httpOnly: true,
       });
       res.send(user);
   })
@@ -74,7 +74,9 @@ const checkAdmin = function (req, res, next) {
   let token = req.cookies['session-token'];
   let decoded = jwt_decode(token);
   let id = decoded['sub'];
-      
+  console.log("token", token)
+  console.log("decoded", decoded)
+  console.log("id", id)
   const currentUser = User.findOne({googleId: id}, 
     function(err,obj) { 
       if ( obj.userType != "senior" ) {
@@ -86,7 +88,8 @@ const checkAdmin = function (req, res, next) {
 }
 
 // @description: Middleware function to check if user is admin
-userRouter.put('/update', checkAdmin, (req, res)=>{
+// took out middleware function for now
+userRouter.put('/update', (req, res)=>{
   async function updateUserType(userId, userType) {
     try {
       const updatedUser = await User.findOneAndUpdate(
@@ -105,13 +108,24 @@ userRouter.put('/update', checkAdmin, (req, res)=>{
   for (const [key, value] of Object.entries(req.body)) {
     console.log(`Update ${key}'s userType to ${value}`)
 
-    updateUserType(key, value)
-    .then(user => {
-        res.end();
-    })
-    .catch (
-      // console.error
-    )
+    try {
+      const updatedUser = updateUserType(key, value)
+      .then(user => {
+        res.status(200).send(user);
+      })
+
+    } catch(error) {
+      console.error(error.message);
+      res.status(500).send('Server Error')
+    }
+
+    // .then(user => {
+    //     res.end();
+    // })
+    // catch(err){
+    //   console.log(err.response.data)
+    //   res.status(500).send('Server Error')
+    // } 
   }
 })
 

@@ -6,7 +6,9 @@ import axios from 'axios';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import Button from '@mui/material/Button';
-import { useAppState } from '../../overmind';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useAppState, useActions } from '../../overmind';
 
 export default function SubchapterCard({ subchapter, chapterId }) {
     const navigate = useNavigate();
@@ -17,10 +19,21 @@ export default function SubchapterCard({ subchapter, chapterId }) {
     const userId = userState.currentUser.googleId;
     const API_URL = import.meta.env.VITE_API_URL;
 
+    const subchapterState = useAppState().subchapters
+    const subchapterActions = useActions().subchapters
+
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+      setOpen(false);
+    };
+    const handleToggle = () => {
+      setOpen(!open);
+    };
 
     async function addBookmark() {
         console.log("add")
         console.log(userId)
+        // handleToggle()
         await axios.put(
             API_URL + `/user/${userId}/bookmarks/`,
             {
@@ -29,13 +42,17 @@ export default function SubchapterCard({ subchapter, chapterId }) {
             }
         ).then(
             res => {
-                subchapter.bookmarkId = res.data.bookmarkId
-                subchapter.isBookmarked = true
-                return 200
+                // subchapter.bookmarkId = res.data.bookmarkId
+                subchapterActions.setBookmarkId(res.data.bookmarkId)
+                subchapterActions.isBookmarked(true)
+                // subchapter.isBookmarked = true
+                // console.log(subchapter.isBookmarked)
+                // handleClose()
+                return 200;
             }
         ).catch(
             err => {
-                return 500
+                return 500;
             }
         )
     }
@@ -43,22 +60,24 @@ export default function SubchapterCard({ subchapter, chapterId }) {
     async function removeBookmark(bookmarkId) {
         console.log("remove")
         console.log(userId)
+        // handleToggle()
         await axios.delete(
             API_URL + `/user/${userId}/bookmarks/${bookmarkId}`
         ).then(
             res => {
                 subchapter.isBookmarked = false
+                // handleClose()
                 return 200;
             }
         ).catch(
             err => {
-                return 500
+                return 500;
             }
         )}
 
     async function bookmarkHandler() {
         if(isBookmarked) {
-            await removeBookmark(subchapter.bookmarkId)
+            await removeBookmark(subchapterState.bookmarkId)
             setIsBookmarked(false)            
         }
         else{
@@ -107,7 +126,7 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                                     state: {
                                         parentChapterId: chapterId,
                                         parentSubchapterId: currentSubchapterId,
-                                        bookmarkStatus: subchapter.isBookmarked
+                                        bookmarkStatus: subchapterState.isBookmarked
                                     }
                                 })
                         }
@@ -130,6 +149,12 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                     </Typography>
                 </CardContent>
             </CardActionArea>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={open}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </Card>
     );
 }

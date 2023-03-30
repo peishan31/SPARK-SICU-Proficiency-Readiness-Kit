@@ -6,13 +6,16 @@ import BookmarkCard from '../components/bookmarks/BookmarkCard';
 import SubchapterCard from "../components/subchapters/SubchapterCard";
 import { useAppState } from '../overmind';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from "react-router-dom";
 
 const Bookmarks = ({ searchInput }) => {
-    const [subchapters, setSubchapters] = useState([]);
+    const [subchapters, setSubchapters] = useState(null);
     const [unbookmark, setUnbookmark] = useState(false);
 
     const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
+
+    const navigate = useNavigate();
 
     const BASE_URL = import.meta.env.VITE_API_URL
     // retrieve the unbookmark status from bookmark card component
@@ -25,6 +28,13 @@ const Bookmarks = ({ searchInput }) => {
             })
             .catch(err => {
                 console.log(err)
+                if(err.response.status == 500) {
+                    navigate("/500");
+                } else if(err.response.status == 404) {
+                    navigate("/404");
+                } else {
+                    navigate("/other-errors");
+                }
             })
     };
 
@@ -36,6 +46,13 @@ const Bookmarks = ({ searchInput }) => {
             })
             .catch(err => {
                 console.log(err)
+                if(err.response.status == 500) {
+                    navigate("/500");
+                } else if(err.response.status == 404) {
+                    navigate("/404");
+                } else {
+                    navigate("/other-errors");
+                }
             })
     }, [])
 
@@ -52,10 +69,7 @@ const Bookmarks = ({ searchInput }) => {
         }
     };
 
-    filtered = subchapters.filter((subchapter) => searchSubchapters(searchInput, subchapter))
-
-
-    if ( subchapters.length == 0 ) {
+    if ( subchapters == null ) {
         return (
             <div
                 style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}
@@ -64,6 +78,8 @@ const Bookmarks = ({ searchInput }) => {
             </div>
         )
     }
+
+    filtered = subchapters.filter((subchapter) => searchSubchapters(searchInput, subchapter))
 
     return (
         <Box margin={4} >

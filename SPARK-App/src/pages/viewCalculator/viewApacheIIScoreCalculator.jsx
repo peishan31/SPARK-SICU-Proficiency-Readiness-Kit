@@ -12,9 +12,16 @@ import TextField from '@mui/material/TextField';
 import CalcResultCard from '../../components/calculator/CalcResultCard';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
 function Tab1Content(props){
 
-    const {formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
+    const {tempUnitStatus, setTempUnit, creatinineUnitStatus, setCreatinineUnit, formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
 
     const ToggleButton = styled(MuiToggleButton)({
         "&.Mui-selected": {
@@ -33,10 +40,21 @@ function Tab1Content(props){
 
     // Handle units of measurement
     // Temperature unit
-    const [tempUnitStatus, setTempUnit] = useState(false);
     var tempUnit = '°C';
     const convertTempUnit = (e) => {
         setTempUnit(!tempUnitStatus)
+        var priorTempUnit = tempUnit;
+        if(priorTempUnit == 'F'){
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                temperature: ((formData.temperature - 32) * (5/9)).toFixed(2)
+            }));
+        }else{
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                temperature: ((formData.temperature * (9/5)) + 32).toFixed(2)
+            }));
+        }
     }
     if(tempUnitStatus == true){
         tempUnit = 'F';
@@ -69,10 +87,21 @@ function Tab1Content(props){
     }
 
     // Creatinine unit
-    const [creatinineUnitStatus, setCreatinineUnit] = useState(false);
     var creatinineUnit = 'µmol/L';
     const convertCreatinineUnit = (e) => {
         setCreatinineUnit(!creatinineUnitStatus)
+        var priorCreatinineUnit = creatinineUnit;
+        if(priorCreatinineUnit == 'µmol/L'){
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                creatinine: (formData.creatinine / 88.40).toFixed(2)
+            }));
+        }else{
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                creatinine: (formData.creatinine * 88.40).toFixed(2)
+            }));
+        }
     }
     if(creatinineUnitStatus == true){
         creatinineUnit = 'mg/dL';
@@ -94,8 +123,24 @@ function Tab1Content(props){
 
     const handleResetForm = (e) => {
         const initialFormData = {
-            weight: "",
-            bodyBurnPercentage: ""
+            "cancerHistory": "",
+            "typeOfSurgery": "",
+            "age": "",
+            "temperature": "",
+            "meanArterialPressure": "",
+            "pH" : "",
+            "heartrate": "",
+            "respiratoryRate": "",
+            "sodium": "",
+            "potassium": "",
+            "creatinine": "",
+            "acuteRenalFailure": "",
+            "hematocrit": "",
+            "whiteBloodCell": "",
+            "gcs": "",
+            "fio": "",
+            "pao": "",
+            "aaGradient": ""
         };
         setFormData(initialFormData);
     }
@@ -108,7 +153,7 @@ function Tab1Content(props){
             if(value == 'Yes') {
                 setFormData((prevFormData) => ({
                     ...prevFormData,
-                    typeOfSurgery: "emergency"
+                    typeOfSurgery: ""
                 }));
                 document.getElementById('surgeryType').style.display = "flex";
 
@@ -508,710 +553,390 @@ function Tab1Content(props){
 }
 function Tab2Content(props){
     const {formData} = props;
+    
+    // create data for point value table
+    function createData(criteria, pointValues ) {
+        return { criteria, pointValues };
+    }
+      
+    const ages = [
+        createData('≤44', '0'),
+        createData('45-54', '+2'),
+        createData('55-64', '+3'),
+        createData('65-74', '+5'),
+        createData('>74', '+6')
+    ];
+
+    const histories = [
+        createData('Yes, and nonoperative or emergency postoperative patient', '+5'),
+        createData('Yes, and elective postoperative patient', '+2'),
+        createData('No', '0')
+    ];
+
+    const temperatures = [
+        createData('≥41', '+4'),
+        createData('39 to <41', '+3'),
+        createData('38.5 to <39', '+1'),
+        createData('36 to < 38.5', '0'),
+        createData('34 to <36', '+1'),
+        createData('32 to <34', '+2'),
+        createData('30 to <32', '+3'),
+        createData('<30', '+4')
+    ];
+
+    const pressures = [
+        createData('>159', '+4'),
+        createData('>129-159', '+3'),
+        createData('>109-129', '+2'),
+        createData('>69-109', '0'),
+        createData('>49-69', '+2'),
+        createData('≤49', '+4')
+    ];
+
+    const heartRates = [
+        createData('≥180', '+4'),
+        createData('140 to <180', '+3'),
+        createData('110 to <140', '+2'),
+        createData('70 to <110', '0'),
+        createData('55 to <70', '+2'),
+        createData('40 to <55', '+3'),
+        createData('<40', '+4')
+    ];
+
+    const respRates = [
+        createData('≥50', '+4'),
+        createData('35 to <50', '+3'),
+        createData('25 to <35', '+1'),
+        createData('12 to <25', '0'),
+        createData('10 to <12', '+1'),
+        createData('6 to <10', '+2'),
+        createData('<6', '+4')
+    ];
+
+    const oxygenations = [
+        createData('A-a gradient >499', '+4'),
+        createData('A-a gradient 350-499', '+3'),
+        createData('A-a gradient 200-349', '+2'),
+        createData('A-a gradient <200 (if FiO2 over 49%) or pO2 >70 (if FiO2 less than 50%)', '0'),
+        createData('PaO2 = 61-70', '+1'),
+        createData('PaO2 = 55-60', '+3'),
+        createData('PaO2 <55', '+4')
+    ];
+
+    const arterialPhs = [
+        createData('≥7.70', '+4'),
+        createData('7.60 to <7.70', '+3'),
+        createData('7.50 to <7.60', '+1'),
+        createData('7.33 to <7.50', '0'),
+        createData('7.25 to <7.33', '+2'),
+        createData('7.15 to <7.25', '+3'),
+        createData('<7.15', '+4')
+    ];
+
+    const sodiums = [
+        createData('≥180', '+4'),
+        createData('160 to <180', '+3'),
+        createData('155 to <160', '+2'),
+        createData('150 to <155', '+1'),
+        createData('130 to <150', '0'),
+        createData('120 to <130', '+2'),
+        createData('111 to <120', '+3'),
+        createData('<111', '+4')
+    ];
+
+    const potassiums = [
+        createData('≥7.0', '+4'),
+        createData('6.0 to <7.0', '+3'),
+        createData('5.5 to <6.0', '+1'),
+        createData('3.5 to <5.5', '0'),
+        createData('3.0 to <3.5', '+1'),
+        createData('2.5 to <3.0', '+2'),
+        createData('<2.5', '+4')
+    ];
+
+    const creatinines = [
+        createData('≥3.5 and ACUTE renal failure*', '+8'),
+        createData('2.0 to <3.5 and ACUTE renal failure', '+6'),
+        createData('≥3.5 and CHRONIC renal failure', '+4'),
+        createData('1.5 to <2.0 and ACUTE renal failure', '+4'),
+        createData('2.0 to <3.5 and CHRONIC renal failure', '+3'),
+        createData('1.5 to <2.0 and CHRONIC renal failure', '+2'),
+        createData('0.6 to <1.5', '0'),
+        createData('<0.6', '+2')
+    ];
+
+    const hematocrits = [
+        createData('≥60', '+4'),
+        createData('50 to <60', '+2'),
+        createData('46 to <50', '+1'),
+        createData('30 to <46', '0'),
+        createData('20 to <30', '+2'),
+        createData('<20', '+4')
+    ];
+
+    const whiteBloodCounts = [
+        createData('≥40', '+4'),
+        createData('20 to <40', '+2'),
+        createData('15 to <20', '+1'),
+        createData('3 to <15', '0'),
+        createData('1 to <3', '+2'),
+        createData('<1', '+4')
+    ];
+
+    const glasgowComas = [
+        createData('1 - 15', '15 - [GCS Score]')
+    ];
+
+    // create data for Approximated in-hospital mortality rates
+    function createData2( apacheScore, nonoperative, postoperative ) {
+        return { apacheScore, nonoperative, postoperative };
+    }
+          
+    const rows = [
+        createData2('0-4', '4%', '1%'),
+        createData2('5-9', '8%', '3%'),
+        createData2('10-14', '15%', '7%'),
+        createData2('15-19', '25%', '12%'),
+        createData2('20-24', '40%', '30%'),
+        createData2('25-29', '55%', '35%'),
+        createData2('30-34', '73%', '73%'),
+        createData2('>34', '85%', '88%')
+    ];
+
     return (
-        <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={2} justifyContent="center" alignItems="center">
-                    <Grid item xs={12}>Point Values</Grid>
-                    
-                    <Grid item xs={6}>
-                        <strong>Age, Years</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≤44</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>45-54</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>55-64</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>65-74</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+5</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'>'}74</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+6</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>History of severe organ insufficiency or immunocompromised</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>Yes, and nonoperative or emergency postoperative patient</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+5</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>Yes, and elective postoperative patient74</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>No</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>Rectal temperature, °C</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≥41</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>39 to {'<'}41</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>38.5 to {'<'}39</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>36 to {'<'}38.5</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>34 to {'<'}36</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>32 to {'<'}34</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>30 to {'<'}32</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'<'}30</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    
-                    <Grid item xs={6}>
-                        <strong>Mean arterial pressure, mmHg</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'>'}159</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'>'}129-159</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'>'}109-129</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'>'}69-109</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'>'}49-69</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≤49</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>Heart rate, beats per minute</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≥180</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>140 to {'<'}180</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>110 to {'<'}140</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>70 to {'<'}110</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>55 to {'<'}70</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>40 to {'<'}55</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'<'}40</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>Respiratory rate, breaths per minute</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≥50</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>35 to {'<'}50</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>25 to {'<'}35</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>12 to {'<'}25</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>10 to {'<'}12</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>6 to {'<'}10</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'<'}6</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>Oxygenation (use PaO2 if FiO2 {'<'}50%, otherwise use A-a gradient)</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>A-a gradient {'>'}499</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>A-a gradient 350-499</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>A-a gradient 200-349</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>A-a gradient {'<'}200 (if FiO2 over 49%) or pO2 {'>'}70 (if FiO2 less than 50%)</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>PaO2 = 61-70</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>PaO2 = 55-60</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>PaO2 {'<'}55</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>Arterial pH</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≥7.70</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>7.60 to {'<'}7.70</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>7.50 to {'<'}7.60</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>7.33 to {'<'}7.50</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>7.25 to {'<'}7.33</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>7.15 to {'<'}7.25</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'<'}7.15</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>Serum sodium, mmol/L</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≥180</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>160 to {'<'}180</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>155 to {'<'}160</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>150 to {'<'}155</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>130 to {'<'}150</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>120 to {'<'}130</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>111 to {'<'}120</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'<'}111</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>Serum potassium, mmol/L</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≥7.0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>6.0 to {'<'}7.0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>5.5 to {'<'}6.0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>3.5 to {'<'}5.5</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>3.0 to {'<'}3.5</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>2.5 to {'<'}3.0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'<'}2.5</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>Serum creatinine, mg/100 mL</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≥3.5 and ACUTE renal failure*</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+8</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>2.0 to {'<'}3.5 and ACUTE renal failure</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+6</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≥3.5 and CHRONIC renal failure</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>1.5 to {'<'}2.0 and ACUTE renal failure</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>2.0 to {'<'}3.5 and CHRONIC renal failure</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>1.5 to {'<'}2.0 and CHRONIC renal failure</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0.6 to {'<'}1.5</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'<'}0.6</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>Hematocrit, %</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≥60</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>50 to {'<'}60</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>46 to {'<'}50</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>30 to {'<'}46</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>20 to {'<'}30</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'<'}20</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>White blood count, total/cubic mm in</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>≥40</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>20 to {'<'}40</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>15 to {'<'}20</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>3 to {'<'}15</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>0</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>1 to {'<'}3</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>{'<'}1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>+4</p>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <strong>Glasgow Coma Scale (GCS)</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <strong>Point values</strong>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>1 - 15</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>15 - [GCS Score]</p>
-                    </Grid>
-
-                    <Grid item xs={12} mt={5}>Approximated in-hospital mortality rates</Grid>
-                    <Grid item xs={4}>
-                        <strong>APACHE II Score</strong>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <strong>Nonoperative</strong>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <strong>Postoperative</strong>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>0-4</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>4%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>1%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>5-9</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>8%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>3%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>10-14</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>15%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>7%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>15-19</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>25%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>12%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>20-24</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>40%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>30%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>25-29</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>55%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>35%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>30-34</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>73%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>73%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>{'>'}34</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>85%</p>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <p>88%</p>
-                    </Grid>
-                </Grid>
-                
-            </Box>
+        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{fontWeight: 'bold'}}>Criteria</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Point Values</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Age, years</TableCell>
+                    <TableBody>
+                    {ages.map((age) => (
+                        <TableRow
+                        key={age.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {age.criteria}
+                        </TableCell>
+                        <TableCell align="center">{age.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>History of severe organ insufficiency or immunocompromised</TableCell>
+                    <TableBody>
+                    {histories.map((history) => (
+                        <TableRow
+                        key={history.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {history.criteria}
+                        </TableCell>
+                        <TableCell align="center">{history.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Rectal temperature, °C</TableCell>
+                    <TableBody>
+                    {temperatures.map((temperature) => (
+                        <TableRow
+                        key={temperature.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {temperature.criteria}
+                        </TableCell>
+                        <TableCell align="center">{temperature.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Mean arterial pressure, mmHg</TableCell>
+                    <TableBody>
+                    {pressures.map((pressure) => (
+                        <TableRow
+                        key={pressure.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {pressure.criteria}
+                        </TableCell>
+                        <TableCell align="center">{pressure.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Heart rate, beats per minute</TableCell>
+                    <TableBody>
+                    {heartRates.map((heartRate) => (
+                        <TableRow
+                        key={heartRate.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {heartRate.criteria}
+                        </TableCell>
+                        <TableCell align="center">{heartRate.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Respiratory rate, breaths per minute</TableCell>
+                    <TableBody>
+                    {respRates.map((respRate) => (
+                        <TableRow
+                        key={respRate.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {respRate.criteria}
+                        </TableCell>
+                        <TableCell align="center">{respRate.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Oxygenation (use PaO2 if FiO2 &lt;50%, otherwise use A-a gradient)</TableCell>
+                    <TableBody>
+                    {oxygenations.map((oxygenation) => (
+                        <TableRow
+                        key={oxygenation.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {oxygenation.criteria}
+                        </TableCell>
+                        <TableCell align="center">{oxygenation.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Arterial pH</TableCell>
+                    <TableBody>
+                    {arterialPhs.map((arterialPh) => (
+                        <TableRow
+                        key={arterialPh.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {arterialPh.criteria}
+                        </TableCell>
+                        <TableCell align="center">{arterialPh.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Serum sodium, mmol/L</TableCell>
+                    <TableBody>
+                    {sodiums.map((sodium) => (
+                        <TableRow
+                        key={sodium.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {sodium.criteria}
+                        </TableCell>
+                        <TableCell align="center">{sodium.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Serum potassium, mmol/L</TableCell>
+                    <TableBody>
+                    {potassiums.map((potassium) => (
+                        <TableRow
+                        key={potassium.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {potassium.criteria}
+                        </TableCell>
+                        <TableCell align="center">{potassium.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Serum creatinine, mg/100 mL</TableCell>
+                    <TableBody>
+                    {creatinines.map((creatinine) => (
+                        <TableRow
+                        key={creatinine.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {creatinine.criteria}
+                        </TableCell>
+                        <TableCell align="center">{creatinine.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Hematocrit, %</TableCell>
+                    <TableBody>
+                    {hematocrits.map((hematocrit) => (
+                        <TableRow
+                        key={hematocrit.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {hematocrit.criteria}
+                        </TableCell>
+                        <TableCell align="center">{hematocrit.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>White blood count, total/cubic mm in</TableCell>
+                    <TableBody>
+                    {whiteBloodCounts.map((whiteBloodCount) => (
+                        <TableRow
+                        key={whiteBloodCount.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {whiteBloodCount.criteria}
+                        </TableCell>
+                        <TableCell align="center">{whiteBloodCount.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Glasgow Coma Scale (GCS)</TableCell>
+                    <TableBody>
+                    {glasgowComas.map((glasgowComa) => (
+                        <TableRow
+                        key={glasgowComa.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {glasgowComa.criteria}
+                        </TableCell>
+                        <TableCell align="center">{glasgowComa.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <caption>*Note: "acute renal failure" was not defined in the original study. Use clinical judgment to determine whether has acute kidney injury. Cutoffs differ slightly from original study (by less than 0.1 mg/dL) in order to account for all possible values in this electronic calculator.</caption>
+                </Table>
+            </TableContainer>
+            <Typography variant="h6" align="left" mt={4} mb={1}>Approximated in-hospital mortality rates</Typography>
+            <TableContainer component={Paper} p={5}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">APACHE II Score</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Nonoperative</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Postoperative</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {rows.map((row) => (
+                        <TableRow
+                        key={row.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell align="center" component="th" scope="row">{row.apacheScore}</TableCell>
+                        <TableCell align="center">{row.nonoperative}</TableCell>
+                        <TableCell align="center">{row.postoperative}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
     )
 }
 
@@ -1220,73 +945,70 @@ const ApacheIIScore = () => {
 
     //state for form fields
     const [formData, setFormData] = useState({
-        // "cancerHistory": "",
-        // "typeOfSurgery": "",
-        // "age": "",
-        // "temperature": "",
-        // "meanArterialPressure": "",
-        // "pH" : "",
-        // "heartrate": "",
-        // "respiratoryRate": "",
-        // "sodium": "",
-        // "potassium": "",
-        // "creatinine": "",
-        // "acuteRenalFailure": "",
-        // "hematocrit": "",
-        // "whiteBloodCell": "",
-        // "gcs": "",
-        // "fio": "",
-        // "pao": "",
-        // "aaGradient": ""
         "cancerHistory": "",
         "typeOfSurgery": "",
-        "age": "1",
-        "temperature": "1",
-        "meanArterialPressure": "1",
-        "pH" : "1",
-        "heartrate": "1",
-        "respiratoryRate": "1",
-        "sodium": "1",
-        "potassium": "1",
-        "creatinine": "1",
-        "acuteRenalFailure": "1",
-        "hematocrit": "1",
-        "whiteBloodCell": "1",
-        "gcs": "1",
+        "age": "",
+        "temperature": "",
+        "meanArterialPressure": "",
+        "pH" : "",
+        "heartrate": "",
+        "respiratoryRate": "",
+        "sodium": "",
+        "potassium": "",
+        "creatinine": "",
+        "acuteRenalFailure": "",
+        "hematocrit": "",
+        "whiteBloodCell": "",
+        "gcs": "",
         "fio": "",
         "pao": "",
         "aaGradient": ""
     });
 
+    const [tempUnitStatus, setTempUnit] = useState(false);
+    const [creatinineUnitStatus, setCreatinineUnit] = useState(false);
+    
+    //state for calc result card
+    const [pointAllocated , setPointAllocated] = useState("-")
+    const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
+    const [scoreType, setScoreType] = useState('APACHE II Index')
+
     useEffect(() => {
-        console.log("formData changed");
-        console.log(formData);
-        console.log("=================================");
         // Check if all fields are entered
         const formValues = Object.values({ ...formData });
-            console.log(formValues[0] + " formValue[0] missing");
-            console.log(formValues[1] + " formValue[1] missing");
-        console.log("form values: " + formValues);
         if (formValues.some((value) => value === '' || value === undefined)) {
-            setPointAllocated(0);
+            setPointAllocated("-");
             setInterpretation("Please enter the required values in the respective fields to perform the calculations.")
         } else{
-            // console.log(formValues[0] + " formValue[0]");
-            // console.log(formValues[1] + " formValue[1]");
+            
+            //checking temperature unit of measurement b4 sending backend
+            var formTemperatureValue = formValues[3]
+            
+            if (tempUnitStatus == true){
+                formTemperatureValue = ((formTemperatureValue - 32) * (5/9)).toFixed(2)
+            }
+
+            //checking creatinine
+            var formCreatinineValue = formValues[10]
+
+            if (creatinineUnitStatus == false){
+                formCreatinineValue = (formCreatinineValue / 88.40).toFixed(2)
+            }
+            console.log("form values: " + formValues);
             const sendToBackend = async () => { 
                 await axios.post(`http://localhost:8080/calculator/apache-ii-score`,
                     {
                         "cancerHistory": formValues[0],
                         "typeOfSurgery": formValues[1],
                         "age": formValues[2],
-                        "temperature": formValues[3],
+                        "temperature": formTemperatureValue,
                         "meanArterialPressure": formValues[4],
                         "pH" : formValues[5],
                         "heartrate": formValues[6],
                         "respiratoryRate": formValues[7],
                         "sodium": formValues[8],
                         "potassium": formValues[9],
-                        "creatinine": formValues[10],
+                        "creatinine": formCreatinineValue,
                         "acuteRenalFailure": formValues[11],
                         "hematocrit": formValues[12],
                         "whiteBloodCell": formValues[13],
@@ -1299,12 +1021,19 @@ const ApacheIIScore = () => {
                     res => {
                         let data = res.data
                         setPointAllocated(res.data.pointAllocated)
-                        setInterpretation(res.data.result.interpretation)
+                        setInterpretation(res.data.result.postoperativeResult + "; " + res.data.result.nonoperative)
                         return 200;
                     }
                 ).catch(
                     err => {
-                        return 500
+                        if(err.response.status == 500) {
+                            navigate("/500");
+                        } else if(err.response.status == 404) {
+                            navigate("/404");
+                        } else {
+                            navigate("/other-errors");
+                        }
+                        // return 500
                     }
                 )
             };
@@ -1313,16 +1042,12 @@ const ApacheIIScore = () => {
     }, [formData])
 
 
-    //state for calc result card
-    const [pointAllocated , setPointAllocated] = useState(0)
-    const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
-    const [scoreType, setScoreType] = useState('APACHE II Index')
 
     const tabs = [
         {
           label: "General Information",
           Component: (
-            <Tab1Content formData={formData} setFormData={setFormData} pointAllocated={pointAllocated} setPointAllocated={setPointAllocated} interpretation={interpretation} setInterpretation={setInterpretation} scoreType={scoreType}/>
+            <Tab1Content tempUnitStatus={tempUnitStatus} setTempUnit={setTempUnit} creatinineUnitStatus={creatinineUnitStatus} setCreatinineUnit={setCreatinineUnit} formData={formData} setFormData={setFormData} pointAllocated={pointAllocated} setPointAllocated={setPointAllocated} interpretation={interpretation} setInterpretation={setInterpretation} scoreType={scoreType}/>
           )
         },
         {

@@ -37,6 +37,7 @@ import ViewCalculators from '../../pages/viewCalculator/ViewCalculators'
 import Bookmarks from '../../pages/Bookmarks'
 import SubchapterContent from '../../pages/subchapterContent/SubchapterContent';
 import CreateSubchapter from '../../pages/CreateSubchapter';
+import EditSubchapter from '../../pages/EditSubchapter';
 import Login from "../../pages/login/Login";
 import UpdateAdmin from '../../pages/updateAdmin/UpdateAdmin';
 import CreateChapter from '../../pages/CreateChapter';
@@ -47,6 +48,10 @@ import SofaScore from '../../pages/viewCalculator/SofaScoreCalculator'
 import CandidaScore from '../../pages/viewCalculator/CandidaScoreCalculator'
 import ParklandFormula from '../../pages/viewCalculator/ParklandFormulaCalculator'
 import CamIcu from '../../pages/viewCalculator/CamIcuCalculator'
+import Error404 from '../../pages/error/Error404';
+import Error500 from '../../pages/error/Error500';
+import OtherErrors from '../../pages/error/OtherErrors';
+import FlashcardList from '../../pages/flashcardList/FlashcardList';
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -343,6 +348,28 @@ export default function MiniDrawer({admin, clearUser}) {
                         </Link>
                     ))}
 
+                    <Link to={"/flashcards"} style={{ textDecoration: 'none' }}>
+                        <ListItem disablePadding sx={{ display: 'block' }}>
+                            <ListItemButton
+                                sx={{
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                            >
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}>
+                                    <span dangerouslySetInnerHTML={{__html: toTwemoji("⚡")}}></span>
+                                </ListItemIcon>
+                                <ListItemText primary={"Flashcards"} sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
+
                     {
 
                         admin &&
@@ -370,6 +397,8 @@ export default function MiniDrawer({admin, clearUser}) {
                         </Link>
 
                     }
+
+
                     
 
                     <ListItem disablePadding sx={{ display: 'block' }}>
@@ -408,6 +437,7 @@ export default function MiniDrawer({admin, clearUser}) {
                     <Route path="/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent/>}/>
                     <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput}/>}/>
+                    <Route path="/Chapters/:chapterId/subchapters/:subchapterId/EditSubchapter" element={<EditSubchapter/>}/>
                     <Route path="/CreateSubchapter" element={<CreateSubchapter/>}/>
                     <Route path="/CreateChapter" element={<CreateChapter/>}/>
                     <Route path="/login" element={<Login/>}/>
@@ -419,7 +449,11 @@ export default function MiniDrawer({admin, clearUser}) {
                     <Route path="/Calculators/candida-score" element={<CandidaScore/>}/>
                     <Route path="/Calculators/parkland-formula" element={<ParklandFormula/>}/>
                     <Route path="/Calculators/cam-icu" element={<CamIcu/>}/>
+                    <Route path="/flashcards" element={<FlashcardList/>}/>
                     <Route path="/Sign Out" element={<Navigate to={"/"}/>}/>
+                    <Route path='*' element={<Error404 />}/>
+                    <Route path='/500' element={<Error500 />}/>
+                    <Route path='/other-errors' element={<OtherErrors />}/>
                 </Routes>
             </Box>
         </Box>

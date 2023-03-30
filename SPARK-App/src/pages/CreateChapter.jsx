@@ -1,20 +1,21 @@
  import { useRef, useState, useEffect } from 'react'
 import axios from 'axios'
-
 import Sidebar from "../components/sidebar/Sidebar"
 import Widget from "../components/widget/Widget"
-import { Button } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {Button, Box, Stack, TextField, MenuItem, Grid, Input, CircularProgress, IconButton, Typography} from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddIcon from '@mui/icons-material/Add';
-import "./home.css"
 import { useAppState } from '../overmind';
-import { useNavigate } from 'react-router-dom';
 
 
 export default function CreateChapter() {  
-    
-    const [chapTitle, setChapTitle] = useState('');
-    const [chapIcon, setChapIcon] = useState('');
+
+    const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("")
+    const [chapterTitle, setChapterTitle] = useState('');
+    const [chapterIcon, setChapterIcon] = useState('');
 
     const userState = useAppState().user
     const navigate = useNavigate();
@@ -22,8 +23,33 @@ export default function CreateChapter() {
     const BASE_URL = import.meta.env.VITE_API_URL
     
     async function addChapter() {
-        await axios.post(BASE_URL + "/api/addChapter", {"chapterTitle": chapTitle, "chapterIcon": chapIcon})
-    //   navigate("/chapterData");
+        setErrorMessage(""); // initialize error message
+        setLoading(true);
+        if (chapterTitle == undefined || chapterTitle == '' || chapterIcon == null || chapterIcon == undefined || chapterIcon == '' || chapterIcon == null) {
+            setLoading(false);
+            setErrorMessage("Fields cannot be empty");
+            return;
+        }
+        await axios
+            .post(BASE_URL + '/chapters/', {
+                title: chapterTitle,
+                chapterIcon: chapterIcon
+            })
+            .then(() => {
+                setLoading(false);
+                window.location.href = "/Chapters"
+                // navigate(-1);
+            })
+            .catch((error) => {
+                setLoading(false);
+                console.log("error",error);
+                
+                if (error.response.status == 404) {
+                    setErrorMessage(error.response.data.msg);
+                    return;
+                }
+                setErrorMessage(error.response.data.msg);
+            });
     }
 
     useEffect(() => {
@@ -33,30 +59,79 @@ export default function CreateChapter() {
     }, [])
 
     return (
-        <div className="home">
-            <div className="homeContainer">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-sm-12 col-md-7">
-                            <div class="m-5">
-                                <p class="fs-1 fw-bold">Add Chapter</p>
-                                <div class="form-group">
-                                    <div class="mt-3">
-                                        <label for="chapTitle">Title</label>
-                                        <input type="text" class="form-control" id="chapTitle" value={chapTitle} onChange={event => setChapTitle(event.target.value)}></input>
-                                    </div>
-                                    <div class="mt-3">
-                                        <label for="chapIcon">Icon</label>
-                                        <input type="text" class="form-control" id="chapIcon" value={chapIcon} onChange={event => setChapIcon(event.target.value)}></input>
-                                    </div>
-                                </div>
-                                <Button className="mt-5" variant="outlined" onClick={() => { addChapter(); }} >Add</Button>
-                            </div>
-                        </div>                        
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    )
+        
+        <Box margin={4}>
+            
+            {loading ? (
+                <Grid pb={2} display="flex" alignItems="center" mb={1}>
+                    <CircularProgress color='info' size={40} thickness={4} />  
+                </Grid>
+            ) : (
+                <Grid pb={2} alignItems="center" mb={1}>
+                    <Grid item xs={12} display="flex" sx={{marginBottom: "35px"}}>
+                        <IconButton onClick={
+                            () => { navigate(-1) }}>
+                            <ArrowBackIcon />
+                        </IconButton>   
+                        <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>Add Chapter</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container>
+                            <Grid item className="errorMessage" style={{marginBottom: '20px'}}>
+                                {errorMessage}
+                            </Grid>
+                            <Grid item xs={12} md={9} lg={9}>
+                                <TextField sx={{marginBottom: "2ch"}}
+                                    fullWidth
+                                    label='Title'
+                                    variant='outlined'
+                                    value={chapterTitle}
+                                    onChange={(event) =>
+                                        setChapterTitle(event.target.value)
+                                    }
+                                ></TextField>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Grid container>
+                            <Grid item xs={12} md={9} lg={9}>
+                                <TextField fullWidth
+                                    label='Icon' 
+                                    variant='outlined'
+                                    value={chapterIcon}
+                                    onChange={(event) =>
+                                        setChapterIcon(event.target.value)
+                                    }
+                                    inputProps={{ maxLength: 2 }}
+                                ></TextField>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Button 
+                            variant='outlined'
+                            onClick={() => {
+                                addChapter();
+                            }}
+                                component='span'
+                                sx={{
+                                    marginTop: '5ch',
+                                    color: 'white',
+                                    backgroundColor: '#41ADA4',
+                                    borderColor: '#41ADA4',
+                                    '&:hover': {
+                                        backgroundColor: 'white', // Set background color on hover
+                                        borderColor: '#41ADA4 !important', // Set border color on hover
+                                        color: '#41ADA4',
+                                    },
+                                }}
+                            >
+                            Save
+                        </Button>
+                    </Grid>
+                </Grid>
+            )}
+        </Box>
+    );
 }

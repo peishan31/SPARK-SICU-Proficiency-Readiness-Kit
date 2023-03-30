@@ -9,6 +9,12 @@ import { useState, useEffect } from 'react'
 import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import CalcResultCard from '../../components/calculator/CalcResultCard';
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 const CamIcu = () => {
     //state for calc result card
@@ -139,6 +145,31 @@ const CamIcu = () => {
         setQ6Value(newQ6Value);
         {handleCalculate(q1Value, q2Value, q3Value, q4Value, q5Value, newQ6Value)};
     };
+
+    function createData( data ) {
+        return { data };
+    }
+              
+    const rows = [
+        createData(
+            <div>
+                <Typography style={{fontWeight: 'bold'}}>Formula</Typography>
+                <Typography>Algorithm of Yes/No questions.</Typography>
+            </div>
+        ),
+        createData(
+            <div>    
+                <Typography style={{fontWeight: 'bold'}}>Facts & Figures</Typography>
+                <Typography>The patient is CAM-ICU positive (patient has delirium) if:</Typography>
+                <ul>
+                    <li>RASS ≥ -3, AND</li>
+                    <li>Acute onset change in mental status or fluctuating course in mental status, AND</li>
+                    <li>&gt;2 errors in letters attention test, AND</li>
+                    <li>Either RASS is not 0, OR combined number of errors to questions and commands &gt;1 </li>
+                </ul>
+            </div>
+        )
+    ];
 
     const tabs = [
         {
@@ -299,17 +330,32 @@ const CamIcu = () => {
           )
         },
         {
-          label: "Point System",
-          Component: (
-            <div>
-              <p>The patient is CAM-ICU positive (patient has delirium) if:</p>
-              <p>RASS ≥ -3, AND</p>
-              <p>Acute onset change in mental status or fluctuating course in mental status, AND</p>
-              <p>2 errors in letters attention test, AND</p>
-              <p>Either RASS is not 0, OR combined number of errors to questions and commands {'>'}1</p>
-              <p>2 errors in letters attention test, AND</p>
-            </div>
-          )
+            label: "Point System",
+            Component: (
+                <div style={{marginLeft:'10%', marginRight:'10%'}}>
+                    <TableContainer component={Paper}>
+                        <Table aria-label="simple table">
+                            <TableBody>
+                                {rows.map((row) => (
+                                    <TableRow>
+                                        <TableCell component="th" scope="row">
+                                            {row.data}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
+                // <div>
+                // <p>The patient is CAM-ICU positive (patient has delirium) if:</p>
+                // <p>RASS ≥ -3, AND</p>
+                // <p>Acute onset change in mental status or fluctuating course in mental status, AND</p>
+                // <p>2 errors in letters attention test, AND</p>
+                // <p>Either RASS is not 0, OR combined number of errors to questions and commands {'>'}1</p>
+                // <p>2 errors in letters attention test, AND</p>
+                // </div>
+            )
         }
       ];
 
