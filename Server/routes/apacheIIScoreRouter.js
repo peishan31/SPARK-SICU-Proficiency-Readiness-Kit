@@ -23,7 +23,6 @@ apacheIIScoreRouter.post("/", async (req, res) => {
     console.log(`Calculating apache ii score...`)
     try {
         var pointAllocated = 0;
-        console.log(req.body)
         const { cancerHistory, typeOfSurgery, age, temperature, meanArterialPressure, pH, heartrate
             , respiratoryRate, sodium, potassium, creatinine, acuteRenalFailure, hematocrit, whiteBloodCell
             ,gcs, fio, pao, aaGradient} = req.body;
@@ -41,7 +40,7 @@ apacheIIScoreRouter.post("/", async (req, res) => {
 
         //calculations for history of severe organ insufficiency or immunocompromised
         //expecting no/ emergency/ elective/ nonoperative
-        if (cancerHistory == "Yes" && (typeOfSurgery == "nonoperative" || typeOfSurgery == "elective")){
+        if (cancerHistory == "Yes" && (typeOfSurgery == "nonoperative" || typeOfSurgery == "emergency")){
             pointAllocated += 5; 
         }else if (cancerHistory == "Yes" && typeOfSurgery == "elective") {
             pointAllocated += 2;
@@ -50,11 +49,11 @@ apacheIIScoreRouter.post("/", async (req, res) => {
         //calcuations for rectal temperature (°C)
         if (temperature >= 41 || temperature < 30){
             pointAllocated += 4;
-        }else if ((temperature >= 39 || temperature < 41) || (rectalTemp >= 30 || rectalTemp < 32)){
+        }else if ((temperature >= 39 && temperature < 41) || (temperature >= 30 && temperature < 32)){
             pointAllocated += 3;
         }else if (temperature >= 32 && temperature < 34){
             pointAllocated += 2;
-        }else if ((temperature >= 38.5 && temperature < 39) || (rectalTemp >= 34 && rectalTemp < 36)) {
+        }else if ((temperature >= 38.5 && temperature < 39) || (temperature >= 34 && temperature < 36)) {
             pointAllocated += 1;
         }
 
@@ -109,9 +108,9 @@ apacheIIScoreRouter.post("/", async (req, res) => {
         //calculations for arterial pH
         if (pH >= 7.70 || pH < 7.15){
             pointAllocated += 4;
-        }else if ((pH >= 7.60 && pH < 7.70) || (pH >= 7.15 || pH < 7.25)){
+        }else if ((pH >= 7.60 && pH < 7.70) || (pH >= 7.15 && pH < 7.25)){
             pointAllocated += 3;
-        }else if (pH >= 7.25 || pH < 7.33){
+        }else if (pH >= 7.25 && pH < 7.33){
             pointAllocated += 2;
         }else if (pH >= 7.50 && pH < 7.60){
             pointAllocated += 1;
@@ -155,7 +154,6 @@ apacheIIScoreRouter.post("/", async (req, res) => {
         }else if (creatinine < 0.6){
             pointAllocated += 2;
         }
-
 
         //calculations for hematocrit (%)
         if (hematocrit >= 60 || hematocrit < 20){

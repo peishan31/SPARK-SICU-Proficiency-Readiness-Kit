@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, ToggleButton, ToggleButtonGroup, IconButton, Divider, styled } from '@mui/material'
+import { Button, ToggleButton, ToggleButtonGroup, IconButton, Paper, Divider, styled } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
@@ -10,6 +10,13 @@ import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import TextField from '@mui/material/TextField';
 import CalcResultCard from '../../components/calculator/CalcResultCard';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 function Tab1Content(props){
     const {formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
@@ -132,17 +139,61 @@ function Tab1Content(props){
 
 function Tab2Content(props){
     const {formData} = props;
+
+    function createData( data ) {
+        return { data };
+    }
+              
+    const rows = [
+        createData(
+            <div>
+                <Typography style={{fontWeight: 'bold'}}>Formula</Typography>
+                <Typography>Fluid Requirements = TBSA burned(%) x Wt (kg) x 4mL</Typography>
+                <Typography>Give 1/2 of total requirements in 1st 8 hours, then give 2nd half over next 16 hours.</Typography>
+            </div>
+        ),
+        createData(
+            <div>    
+                <Typography style={{fontWeight: 'bold'}}>Facts & Figures</Typography>
+                <Typography>Administration of fluids:</Typography>
+                <ul>
+                    <li>Give 1/2 of total requirements in 1st 8 hours (time from when the burn occurred), then give 2nd half over next 16 hours.</li>
+                </ul>
+                <Typography>Estimation:</Typography>
+                <ul>
+                    <li>Rule of 9's for Adults: 9% for each arm, 18% for each leg, 9% for head,18% for front torso, 18% for back torso.</li>
+                    <li>Rule of 9's for Children: 9% for each arm, 14% for each leg, 18% for head, 18% for front torso, 18% for back torso.</li>
+                </ul>
+            </div>
+        ),
+        createData(
+            <div>
+                <Typography style={{fontWeight: 'bold'}}>Wallace Rule of Nines:</Typography>
+                <Box
+                    component="img"
+                    sx={{height: 450}}
+                    src="https://res.cloudinary.com/dckx3nboq/image/upload/v1679819052/wallace-rule-of-nines_odugix.jpg"
+                />
+            </div>
+        )
+    ];
+
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2} justifyContent="center" alignItems="center">
-                <Grid item xs={12}>
-                    <p pb={2}>Formula </p>
-                    <p>Fluid Requirements = TBSA burned(%) x Wt (kg) x 4mL</p>
-                    <p> Give 1/2 of total requirements in 1st 8 hours, then give 2nd half over next 16 hours.   </p>
-                   
-                </Grid>
-            </Grid>
-        </Box>
+        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableBody>
+                        {rows.map((row) => (
+                            <TableRow>
+                                <TableCell component="th" scope="row">
+                                    {row.data}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
     )
 }
 

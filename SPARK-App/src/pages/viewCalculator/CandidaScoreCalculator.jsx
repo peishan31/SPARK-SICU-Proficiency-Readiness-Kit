@@ -9,6 +9,13 @@ import { useState, useEffect } from 'react'
 import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import CalcResultCard from '../../components/calculator/CalcResultCard';
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
 function Tab1Content(props){
 
     const {formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
@@ -157,88 +164,100 @@ function Tab1Content(props){
 }
 function Tab2Content(props){
     const {formData} = props;
-    return (
-        <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2} justifyContent="center" alignItems="center">
-            <Grid item xs={12}>Point Values</Grid>
-                
-                <Grid item xs={6}>
-                    <strong>Severe Sepsis</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    Yes
-                </Grid>
-                <Grid item xs={6}>
-                    2
-                </Grid>
-                <Grid item xs={6}>
-                    No
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-       
-                <Grid item xs={6}>
-                    <strong>Total Parenteral Nutrition</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    Yes
-                </Grid>
-                <Grid item xs={6}>
-                    1
-                </Grid>
-                <Grid item xs={6}>
-                    No
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
 
-                <Grid item xs={6}>
-                    <strong>Initial Surgery</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    Yes
-                </Grid>
-                <Grid item xs={6}>
-                    1
-                </Grid>
-                <Grid item xs={6}>
-                    No
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-                
-                <Grid item xs={6}>
-                    <strong>Multifocal Candida Colonization</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    <strong>Point values</strong>
-                </Grid>
-                <Grid item xs={6}>
-                    Yes
-                </Grid>
-                <Grid item xs={6}>
-                    1
-                </Grid>
-                <Grid item xs={6}>
-                    No
-                </Grid>
-                <Grid item xs={6}>
-                    0
-                </Grid>
-            </Grid> 
-        </Box>
+    function createData(criteria, pointValues ) {
+        return { criteria, pointValues };
+    }
+      
+    const firstRows = [
+        createData('Yes', '2'),
+        createData('No', '0')
+    ];
+
+    const secondRows = [
+        createData('Yes', '1'),
+        createData('No', '0')
+    ];
+
+    const thirdRows = [
+        createData('Yes', '1'),
+        createData('No', '0')
+    ];
+
+    const forthRows = [
+        createData('Yes', '1'),
+        createData('No', '0')
+    ];
+
+    return (
+        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{fontWeight: 'bold'}}>Criteria</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} align="center">Point Values</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Severe Sepsis</TableCell>
+                    <TableBody>
+                    {firstRows.map((row) => (
+                        <TableRow
+                        key={row.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {row.criteria}
+                        </TableCell>
+                        <TableCell align="center">{row.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Total Parenteral Nutrition</TableCell>
+                    <TableBody>
+                    {secondRows.map((row) => (
+                        <TableRow
+                        key={row.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {row.criteria}
+                        </TableCell>
+                        <TableCell align="center">{row.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Initial Surgery</TableCell>
+                    <TableBody>
+                    {thirdRows.map((row) => (
+                        <TableRow
+                        key={row.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {row.criteria}
+                        </TableCell>
+                        <TableCell align="center">{row.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                    <TableCell style={{fontWeight: 'bold'}} colSpan={2}>Multifocal Candida Colonization</TableCell>
+                    <TableBody>
+                    {forthRows.map((row) => (
+                        <TableRow
+                        key={row.criteria}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {row.criteria}
+                        </TableCell>
+                        <TableCell align="center">{row.pointValues}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
     )
 }
 
