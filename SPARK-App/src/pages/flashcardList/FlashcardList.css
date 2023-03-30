@@ -23,5 +23,6 @@
 }
 
 .css-6hp17o-MuiList-root-MuiMenu-list {
+    position: relative;
     z-index: 999;
 }
