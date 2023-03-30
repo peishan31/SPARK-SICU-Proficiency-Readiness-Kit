@@ -20,19 +20,19 @@
     margin-right: 20px;
     position: relative;
     z-index: 999;
-    -webkit-transform: translate3d(0, 0, 1px);
-    /* transform: translateZ(1000px); */
+    -webkit-transform: translate3d(0, 0, 0px);
+    transform: translateZ(20px);
     
 }
 
 .css-6hp17o-MuiList-root-MuiMenu-list {
     position: relative;
     z-index: 999;
-    -webkit-transform: translate3d(0,0,1px);
-    /* transform: translate3d(0,0,0); */
+    -webkit-transform: translate3d(0,0,0px);
+    transform: translateZ(20px);
 }
 
-/* .wrapper {
+.wrapper {
     -webkit-transform: translate3d(0px, 0px, 0px);
     transform: translate3d(0px, 0px, 0px);
-} */
+}
