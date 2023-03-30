@@ -298,7 +298,7 @@ export default function PersistentDrawer({admin, clearUser}) {
                                                     case 'Chapters':
                                                         return <span dangerouslySetInnerHTML={{ __html: toTwemoji("📖") }}></span>
                                                     case 'Flashcards':
-                                                        return <span dangerouslySetInnerHTML={{ __html: toTwemoji("📚") }}></span>
+                                                        return <span dangerouslySetInnerHTML={{ __html: toTwemoji("⚡") }}></span>
                                                     default:
                                                         return null;
                                                 }

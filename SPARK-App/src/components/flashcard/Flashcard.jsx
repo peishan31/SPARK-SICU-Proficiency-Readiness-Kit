@@ -106,7 +106,6 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
                             
                             <MoreVertIcon 
                                     sx={{color: "#b5b5b5"}} 
-                                    // onClick={handleDelete}
                                     id="basic-button"
                                     aria-controls={open ? 'basic-menu' : undefined}
                                     aria-haspopup="true"
@@ -137,10 +136,12 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
                     }
                 </div>
                 <div>
-                    <h5 className="cardText">{ flashcard.question }</h5>
+                    <h5 className="cardText" style={{whiteSpace: "pre-line"}}>
+                        {flashcard.question}
+                    </h5>
                 </div>
             </div>
-            <div className="back" ref={backEl} style={{ height: height }}>
+            <div className="back" ref={backEl} style={{ height: height, whiteSpace: "pre-line" }}>
                 { flashcard.answer }
             </div>
         </div>

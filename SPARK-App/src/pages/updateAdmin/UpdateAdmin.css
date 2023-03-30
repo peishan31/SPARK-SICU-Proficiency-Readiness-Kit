@@ -5,6 +5,13 @@
     margin-right: 20px;
 }
 
+.paginationBox {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
 @media (max-width: 700px) {
     .MuiTableCell-body > span {
         display: block;

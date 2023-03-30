@@ -28,6 +28,7 @@
   .card .front {
     position: absolute;
     padding: 1rem;
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     height: 100%;
     width: 100%;
@@ -40,6 +41,7 @@
   .card .back {
     position: absolute;
     padding: 1rem;
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     transform: rotateY(180deg) translateZ(1px); 
     overflow-y: auto;
