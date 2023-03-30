@@ -177,7 +177,7 @@ const SubchapterContent = () => {
             let rgx = "?![^<>]*>";
             const regex = new RegExp(`(${trim(subchapterSearchInput)})(${rgx})`, 'gi');
             text = text.replaceAll(regex, "<span style=\"background-color:#e8bb49\">" + subchapterSearchInput + "</span>");
-            // console.log(text);
+            
             return text
 
         }

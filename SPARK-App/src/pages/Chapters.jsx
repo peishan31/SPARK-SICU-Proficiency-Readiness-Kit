@@ -26,23 +26,22 @@ const Chapters = ({searchInput}) => {
     useEffect(() => {
         if (!chapterState.chapterlist || chapterState.chapterlist.length === 0) {
             chapterActions.loadChapters();
-        // console.log("INSIDE USEeFFECT",chapterState.chapterlist)
+
         }
         
     }, [])
-    // console.log("testing",chapterState.chapterlist[0])
+
 
     const searchChapters = (searchInput, chapter) => {
         // console.log(searchInput)
         if (searchInput == "" || searchInput==null) {
             return chapter
         } else{
-            // console.log(chapter, " IN CHAPTERS.JSX")
-            // console.log(chapter.subchapters)
+
             let rgx = "?![^<>]*>";
             const regex = new RegExp(`(${trim(searchInput)})(${rgx})`, 'gi');
             for(var subchapters of chapter.subchapters){
-                // console.log(subchapters)
+
                 if (
                     chapter.title.toLowerCase().includes(searchInput.toLowerCase()) ||
                     subchapters.description.toLowerCase().includes(searchInput.toLowerCase()) ||
