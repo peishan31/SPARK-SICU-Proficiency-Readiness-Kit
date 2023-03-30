@@ -25,6 +25,7 @@ const Subchapters = ({ searchInput }) => {
     const chapterState = useAppState().chapters;
     const subchapterState = useAppState().subchapters
     const userState = useAppState().user
+    const userType = userState.currentUser.userType
     
     // overmind actions
     const subchapterActions = useActions().subchapters
@@ -180,9 +181,11 @@ const Subchapters = ({ searchInput }) => {
                 <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
                     <span dangerouslySetInnerHTML={{__html: toTwemoji(chapterState.selectedChapter.currentChapterIcon)}}></span> {chapterState.selectedChapter.currentChapterTitle}
                 </Typography>
-                
 
-                
+                <React.Fragment>
+                    {userType !="junior"
+                        ? 
+
                 <Stack direction="row" spacing={2} ml="auto">
                     {/* <Button variant="outlined">Select</Button> */}
 
@@ -259,6 +262,11 @@ const Subchapters = ({ searchInput }) => {
                             Create new subchapter
                     </Button>
                 </Stack>
+                        : null
+                    }
+                </React.Fragment>
+
+                
             </Grid>
         {
             !subchapterState.subchapterlist || subchapterState.subchapterlist.length === 0   ? 

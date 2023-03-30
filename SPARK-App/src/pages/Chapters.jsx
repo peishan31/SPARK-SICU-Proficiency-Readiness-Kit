@@ -20,7 +20,8 @@ const Chapters = ({searchInput}) => {
 
     const chapterState = useAppState().chapters
     const chapterActions = useActions().chapters
-
+    const userState = useAppState().user
+    const userType = userState.currentUser.userType
 
     useEffect(() => {
         if (!chapterState.chapterlist || chapterState.chapterlist.length === 0) {
@@ -57,15 +58,17 @@ const Chapters = ({searchInput}) => {
 
 
 
-
     return (
         <Box margin={4}>
             <Grid pb={2} display="flex" alignItems="center" mb={1}>
                 <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>Chapters</Typography>
                 
-                <Stack direction="row" spacing={2} ml="auto">
 
-            
+                <React.Fragment>
+                    {
+                        userType !="junior"? 
+                        
+                <Stack direction="row" spacing={2} ml="auto">
 
                     <Button 
                         component={Link}
@@ -87,6 +90,10 @@ const Chapters = ({searchInput}) => {
                             Create new chapter
                     </Button>
                 </Stack>
+                        :null
+                    }
+                </React.Fragment>
+            
             </Grid>
             {
                 !chapterState.chapterlist || chapterState.chapterlist.length === 0 ? ( 
