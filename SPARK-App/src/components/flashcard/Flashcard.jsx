@@ -106,7 +106,6 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
                             
                             <MoreVertIcon 
                                     sx={{color: "#b5b5b5"}} 
-                                    // onClick={handleDelete}
                                     id="basic-button"
                                     aria-controls={open ? 'basic-menu' : undefined}
                                     aria-haspopup="true"
