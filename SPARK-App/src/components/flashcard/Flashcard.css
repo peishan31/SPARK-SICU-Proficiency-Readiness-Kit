@@ -67,7 +67,7 @@
     -webkit-transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
     transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
     overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: auto;
   }
   
   .deleteButton {
