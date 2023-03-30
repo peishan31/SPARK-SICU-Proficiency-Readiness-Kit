@@ -20,6 +20,8 @@ import FlareIcon from '@mui/icons-material/Flare';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { ExitToApp } from '@material-ui/icons';
+import { useMediaQuery } from '@mui/material';
+import './PersistentDrawer.css';
 
 // react-router-dom
 import { Navigate, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
@@ -54,7 +56,6 @@ import OtherErrors from '../../pages/error/OtherErrors';
 import FlashcardList from '../../pages/flashcardList/FlashcardList';
 import CreateFlashcards from '../../pages/createFlashcards/CreateFlashcards';
 import EditFlashcards from '../../pages/editFlashcards/EditFlashcards';// BlackOverlay when navbar is open
-import BlackOverlay from './BlackOverlay';
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -281,7 +282,7 @@ export default function PersistentDrawer({admin, clearUser}) {
                 <Divider />
                 <List>
                     {['Chapters', 'Bookmarks', 'Calculators', 'Flashcards'].map((text, index) => (
-                        <Link key={text} to={text} style={{ textDecoration: 'none'}}>
+                        <Link key={text} to={text} style={{ textDecoration: 'none'}}  onClick={handleDrawerClose}>
                             <ListItem key={text} disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
@@ -364,36 +365,6 @@ export default function PersistentDrawer({admin, clearUser}) {
                 <Box component="main" sx={{ flexGrow: 1 }}>
                     <Main open={open}>
                         <DrawerHeader />
-                        {open ?  //if the navbar is open, show blackoverlay
-                        <BlackOverlay>
-                            <Routes>
-                                <Route path="/" element={<Navigate to={"/Chapters"} />} />
-                                <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput} />} />
-                                <Route path="/Calculators" element={<ViewCalculators />} />
-                                <Route path="/Chapters" element={<Chapters searchInput={chapterState.chapterSearchInput} />} />
-                                <Route path="/subchapterContent" element={<SubchapterContent />} />
-                                <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent />} />
-                                <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput} />} />
-                                <Route path="/Chapters/:chapterId/subchapters/:subchapterId/EditSubchapter" element={<EditSubchapter/>}/>
-                                <Route path="/CreateSubchapter" element={<CreateSubchapter />} />
-                                <Route path="/CreateChapter" element={<CreateChapter />} />
-                                <Route path="/Chapters/:chapterId/EditChapter" element={<EditChapter/>}/>
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/updateAdmin" element={<UpdateAdmin />} />
-                                <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore />} />
-                                <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi />} />
-                                <Route path="/Calculators/rox-index" element={<RoxIndex />} />
-                                <Route path="/Calculators/sofa-score" element={<SofaScore />} />
-                                <Route path="/Calculators/candida-score" element={<CandidaScore />} />
-                                <Route path="/Calculators/parkland-formula" element={<ParklandFormula />} />
-                                <Route path="/Calculators/cam-icu" element={<CamIcu />} />
-                                <Route path="/Sign Out" element={<Navigate to={"/"} />} />
-                                <Route path='*' element={<Error404 />}/>
-                                <Route path='/500' element={<Error500 />}/>
-                                <Route path='/other-errors' element={<OtherErrors />}/>
-                            </Routes>
-                        </BlackOverlay>
-                        : //if navbar is not open
                             <Routes>
                                 <Route path="/" element={<Navigate to={"/Chapters"} />} />
                                 <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput} />} />
@@ -423,7 +394,6 @@ export default function PersistentDrawer({admin, clearUser}) {
                                 <Route path="/Flashcards/createFlashcards" element={<CreateFlashcards />} />
                                 <Route path="/Flashcards/:flashcardId" element={<EditFlashcards />} />
                             </Routes>
-                        }
                     </Main>
                 </Box>
         </Box>
