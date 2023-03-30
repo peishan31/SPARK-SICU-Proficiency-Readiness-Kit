@@ -16,22 +16,17 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import FlareIcon from '@mui/icons-material/Flare';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { ExitToApp } from '@material-ui/icons';
-
-
-
 
 // react-router-dom
 import { Navigate, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
 
 // state management
 import { useAppState, useActions } from '../../overmind';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // pages
 import Home from '../../pages/Home'
@@ -56,12 +51,13 @@ import CamIcu from '../../pages/viewCalculator/CamIcuCalculator'
 import Error404 from '../../pages/error/Error404';
 import Error500 from '../../pages/error/Error500';
 import OtherErrors from '../../pages/error/OtherErrors';
-
-
+import FlashcardList from '../../pages/flashcardList/FlashcardList';
+import CreateFlashcards from '../../pages/createFlashcards/CreateFlashcards';
+import EditFlashcards from '../../pages/editFlashcards/EditFlashcards';// BlackOverlay when navbar is open
+import BlackOverlay from './BlackOverlay';
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
-
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
@@ -161,9 +157,11 @@ export default function PersistentDrawer({admin, clearUser}) {
 
     const [data, setData] = useState('');
 
+    // for navbar
     const [open, setOpen] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(null);
+    const navbarRef = useRef();
 
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -190,6 +188,21 @@ export default function PersistentDrawer({admin, clearUser}) {
         clearUser();
         userActions.updateUser(null);
     }
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+          if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+            setOpen(false);
+          }
+        }
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+
+        // Unbind the event listener on cleanup
+        return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [navbarRef]);
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -241,9 +254,7 @@ export default function PersistentDrawer({admin, clearUser}) {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-
                             <img referrerPolicy="no-referrer" className="profilePicture" src={userState.currentUser.picture}></img>
-
                         </IconButton>
                     </Box>
                 </Toolbar>
@@ -257,6 +268,7 @@ export default function PersistentDrawer({admin, clearUser}) {
                         boxSizing: 'border-box',
                     },
                 }}
+                ref ={navbarRef}
                 variant="persistent"
                 anchor="left"
                 open={open}
@@ -268,7 +280,7 @@ export default function PersistentDrawer({admin, clearUser}) {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Chapters', 'Bookmarks', 'Calculators'].map((text, index) => (
+                    {['Chapters', 'Bookmarks', 'Calculators', 'Flashcards'].map((text, index) => (
                         <Link key={text} to={text} style={{ textDecoration: 'none'}}>
                             <ListItem key={text} disablePadding>
                                 <ListItemButton>
@@ -285,6 +297,8 @@ export default function PersistentDrawer({admin, clearUser}) {
                                                         return <span dangerouslySetInnerHTML={{ __html: toTwemoji("🧮") }}></span>
                                                     case 'Chapters':
                                                         return <span dangerouslySetInnerHTML={{ __html: toTwemoji("📖") }}></span>
+                                                    case 'Flashcards':
+                                                        return <span dangerouslySetInnerHTML={{ __html: toTwemoji("📚") }}></span>
                                                     default:
                                                         return null;
                                                 }
@@ -347,37 +361,71 @@ export default function PersistentDrawer({admin, clearUser}) {
                 </List>
                 <Divider />
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 1 }}>
-                <Main open={open}>
-                    <DrawerHeader />
-                    <Routes>
-                        <Route path="/" element={<Navigate to={"/Chapters"} />} />
-                        <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput} />} />
-                        <Route path="/Calculators" element={<ViewCalculators />} />
-                        <Route path="/Chapters" element={<Chapters searchInput={chapterState.chapterSearchInput} />} />
-                        <Route path="/subchapterContent" element={<SubchapterContent />} />
-                        <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent />} />
-                        <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput} />} />
-                        <Route path="/Chapters/:chapterId/subchapters/:subchapterId/EditSubchapter" element={<EditSubchapter/>}/>
-                        <Route path="/CreateSubchapter" element={<CreateSubchapter />} />
-                        <Route path="/CreateChapter" element={<CreateChapter />} />
-                        <Route path="/Chapters/:chapterId/EditChapter" element={<EditChapter/>}/>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/updateAdmin" element={<UpdateAdmin />} />
-                        <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore />} />
-                        <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi />} />
-                        <Route path="/Calculators/rox-index" element={<RoxIndex />} />
-                        <Route path="/Calculators/sofa-score" element={<SofaScore />} />
-                        <Route path="/Calculators/candida-score" element={<CandidaScore />} />
-                        <Route path="/Calculators/parkland-formula" element={<ParklandFormula />} />
-                        <Route path="/Calculators/cam-icu" element={<CamIcu />} />
-                        <Route path="/Sign Out" element={<Navigate to={"/"} />} />
-                        <Route path='*' element={<Error404 />}/>
-                        <Route path='/500' element={<Error500 />}/>
-                        <Route path='/other-errors' element={<OtherErrors />}/>
-                    </Routes>
-                </Main>
-            </Box>
+                <Box component="main" sx={{ flexGrow: 1 }}>
+                    <Main open={open}>
+                        <DrawerHeader />
+                        {open ?  //if the navbar is open, show blackoverlay
+                        <BlackOverlay>
+                            <Routes>
+                                <Route path="/" element={<Navigate to={"/Chapters"} />} />
+                                <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput} />} />
+                                <Route path="/Calculators" element={<ViewCalculators />} />
+                                <Route path="/Chapters" element={<Chapters searchInput={chapterState.chapterSearchInput} />} />
+                                <Route path="/subchapterContent" element={<SubchapterContent />} />
+                                <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent />} />
+                                <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput} />} />
+                                <Route path="/Chapters/:chapterId/subchapters/:subchapterId/EditSubchapter" element={<EditSubchapter/>}/>
+                                <Route path="/CreateSubchapter" element={<CreateSubchapter />} />
+                                <Route path="/CreateChapter" element={<CreateChapter />} />
+                                <Route path="/Chapters/:chapterId/EditChapter" element={<EditChapter/>}/>
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/updateAdmin" element={<UpdateAdmin />} />
+                                <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore />} />
+                                <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi />} />
+                                <Route path="/Calculators/rox-index" element={<RoxIndex />} />
+                                <Route path="/Calculators/sofa-score" element={<SofaScore />} />
+                                <Route path="/Calculators/candida-score" element={<CandidaScore />} />
+                                <Route path="/Calculators/parkland-formula" element={<ParklandFormula />} />
+                                <Route path="/Calculators/cam-icu" element={<CamIcu />} />
+                                <Route path="/Sign Out" element={<Navigate to={"/"} />} />
+                                <Route path='*' element={<Error404 />}/>
+                                <Route path='/500' element={<Error500 />}/>
+                                <Route path='/other-errors' element={<OtherErrors />}/>
+                            </Routes>
+                        </BlackOverlay>
+                        : //if navbar is not open
+                            <Routes>
+                                <Route path="/" element={<Navigate to={"/Chapters"} />} />
+                                <Route path="/Bookmarks" element={<Bookmarks searchInput={subchapterState.subchapterSearchInput} />} />
+                                <Route path="/Calculators" element={<ViewCalculators />} />
+                                <Route path="/Chapters" element={<Chapters searchInput={chapterState.chapterSearchInput} />} />
+                                <Route path="/subchapterContent" element={<SubchapterContent />} />
+                                <Route path="/Chapters/:chapterId/subchapters/:subchapterId/subchapterContent" element={<SubchapterContent />} />
+                                <Route path="/Chapters/:chapterId/subchapters" element={<Subchapters searchInput={subchapterState.subchapterSearchInput} />} />
+                                <Route path="/Chapters/:chapterId/subchapters/:subchapterId/EditSubchapter" element={<EditSubchapter/>}/>
+                                <Route path="/CreateSubchapter" element={<CreateSubchapter />} />
+                                <Route path="/CreateChapter" element={<CreateChapter />} />
+                                <Route path="/Chapters/:chapterId/EditChapter" element={<EditChapter/>}/>
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/updateAdmin" element={<UpdateAdmin />} />
+                                <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore />} />
+                                <Route path="/Calculators/simplified-pesi" element={<SimplifiedPesi />} />
+                                <Route path="/Calculators/rox-index" element={<RoxIndex />} />
+                                <Route path="/Calculators/sofa-score" element={<SofaScore />} />
+                                <Route path="/Calculators/candida-score" element={<CandidaScore />} />
+                                <Route path="/Calculators/parkland-formula" element={<ParklandFormula />} />
+                                <Route path="/Calculators/cam-icu" element={<CamIcu />} />
+                                <Route path="/Sign Out" element={<Navigate to={"/"} />} />
+                                <Route path='*' element={<Error404 />}/>
+                                <Route path='/500' element={<Error500 />}/>
+                                <Route path='/other-errors' element={<OtherErrors />}/>
+                                <Route path="/Flashcards" element={<FlashcardList />} />
+                                <Route path="/Flashcards/createFlashcards" element={<CreateFlashcards />} />
+                                <Route path="/Flashcards/:flashcardId" element={<EditFlashcards />} />
+                            </Routes>
+                        }
+                    </Main>
+                </Box>
         </Box>
     );
 }

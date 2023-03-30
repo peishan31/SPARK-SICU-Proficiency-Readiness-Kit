@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Button, IconButton, Stack, Grid, Box } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useLocation, useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -19,6 +19,8 @@ const Subchapters = ({ searchInput }) => {
     
     const location = useLocation();
     const navigate = useNavigate();
+    const { chapterId } = useParams();
+
     // overmind states
     const chapterState = useAppState().chapters;
     const subchapterState = useAppState().subchapters
@@ -26,10 +28,12 @@ const Subchapters = ({ searchInput }) => {
     
     // overmind actions
     const subchapterActions = useActions().subchapters
+    const chapterActions = useActions().chapters
 
     // get current chapter from overmind state
     const currentChapter = chapterState.selectedChapter
     const currentChapterID = chapterState.selectedChapter.currentChapterId
+    // console.log("Current Chapter: ", currentChapter)
     // console.log("Current Chapter: ", currentChapter)
 
     // extract currentUser from session storage
@@ -42,6 +46,31 @@ const Subchapters = ({ searchInput }) => {
     // const [subchapters, setSubchapters] = useState([]);
 
     const BASE_URL = import.meta.env.VITE_API_URL
+
+    if (!currentChapter) {
+        console.log("There is no current chapter in overmind")
+        console.log("This is the chapter Id in the URL", chapterId)
+
+        let selectedChapter = {}
+
+        axios.get(BASE_URL + "/chapters/" + chapterId)
+        .then(res=> {
+            console.log(res.data)
+
+            selectedChapter.currentChapterIcon = res.data.chapterIcon
+            selectedChapter.currentChapterId = res.data._id
+            selectedChapter.currentChapterTitle = res.data.title
+
+            console.log(selectedChapter)
+            chapterActions.setSelectedChapter(selectedChapter)
+            sessionStorage.setItem("currentChapterId", res.data._id)
+            sessionStorage.setItem('selectedChapter', JSON.stringify(selectedChapter));
+
+            console.log(chapterState.selectedChapter)
+        }).catch(err=>{
+            console.err
+        })
+    }
     
     useEffect(() => {
         // if currentChapter does not exist, then reroute to the chapters page.
@@ -52,7 +81,7 @@ const Subchapters = ({ searchInput }) => {
         }
 
         // extract currentchapter details
-        const chapterId = currentChapter.currentChapterId
+        // const chapterId = currentChapter.currentChapterId
 
         subchapterActions.loadAllSubchaptersWithUserId({chapterId, userId})
         // get all subchapters
@@ -121,6 +150,23 @@ const Subchapters = ({ searchInput }) => {
     }
 
     filtered = subchapterState.subchapterlist.filter((subchapter) => searchSubchapters(searchInput, subchapter))
+
+    if (!currentChapter) {
+        return (
+            <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '200px',
+                        margin: '0 auto',
+                    }}
+                >
+                    <CircularProgress color='info' size={40} thickness={4} />
+            </Box>
+        
+        )
+    }
 
 
     return (
@@ -215,7 +261,7 @@ const Subchapters = ({ searchInput }) => {
                 </Stack>
             </Grid>
         {
-            !subchapterState.subchapterlist || subchapterState.subchapterlist.length === 0 ? 
+            !subchapterState.subchapterlist || subchapterState.subchapterlist.length === 0   ? 
             ( 
                 <Box
                     sx={{
