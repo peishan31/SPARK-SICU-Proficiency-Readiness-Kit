@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 
 import chapterRouter from './routes/chapterRouter.js'
 import userRouter from './routes/userRouter.js'
+import flashcardRouter from './routes/flashcardRouter.js'
 import calculatorRouter from './routes/calculatorRouter.js'
 import { connectDB } from './config/db.js'
 import User from './models/UserModel.js';
@@ -54,5 +55,7 @@ app.use("/calculator", calculatorRouter)
 // create subrouter
 app.use("/chapters", chapterRouter)
 
+// create flashcard
+app.use("/flashcards", flashcardRouter)
 
 app.listen(8080, () => console.log("listening on port 8080"))
