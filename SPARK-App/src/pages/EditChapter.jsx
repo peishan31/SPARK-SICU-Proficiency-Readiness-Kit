@@ -29,8 +29,8 @@ export default function EditChapter() {
     let chapterTitles = chapterState.chapterlist.map(function(element){
         return (`${element.title}`).toLowerCase();
     })
-    
-    console.log(chapterTitles.includes(("general").toLowerCase()));
+    // console.log("HELLOOO",)
+    // console.log(chapterTitles.includes(("general").toLowerCase()));
 
     const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -189,6 +189,28 @@ export default function EditChapter() {
                                 }}
                             >
                             Save
+                            </Button>
+
+                            
+                            <Button
+                                variant='outlined'
+                                onClick={() => {
+                                    navigate(-1);
+                                }}
+                                component='span'
+                                sx={{
+                                    left: 15,
+                                    color: '#41ADA4',
+                                    backgroundColor: 'white',
+                                    borderColor: '#41ADA4',
+                                    '&:hover': {
+                                        backgroundColor: '#41ADA4', // Set background color on hover
+                                        borderColor: '#41ADA4 !important', // Set border color on hover
+                                        color: 'white',
+                                    },
+                                }}
+                            >
+                            Cancel
                             </Button>
                         </Box>
                     </Grid>

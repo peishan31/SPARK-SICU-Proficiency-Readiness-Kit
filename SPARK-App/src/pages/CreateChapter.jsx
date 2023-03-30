@@ -4,10 +4,9 @@ import Sidebar from "../components/sidebar/Sidebar"
 import Widget from "../components/widget/Widget"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {Button, Box, TextField, MenuItem, Grid, Input, CircularProgress, IconButton, Typography} from '@mui/material';
+import {Button, Box, Stack, TextField, MenuItem, Grid, Input, CircularProgress, IconButton, Typography} from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddIcon from '@mui/icons-material/Add';
-import "./home.css"
 import { useAppState } from '../overmind';
 
 
@@ -60,90 +59,64 @@ export default function CreateChapter() {
     }, [])
 
     return (
-        <div className="home">
+        
+        <Box margin={4}>
+            
             {loading ? (
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100vh',
-                        width: '200px',
-                        margin: '0 auto',
-                    }}
-                >
-                    <CircularProgress color='info' size={40} thickness={4} />
-                </Box>
+                <Grid pb={2} display="flex" alignItems="center" mb={1}>
+                    <CircularProgress color='info' size={40} thickness={4} />  
+                </Grid>
             ) : (
-            <div className="homeContainer">
-               <div className='pageTitle'>
-                        <Grid pb={2} display="flex" alignItems="center" mb={1}>
-                            <IconButton onClick={
-                                () => { navigate(-1) }}>
-                                <ArrowBackIcon />
-                            </IconButton>
-                            <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
-                                Add Chapter
-                            </Typography>
+                <Grid pb={2} alignItems="center" mb={1}>
+                    <Grid item xs={12} display="flex" sx={{marginBottom: "35px"}}>
+                        <IconButton onClick={
+                            () => { navigate(-1) }}>
+                            <ArrowBackIcon />
+                        </IconButton>   
+                        <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>Add Chapter</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container>
+                            <Grid item className="errorMessage" style={{marginBottom: '20px'}}>
+                                {errorMessage}
+                            </Grid>
+                            <Grid item xs={12} md={9} lg={9}>
+                                <TextField sx={{marginBottom: "2ch"}}
+                                    fullWidth
+                                    label='Title'
+                                    variant='outlined'
+                                    value={chapterTitle}
+                                    onChange={(event) =>
+                                        setChapterTitle(event.target.value)
+                                    }
+                                ></TextField>
+                            </Grid>
                         </Grid>
-                        {/* <p className='fs-1 fw-bold'>Add Subchapter</p> */}
-                    </div>
-                    <div className="errorMessage">
-                        {errorMessage}
-                    </div>
-                    <Grid item xs={6} sm={12} lg={12}>
-                        <Box
-                            component='form'
-                            sx={{
-                                '& .MuiTextField-root': {
-                                    width: '101ch',
-                                    marginTop: '2ch',
-                                },
-                            }}
-                        >
-                            <TextField
-                                label='Title'
-                                variant='outlined'
-                                value={chapterTitle}
-                                onChange={(event) =>
-                                    setChapterTitle(event.target.value)
-                                }
-                            ></TextField>
-                        </Box>
                     </Grid>
-                    <Grid item xs={6} sm={12} lg={12}>
-                        <Box
-                            component='form'
-                            sx={{
-                                '& .MuiTextField-root': {
-                                    width: '101ch',
-                                    marginTop: '2ch',
-                                },
-                            }}
-                        >
-                            <TextField label='Icon'
-                                variant='outlined'
-                                value={chapterIcon}
-                                onChange={(event) =>
-                                    setChapterIcon(event.target.value)
-                                }
-                            ></TextField>
-                        </Box>
+                    <Grid item xs={12} >
+                        <Grid container>
+                            <Grid item xs={12} md={9} lg={9}>
+                                <TextField fullWidth
+                                    label='Icon' 
+                                    variant='outlined'
+                                    value={chapterIcon}
+                                    onChange={(event) =>
+                                        setChapterIcon(event.target.value)
+                                    }
+                                    inputProps={{ maxLength: 2 }}
+                                ></TextField>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                
-                    <Grid item xs={12} sm={12} lg={12}>
-                        <Box
-                            sx={{
-                                marginTop: '5ch',
+                    <Grid item xs={12} >
+                        <Button 
+                            variant='outlined'
+                            onClick={() => {
+                                addChapter();
                             }}
-                        >
-                            <Button
-                                variant='outlined'
-                                onClick={() => {
-                                    addChapter();
-                                }}
                                 component='span'
                                 sx={{
+                                    marginTop: '5ch',
                                     color: 'white',
                                     backgroundColor: '#41ADA4',
                                     borderColor: '#41ADA4',
@@ -155,11 +128,10 @@ export default function CreateChapter() {
                                 }}
                             >
                             Save
-                            </Button>
-                        </Box>
+                        </Button>
                     </Grid>
-                </div>
+                </Grid>
             )}
-        </div>
+        </Box>
     );
 }
