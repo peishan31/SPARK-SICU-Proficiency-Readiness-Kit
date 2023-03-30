@@ -11,8 +11,8 @@
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
 
-    -webkit-perspective: 1000;
-    perspective: 1000;
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
 
     -webkit-transform: rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0));
     transform: rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0));
@@ -33,6 +33,7 @@
   
   .card.flip {
     --rotate-y: 180deg;
+    --translate-z: 1px;
   }
 
 
@@ -62,8 +63,8 @@
 
   .card .back {
     /* anything that is flipped 180 deg is going to be hidden */
-    -webkit-transform: rotateY(180deg); 
-    transform: rotateY(180deg); 
+    -webkit-transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
+    transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
     overflow-y: auto;
   }
   
