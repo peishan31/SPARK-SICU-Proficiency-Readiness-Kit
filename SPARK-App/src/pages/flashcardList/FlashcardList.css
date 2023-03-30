@@ -19,5 +19,9 @@
 .dropdown {
     margin-right: 20px;
     position: relative;
-    z-index: 10000px;
+    z-index: 1000000;
+}
+
+.css-6hp17o-MuiList-root-MuiMenu-list {
+    z-index: 1000000;
 }
