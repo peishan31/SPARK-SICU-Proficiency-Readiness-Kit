@@ -33,7 +33,7 @@
   
   .card.flip {
     --rotate-y: 180deg;
-    --translate-z: 1px;
+    --translate-z: 0.2px;
   }
 
 
