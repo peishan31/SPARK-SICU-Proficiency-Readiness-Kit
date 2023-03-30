@@ -49,141 +49,105 @@ const CreateFlashcards = () => {
         navigate("/Flashcards");
     }
 
-
     return (
-        <div>
-            {
-                loading ? (
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            height: '100vh',
-                            width: '200px',
-                            margin: '0 auto',
-                        }}
-                    >
-                        <CircularProgress color='info' size={40} thickness={4} />
-                    </Box>
-                ) : (
-                    <div className='homeContainer'>
-                            <div className='pageTitle'>
-                                <Grid pb={2} display="flex" alignItems="center" mb={1}>
-                                    <IconButton onClick={
-                                        () => { navigate(-1) }}>
-                                        <ArrowBackIcon />
-                                    </IconButton>
-                                    <Typography style={{ fontSize: '25px', fontWeight: 'bold' }}>
-                                        Add Flashcards
-                                    </Typography>
+        <Box margin={4}>
+            
+            {loading ? (
+                <Grid pb={2} display="flex" alignItems="center" mb={1}>
+                    <CircularProgress color='info' size={40} thickness={4} />  
+                </Grid>
+            ) : (
+                <Grid pb={2} alignItems="center" mb={1}>
+                    <Grid item xs={12} display="flex" sx={{marginBottom: "35px"}}>
+                        <IconButton onClick={
+                            () => { navigate(-1) }}>
+                            <ArrowBackIcon />
+                        </IconButton>
+                        <Typography style={{ fontSize: '25px', fontWeight: 'bold' }}>
+                            Add Flashcards
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container>
+                            {/* <Grid item className="errorMessage" style={{marginBottom: '20px'}}>
+                                {errorMessage}
+                            </Grid> */}    
+                            <Grid item xs={12} >
+                                <Grid container>
+                                    <Grid item xs={12} md={9} lg={9}>
+                                        <TextField sx={{marginBottom: "2ch"}}
+                                            fullWidth
+                                            value={category}
+                                            onChange={(event) =>
+                                                setCategory(event.target.value)
+                                            }
+                                            label='Category'
+                                            // error={category.length < 1}
+                                        ></TextField>
+                                    </Grid>
                                 </Grid>
-                            </div>
-                            {/* flashcard question */}
-                            <Grid item xs={6} sm={12} lg={12}>
-                                <Box
-                                    component='form'
-                                    sx={{
-                                        '& .MuiTextField-root': {
-                                            width: '101ch',
-                                            marginTop: '2ch',
-                                        },
-                                    }}
-                                >
-                                    <TextField
-                                        label='Flashcard Question'
-                                        variant='outlined'
-                                        onChange={(event) => {
-                                            setFlashcardQuestion(event.target.value);
-                                        }}
-                                        error={flashcardQuestion.length < 1}
-                                    ></TextField>
-                                </Box>
                             </Grid>
-                            {/* Category */}
-                            <Grid item xs={12} sm={12} lg={12}>
-                                <Box
-                                    component='form'
-                                    sx={{
-                                        '& .MuiTextField-root': {
-                                            width: '25ch',
-                                            marginTop: '2ch',
-                                        },
+                            <Grid item xs={12} md={9} lg={9}>
+                                <TextField sx={{marginBottom: "2ch"}}
+                                    fullWidth
+                                    label='Flashcard Question'
+                                    variant='outlined'
+                                    onChange={(event) => {
+                                        setFlashcardQuestion(event.target.value);
                                     }}
-                                >
-                                    <TextField
-                                        value={category}
-                                        onChange={(event) =>
-                                            setCategory(event.target.value)
-                                        }
-                                        label='Category'
-                                        error={category.length < 1}
-                                    >
-                                    </TextField>
-                                </Box>
+                                    // error={flashcardQuestion.length < 1}
+                                ></TextField>
                             </Grid>
-                            {/* flashcard answer */}
-                            <Grid item xs={6} sm={12} lg={12}>
-                                <Box
-                                    component='form'
-                                    sx={{
-                                        '& .MuiTextField-root': {
-                                            width: '101ch',
-                                            marginTop: '2ch',
-                                        },
+                        </Grid>
+                    </Grid>
+                
+                    <Grid item xs={12} >
+                        <Grid container>
+                            <Grid item xs={12} md={9} lg={9}>
+                                <TextField fullWidth
+                                    id="outlined-textarea"
+                                    label="Answer"
+                                    placeholder="Placeholder"
+                                    rows={8}
+                                    multiline
+                                    onChange={(event) => {
+                                        setFlashcardAnswer(event.target.value);
                                     }}
-                                >
-                                    <TextField
-                                        id="outlined-textarea"
-                                        label="Answer"
-                                        placeholder="Placeholder"
-                                        rows={8}
-                                        multiline
-                                        onChange={(event) => {
-                                            setFlashcardAnswer(event.target.value);
-                                        }}
-                                        error={flashcardAnswer.length < 1}
-                                    />
-                                </Box>
+                                    // error={flashcardAnswer.length < 1}
+                                ></TextField>
                             </Grid>
-                            
-                            {/* Save button */}
-                            <Grid item xs={12} sm={12} lg={12}>
-                                <Box
-                                    sx={{
-                                        marginTop: '5ch',
-                                    }}
-                                >
-                                    <Button
-                                        variant='outlined'
-                                        onClick={() => {
-                                            addFlashcard();
-                                        }}
-                                        component='span'
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: '#41ADA4',
-                                            borderColor: '#41ADA4',
-                                            '&:hover': {
-                                                backgroundColor: 'white', // Set background color on hover
-                                                borderColor: '#41ADA4 !important', // Set border color on hover
-                                                color: '#41ADA4',
-                                            },
-                                        }}
-                                        disabled={
-                                            flashcardQuestion.length < 1 ||
-                                            flashcardAnswer.length < 1 ||
-                                            category.length < 1
-                                        }
-                                    >
-                                        Save
-                                    </Button>
-                                </Box>
-                            </Grid>
-                    </div>
-                )
-            }
-        </div>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Button
+                            variant='outlined'
+                            onClick={() => {
+                                addFlashcard();
+                            }}
+                            component='span'
+                            sx={{
+                                marginTop: '5ch',
+                                color: 'white',
+                                backgroundColor: '#41ADA4',
+                                borderColor: '#41ADA4',
+                                '&:hover': {
+                                    backgroundColor: 'white', // Set background color on hover
+                                    borderColor: '#41ADA4 !important', // Set border color on hover
+                                    color: '#41ADA4',
+                                },
+                            }}
+                            // disabled={
+                            //     flashcardQuestion.length < 1 ||
+                            //     flashcardAnswer.length < 1 ||
+                            //     category.length < 1
+                            // }
+                        >
+                            Save
+                        </Button>
+                    </Grid>
+                </Grid>
+            )}
+        </Box>
     )
 }
 
