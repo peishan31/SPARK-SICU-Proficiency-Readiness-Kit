@@ -65,32 +65,39 @@ const Chapters = ({searchInput}) => {
     }};
     filtered = chapterState.chapterlist.filter((chapter) => searchChapters(searchInput,chapter))
 
-
+    //button's styling
+    const styles = {
+        button: {
+            color: 'white',
+            backgroundColor: 'white',
+            borderColor: '#41ADA4 !important',
+            color: '#41ADA4',
+            '&:hover': {
+                backgroundColor: '#41ADA4',
+                borderColor: '#41ADA4',
+                color: 'white',
+            },
+            '@media (max-width: 600px)': {
+                padding: '5px',
+                fontSize: '13px',
+            },
+        },
+    };
 
 
     return (
         <Box margin={4}>
             <Grid pb={2} display="flex" alignItems="center" mb={1}>
-                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>Chapters</Typography>
+                <Typography pr={2} style={{fontSize: '25px', fontWeight: 'bold'}}>Chapters</Typography>
                 <Stack direction="row" spacing={2} ml="auto">
                     <Button 
                         component={Link}
                         to="/CreateChapter"
                         variant="outlined"
-                        sx={{
-                            color: 'white',
-                            backgroundColor: 'white', // Set background color on hover
-                            borderColor: '#41ADA4 !important', // Set border color on hover
-                            color: '#41ADA4',
-                            '&:hover': {
-                                backgroundColor: '#41ADA4',
-                                borderColor: '#41ADA4',
-                                color: 'white',
-                            },
-                        }}
+                        sx={styles.button}
                         >
                         <AddIcon />
-                            Create new chapter
+                            Create chapter
                     </Button>
                 </Stack>
             </Grid>

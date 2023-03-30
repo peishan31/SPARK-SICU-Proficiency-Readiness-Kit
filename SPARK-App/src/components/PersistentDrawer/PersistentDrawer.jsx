@@ -282,7 +282,7 @@ export default function PersistentDrawer({admin, clearUser}) {
                 <Divider />
                 <List>
                     {['Chapters', 'Bookmarks', 'Calculators', 'Flashcards'].map((text, index) => (
-                        <Link key={text} to={text} style={{ textDecoration: 'none'}}  onClick={handleDrawerClose}>
+                        <Link key={text} to={text} style={{ textDecoration: 'none'}} onClick={handleDrawerClose}>
                             <ListItem key={text} disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
@@ -314,7 +314,7 @@ export default function PersistentDrawer({admin, clearUser}) {
 
                     {
                         admin &&
-                        <Link to={"/updateAdmin"} style={{ textDecoration: 'none' }}>
+                        <Link to={"/updateAdmin"} style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                             <ListItem disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
                                     sx={{
