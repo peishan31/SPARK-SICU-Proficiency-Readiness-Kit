@@ -17,7 +17,20 @@ const SUBCHAPTER_EMPTY_CONTENT = {
     "thumbnailPublicId": "",
     "thumbnail": "",
     "description": "",
-    "content": "" 
+    "content": "",
+    "lastModifiedDateTime": "",
+    "lastModifiedUserID": "",
+    "lastModifiedUsername": "" 
+}
+
+const SUBCHAPTER_UPDATE_CONTENT = {
+    "subchapterTitle": "Subchapter Id 2 Updated",
+    "thumbnailPublicId": "",
+    "thumbnail": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "description": "Subchapter 2 description",
+    "content": "<h1> This is html content in subchapter 2 for chapter 2 </h1>",
+    "lastModifiedUserID": "115424434485045779771",
+    "selectedChapter": "6415b83df79d4564b394fbea"
 }
 
 const getAllSubchaptersForChapter = async (chapterId) => {
@@ -40,6 +53,10 @@ const deleteSubchapterContent = async (chapterId, subchapterId) => {
     return response.status;
 }
 
+const updateSubchapterContent = async (chapterId, subchapterId, content) => {
+    const response = await axios.put(API_URL + `/chapters/${chapterId}/subchapters/${subchapterId}`, content);
+    return response;
+}
 
 describe("Testing getAllChapters route", () => {
     it("should return all subchapter of chapter with chapter ID", async () => {
@@ -68,7 +85,7 @@ describe("Testing add empty subchapter content route", () => {
 })
 
 
-describe("Testing add new subchapter and delete subchapter content route", () => {
+describe("Testing create new subchapter, edit, and delete subchapter content route", () => {
 
     let newSubchapterId = ""
     // Increase the timeout for this test case to 30 seconds
@@ -76,6 +93,12 @@ describe("Testing add new subchapter and delete subchapter content route", () =>
 
     it("should return a status of 200 indicating that record has been successfully inserted", async () => {
         const res = await insertSubchapterContent(CHAPTER_ID, SUBCHAPTER_CONTENT);
+        expect(res.status).toEqual(200)
+        newSubchapterId = res.data
+    })
+
+    it("should return a status of 200 indicating that record has been successfully edited", async () => {
+        const res = await updateSubchapterContent(CHAPTER_ID, newSubchapterId, SUBCHAPTER_UPDATE_CONTENT);
         expect(res.status).toEqual(200)
         newSubchapterId = res.data
     })

@@ -51,17 +51,46 @@ chapterRouter.get('/:chapterId', async (req, res) => {
 chapterRouter.post("/", async (req, res) => {
     try {
         const { title, description, chapterIcon, subchapters } = req.body;
+        if (title.length === 0 || title == undefined || title == "" || 
+            chapterIcon.length===0 || chapterIcon == undefined || chapterIcon == "") { 
+                return res.status(404).json({ msg: 'Fields cannot be empty' })
+        }
         const newChapter = new Chapter({
             title,
-            description,
+            // description,
             chapterIcon,
-            subchapters
+            // subchapters
         });
         const chapter = await newChapter.save();
         res.status(201).json(chapter);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error')
+    }
+});
+
+// @description: Update a chapter
+// @route PUT chapters/
+// Working!
+chapterRouter.put("/:chapterId", async (req, res) => {
+    console.log("edit chapter")
+    try {
+        const chapterId = req.params.chapterId;
+        let { title, chapterIcon } = req.body;
+        if (title.length === 0 || title == undefined || title == "" || 
+            chapterIcon.length===0 || chapterIcon == undefined || chapterIcon == "") { 
+                return res.status(404).json({ msg: 'Fields cannot be empty' })
+        }
+
+        const chapter = await Chapter.findByIdAndUpdate(
+            { _id: chapterId },
+            { $set: { title: title, chapterIcon: chapterIcon }},
+            { new: true }
+        );
+        res.status(200).json(chapter);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error')
     }
 });
 

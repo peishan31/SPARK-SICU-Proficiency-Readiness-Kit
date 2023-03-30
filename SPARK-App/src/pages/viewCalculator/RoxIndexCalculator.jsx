@@ -9,14 +9,22 @@ import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import TextField from '@mui/material/TextField';
 import CalcResultCard from '../../components/calculator/CalcResultCard';
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
 function Tab1Content(props){
 
     const {formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
 
     const handleResetForm = (e) => {
         const initialFormData = {
-            weight: "",
-            bodyBurnPercentage: ""
+            spo: "",
+            fio: "",
+            respiratoryRate: ""
         };
         setFormData(initialFormData);
     }
@@ -107,41 +115,88 @@ function Tab1Content(props){
 }
 function Tab2Content(props){
     const {formData} = props;
+
+    function createData( data ) {
+        return { data };
+    }
+
+    function createData2( type, flowRates, fiOxygen ) {
+        return { type, flowRates, fiOxygen };
+    }
+          
+    const rows2 = [
+        createData2('0-4', '4%', '1%'),
+        createData2('5-9', '8%', '3%'),
+        createData2('10-14', '15%', '7%'),
+        createData2('15-19', '25%', '12%'),
+        createData2('20-24', '40%', '30%'),
+        createData2('25-29', '55%', '35%'),
+        createData2('30-34', '73%', '73%'),
+        createData2('>34', '85%', '88%')
+    ];
+              
+    const rows = [
+        createData(
+            <div>
+                <Typography style={{fontWeight: 'bold'}}>Formula</Typography>
+                <ul>
+                    <li>ROX Index = SpO₂/FiO₂*, % / Respiratory rate, breaths/min</li>
+                    <li>*Estimating FiO₂ from oxygen flow/delivery rates:</li>
+                </ul>
+                <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{fontWeight: 'bold'}} align="center">Type of O₂ delivery</TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} align="center">Flow rates, L/min</TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} align="center">FiO₂</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {rows2.map((row) => (
+                            <TableRow
+                            key={row.type}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell align="center">{row.type}</TableCell>
+                                <TableCell align="center">{row.flowRates}</TableCell>
+                                <TableCell align="center">{row.fiOxygen}</TableCell>
+                            </TableRow>
+                        ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
+        ),
+        createData(
+            <div>    
+                <Typography style={{fontWeight: 'bold'}}>Facts & Figures</Typography>
+                <Typography>Interpretation:</Typography>
+                <ul>
+                    <li>ROX Index ≥4.88 measured at 2, 6, or 12 hours after high-flow nasal cannula (HFNC) initiation is associated with a lower risk for intubation.</li>
+                    <li>For a ROX Index &lt;3.85, risk of HFNC failure is high, and intubating the patient should be discussed. </li>
+                    <li>If ROX Index 3.85 to &lt;4.88, the scoring could be repeated one or two hours later for further evaluation.</li>
+                </ul>
+            </div>
+        )
+    ];
+
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2} justifyContent="center" alignItems="center">
-                <Grid item xs={12}>
-                    <p pb={2}>Formula </p>
-                    <p>ROX Index = SpO₂/FiO₂*, % / Respiratory rate, breaths/min</p>
-                </Grid>
-                <Grid item xs={12}>Results</Grid>
-                
-                <Grid item xs={3}>
-                    <strong>ROX Index</strong>
-                </Grid>
-                <Grid item xs={9}>
-                    <strong>Interpretation</strong>
-                </Grid>
-                <Grid item xs={3}>
-                    ≥4.88
-                </Grid>
-                <Grid item xs={9}>
-                    ROX Index ≥4.88 measured at 2, 6, or 12 hours after high-flow nasal cannula (HFNC) initiation is associated with a lower risk for intubation
-                </Grid>
-                <Grid item xs={3}>
-                    {'<'}3.85
-                </Grid>
-                <Grid item xs={9}>
-                    For a ROX Index {'<'}3.85, risk of HFNC failure is high, and intubating the patient should be discussed. 
-                </Grid>
-                <Grid item xs={3}>
-                3.85 to {'<'}4.88
-                </Grid>
-                <Grid item xs={9}>
-                If ROX Index 3.85 to {'<'}4.88, the scoring could be repeated one or two hours later for further evaluation.
-                </Grid>
-            </Grid>
-        </Box>
+        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableBody>
+                        {rows.map((row) => (
+                            <TableRow>
+                                <TableCell component="th" scope="row">
+                                    {row.data}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+    </div>
     )
 }
 const RoxIndex = () => {

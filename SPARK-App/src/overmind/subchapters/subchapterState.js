@@ -1,5 +1,7 @@
 export const state = {
     subchapterlist: [],
     selectedSubchapterId: null,
-    subchapterSearchInput: ""
+    subchapterSearchInput: "",
+    bookmarkId: null,
+    isBookmarked: null
 }
