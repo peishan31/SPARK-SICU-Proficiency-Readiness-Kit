@@ -66,6 +66,15 @@
     -webkit-transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
     transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    .card .back{
+                white-space: nowrap;
+                overflow: scroll;
+                -webkit-overflow-scrolling: touch;  
+              }
   }
   
   .deleteButton {
