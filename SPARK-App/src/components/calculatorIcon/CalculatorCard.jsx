@@ -15,7 +15,8 @@ const CalculatorCard = ({calculator}) => {
                     },
                     "&:hover .cardText": {
                         color: "white"
-                    }
+                    },
+                    cursor: 'pointer'
                     }}>
             <CardContent sx={{ m: 1.5 }}>
                 {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
