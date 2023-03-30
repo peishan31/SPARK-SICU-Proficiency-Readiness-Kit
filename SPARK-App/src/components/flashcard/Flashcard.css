@@ -65,7 +65,7 @@
     /* anything that is flipped 180 deg is going to be hidden */
     -webkit-transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
     transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
-    overflow-y: auto;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   }
   
