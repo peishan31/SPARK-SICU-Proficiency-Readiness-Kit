@@ -22,8 +22,9 @@ function Tab1Content(props){
 
     const handleResetForm = (e) => {
         const initialFormData = {
-            weight: "",
-            bodyBurnPercentage: ""
+            spo: "",
+            fio: "",
+            respiratoryRate: ""
         };
         setFormData(initialFormData);
     }
