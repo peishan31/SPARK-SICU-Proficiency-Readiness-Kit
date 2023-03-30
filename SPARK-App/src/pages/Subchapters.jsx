@@ -111,7 +111,7 @@ const Subchapters = ({ searchInput }) => {
     };
 
     const searchSubchapters = (searchInput, subchapter) => {
-        // console.log(searchInput, "SUBCHAPTERS")
+        
         let rgx = "?![^<>]*>";
         const regex = new RegExp(`(${trim(searchInput)})(${rgx})`, 'gi');
         if (searchInput == "") {
@@ -128,7 +128,7 @@ const Subchapters = ({ searchInput }) => {
 
 
     async function deleteChapter(){
-        // console.log("DELTE CHAPTER",currentChapterID)
+        
         if (confirm("Are you sure you want to delete this chapter?")) {
             await axios.delete(
                 BASE_URL + `/chapters/` + currentChapterID , {
@@ -137,9 +137,8 @@ const Subchapters = ({ searchInput }) => {
             ).then(
                 res => {
                     alert("Chapter deleted successfully!")
-                    // navigate(-1);
                     window.location.href = "/Chapters"
-                    //return 200
+                    
                 }
             ).catch(
                 err => {
