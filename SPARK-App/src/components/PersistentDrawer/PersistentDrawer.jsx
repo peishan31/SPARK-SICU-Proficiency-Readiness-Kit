@@ -36,6 +36,7 @@ import { useState } from 'react';
 // pages
 import Home from '../../pages/Home'
 import Chapters from '../../pages/Chapters'
+import EditChapter from '../../pages/EditChapter';
 import Subchapters from '../../pages/Subchapters'
 import ViewCalculators from '../../pages/viewCalculator/ViewCalculators'
 import Bookmarks from '../../pages/Bookmarks'
@@ -360,6 +361,7 @@ export default function PersistentDrawer({admin, clearUser}) {
                         <Route path="/Chapters/:chapterId/subchapters/:subchapterId/EditSubchapter" element={<EditSubchapter/>}/>
                         <Route path="/CreateSubchapter" element={<CreateSubchapter />} />
                         <Route path="/CreateChapter" element={<CreateChapter />} />
+                        <Route path="/Chapters/:chapterId/EditChapter" element={<EditChapter/>}/>
                         <Route path="/login" element={<Login />} />
                         <Route path="/updateAdmin" element={<UpdateAdmin />} />
                         <Route path="/Calculators/apache-ii-score" element={<ApacheIIScore />} />
