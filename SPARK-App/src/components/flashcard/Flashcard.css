@@ -35,7 +35,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: rotateY(0deg); 
+    transform: rotateY(0deg) translateZ(1px); 
   }
 
   .card .back {
@@ -43,7 +43,7 @@
     padding: 1rem;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    transform: rotateY(180deg); 
+    transform: rotateY(180deg) translateZ(1px); 
     overflow-y: auto;
   }
   
