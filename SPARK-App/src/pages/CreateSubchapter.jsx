@@ -16,8 +16,6 @@ import { Editor } from '@tinymce/tinymce-react';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DOMPurify from 'dompurify';
-import './home.css';
-import './CreateSubchapter.css';
 import { useAppState } from '../overmind';
 
 export default function CreateSubchapter() {
@@ -137,209 +135,177 @@ export default function CreateSubchapter() {
         });
     };
 
+    
     return (
-        <div className='home'>
+        <Box margin={4}>
+            
             {loading ? (
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100vh',
-                        width: '200px',
-                        margin: '0 auto',
-                    }}
-                >
-                    <CircularProgress color='info' size={40} thickness={4} />
-                </Box>
+                <Grid pb={2} display="flex" alignItems="center" mb={1}>
+                    <CircularProgress color='info' size={40} thickness={4} />  
+                </Grid>
             ) : (
-                <div className='homeContainer'>
-                    <div className='pageTitle'>
-                        <Grid pb={2} display="flex" alignItems="center" mb={1}>
-                            <IconButton onClick={
-                                () => { navigate(-1) }}>
-                                <ArrowBackIcon />
-                            </IconButton>
-                            <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
-                                Add Subchapter
-                            </Typography>
-                        </Grid>
-                        {/* <p className='fs-1 fw-bold'>Add Subchapter</p> */}
-                    </div>
-                    <div className="errorMessage">
-                        {errorMessage}
-                    </div>
-                    <Grid item xs={6} sm={12} lg={12}>
-                        <Box
-                            component='form'
-                            sx={{
-                                '& .MuiTextField-root': {
-                                    width: '101ch',
-                                    marginTop: '2ch',
-                                },
-                            }}
-                        >
-                            <TextField
-                                label='Title'
-                                variant='outlined'
-                                value={subchapTitle}
-                                onChange={(event) =>
-                                    setSubchapTitle(event.target.value)
-                                }
-                            ></TextField>
-                        </Box>
+                <Grid pb={2} alignItems="center" mb={1}>
+                    <Grid item xs={12} display="flex" sx={{marginBottom: "35px"}}>
+                        <IconButton onClick={
+                            () => { navigate(-1) }}>
+                            <ArrowBackIcon />
+                        </IconButton>
+                        <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
+                            Add Subchapter
+                        </Typography>
                     </Grid>
-                    <Grid item xs={12} sm={12} lg={12}>
-                        <Box
-                            sx={{
-                                marginTop: '2ch',
-                            }}
-                        >
-                            <Input
-                                type='file'
-                                className='inputThumbnail'
-                                inputProps={{ accept: 'image/*' }}
-                                id='file-upload'
-                                onChange={(e) => handleFileUpload(e)}
-                                sx={{
-                                    display: 'none',
-                                }}
-                            />
-                            <label htmlFor='file-upload'>
-                                <Button
-                                    startIcon={<CloudUploadIcon />}
-                                    component='span'
-                                    variant='outlined'
+                    <Grid item xs={12}>
+                        <Grid container>
+                            <Grid item className="errorMessage" style={{marginBottom: '20px'}}>
+                                {errorMessage}
+                            </Grid>  
+                            <Grid item xs={12} >
+                                <Grid container>
+                                    <Grid item xs={12} md={9} lg={9}>
+                                        <TextField sx={{marginBottom: "2ch"}}
+                                            fullWidth
+                                            label='Title'
+                                            variant='outlined'
+                                            value={subchapTitle}
+                                            onChange={(event) =>
+                                                setSubchapTitle(event.target.value)
+                                            }
+                                        ></TextField>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={12} md={9} lg={9} style={{marginBottom: "2ch"}}>
+                                <Input
+                                    type='file'
+                                    className='inputThumbnail'
+                                    inputProps={{ accept: 'image/*' }}
+                                    id='file-upload'
+                                    onChange={(e) => handleFileUpload(e)}
                                     sx={{
-                                        color: 'white',
-                                        backgroundColor: 'white', // Set background color on hover
-                                        borderColor: '#41ADA4 !important', // Set border color on hover
-                                        color: '#41ADA4',
-                                        '&:hover': {
-                                            backgroundColor: '#41ADA4',
-                                            borderColor: '#41ADA4',
-                                            color: 'white',
-                                        },
+                                        display: 'none',
+                                        
                                     }}
-                                >
-                                    Choose Thumbnail
-                                </Button>
-                            </label>
-                            {thumbnail && (
-                                <span className='fileName'>
-                                    {thumbnail.name}
-                                </span>
-                            )}
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={12} lg={12}>
-                        <Box
-                            component='form'
-                            sx={{
-                                '& .MuiTextField-root': {
-                                    width: '25ch',
-                                    marginTop: '2ch',
-                                },
-                            }}
-                        >
-                            <TextField
-                                value={chapSelected}
-                                onChange={(event) =>
-                                    setChapSelected(event.target.value)
-                                }
-                                select
-                                label='Parent chapter'
-                            >
-                                {chaps.map((option) => (
-                                    <MenuItem
-                                        key={option._id}
-                                        value={option._id}
+                                />
+                                <label htmlFor='file-upload'>
+                                    <Button
+                                        startIcon={<CloudUploadIcon />}
+                                        component='span'
+                                        variant='outlined'
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: 'white', // Set background color on hover
+                                            borderColor: '#41ADA4 !important', // Set border color on hover
+                                            color: '#41ADA4',
+                                            '&:hover': {
+                                                backgroundColor: '#41ADA4',
+                                                borderColor: '#41ADA4',
+                                                color: 'white',
+                                            },
+                                        }}
                                     >
-                                        {option.title}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </Box>
+                                        Choose Thumbnail
+                                    </Button>
+                                </label>
+                                {thumbnail && (
+                                    <span className='fileName'>
+                                        {thumbnail.name}
+                                    </span>
+                                )}
+                            </Grid>
+                            <Grid item xs={12} >
+                                <Grid container>
+                                    <Grid item xs={12} md={9} lg={9}>
+                                        <TextField sx={{marginBottom: "2ch"}}
+                                            fullWidth
+                                            value={chapSelected}
+                                            onChange={(event) =>
+                                                setChapSelected(event.target.value)
+                                            }
+                                            select
+                                            label='Parent chapter'
+                                        >
+                                            {chaps.map((option) => (
+                                                <MenuItem
+                                                    key={option._id}
+                                                    value={option._id}
+                                                >
+                                                    {option.title}
+                                                </MenuItem>
+                                            ))}
+                                        </TextField>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={12} lg={12}>
-                        <Box
-                            component='form'
-                            sx={{
-                                '& .MuiTextField-root': {
-                                    width: '50ch',
-                                    marginTop: '2ch',
-                                },
+                    <Grid item xs={12} >
+                        <Grid container>
+                            <Grid item xs={12} md={9} lg={9}>
+                                <TextField sx={{marginBottom: "2ch"}}
+                                    fullWidth
+                                    label='Description'
+                                    variant='outlined'
+                                    value={subchapDesc}
+                                    multiline
+                                    maxRows={4}
+                                    onChange={(event) =>
+                                        setSubchapDesc(event.target.value)
+                                    }
+                                ></TextField>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Grid container>
+                            <Grid item xs={12} md={9} lg={9}>
+                                <Editor
+                                    apiKey={
+                                        import.meta.env
+                                            .VITE_REACT_AP_TINYMCE_API_KEY
+                                    }
+                                    value={content}
+                                    init={{
+                                        height: 500,
+                                        width: "100%",
+                                        menubar: 'insert',
+                                        file_picker_types: 'image',
+                                        plugins:
+                                            'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount tableofcontents',
+                                        toolbar:
+                                            'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                                        content_style:
+                                            'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                                    }}
+                                    onEditorChange={handleEditorChange}
+                                />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Button
+                            variant='outlined'
+                            onClick={() => {
+                                addSubchapter();
                             }}
-                        >
-                            <TextField
-                                label='Description'
-                                variant='outlined'
-                                value={subchapDesc}
-                                multiline
-                                maxRows={4}
-                                onChange={(event) =>
-                                    setSubchapDesc(event.target.value)
-                                }
-                            ></TextField>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={12} lg={12}>
-                        <Box
-                            sx={{
-                                marginTop: '2ch',
-                            }}
-                        >
-                            <Editor
-                                apiKey={
-                                    import.meta.env
-                                        .VITE_REACT_AP_TINYMCE_API_KEY
-                                }
-                                value={content}
-                                init={{
-                                    height: 500,
-                                    width: 900,
-                                    menubar: 'insert',
-                                    file_picker_types: 'image',
-                                    plugins:
-                                        'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount tableofcontents',
-                                    toolbar:
-                                        'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-                                    content_style:
-                                        'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                                }}
-                                onEditorChange={handleEditorChange}
-                            />
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={12} lg={12}>
-                        <Box
+                            component='span'
                             sx={{
                                 marginTop: '5ch',
+                                color: 'white',
+                                backgroundColor: '#41ADA4',
+                                borderColor: '#41ADA4',
+                                '&:hover': {
+                                    backgroundColor: 'white', // Set background color on hover
+                                    borderColor: '#41ADA4 !important', // Set border color on hover
+                                    color: '#41ADA4',
+                                },
                             }}
                         >
-                            <Button
-                                variant='outlined'
-                                onClick={() => {
-                                    addSubchapter();
-                                }}
-                                component='span'
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: '#41ADA4',
-                                    borderColor: '#41ADA4',
-                                    '&:hover': {
-                                        backgroundColor: 'white', // Set background color on hover
-                                        borderColor: '#41ADA4 !important', // Set border color on hover
-                                        color: '#41ADA4',
-                                    },
-                                }}
-                            >
-                                Save
-                            </Button>
-                        </Box>
+                            Save
+                        </Button>
                     </Grid>
-                </div>
+                </Grid>
             )}
-        </div>
-    );
+        </Box>
+    )
+
 }

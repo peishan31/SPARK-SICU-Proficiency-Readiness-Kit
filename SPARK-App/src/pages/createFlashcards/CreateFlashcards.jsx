@@ -11,7 +11,7 @@ import {
     Input,
     CircularProgress,
     IconButton,
-    Typography
+    Typography,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom'

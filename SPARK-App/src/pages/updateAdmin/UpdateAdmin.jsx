@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, MenuItem, Pagination, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import UserTypeDropdown from '../../components/userTypeDropdown/UserTypeDropdown';
@@ -13,11 +13,17 @@ function UpdateAdmin() {
     const userState = useAppState().user
     const userActions = useActions().user;
     const navigate = useNavigate();
+    const USERS_PER_PAGE = 10
 
     const [ users, setUsers ] = useState([]);
     const [ toUpdate, setToUpdate ] = useState([]);
     const [ modalBool, setModalBool ] = useState(false);
     const [ modalText, setModalText ] = useState("");
+    const [ startIdx, setStartIdx ] = useState(0);
+    const [ endIdx, setEndIdx ] = useState(USERS_PER_PAGE);
+    const [ currentPage, setCurrentPage ] = useState(1);
+
+    const pageCount = Math.ceil(users.length / USERS_PER_PAGE);
 
     function handleSubmit() {
         setModalText("");
@@ -65,6 +71,12 @@ function UpdateAdmin() {
             })
 
         console.log(toUpdate)
+    }
+
+    const changeCurrentPage = (value) => {
+        setStartIdx(USERS_PER_PAGE * (value-1))
+        setEndIdx(USERS_PER_PAGE * (value-1) + USERS_PER_PAGE)
+        setCurrentPage(value)
     }
 
     useEffect(() => {
@@ -118,7 +130,9 @@ function UpdateAdmin() {
 
                             <TableBody>
                                 
-                                {users.map((user) => (
+                                {users
+                                .slice(startIdx, endIdx)
+                                .map((user) => (
                                     <TableRow key={user.googleId}>
                                         <TableCell>
                                             <span><img referrerPolicy="no-referrer" className="profilePicture" style={{marginRight: "20px"}} src={user.picture}></img></span>
@@ -135,6 +149,10 @@ function UpdateAdmin() {
                             </TableBody>
                         </Table>
                     </TableContainer>
+
+                    <div className="paginationBox">
+                        <Pagination count={pageCount} page={currentPage} onChange={(event, value) => changeCurrentPage(value)}  />
+                    </div>
                     
                     <div className="buttonBox">
                         <Button sx={{ 

@@ -9,7 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
 
 const Bookmarks = ({ searchInput }) => {
-    const [subchapters, setSubchapters] = useState([]);
+    const [subchapters, setSubchapters] = useState(null);
     const [unbookmark, setUnbookmark] = useState(false);
 
     const userState = useAppState().user;
@@ -69,10 +69,7 @@ const Bookmarks = ({ searchInput }) => {
         }
     };
 
-    filtered = subchapters.filter((subchapter) => searchSubchapters(searchInput, subchapter))
-
-
-    if ( subchapters.length == 0 ) {
+    if ( subchapters == null ) {
         return (
             <div
                 style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}
@@ -81,6 +78,8 @@ const Bookmarks = ({ searchInput }) => {
             </div>
         )
     }
+
+    filtered = subchapters.filter((subchapter) => searchSubchapters(searchInput, subchapter))
 
     return (
         <Box margin={4} >
