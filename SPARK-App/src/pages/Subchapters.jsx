@@ -97,6 +97,24 @@ const Subchapters = ({ searchInput }) => {
         //     })
     }, [])
 
+    //button's styling
+    const styles = {
+        button: {
+            color: 'white',
+            backgroundColor: 'white',
+            borderColor: '#41ADA4 !important',
+            color: '#41ADA4',
+            '&:hover': {
+                backgroundColor: '#41ADA4',
+                borderColor: '#41ADA4',
+                color: 'white',
+            },
+            '@media (max-width: 600px)': {
+                padding: '5px',
+                fontSize: '13px',
+            },
+        },
+    };
  
     function toTwemoji(string) {
         return twemoji.parse(string)
@@ -178,7 +196,7 @@ const Subchapters = ({ searchInput }) => {
                     () => { navigate('/Chapters') }}>
                     <ArrowBackIcon />
                 </IconButton>
-                <Typography style={{fontSize: '25px', fontWeight: 'bold'}}>
+                <Typography pr={2} style={{fontSize: '25px', fontWeight: 'bold'}}>
                     <span dangerouslySetInnerHTML={{__html: toTwemoji(chapterState.selectedChapter.currentChapterIcon)}}></span> {chapterState.selectedChapter.currentChapterTitle}
                 </Typography>
 
@@ -227,17 +245,7 @@ const Subchapters = ({ searchInput }) => {
                             }
                         }
                         variant="outlined"
-                        sx={{
-                            color: 'white',
-                            backgroundColor: 'white', // Set background color on hover
-                            borderColor: '#41ADA4 !important', // Set border color on hover
-                            color: '#41ADA4',
-                            '&:hover': {
-                                backgroundColor: '#41ADA4',
-                                borderColor: '#41ADA4',
-                                color: 'white',
-                            },
-                        }}
+                        sx={styles.button}
                         >
                         <EditIcon />
                             Edit chapter
@@ -246,20 +254,10 @@ const Subchapters = ({ searchInput }) => {
                         component={Link}
                         to="/CreateSubchapter"
                         variant="outlined"
-                        sx={{
-                            color: 'white',
-                            backgroundColor: 'white', // Set background color on hover
-                            borderColor: '#41ADA4 !important', // Set border color on hover
-                            color: '#41ADA4',
-                            '&:hover': {
-                                backgroundColor: '#41ADA4',
-                                borderColor: '#41ADA4',
-                                color: 'white',
-                            },
-                        }}
+                        sx={styles.button}
                         >
                         <AddIcon />
-                            Create new subchapter
+                            Create subchapter
                     </Button>
                 </Stack>
                         : null
