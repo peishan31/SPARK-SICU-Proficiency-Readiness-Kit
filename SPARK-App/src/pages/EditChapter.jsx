@@ -29,8 +29,8 @@ export default function EditChapter() {
     let chapterTitles = chapterState.chapterlist.map(function(element){
         return (`${element.title}`).toLowerCase();
     })
-    console.log("HELLOOO",)
-    console.log(chapterTitles.includes(("general").toLowerCase()));
+    // console.log("HELLOOO",)
+    // console.log(chapterTitles.includes(("general").toLowerCase()));
 
     const BASE_URL = import.meta.env.VITE_API_URL
 
