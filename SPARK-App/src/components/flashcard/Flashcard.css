@@ -63,6 +63,7 @@
 
   .card .back {
     /* anything that is flipped 180 deg is going to be hidden */
+    width: 100%;
     -webkit-transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
     transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
     overflow-y: scroll;
