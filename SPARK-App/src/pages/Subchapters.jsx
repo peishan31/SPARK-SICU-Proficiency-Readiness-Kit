@@ -34,8 +34,6 @@ const Subchapters = ({ searchInput }) => {
     // get current chapter from overmind state
     const currentChapter = chapterState.selectedChapter
     const currentChapterID = chapterState.selectedChapter.currentChapterId
-    // console.log("Current Chapter: ", currentChapter)
-    // console.log("Current Chapter: ", currentChapter)
 
     // extract currentUser from session storage
     const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
@@ -44,7 +42,7 @@ const Subchapters = ({ searchInput }) => {
     const userId = userState.currentUser.googleId;
 
     let filtered = [];
-    // const [subchapters, setSubchapters] = useState([]);
+   
 
     const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -76,25 +74,14 @@ const Subchapters = ({ searchInput }) => {
     useEffect(() => {
         // if currentChapter does not exist, then reroute to the chapters page.
         if (!currentChapter || !userId) {
-            // console.log("Current Chapter: ", currentChapter);
+            
             navigate(`/Chapters`);
             return;
         }
 
         // extract currentchapter details
-        // const chapterId = currentChapter.currentChapterId
-
         subchapterActions.loadAllSubchaptersWithUserId({chapterId, userId})
-        // get all subchapters
-        // axios.get(BASE_URL + `/user/` + userId + `/bookmarks/chapters/${chapterId}`)
-        //     .then(res => {
-        //         console.log(res.data[1].subchapters)
-        //         setSubchapters(res.data[1].subchapters)
-        //     })
-    
-        //     .catch(err => {
-        //         console.log(err)
-        //     })
+
     }, [])
 
     //button's styling
@@ -121,7 +108,7 @@ const Subchapters = ({ searchInput }) => {
     };
 
     const searchSubchapters = (searchInput, subchapter) => {
-        // console.log(searchInput, "SUBCHAPTERS")
+        
         let rgx = "?![^<>]*>";
         const regex = new RegExp(`(${trim(searchInput)})(${rgx})`, 'gi');
         if (searchInput == "") {
@@ -138,7 +125,7 @@ const Subchapters = ({ searchInput }) => {
 
 
     async function deleteChapter(){
-        // console.log("DELTE CHAPTER",currentChapterID)
+        
         if (confirm("Are you sure you want to delete this chapter?")) {
             await axios.delete(
                 BASE_URL + `/chapters/` + currentChapterID , {
@@ -147,9 +134,8 @@ const Subchapters = ({ searchInput }) => {
             ).then(
                 res => {
                     alert("Chapter deleted successfully!")
-                    // navigate(-1);
                     window.location.href = "/Chapters"
-                    //return 200
+                    
                 }
             ).catch(
                 err => {
