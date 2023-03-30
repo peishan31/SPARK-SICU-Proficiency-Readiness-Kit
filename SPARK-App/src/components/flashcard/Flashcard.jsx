@@ -141,8 +141,8 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
                     </h5>
                 </div>
             </div>
-            <div className="back" ref={backEl} style={{ whiteSpace: "pre-line" }}>
-                <div className="inner" style={{height: height}}>{ flashcard.answer }</div>
+            <div className="back" ref={backEl} style={{ height: height, whiteSpace: "pre-line" }}>
+                { flashcard.answer }
             </div>
         </div>
     )
