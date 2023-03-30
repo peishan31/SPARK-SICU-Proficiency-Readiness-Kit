@@ -20,8 +20,22 @@ function FlashcardList() {
 
     function getCategories() {
         console.log("getCategories")
+
+        // let categoriesArray = []
+
+        // for (let i=0; i<allFlashcards.length; i++) {
+        //     console.log(allFlashcards[i].category)
+        //     console.log(categoriesArray)
+        //     console.log(allFlashcards[i].category in categoriesArray)
+        //     if (!(allFlashcards[i].category in categoriesArray)) {
+        //         categoriesArray.push(allFlashcards[i].category)
+        //     }
+        // }
+
+        // console.log(categoriesArray)
         let result = allFlashcards.map(flashcard => flashcard.category);
-        setCategories(result);
+        let resultSet = [... new Set(result)]
+        setCategories(resultSet);
     }
 
     function handleChange(e) {
@@ -65,7 +79,7 @@ function FlashcardList() {
                             {
                                 categories.map((category) => {
                                     return (
-                                        <MenuItem key={category} value={category}>{category}</MenuItem>
+                                        <MenuItem value={category}>{category}</MenuItem>
                                     )
                                 })
                             }

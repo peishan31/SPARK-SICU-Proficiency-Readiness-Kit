@@ -11,7 +11,7 @@ import {
     Input,
     CircularProgress,
     IconButton,
-    Typography
+    Typography,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom'
@@ -133,17 +133,13 @@ const CreateFlashcards = () => {
                                         },
                                     }}
                                 >
-                                    <TextField
-                                        id="outlined-textarea"
-                                        label="Answer"
-                                        placeholder="Placeholder"
-                                        rows={8}
-                                        multiline
+                                    
+                                    <textarea style={{width: "100%", minWidth: "100px", maxWidth: "800px", marginTop: "30px", height: "100px"}}
                                         onChange={(event) => {
-                                            setFlashcardAnswer(event.target.value);
-                                        }}
-                                        error={flashcardAnswer.length < 1}
-                                    />
+                                            setFlashcardAnswer(event.target.value);}}
+                                        >
+
+                                    </textarea>
                                 </Box>
                             </Grid>
                             
