@@ -42,7 +42,9 @@ const Subchapters = ({ searchInput }) => {
     const userId = userState.currentUser.googleId;
 
     let filtered = [];
-   
+
+    // useStates
+    const [loading, setLoading] = useState(false);
 
     const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -74,14 +76,15 @@ const Subchapters = ({ searchInput }) => {
     useEffect(() => {
         // if currentChapter does not exist, then reroute to the chapters page.
         if (!currentChapter || !userId) {
-            
             navigate(`/Chapters`);
             return;
         }
 
         // extract currentchapter details
+        // const chapterId = currentChapter.currentChapterId
+        setLoading(true)
         subchapterActions.loadAllSubchaptersWithUserId({chapterId, userId})
-
+        setLoading(false)
     }, [])
 
     //button's styling
@@ -102,7 +105,7 @@ const Subchapters = ({ searchInput }) => {
             },
         },
     };
- 
+
     function toTwemoji(string) {
         return twemoji.parse(string)
     };
@@ -173,9 +176,7 @@ const Subchapters = ({ searchInput }) => {
         )
     }
 
-
     return (
-
         <Box margin={4}>
             <Grid pb={2} display="flex" alignItems="center" mb={1}>
                 <IconButton onClick={
@@ -191,7 +192,6 @@ const Subchapters = ({ searchInput }) => {
                         ? 
 
                 <Stack direction="row" spacing={2} ml="auto">
-                    {/* <Button variant="outlined">Select</Button> */}
 
                     <Button 
                         // component={Link}
@@ -252,47 +252,53 @@ const Subchapters = ({ searchInput }) => {
 
                 
             </Grid>
-        {
-            !subchapterState.subchapterlist || subchapterState.subchapterlist.length === 0   ? 
-            ( 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '200px',
-                        margin: '0 auto',
-                    }}
-                >
-                    <CircularProgress color='info' size={40} thickness={4} />
-                </Box>
-            ) :
-            (
-
-                            
+            {
+                loading ? (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '200px',
+                            margin: '0 auto',
+                        }}
+                    >
+                        <CircularProgress color='info' size={40} thickness={4} />
+                    </Box>
+                ) :
+                subchapterState.subchapterlist.length === 0 ? (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '200px',
+                            margin: '0 auto',
+                        }}
+                    >
+                        <Typography variant="h6" ml={""}>No subchapters found</Typography>
+                    </Box>
+                ) : (
                     <Grid container spacing={4}>
-                        { !filtered.length ? 
-                                <Grid item sm={6}>
-                                    <Typography variant="h6" ml={""}>No subchapters found</Typography>
-                                </Grid> :
+                        {!filtered.length ?
+                            <Grid item sm={6}>
+                                <Typography variant="h6" ml={""}>No subchapters found</Typography>
+                            </Grid> :
 
-                                filtered.map((subchapter) => 
-                                {
-                                    return (
-                                        <Grid item key={subchapter._id} xs={12} sm={6} md={4} lg={3}>
-                                            <SubchapterCard
-                                                subchapter={subchapter} chapterId={currentChapter.currentChapterId}/>
-                                        </Grid>
-                                    )
-                                
-                                })
+                            filtered.map((subchapter) => {
+                                return (
+                                    <Grid item key={subchapter._id} xs={12} sm={6} md={4} lg={3}>
+                                        <SubchapterCard
+                                            subchapter={subchapter} chapterId={currentChapter.currentChapterId} />
+                                    </Grid>
+                                )
+
+                            })
                         }
                     </Grid>
-            )
-        }
-
+                )
+            }
         </Box>
-        
     )
 }
 
