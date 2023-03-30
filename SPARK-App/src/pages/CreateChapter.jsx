@@ -16,6 +16,7 @@ export default function CreateChapter() {
     const [errorMessage, setErrorMessage] = useState("")
     const [chapterTitle, setChapterTitle] = useState('');
     const [chapterIcon, setChapterIcon] = useState('');
+    const [untouched, setUntouched] = useState(true);
 
     const userState = useAppState().user
     const navigate = useNavigate();
@@ -25,11 +26,12 @@ export default function CreateChapter() {
     async function addChapter() {
         setErrorMessage(""); // initialize error message
         setLoading(true);
-        if (chapterTitle == undefined || chapterTitle == '' || chapterIcon == null || chapterIcon == undefined || chapterIcon == '' || chapterIcon == null) {
-            setLoading(false);
-            setErrorMessage("Fields cannot be empty");
-            return;
-        }
+        // if (chapterTitle == undefined || chapterTitle == '' || chapterIcon == null || chapterIcon == undefined || chapterIcon == '' || chapterIcon == null) {
+        //     setLoading(false);
+        //     setErrorMessage("Fields cannot be empty");
+        //     return;
+        // 
+
         await axios
             .post(BASE_URL + '/chapters/', {
                 title: chapterTitle,
@@ -37,6 +39,7 @@ export default function CreateChapter() {
             })
             .then(() => {
                 setLoading(false);
+                alert("Successfully Created Chapter")
                 window.location.href = "/Chapters"
                 // navigate(-1);
             })
@@ -77,19 +80,22 @@ export default function CreateChapter() {
                     </Grid>
                     <Grid item xs={12}>
                         <Grid container>
-                            <Grid item className="errorMessage" style={{marginBottom: '20px'}}>
-                                {errorMessage}
-                            </Grid>
                             <Grid item xs={12} md={9} lg={9}>
                                 <TextField sx={{marginBottom: "2ch"}}
                                     fullWidth
                                     label='Title'
                                     variant='outlined'
                                     value={chapterTitle}
-                                    onChange={(event) =>
+                                    onChange={(event) =>{
+                                        setUntouched(false);
                                         setChapterTitle(event.target.value)
-                                    }
+                                    }}
+                                    error={chapterTitle.length < 1 && !untouched}
+                                    helperText={chapterTitle.length < 1 && !untouched ? "Title cannot be empty" : ""}
                                 ></TextField>
+                            {/* <Grid item className="errorMessage" style={{marginBottom: '20px'}}>
+                                {errorMessage}
+                            </Grid> */}
                             </Grid>
                         </Grid>
                     </Grid>
@@ -100,10 +106,13 @@ export default function CreateChapter() {
                                     label='Icon' 
                                     variant='outlined'
                                     value={chapterIcon}
-                                    onChange={(event) =>
+                                    onChange={(event) =>{
+                                        setUntouched(false);
                                         setChapterIcon(event.target.value)
-                                    }
+                                    }}
                                     inputProps={{ maxLength: 2 }}
+                                    error={chapterIcon.length < 1 && !untouched}
+                                    helperText={chapterIcon.length < 1 && !untouched ? "Icon cannot be empty" : ""}
                                 ></TextField>
                             </Grid>
                         </Grid>
@@ -125,7 +134,15 @@ export default function CreateChapter() {
                                         borderColor: '#41ADA4 !important', // Set border color on hover
                                         color: '#41ADA4',
                                     },
+                                    '&.Mui-disabled': {
+                                        backgroundColor: '#E2F7F0',
+                                        color: '#E7E7E7',
+                                    }
                                 }}
+                                disabled={
+                                    chapterTitle.length < 1 ||
+                                    chapterIcon.length < 1
+                                }
                             >
                             Save
                         </Button>

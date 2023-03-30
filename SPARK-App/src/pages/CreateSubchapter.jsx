@@ -30,6 +30,7 @@ export default function CreateSubchapter() {
     const [base64Thumbnail, setBase64Thumbnail] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [content, setContent] = useState('');
+    const [untouched, setUntouched] = useState(true);
 
     const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -167,9 +168,12 @@ export default function CreateSubchapter() {
                                             label='Title'
                                             variant='outlined'
                                             value={subchapTitle}
-                                            onChange={(event) =>
+                                            onChange={(event) =>{
                                                 setSubchapTitle(event.target.value)
-                                            }
+                                                setUntouched(false)
+                                            }}
+                                            error={subchapTitle.length < 1 && !untouched}
+                                            helperText={subchapTitle.length < 1 && !untouched ? 'Title cannot be empty' : ''}
                                         ></TextField>
                                     </Grid>
                                 </Grid>
@@ -218,11 +222,14 @@ export default function CreateSubchapter() {
                                         <TextField sx={{marginBottom: "2ch"}}
                                             fullWidth
                                             value={chapSelected}
-                                            onChange={(event) =>
+                                            onChange={(event) =>{
+                                                setUntouched(false)
                                                 setChapSelected(event.target.value)
-                                            }
+                                            }}
                                             select
                                             label='Parent chapter'
+                                            error={chapSelected.length < 1 && !untouched}
+                                            helperText={chapSelected.length < 1 && !untouched ? 'Parent chapter cannot be empty' : ''}
                                         >
                                             {chaps.map((option) => (
                                                 <MenuItem
@@ -248,9 +255,12 @@ export default function CreateSubchapter() {
                                     value={subchapDesc}
                                     multiline
                                     maxRows={4}
-                                    onChange={(event) =>
+                                    onChange={(event) =>{
+                                        setUntouched(false)
                                         setSubchapDesc(event.target.value)
-                                    }
+                                    }}
+                                    error={subchapDesc.length < 1 && !untouched}
+                                    helperText={subchapDesc.length < 1 && !untouched ? 'Subchapter Description Cannot Be Empty' : ''}
                                 ></TextField>
                             </Grid>
                         </Grid>
@@ -298,7 +308,16 @@ export default function CreateSubchapter() {
                                     borderColor: '#41ADA4 !important', // Set border color on hover
                                     color: '#41ADA4',
                                 },
+                                '&.Mui-disabled': {
+                                    backgroundColor: '#E2F7F0',
+                                    color: '#E7E7E7',
+                                }
                             }}
+                            disabled={
+                                subchapTitle.length < 1 ||
+                                subchapDesc.length < 1 ||
+                                chapSelected.length < 1
+                            }
                         >
                             Save
                         </Button>
