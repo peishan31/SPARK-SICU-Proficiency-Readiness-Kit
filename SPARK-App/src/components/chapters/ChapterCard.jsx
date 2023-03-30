@@ -19,22 +19,44 @@ export default function ChapterCard({ chapter }) {
 
     // use naviate hook to navigate to subchapters route
     const navigate = useNavigate();
+
+    // Chapter card styling
+    const styles = {
+        card: {
+            height: '150px',
+            width: '150px',
+            padding: '4px',
+            ':hover': {
+                bgcolor: '#41ADA4',
+                color: 'white',
+            },
+            textAlign: 'center',
+            borderRadius: '20px',
+            bgcolor: '#F4F4F4',
+            '@media (max-width: 390px)': {
+                height: '135px',
+                width: '135px',
+                fontSize: '12px',
+            },
+        },
+        emoji: {
+          fontSize: '35px',
+          mb: 1,
+        },
+        title: {
+          fontSize: '15px',
+          fontWeight: 'bold',
+          lineHeight: 1.3,
+        },
+    };
     
     function toTwemoji(string) {
         return twemoji.parse(string)
     };
       
     return (
-        <Card style={{ height: '150px', width: '150px' }}
-        sx={{
-            ':hover': {
-                bgcolor: '#41ADA4',
-                color: 'white'
-            },
-            textAlign: "center",
-            borderRadius: "20px",
-            bgcolor: "#F4F4F4"
-        }}
+        <Card
+        sx={styles.card}
         onClick={
             () => {
                 // set current chapter id in overmind chapter state
@@ -64,11 +86,11 @@ export default function ChapterCard({ chapter }) {
             }
         }>
             <CardActionArea style={{ height: '100%', width: '100%' }}>
-                <CardContent>
-                    <Typography  sx={{fontSize: "35px", mb: 1}}>
+                <CardContent style={{padding: 0}}>
+                    <Typography sx={styles.emoji}>
                         <span dangerouslySetInnerHTML={{__html: toTwemoji(currentChapterIcon)}}></span>
                     </Typography>
-                    <Typography  sx={{fontSize: "15px", fontWeight: "bold", lineHeight: 1.3}}>
+                    <Typography sx={styles.title}>
                     {currentChapterTitle}
                     </Typography>
                 </CardContent>
