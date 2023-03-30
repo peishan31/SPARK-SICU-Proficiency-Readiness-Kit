@@ -68,14 +68,6 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
-
-  @supports (-webkit-touch-callout: none) {
-    .card .back{
-                white-space: nowrap;
-                overflow: scroll;
-                -webkit-overflow-scrolling: touch;  
-              }
-  }
   
   .deleteButton {
     position: absolute;
