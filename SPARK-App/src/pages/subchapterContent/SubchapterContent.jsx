@@ -170,8 +170,6 @@ const SubchapterContent = () => {
     
     function getHighlightedText(text,subchapterSearchInput) {
         // for HTML strings with tags and text 
-
-        // console.log(useAppState().subchapters,"HEREEEEEEEEEEEEEEE")
         if(subchapterSearchInput=="" || text ==undefined){
             return text;
         }else{

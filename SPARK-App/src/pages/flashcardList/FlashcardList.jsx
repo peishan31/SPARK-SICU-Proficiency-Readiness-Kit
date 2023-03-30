@@ -73,7 +73,11 @@ function FlashcardList() {
                         <div className="dropdownContainerDiv">
                             <div className="dropdown">
                                 <FormControl sx={{width: "200px"}}>
-                                    <Select value={dropdownValue} onChange={(e) => handleChange(e)}>
+                                    <Select value={dropdownValue} 
+                                            MenuProps={{
+                                                style: {zIndex: 999}
+                                            }}
+                                            onChange={(e) => handleChange(e)}>
                                         <MenuItem value="All">All</MenuItem>
                                         {
                                             categories.map((category) => {
