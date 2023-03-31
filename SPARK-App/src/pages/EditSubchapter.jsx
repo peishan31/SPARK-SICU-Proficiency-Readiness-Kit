@@ -208,6 +208,8 @@ export default function EditSubchapter() {
                                 onChange={(event) =>
                                     setSubchapTitle(event.target.value)
                                 }
+                                error={subchapTitle.length < 1}
+                                helperText={subchapTitle.length < 1 ? 'Title cannot be empty' : ''}
                             ></TextField>
                         </Box>
                     </Grid>
@@ -271,6 +273,8 @@ export default function EditSubchapter() {
                                 }
                                 select
                                 label='Parent chapter'
+                                error={chapSelected.length < 1}
+                                helperText={chapSelected.length < 1 ? 'Parent chapter cannot be empty' : ''}
                             >
                                 {chaps.map((option) => (
                                     <MenuItem
@@ -302,6 +306,8 @@ export default function EditSubchapter() {
                                 onChange={(event) =>
                                     setSubchapDesc(event.target.value)
                                 }
+                                error={subchapDesc.length < 1}
+                                helperText={subchapDesc.length < 1 ? 'Description cannot be empty' : ''}
                             ></TextField>
                         </Box>
                     </Grid>
@@ -354,7 +360,17 @@ export default function EditSubchapter() {
                                         borderColor: '#41ADA4 !important', // Set border color on hover
                                         color: '#41ADA4',
                                     },
+                                    '&.Mui-disabled': {
+                                        backgroundColor: '#98d8d3',
+                                        color: 'white',
+                                        borderColor: '#98d8d3',
+                                    }
                                 }}
+                                disabled={
+                                    subchapTitle.length < 1 ||
+                                    subchapDesc.length < 1 ||
+                                    chapSelected.length < 1
+                                }
                             >
                                 Save
                             </Button>
