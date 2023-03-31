@@ -140,7 +140,20 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                         }
                     }
                 />
-                <CardContent>
+                <CardContent
+                          onClick={
+                            () => {
+                                navigate(`${currentSubchapterId}/subchapterContent`,
+                                    {
+                                        state: {
+                                            parentChapterId: chapterId,
+                                            parentSubchapterId: currentSubchapterId,
+                                            bookmarkStatus: subchapterState.isBookmarked
+                                        }
+                                    })
+                            }
+                        }
+                >
                     <Grid pb={1} display="flex" justifyContent="space-between">
                         <Typography display="contents" gutterBottom sx={{fontSize: "20px", fontWeight: "bold", lineHeight: 1.3}} component="div">
                             {subchapter.subchapterTitle}
