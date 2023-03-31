@@ -135,8 +135,9 @@ export default function CreateChapter() {
                                         color: '#41ADA4',
                                     },
                                     '&.Mui-disabled': {
-                                        backgroundColor: '#E2F7F0',
-                                        color: '#E7E7E7',
+                                        backgroundColor: '#98d8d3',
+                                        color: 'white',
+                                        borderColor: '#98d8d3',
                                     }
                                 }}
                                 disabled={
