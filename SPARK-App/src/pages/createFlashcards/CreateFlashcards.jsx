@@ -24,6 +24,7 @@ const CreateFlashcards = () => {
     const [category, setCategory] = useState("")
     const [flashcardQuestion, setFlashcardQuestion] = useState("")
     const [flashcardAnswer, setFlashcardAnswer] = useState("")
+    const [untouched, setUntouched] = useState(true)
 
     const userState = useAppState().user;
 
@@ -78,11 +79,13 @@ const CreateFlashcards = () => {
                                         <TextField sx={{marginBottom: "2ch"}}
                                             fullWidth
                                             value={category}
-                                            onChange={(event) =>
+                                            onChange={(event) =>{
                                                 setCategory(event.target.value)
-                                            }
+                                                setUntouched(false)
+                                            }}
                                             label='Category'
-                                            // error={category.length < 1}
+                                            error={category.length < 1 && !untouched}
+                                            helperText={category.length < 1 && !untouched ? "cannot be empty" : ""}
                                         ></TextField>
                                     </Grid>
                                 </Grid>
@@ -94,8 +97,10 @@ const CreateFlashcards = () => {
                                     variant='outlined'
                                     onChange={(event) => {
                                         setFlashcardQuestion(event.target.value);
+                                        setUntouched(false)
                                     }}
-                                    // error={flashcardQuestion.length < 1}
+                                    error={flashcardQuestion.length < 1 && !untouched}
+                                    helperText={flashcardQuestion.length < 1 && !untouched ? "cannot be empty" : ""}
                                 ></TextField>
                             </Grid>
                         </Grid>
@@ -112,8 +117,10 @@ const CreateFlashcards = () => {
                                     multiline
                                     onChange={(event) => {
                                         setFlashcardAnswer(event.target.value);
+                                        setUntouched(false)
                                     }}
-                                    // error={flashcardAnswer.length < 1}
+                                    error={flashcardAnswer.length < 1 && !untouched}
+                                    helperText={flashcardAnswer.length < 1 && !untouched? "cannot be empty" : ""}
                                 ></TextField>
                             </Grid>
                         </Grid>
@@ -135,12 +142,16 @@ const CreateFlashcards = () => {
                                     borderColor: '#41ADA4 !important', // Set border color on hover
                                     color: '#41ADA4',
                                 },
+                                '&.Mui-disabled': {
+                                    backgroundColor: '#E2F7F0',
+                                    color: '#E7E7E7',
+                                }
                             }}
-                            // disabled={
-                            //     flashcardQuestion.length < 1 ||
-                            //     flashcardAnswer.length < 1 ||
-                            //     category.length < 1
-                            // }
+                            disabled={
+                                flashcardQuestion.length < 1 ||
+                                flashcardAnswer.length < 1 ||
+                                category.length < 1
+                            }
                         >
                             Save
                         </Button>

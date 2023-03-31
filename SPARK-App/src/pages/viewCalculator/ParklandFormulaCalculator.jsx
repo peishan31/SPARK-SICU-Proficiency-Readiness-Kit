@@ -56,24 +56,26 @@ function Tab1Content(props){
         setFormData(initialFormData);
     }
 
+    const BASE_URL = import.meta.env.VITE_API_URL
+
     const handleInputChange = async (e) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
             [name]: value
           }));
+
         // Check if all fields are entered
-        
         const formValues = Object.values({ ...formData, [name]: value });
         if (formValues.some((value) => value === '' || value === undefined)) {
-            setPointAllocated('0L');
+            setPointAllocated('-');
             setInterpretation("Please enter the required values in the respective fields to perform the calculations.")
         }else{
             var formWeightValue = formValues[0]
             if (weightUnit == 'lbs'){
                 formWeightValue = formWeightValue / 2.2046 
             }
-            await axios.post(`http://localhost:8080/calculator/parkland-formula/`,
+            await axios.post(`${BASE_URL}/calculator/parkland-formula/`,
                 {
                     "weight": formWeightValue,
                     "bodyBurnPercentage": formValues[1]
@@ -206,7 +208,7 @@ const ParklandFormula = () => {
     });
 
     //state for calc result card
-    const [pointAllocated , setPointAllocated] = useState('0L')
+    const [pointAllocated , setPointAllocated] = useState('-')
     const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
     const [scoreType, setScoreType] = useState('Fluid Requirement')
 

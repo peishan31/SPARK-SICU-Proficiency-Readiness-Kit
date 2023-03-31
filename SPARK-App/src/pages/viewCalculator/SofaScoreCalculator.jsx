@@ -70,6 +70,8 @@ function Tab1Content(props){
         setFormData(initialFormData);
     }
 
+    const BASE_URL = import.meta.env.VITE_API_URL
+
     const handleInputChange = async (e) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
@@ -80,14 +82,14 @@ function Tab1Content(props){
         // Check if all fields are entered
         const formValues = Object.values({ ...formData, [name]: value });
         if (formValues.some((value) => value === '' || value === undefined)) {
-            setPointAllocated(0);
+            setPointAllocated("-");
             setInterpretation("Please enter the required values in the respective fields to perform the calculations.")
         }else{
             var formPaOValue = formValues[0]
             if (paOxygenUnit == 'kPa'){
                 formPaOValue = formPaOValue *  7.50062
             }
-            await axios.post(`http://localhost:8080/calculator/sofa-score/`,
+            await axios.post(`${BASE_URL}/calculator/sofa-score/`,
                 {
                     "PaO": formPaOValue,
                     "FiO": formValues[1],
@@ -600,8 +602,6 @@ function Tab2Content(props){
 
 const SofaScore = () => {
 
-
-
     //state for form fields
     const [formData, setFormData] = useState({
         PaO: "",
@@ -615,7 +615,7 @@ const SofaScore = () => {
     });
 
     //state for calc result card
-    const [pointAllocated , setPointAllocated] = useState(0)
+    const [pointAllocated , setPointAllocated] = useState("-")
     const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
     const [scoreType, setScoreType] = useState('SOFA')
 

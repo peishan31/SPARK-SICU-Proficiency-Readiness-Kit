@@ -29,17 +29,10 @@ export default function EditChapter() {
     let chapterTitles = chapterState.chapterlist.map(function(element){
         return (`${element.title}`).toLowerCase();
     })
-    // console.log("HELLOOO",)
-    // console.log(chapterTitles.includes(("general").toLowerCase()));
 
     const BASE_URL = import.meta.env.VITE_API_URL
 
     useEffect(() => {
-        // const fetchData = async () => {
-        //     await axios.get(BASE_URL + '/chapters/').then((res) => {
-        //         setChaps(res.data);
-        //     });
-        // };
         const getChapter = async (chapterId) => {
             axios.get(`${BASE_URL}/chapters/${chapterId}`)
             .then(res => {
@@ -110,7 +103,7 @@ export default function EditChapter() {
                 </Box>
             ) : (
             <div className="homeContainer">
-               <div className='pageTitle'>
+                <div className='pageTitle'>
                         <Grid pb={2} display="flex" alignItems="center" mb={1}>
                             <IconButton onClick={
                                 () => { navigate(-1) }}>
@@ -142,6 +135,8 @@ export default function EditChapter() {
                                 onChange={(event) =>
                                     setChapterTitle(event.target.value)
                                 }
+                                error={chapterTitle.length < 1}
+                                helperText={chapterTitle.length < 1 ? 'Title cannot be empty' : ''}
                             ></TextField>
                         </Box>
                     </Grid>
@@ -161,6 +156,8 @@ export default function EditChapter() {
                                 onChange={(event) =>
                                     setChapterIcon(event.target.value)
                                 }
+                                error={chapterIcon.length < 1}
+                                helperText={chapterIcon.length < 1 ? 'Icon cannot be empty' : ''}
                             ></TextField>
                         </Box>
                     </Grid>
@@ -186,7 +183,15 @@ export default function EditChapter() {
                                         borderColor: '#41ADA4 !important', // Set border color on hover
                                         color: '#41ADA4',
                                     },
+                                    '&.Mui-disabled': {
+                                        backgroundColor: '#E2F7F0',
+                                        color: '#E7E7E7',
+                                    }
                                 }}
+                                disabled={
+                                    chapterTitle.length < 1 ||
+                                    chapterIcon.length < 1
+                                }
                             >
                             Save
                             </Button>

@@ -16,11 +16,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-const CamIcu = () => {
-    //state for calc result card
-    const [pointAllocated , setPointAllocated] = useState("-")
-    const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
-    const [scoreType, setScoreType] = useState('CAM-ICU')
+function Tab1Content(props){
+
+    const {formDisplay, setFormDisplay, formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
 
     const ToggleButton = styled(MuiToggleButton)({
         "&.Mui-selected": {
@@ -29,123 +27,288 @@ const CamIcu = () => {
         }
     });
 
-    const handleCalculate = async (q1Value, q2Value, q3Value, q4Value, q5Value, q6Value) => {
-        // event.preventDefault();
-        await axios.post(`http://localhost:8080/calculator/cam-icu/`,
-                {
-                    "rass": q1Value,
-                    "acuteOnset": q2Value,
-                    "fluctuatingCourse": q3Value,
-                    "inattention": q4Value,
-                    "levelOfConsciousness": q5Value,
-                    "disorganizedThinking": q6Value
-                }
-            ).then(
-                res => {
-                    let data = res.data
-                    setPointAllocated(res.data.result)
-                    setInterpretation(res.data.interpretation)
-                    return 200;
-                }
-            ).catch(
-                err => {
-                    return 500
-                }
-            )
-        
-    };
-
     const handleResetForm = (e) => {
-        setQ1Value("no");
-        setQ2Value("no");
-        setQ3Value("no");
-        setQ4Value("no");
-        setQ5Value("no");
-        setQ6Value("no");
+        const initialFormData = {
+            "rass": "",
+            "acuteOnset": "",
+            "fluctuatingCourse": "",
+            "inattention": "",
+            "levelOfConsciousness": "",
+            "disorganizedThinking": ""
+        };
+        setFormData(initialFormData);
+
+        const initialFormDisplay = {
+            "q2and3": "none",
+            "q4": "none",
+            "q5": "none",
+            "q6": "none"
+        }
+        setFormDisplay(initialFormDisplay)
     }
 
-    const [q1Value, setQ1Value] = useState('');
-    const handleQ1Value = (event, newQ1Value) => {
-        setQ1Value(newQ1Value);
-        {handleCalculate(newQ1Value, q2Value, q3Value, q4Value, q5Value, q6Value)};
+    const handleInputChange = async (e) => {
+        const { name, value } = e.target;
+        if (name == "rass" && value == "yes"){
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                acuteOnset: "no",
+                fluctuatingCourse: "no",
+                inattention: "no",
+                levelOfConsciousness: "no",
+                disorganizedThinking: "no"
+            }));
 
-        if(newQ1Value == 'yes') {
-            document.getElementById('q2and3').style.display = "block";
-        } else {
-            document.getElementById('q2and3').style.display = "none";
-            document.getElementById('q4').style.display = "none";
-            document.getElementById('q5').style.display = "none";
-            document.getElementById('q6').style.display = "none";
-            setQ2Value('no');
-            setQ3Value('no');
-            setQ4Value('no');
-            setQ6Value('no');
-            setQ5Value('no');
+            setFormDisplay((prevFormData) => ({
+                ...prevFormData,
+                q2and3: "block"
+            }));
+            //document.getElementById('q2and3').style.display = "block";
+        }else if (name == "rass" && value == "no"){
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                acuteOnset: "no",
+                fluctuatingCourse: "no",
+                inattention: "no",
+                levelOfConsciousness: "no",
+                disorganizedThinking: "no"
+            }));
+
+            setFormDisplay((prevFormData) => ({
+                ...prevFormData,
+                q2and3: "none",
+                q4: "none",
+                q5: "none",
+                q6: "none"
+            }));
+            // document.getElementById('q2and3').style.display = "none";
+            // document.getElementById('q4').style.display = "none";
+            // document.getElementById('q5').style.display = "none";
+            // document.getElementById('q6').style.display = "none";
+        }else if ((name == "acuteOnset" && value == "yes") || (name == "fluctuatingCourse" && value == "yes")){
+            // document.getElementById('q4').style.display = "block";
+            setFormDisplay((prevFormData) => ({
+                ...prevFormData,
+                q4: "block"
+            }));
+
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                inattention: "no",
+                levelOfConsciousness: "no",
+                disorganizedThinking: "no"
+            }));
+        }else if (((name == "acuteOnset" && value == "no") && formData.fluctuatingCourse == "no") || ((name == "fluctuatingCourse" && value == "no") && formData.acuteOnset == "no")){
+            setFormDisplay((prevFormData) => ({
+                ...prevFormData,
+                q4: "none",
+                q5: "none",
+                q6: "none"
+            }));
+
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                inattention: "no",
+                levelOfConsciousness: "no",
+                disorganizedThinking: "no"
+            }));
+            
+            // document.getElementById('q4').style.display = "none";
+            // document.getElementById('q5').style.display = "none";
+            // document.getElementById('q6').style.display = "none";
+        }else if (name == "inattention" && value == "yes"){
+            setFormDisplay((prevFormData) => ({
+                ...prevFormData,
+                q5: "block",
+                q6: "block"
+            }));
+            // document.getElementById('q5').style.display = "block";
+            // document.getElementById('q6').style.display = "block";
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                levelOfConsciousness: "no",
+                disorganizedThinking: "no"
+            }));
+        }else if (name == "inattention" && value == "no"){
+            setFormDisplay((prevFormData) => ({
+                ...prevFormData,
+                q5: "none",
+                q6: "none"
+            }));
+            // document.getElementById('q5').style.display = "none";
+            // document.getElementById('q6').style.display = "none";
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                levelOfConsciousness: "no",
+                disorganizedThinking: "no"
+            }));
         }
+
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: value
+          }));
     };
 
-    const [q2Value, setQ2Value] = useState('no');
-    const handleQ2Value = (event, newQ2Value) => {
-        setQ2Value(newQ2Value);
-        {handleCalculate(q1Value, newQ2Value, q3Value, q4Value, q5Value, q6Value)};
-        if(newQ2Value == 'yes' || q3Value == 'yes') {
-            document.getElementById('q4').style.display = "block";
-        } else {
-            document.getElementById('q4').style.display = "none";
-            document.getElementById('q5').style.display = "none";
-            document.getElementById('q6').style.display = "none";
-            {handleCalculate(q1Value, q2Value, q3Value, "no", "no", "no")};
-            setQ4Value('no');
-            setQ6Value('no');
-            setQ5Value('no');
-        }
-    };
+    return (
+        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+            <form>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Typography align='left' variant='overline' display="block" p={1} style={{fontWeight: 'bold', color: 'white', backgroundColor: '#41ADA4'}}>
+                        Level of Consciousnss
+                    </Typography>
+                    <Grid container spacing={2} my={1} pb={1} justifyContent="center" alignItems="center">
+                        <Grid item xs={12} sm={6}>
+                                <Typography align='left'>
+                                    RASS ≥ -3
+                                </Typography>
+                                <Typography align='left' variant='caption' display="block">
+                                    Or other scoring system shows sufficient level of consciousness
+                                </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                                <ToggleButtonGroup color="primary" exclusive value={formData.rass} onChange={handleInputChange}>
+                                    <ToggleButton value="no" name="rass">
+                                        No
+                                    </ToggleButton>
+                                    <ToggleButton value="yes" name="rass">
+                                        Yes
+                                    </ToggleButton>
+                                    
+                                </ToggleButtonGroup>
+                        </Grid>
+                    </Grid>
+                    <Grid id="q2and3" style={{display: formDisplay.q2and3 } }>
+                    <Typography align='left' variant='overline' display="block" p={1} style={{fontWeight: 'bold', color: 'white', backgroundColor: '#41ADA4'}}>
+                        Feature 1: Acute Onset or Fluctuating Course
+                    </Typography>
+                    <Grid id="surgeryType" container spacing={2} my={1} justifyContent="center" alignItems="center">
+                        <Grid item xs={12} sm={6}>
+                                <Typography align='left'>
+                                    Patient different than baseline, pre-hospital mental status
+                                </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                                <ToggleButtonGroup color="primary" exclusive value={formData.acuteOnset} onChange={handleInputChange}>
+                                    <ToggleButton value="no" name="acuteOnset">
+                                        No
+                                    </ToggleButton>
+                                    <ToggleButton value="yes" name="acuteOnset">
+                                        Yes
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={2} my={1} pb={1} justifyContent="center" alignItems="center" >
+                        <Grid item xs={12} sm={6}>
+                                <Typography align='left'>
+                                    Patient with fluctuating mental status in past 24 hours by fluctuation of level of consciousness/sedation
+                                </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                                <ToggleButtonGroup color="primary" exclusive value={formData.fluctuatingCourse} onChange={handleInputChange}>
+                                    <ToggleButton value="no" name="fluctuatingCourse">
+                                        No
+                                    </ToggleButton>
+                                    <ToggleButton value="yes" name="fluctuatingCourse">
+                                        Yes
+                                    </ToggleButton>
+                                    
+                                </ToggleButtonGroup>
+                        </Grid>
+                    </Grid>
+                    </Grid>
+                    <Grid id="q4" style={{display: formDisplay.q4 } }>
+                    <Typography align='left' variant='overline' display="block" p={1} style={{fontWeight: 'bold', color: 'white', backgroundColor: '#41ADA4'}}>
+                        Feature 2: Inattention
+                    </Typography>
+                    <Grid container spacing={2} my={1} pb={1} justifyContent="center" alignItems="baseline">
+                        <Grid item xs={12} sm={6}>
+                                <Typography align='left'>
+                                    Letters attention test with &gt;2 errors
+                                </Typography>
+                                <Typography align='left' variant='caption' display="block">
+                                    Say C-A-S-A-B-L-A-N-C-A. Patient should squeeze your hand when the letter A is spoken. Error is missing an A or squeezing without an A.
+                                </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                                <ToggleButtonGroup color="primary" exclusive value={formData.inattention} onChange={handleInputChange}>
+                                    <ToggleButton value="no" name="inattention">
+                                        No
+                                    </ToggleButton>
+                                    <ToggleButton value="yes" name="inattention">
+                                        Yes
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
+                        </Grid>
+                    </Grid>
+                    </Grid>
+                    <Grid id="q5" style={{display: formDisplay.q5 } }>
+                    <Typography align='left' variant='overline' display="block" p={1} style={{fontWeight: 'bold', color: 'white', backgroundColor: '#41ADA4'}}>
+                        Feature 3: Altered Level of Consciousness
+                    </Typography>
+                    <Grid container spacing={2} my={1} pb={1} justifyContent="center" alignItems="baseline">
+                        <Grid item xs={12} sm={6}>
+                                <Typography align='left'>
+                                    RASS is not 0 (alert and calm)
+                                </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                                <ToggleButtonGroup color="primary" exclusive value={formData.levelOfConsciousness} onChange={handleInputChange}>
+                                    <ToggleButton value="no" name="levelOfConsciousness">
+                                        No
+                                    </ToggleButton>
+                                    <ToggleButton value="yes" name="levelOfConsciousness">
+                                        Yes
+                                    </ToggleButton>
+                                    
+                                </ToggleButtonGroup>
+                        </Grid>
+                    </Grid>
+                    </Grid>
+                    <Grid id="q6" style={{display: formDisplay.q6 } }>
+                    <Typography align='left' variant='overline' display="block" p={1} style={{fontWeight: 'bold', color: 'white', backgroundColor: '#41ADA4'}}>
+                        Feature 4: Disorganized Thinking (modal)
+                    </Typography>
+                    <Grid container spacing={2} my={1} pb={1} justifyContent="center" alignItems="baseline">
+                        <Grid item xs={12} sm={6}>
+                                <Typography align='left'>
+                                    Combined number of errors to questions and commands &gt;1
+                                </Typography>
+                                <Typography align='left' variant='caption' display="block">
+                                    Ask the patient the following yes/no questions and count errors: 1. Will a stone float on water?; 2. Are there fish in the sea?; 3. Does 1 pound weigh more than 2 pounds?; 4. Can you use a hammer to pound a nail? Next, ask the patient to follow your commands: a) “Hold up this many fingers” (hold up 2 fingers) ; b) “Now do the same thing with the other hand” (do not demonstrate the number of fingers). If unable to move both arms, for part “b” ask patient to hold up one more finger. Count errors if patient is unable to complete the entire command.
+                                </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                                <ToggleButtonGroup color="primary" exclusive value={formData.disorganizedThinking} onChange={handleInputChange}>
+                                    <ToggleButton value="no" name="disorganizedThinking">
+                                        No
+                                    </ToggleButton>
+                                    <ToggleButton value="yes" name="disorganizedThinking">
+                                        Yes
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
+                        </Grid>
+                    </Grid>
+                    </Grid>
+                    <div>
+                        <Button variant="contained" sx={{mt: 2, backgroundColor: '#41ADA4'}} type="submit" onClick="{handleResetForm}"> 
+                            Reset
+                        </Button>
+                    </div>
+                </Box>
+            </form>
+            <Typography variant="h6" mt={5} mb={1} sx={{fontWeight:'bold'}} component="div">
+                Results
+            </Typography>
+            <CalcResultCard pointAllocated={pointAllocated} interpretation={interpretation} scoreType={scoreType}></CalcResultCard>
+        </div>
+    )
+}
 
-    const [q3Value, setQ3Value] = useState('no');
-    const handleQ3Value = (event, newQ3Value) => {
-        setQ3Value(newQ3Value);
-        {handleCalculate(q1Value, q2Value, newQ3Value, q4Value, q5Value, q6Value)};
-        if(newQ3Value == 'yes' || q2Value == 'yes') {
-            document.getElementById('q4').style.display = "block";
-        } else {
-            document.getElementById('q4').style.display = "none";
-            document.getElementById('q5').style.display = "none";
-            document.getElementById('q6').style.display = "none";
-            {handleCalculate(q1Value, q2Value, q3Value, "no", "no", "no")};
-            setQ4Value('no');
-            setQ6Value('no');
-            setQ5Value('no');
-        }
-    };
-
-    const [q4Value, setQ4Value] = useState('no');
-    const handleQ4Value = (event, newQ4Value) => {
-        setQ4Value(newQ4Value);
-        {handleCalculate(q1Value, q2Value, q3Value, newQ4Value, q5Value, q6Value)};
-        if(newQ4Value == 'yes') {
-            document.getElementById('q5').style.display = "block";
-            document.getElementById('q6').style.display = "block";
-        } else {
-            document.getElementById('q5').style.display = "none";
-            document.getElementById('q6').style.display = "none";
-            {handleCalculate(q1Value, q2Value, q3Value, q4Value, "no", "no")};
-            setQ5Value('no');
-            setQ6Value('no');
-        }
-    };
-
-    const [q5Value, setQ5Value] = useState('no');
-    const handleQ5Value = (event, newQ5Value) => {
-        setQ5Value(newQ5Value);
-        {handleCalculate(q1Value, q2Value, q3Value, q4Value, newQ5Value, q6Value)};
-    };
-
-    const [q6Value, setQ6Value] = useState('no');
-    const handleQ6Value = (event, newQ6Value) => {
-        setQ6Value(newQ6Value);
-        {handleCalculate(q1Value, q2Value, q3Value, q4Value, q5Value, newQ6Value)};
-    };
-
+function Tab2Content(props){
+    const {formData} = props;
+    
     function createData( data ) {
         return { data };
     }
@@ -171,191 +334,105 @@ const CamIcu = () => {
         )
     ];
 
+    return (
+        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableBody>
+                        {rows.map((row) => (
+                            <TableRow>
+                                <TableCell component="th" scope="row">
+                                    {row.data}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
+    )
+}
+
+const CamIcu = () => {
+    //state for calc result card
+    const [pointAllocated , setPointAllocated] = useState("-")
+    const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
+    const [scoreType, setScoreType] = useState('CAM-ICU')
+
+    //state for form fields
+    const [formData, setFormData] = useState({
+        "rass": "",
+        "acuteOnset": "",
+        "fluctuatingCourse": "",
+        "inattention": "",
+        "levelOfConsciousness": "",
+        "disorganizedThinking": ""
+    });
+
+    //state for form fields display
+    const [formDisplay, setFormDisplay] = useState({
+        "q2and3": "none",
+        "q4": "none",
+        "q5": "none",
+        "q6": "none"
+    });
+    
+    const BASE_URL = import.meta.env.VITE_API_URL
+
+    useEffect(() => {
+        // Check if all fields are entered
+        const formValues = Object.values({ ...formData });
+        if (formValues.some((value) => value === '' || value === undefined)) {
+            setPointAllocated("-");
+            setInterpretation("Please enter the required values in the respective fields to perform the calculations.")
+        } else{
+            
+            const sendToBackend = async () => { 
+                await axios.post(`${BASE_URL}/calculator/cam-icu`,
+                {
+                    "rass": formValues[0],
+                    "acuteOnset": formValues[1],
+                    "fluctuatingCourse": formValues[2],
+                    "inattention": formValues[3],
+                    "levelOfConsciousness": formValues[4],
+                    "disorganizedThinking": formValues[5],
+                }
+                ).then(
+                    res => {
+                        let data = res.data
+                        setPointAllocated(res.data.result)
+                        setInterpretation(res.data.interpretation)
+                        return 200;
+                    }
+                ).catch(
+                    err => {
+                        if(err.response.status == 500) {
+                            navigate("/500");
+                        } else if(err.response.status == 404) {
+                            navigate("/404");
+                        } else {
+                            navigate("/other-errors");
+                        }
+                        // return 500
+                    }
+                )
+            };
+            sendToBackend();
+        }
+    }, [formData])
+
     const tabs = [
         {
           label: "General Information",
           Component: (
-            <div style={{marginLeft:'10%', marginRight:'10%'}}>
-            <form>
-                <Box sx={{ flexGrow: 1 }}>
-                    <Typography align='left' variant='overline' display="block" p={1} style={{fontWeight: 'bold', color: 'white', backgroundColor: '#41ADA4'}}>
-                        Level of Consciousnss
-                    </Typography>
-                    <Grid container spacing={2} my={1} pb={1} justifyContent="center" alignItems="center">
-                        <Grid item xs={12} sm={6}>
-                                <Typography align='left'>
-                                    RASS ≥ -3
-                                </Typography>
-                                <Typography align='left' variant='caption' display="block">
-                                    Or other scoring system shows sufficient level of consciousness
-                                </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive value={q1Value} onChange={handleQ1Value}>
-                                    <ToggleButton value="no">
-                                        No
-                                    </ToggleButton>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
-                                    
-                                </ToggleButtonGroup>
-                        </Grid>
-                    </Grid>
-                    <Grid id="q2and3" style={{display:'none'}}>
-                    <Typography align='left' variant='overline' display="block" p={1} style={{fontWeight: 'bold', color: 'white', backgroundColor: '#41ADA4'}}>
-                        Feature 1: Acute Onset or Fluctuating Course
-                    </Typography>
-                    <Grid id="surgeryType" container spacing={2} my={1} justifyContent="center" alignItems="center">
-                        <Grid item xs={12} sm={6}>
-                                <Typography align='left'>
-                                    Patient different than baseline, pre-hospital mental status
-                                </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive value={q2Value} onChange={handleQ2Value}>
-                                    <ToggleButton value="no">
-                                        No
-                                    </ToggleButton>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
-                                </ToggleButtonGroup>
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={2} my={1} pb={1} justifyContent="center" alignItems="center" >
-                        <Grid item xs={12} sm={6}>
-                                <Typography align='left'>
-                                    Patient with fluctuating mental status in past 24 hours by fluctuation of level of consciousness/sedation
-                                </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive value={q3Value} onChange={handleQ3Value}>
-                                    <ToggleButton value="no">
-                                        No
-                                    </ToggleButton>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
-                                    
-                                </ToggleButtonGroup>
-                        </Grid>
-                    </Grid>
-                    </Grid>
-                    <Grid id="q4" style={{display:'none'}}>
-                    <Typography align='left' variant='overline' display="block" p={1} style={{fontWeight: 'bold', color: 'white', backgroundColor: '#41ADA4'}}>
-                        Feature 2: Inattention
-                    </Typography>
-                    <Grid container spacing={2} my={1} pb={1} justifyContent="center" alignItems="baseline">
-                        <Grid item xs={12} sm={6}>
-                                <Typography align='left'>
-                                    Letters attention test with &gt;2 errors
-                                </Typography>
-                                <Typography align='left' variant='caption' display="block">
-                                    Say C-A-S-A-B-L-A-N-C-A. Patient should squeeze your hand when the letter A is spoken. Error is missing an A or squeezing without an A.
-                                </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive value={q4Value} onChange={handleQ4Value}>
-                                    <ToggleButton value="no">
-                                        No
-                                    </ToggleButton>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
-                                </ToggleButtonGroup>
-                        </Grid>
-                    </Grid>
-                    </Grid>
-                    <Grid id="q5" style={{display:'none'}}>
-                    <Typography align='left' variant='overline' display="block" p={1} style={{fontWeight: 'bold', color: 'white', backgroundColor: '#41ADA4'}}>
-                        Feature 3: Altered Level of Consciousness
-                    </Typography>
-                    <Grid container spacing={2} my={1} pb={1} justifyContent="center" alignItems="baseline">
-                        <Grid item xs={12} sm={6}>
-                                <Typography align='left'>
-                                    RASS is not 0 (alert and calm)
-                                </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive value={q5Value} onChange={handleQ5Value}>
-                                    <ToggleButton value="no">
-                                        No
-                                    </ToggleButton>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
-                                    
-                                </ToggleButtonGroup>
-                        </Grid>
-                    </Grid>
-                    </Grid>
-                    <Grid id="q6" style={{display:'none'}}>
-                    <Typography align='left' variant='overline' display="block" p={1} style={{fontWeight: 'bold', color: 'white', backgroundColor: '#41ADA4'}}>
-                        Feature 4: Disorganized Thinking (modal)
-                    </Typography>
-                    <Grid container spacing={2} my={1} pb={1} justifyContent="center" alignItems="baseline">
-                        <Grid item xs={12} sm={6}>
-                                <Typography align='left'>
-                                    Combined number of errors to questions and commands &gt;1
-                                </Typography>
-                                <Typography align='left' variant='caption' display="block">
-                                    Ask the patient the following yes/no questions and count errors: 1. Will a stone float on water?; 2. Are there fish in the sea?; 3. Does 1 pound weigh more than 2 pounds?; 4. Can you use a hammer to pound a nail? Next, ask the patient to follow your commands: a) “Hold up this many fingers” (hold up 2 fingers) ; b) “Now do the same thing with the other hand” (do not demonstrate the number of fingers). If unable to move both arms, for part “b” ask patient to hold up one more finger. Count errors if patient is unable to complete the entire command.
-                                </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                                <ToggleButtonGroup color="primary" exclusive value={q6Value} onChange={handleQ6Value}>
-                                    <ToggleButton value="no">
-                                        No
-                                    </ToggleButton>
-                                    <ToggleButton value="yes">
-                                        Yes
-                                    </ToggleButton>
-                                </ToggleButtonGroup>
-                        </Grid>
-                    </Grid>
-                    </Grid>
-                    <div>
-                        <Button variant="contained" sx={{mt: 2, backgroundColor: '#41ADA4'}} type="submit" onClick="{handleResetForm}"> 
-                            Reset
-                        </Button>
-                    </div>
-                </Box>
-            </form>
-            <Typography variant="h6" mt={5} mb={1} sx={{fontWeight:'bold'}} component="div">
-                Results
-            </Typography>
-            <CalcResultCard pointAllocated={pointAllocated} interpretation={interpretation} scoreType={scoreType}></CalcResultCard>
-            </div>
+            <Tab1Content formDisplay={formDisplay} setFormDisplay={setFormDisplay} formData={formData} setFormData={setFormData} pointAllocated={pointAllocated} setPointAllocated={setPointAllocated} interpretation={interpretation} setInterpretation={setInterpretation} scoreType={scoreType}/>
           )
         },
         {
-            label: "Point System",
-            Component: (
-                <div style={{marginLeft:'10%', marginRight:'10%'}}>
-                    <TableContainer component={Paper}>
-                        <Table aria-label="simple table">
-                            <TableBody>
-                                {rows.map((row) => (
-                                    <TableRow>
-                                        <TableCell component="th" scope="row">
-                                            {row.data}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
-                // <div>
-                // <p>The patient is CAM-ICU positive (patient has delirium) if:</p>
-                // <p>RASS ≥ -3, AND</p>
-                // <p>Acute onset change in mental status or fluctuating course in mental status, AND</p>
-                // <p>2 errors in letters attention test, AND</p>
-                // <p>Either RASS is not 0, OR combined number of errors to questions and commands {'>'}1</p>
-                // <p>2 errors in letters attention test, AND</p>
-                // </div>
-            )
+          label: "Point System",
+          Component: (
+            <Tab2Content formDisplay={formDisplay} setFormDisplay={setFormDisplay} formData={formData} />
+          )
         }
       ];
 

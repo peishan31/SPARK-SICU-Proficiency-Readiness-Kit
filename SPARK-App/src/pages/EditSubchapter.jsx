@@ -84,6 +84,7 @@ export default function EditSubchapter() {
                 thumbnail: base64Thumbnail,
                 description: subchapDesc,
                 content: DOMPurify.sanitize(content),
+                lastModifiedUserID: userId,
                 selectedChapter: chapSelected
             }
 
@@ -94,8 +95,9 @@ export default function EditSubchapter() {
                 thumbnail: base64Thumbnail,
                 description: subchapDesc,
                 content: DOMPurify.sanitize(content),
+                lastModifiedUserID: userId,
                 selectedChapter: chapSelected
-            }, { withCredentials: true })
+            })
             .then(() => {
                 setLoading(false);
                 navigate("/chapters");

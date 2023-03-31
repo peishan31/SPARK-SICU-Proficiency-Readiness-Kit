@@ -21,7 +21,7 @@ import TableRow from '@mui/material/TableRow';
 
 function Tab1Content(props){
 
-    const {tempUnitStatus, setTempUnit, creatinineUnitStatus, setCreatinineUnit, formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
+    const {formDisplay, setFormDisplay, tempUnitStatus, setTempUnit, creatinineUnitStatus, setCreatinineUnit, formData, setFormData, pointAllocated , setPointAllocated, interpretation , setInterpretation, scoreType} = props;
 
     const ToggleButton = styled(MuiToggleButton)({
         "&.Mui-selected": {
@@ -142,7 +142,14 @@ function Tab1Content(props){
             "pao": "",
             "aaGradient": ""
         };
-        setFormData(initialFormData);
+        setFormDisplay(initialFormData);
+
+        const initialFormDisplay = {
+            "surgeryType": "none",
+            "aaGradient": "none",
+            "paOxygen": "none"
+        }
+        setFormDisplay(initialFormDisplay);
     }
 
     const handleInputChange = async (e) => {
@@ -155,10 +162,20 @@ function Tab1Content(props){
                     ...prevFormData,
                     typeOfSurgery: ""
                 }));
-                document.getElementById('surgeryType').style.display = "flex";
+
+                setFormDisplay((prevFormData) => ({
+                    ...prevFormData,
+                    surgeryType: "flex"
+                }));
+                // document.getElementById('surgeryType').style.display = "flex";
 
             } else {
-                document.getElementById('surgeryType').style.display = "none";
+                setFormDisplay((prevFormData) => ({
+                    ...prevFormData,
+                    surgeryType: "none"
+                }));
+                // document.getElementById('surgeryType').style.display = "none";
+                
                 setFormData((prevFormData) => ({
                     ...prevFormData,
                     typeOfSurgery: "skipCheck"
@@ -173,8 +190,14 @@ function Tab1Content(props){
                     ...prevFormData,
                     pao: ""
                 }));
-                document.getElementById('paOxygen').style.display = "flex";
-                document.getElementById('aaGradient').style.display = "none";
+
+                setFormDisplay((prevFormData) => ({
+                    ...prevFormData,
+                    paOxygen: "flex",
+                    aaGradient: "none"
+                }));
+                // document.getElementById('paOxygen').style.display = "flex";
+                // document.getElementById('aaGradient').style.display = "none";
                 setFormData((prevFormData) => ({
                     ...prevFormData,
                     aaGradient: "skipCheck"
@@ -185,8 +208,14 @@ function Tab1Content(props){
                     ...prevFormData,
                     aaGradient: ""
                 }));
-                document.getElementById('aaGradient').style.display = "flex";
-                document.getElementById('paOxygen').style.display = "none";
+
+                setFormDisplay((prevFormData) => ({
+                    ...prevFormData,
+                    paOxygen: "none",
+                    aaGradient: "flex"
+                }));
+                // document.getElementById('aaGradient').style.display = "flex";
+                // document.getElementById('paOxygen').style.display = "none";
                 setFormData((prevFormData) => ({
                     ...prevFormData,
                     pao: "skipCheck"
@@ -194,60 +223,10 @@ function Tab1Content(props){
             } 
         }
         
-
         setFormData((prevFormData) => ({
             ...prevFormData,
             [name]: value
           }));
-
-        
-        // Check if all fields are entered
-        // const formValues = Object.values({ ...formData, [name]: value });
-        //     console.log(formValues[0] + " formValue[0] missing");
-        //     console.log(formValues[1] + " formValue[1] missing");
-
-            //formValues.some(value => value !== undefined && value !== '' && value === 'someValue')
-
-        // if (formValues.some((value) => value === '' || value === undefined)) {
-        //     setPointAllocated(0);
-        //     setInterpretation("Please enter the required values in the respective fields to perform the calculations.")
-        // }else{
-        //     console.log(formValues[0] + " formValue[0]");
-        //     console.log(formValues[1] + " formValue[1]");
-        //     await axios.post(`http://localhost:8080/calculator/apache-ii-score`,
-        //         {
-        //             "cancerHistory": formValues[0],
-        //             "typeOfSurgery": formValues[1],
-        //             "age": formValues[2],
-        //             "temperature": formValues[3],
-        //             "meanArterialPressure": formValues[4],
-        //             "pH" : formValues[5],
-        //             "heartrate": formValues[6],
-        //             "respiratoryRate": formValues[7],
-        //             "sodium": formValues[8],
-        //             "potassium": formValues[9],
-        //             "creatinine": formValues[10],
-        //             "acuteRenalFailure": formValues[11],
-        //             "hematocrit": formValues[12],
-        //             "whiteBloodCell": formValues[13],
-        //             "gcs": formValues[14],
-        //             "fio": formValues[15],
-        //             "pao": formValues[16],
-        //             "aaGradient": formValues[17]
-        //         }
-        //     ).then(
-        //         res => {
-        //             let data = res.data
-        //             setPointAllocated(res.data.pointAllocated)
-        //             setInterpretation(res.data.result.interpretation)
-        //             return 200;
-        //         }
-        //     ).catch(
-        //         err => {
-        //             return 500
-        //         }
-        //     )
-        // }
     };
 
     return (
@@ -429,7 +408,7 @@ function Tab1Content(props){
                         </Grid>
                         </Grid>
                     <Divider></Divider>
-                    <Grid id="surgeryType" container spacing={2} my={1} justifyContent="center" alignItems="center" style={{display:'none'}}>
+                    <Grid id="surgeryType" container spacing={2} my={1} justifyContent="center" alignItems="center" style={{display: formDisplay.surgeryType } }>
                         <Grid item xs={12} sm={6}>
                             <Typography align='left'>
                                 Type of surgery
@@ -489,7 +468,7 @@ function Tab1Content(props){
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid id="paOxygen" container spacing={2} my={1} justifyContent="center" alignItems="center" style={{display:'none'}}>
+                    <Grid id="paOxygen" container spacing={2} my={1} justifyContent="center" alignItems="center" style={{display: formDisplay.paOxygen } }>
                         <Grid item xs={12} sm={6}>
                             <Typography align='left'>
                                 PaO₂, mmHg
@@ -513,7 +492,7 @@ function Tab1Content(props){
                         </Grid>
                     </Grid>
                     <Divider></Divider>
-                    <Grid id="aaGradient" container spacing={2} my={1} justifyContent="center" alignItems="center" style={{display:'none'}}>
+                    <Grid id="aaGradient" container spacing={2} my={1} justifyContent="center" alignItems="center" style={{display: formDisplay.aaGradient } }>
                         <Grid item xs={12} sm={6}>
                             <Typography align='left'>
                                 A-a gradient
@@ -965,6 +944,7 @@ const ApacheIIScore = () => {
         "aaGradient": ""
     });
 
+    //state for label that have different unit of measurement & values
     const [tempUnitStatus, setTempUnit] = useState(false);
     const [creatinineUnitStatus, setCreatinineUnit] = useState(false);
     
@@ -972,7 +952,16 @@ const ApacheIIScore = () => {
     const [pointAllocated , setPointAllocated] = useState("-")
     const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
     const [scoreType, setScoreType] = useState('APACHE II Index')
+    
+    //state for form fields display
+    const [formDisplay, setFormDisplay] = useState({
+        "surgeryType": "none",
+        "aaGradient": "none",
+        "paOxygen": "none"
+    });
 
+    const BASE_URL = import.meta.env.VITE_API_URL
+    
     useEffect(() => {
         // Check if all fields are entered
         const formValues = Object.values({ ...formData });
@@ -996,7 +985,7 @@ const ApacheIIScore = () => {
             }
             console.log("form values: " + formValues);
             const sendToBackend = async () => { 
-                await axios.post(`http://localhost:8080/calculator/apache-ii-score`,
+                await axios.post(`${BASE_URL}/calculator/apache-ii-score`,
                     {
                         "cancerHistory": formValues[0],
                         "typeOfSurgery": formValues[1],
@@ -1047,13 +1036,13 @@ const ApacheIIScore = () => {
         {
           label: "General Information",
           Component: (
-            <Tab1Content tempUnitStatus={tempUnitStatus} setTempUnit={setTempUnit} creatinineUnitStatus={creatinineUnitStatus} setCreatinineUnit={setCreatinineUnit} formData={formData} setFormData={setFormData} pointAllocated={pointAllocated} setPointAllocated={setPointAllocated} interpretation={interpretation} setInterpretation={setInterpretation} scoreType={scoreType}/>
+            <Tab1Content formDisplay={formDisplay} setFormDisplay={setFormDisplay} tempUnitStatus={tempUnitStatus} setTempUnit={setTempUnit} creatinineUnitStatus={creatinineUnitStatus} setCreatinineUnit={setCreatinineUnit} formData={formData} setFormData={setFormData} pointAllocated={pointAllocated} setPointAllocated={setPointAllocated} interpretation={interpretation} setInterpretation={setInterpretation} scoreType={scoreType}/>
           )
         },
         {
           label: "Point System",
           Component: (
-            <Tab2Content formData={formData}/>
+            <Tab2Content formDisplay={formDisplay} setFormDisplay={setFormDisplay} formData={formData}/>
           )
         }
       ];

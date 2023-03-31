@@ -69,7 +69,7 @@ function FlashcardList() {
                     </div>
                 ) :
                 (
-                    <>
+                    <div className="wrapper">
                         <div className="dropdownContainerDiv">
                             <div className="dropdown">
                                 <FormControl sx={{width: "200px"}}>
@@ -131,7 +131,7 @@ function FlashcardList() {
                                 })
                             }
                         </div>
-                </>
+                    </div>
                 )
             }
             
