@@ -10,7 +10,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SubchapterCard from '../components/subchapters/SubchapterCard';
 import { useAppState, useActions } from '../overmind';
 import { trim } from 'lodash';
-
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CircularProgress from '@mui/material/CircularProgress';
 
 
@@ -116,6 +118,29 @@ const Subchapters = ({ searchInput }) => {
         },
     };
  
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
+  
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+  
+    const handleWindowSizeChange = () => {
+      setIsMobile(window.innerWidth < 1080);
+    };
+  
+    useEffect(() => {
+      setIsMobile(window.innerWidth < 1080);
+      window.addEventListener("resize", handleWindowSizeChange);
+      return () => {
+        window.removeEventListener("resize", handleWindowSizeChange);
+      };
+    }, []);
+
     function toTwemoji(string) {
         return twemoji.parse(string)
     };
@@ -173,20 +198,18 @@ const Subchapters = ({ searchInput }) => {
     if (!currentChapter) {
         return (
             <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '200px',
-                        margin: '0 auto',
-                    }}
-                >
-                    <CircularProgress color='info' size={40} thickness={4} />
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '200px',
+                    margin: '0 auto',
+                }}
+            >
+                <CircularProgress color='info' size={40} thickness={4} />
             </Box>
-        
         )
     }
-
 
     return (
 
@@ -201,70 +224,80 @@ const Subchapters = ({ searchInput }) => {
                 </Typography>
 
                 <React.Fragment>
-                    {userType !="junior"
-                        ? 
-
-                <Stack direction="row" spacing={2} ml="auto">
-                    {/* <Button variant="outlined">Select</Button> */}
-
-                    <Button 
-                        // component={Link}
-                        onClick={
-                            e => { deleteChapter() }
-                        }
-                        variant="outlined"
-                        sx={{
-                            color: 'white',
-                            backgroundColor: 'white', // Set background color on hover
-                            borderColor: '#41ADA4 !important', // Set border color on hover
-                            color: '#41ADA4',
-                            '&:hover': {
-                                backgroundColor: '#41ADA4',
-                                borderColor: '#41ADA4',
-                                color: 'white',
-                            },
-                        }}
-                        >
-                        <DeleteOutlinedIcon />
+                    {userType !== "junior" ? (
+                        isMobile ? (
+                        <Stack direction="row" spacing={2} ml="auto">
+                            <IconButton onClick={handleClick} size="large" sx={styles.button}>
+                            <MoreVertIcon />
+                            </IconButton>
+                            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+                            <MenuItem
+                                onClick={() => {
+                                deleteChapter();
+                                handleClose();
+                                }}
+                            >
+                                <DeleteOutlinedIcon />
+                                Delete chapter
+                            </MenuItem>
+                            <MenuItem
+                                onClick={() => {
+                                navigate(`/Chapters/${currentChapter.currentChapterId}/EditChapter`, {
+                                    state: {
+                                    chapterId: currentChapter.currentChapterId,
+                                    chapterTitle: chapterState.selectedChapter.currentChapterTitle,
+                                    chapterIcon: chapterState.selectedChapter.currentChapterIcon,
+                                    },
+                                });
+                                handleClose();
+                                }}
+                            >
+                                <EditIcon />
+                                Edit chapter
+                            </MenuItem>
+                            <MenuItem component={Link} to="/CreateSubchapter">
+                                <AddIcon />
+                                Create subchapter
+                            </MenuItem>
+                            </Menu>
+                        </Stack>
+                        ) : (
+                        <Stack direction="row" spacing={2} ml="auto">
+                            <Button
+                            onClick={(e) => {
+                                deleteChapter();
+                            }}
+                            variant="outlined"
+                            sx={styles.button}
+                            >
+                            <DeleteOutlinedIcon />
                             Delete chapter
-                    </Button>
-
-
-                    <Button 
-                        // component={Link}
-                        onClick={
-                            () => {
-                                navigate(`/Chapters/${currentChapter.currentChapterId}/EditChapter`,
-                                    {
-                                        state: {
-                                            chapterId: currentChapter.currentChapterId,
-                                            chapterTitle: chapterState.selectedChapter.currentChapterTitle,
-                                            chapterIcon: chapterState.selectedChapter.currentChapterIcon
-                                        }
-                                    })
-                            }
-                        }
-                        variant="outlined"
-                        sx={styles.button}
-                        >
-                        <EditIcon />
+                            </Button>
+                            <Button
+                            onClick={() => {
+                                navigate(`/Chapters/${currentChapter.currentChapterId}/EditChapter`, {
+                                state: {
+                                    chapterId: currentChapter.currentChapterId,
+                                    chapterTitle: chapterState.selectedChapter.currentChapterTitle,
+                                    chapterIcon: chapterState.selectedChapter.currentChapterIcon,
+                                },
+                                });
+                            }}
+                            variant="outlined"
+                            sx={styles.button}
+                            >
+                            <EditIcon />
                             Edit chapter
-                    </Button>
-                    <Button 
-                        component={Link}
-                        to="/CreateSubchapter"
-                        variant="outlined"
-                        sx={styles.button}
-                        >
-                        <AddIcon />
+                            </Button>
+                            <Button component={Link} to="/CreateSubchapter" variant="outlined" sx={styles.button}>
+                            <AddIcon />
                             Create subchapter
-                    </Button>
-                </Stack>
-                        : null
-                    }
+                            </Button>
+                        </Stack>
+                        )
+                    ) : null}
                 </React.Fragment>
 
-                
             </Grid>
         {
             !subchapterState.subchapterlist || subchapterState.subchapterlist.length === 0   ? 
