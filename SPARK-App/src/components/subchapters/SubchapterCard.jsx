@@ -88,7 +88,8 @@ export default function SubchapterCard({ subchapter, chapterId }) {
 
 
     return (
-        <Card sx={{ maxWidth: 445, 
+        <Card sx={{ 
+                    maxWidth: 445, 
                     borderRadius: "20px",
                     ':hover': {
                         bgcolor: '#41ADA4',
@@ -111,8 +112,15 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                     },
                     "&:hover .bookmarkOutline": {
                         color: "white"
-                    }
-                }}>
+                    },
+                    // "@media (max-width: 380px)": {
+                    //   maxWidth: 400,
+                    // },
+                    // "@media (max-width: 600px)": {
+                    //     maxWidth: 445,
+                    // }
+                }}
+            >
             <CardActionArea disableRipple>
                 <CardMedia
                     component="img"
@@ -140,7 +148,7 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                         <Box>
                             {
                                 isBookmarked ? 
-                                    <BookmarkIcon className="bookmark" margin={"4"} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon className="bookmarkOutline" margin={"4"} onClick={e => { bookmarkHandler() }} />
+                                    <BookmarkIcon className="bookmark" margin={4} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon className="bookmarkOutline" margin={"4"} onClick={e => { bookmarkHandler() }} />
                             }
                         </Box>
                     </Grid>
