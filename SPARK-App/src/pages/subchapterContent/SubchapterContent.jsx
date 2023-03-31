@@ -176,9 +176,18 @@ const SubchapterContent = () => {
 
             let rgx = "?![^<>]*>";
             const regex = new RegExp(`(${trim(subchapterSearchInput)})(${rgx})`, 'gi');
-            text = text.replaceAll(regex, "<span style=\"background-color:#e8bb49\">" + subchapterSearchInput + "</span>");
-            
-            return text
+            let listToReplace = text.match(regex)
+            let count = 0
+            // text = text.replace(regex, 0);
+            // "<span style=\"background-color:#e8bb49\">" + subchapterSearchInput + "</span>"
+            for(let i = 0;i < listToReplace.length;i++){
+                listToReplace[i] = "<span style=\"background-color:#e8bb49\">" + listToReplace[i] + "</span>"
+            }
+
+            return text.replace(regex, function($0){
+                if(count ===listToReplace.length) count = 0;
+                return listToReplace[count++]
+            })
 
         }
       }
@@ -189,6 +198,7 @@ const SubchapterContent = () => {
             return text;
         }
         // Split text on higlight term, include term itself into parts, ignore case
+       
         var parts = text.split(new RegExp(`(${searchInput})`, "gi"));
         return parts.map((part, index) => (
           <React.Fragment key={index}>
@@ -200,6 +210,7 @@ const SubchapterContent = () => {
           </React.Fragment>
         ));
       }
+    
     if ( subchapter.length == 0 ) {
         return (
             <div
