@@ -94,7 +94,7 @@ export default function EditSubchapter() {
             })
             .then(() => {
                 setLoading(false);
-                navigate("/chapters");
+                navigate("/chapters/"+chapSelected+"/subchapters");
             })
             .catch((error) => {
                 setLoading(false);
