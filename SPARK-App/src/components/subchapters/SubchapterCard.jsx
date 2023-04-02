@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Typography, Card, CardContent, CardMedia, CardActionArea, IconButton, Box, Grid } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -13,14 +13,14 @@ import { useAppState, useActions } from '../../overmind';
 export default function SubchapterCard({ subchapter, chapterId }) {
     const navigate = useNavigate();
     const currentSubchapterId = subchapter._id;
-    const [isBookmarked, setIsBookmarked] = useState(subchapter.isBookmarked);
+    const subchapterState = useAppState().subchapters
+    const subchapterActions = useActions().subchapters
+    const [isBookmarked, setIsBookmarked] = useState(subchapterState.isBookmarked);
+    const [bookmarkId, setBookmarkId] = useState(subchapterState.bookmarkId);
 
     const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
     const API_URL = import.meta.env.VITE_API_URL;
-
-    const subchapterState = useAppState().subchapters
-    const subchapterActions = useActions().subchapters
 
     const [open, setOpen] = useState(false);
     const handleClose = () => {
@@ -30,10 +30,15 @@ export default function SubchapterCard({ subchapter, chapterId }) {
       setOpen(!open);
     };
 
+    useEffect(() => {
+        setIsBookmarked(subchapter.isBookmarked);
+        setBookmarkId(subchapter.bookmarkId);
+    }, [subchapter]);
+
     async function addBookmark() {
         console.log("add")
         console.log(userId)
-        // handleToggle()
+
         await axios.put(
             API_URL + `/user/${userId}/bookmarks/`,
             {
@@ -42,16 +47,15 @@ export default function SubchapterCard({ subchapter, chapterId }) {
             }
         ).then(
             res => {
-                // subchapter.bookmarkId = res.data.bookmarkId
                 subchapterActions.setBookmarkId(res.data.bookmarkId)
-                subchapterActions.isBookmarked(true)
-                // subchapter.isBookmarked = true
-                // console.log(subchapter.isBookmarked)
-                // handleClose()
+                setBookmarkId(res.data.bookmarkId)
+                subchapterActions.setIsBookmarked(true)
+
                 return 200;
             }
         ).catch(
             err => {
+                console.log(err)
                 return 500;
             }
         )
@@ -60,24 +64,24 @@ export default function SubchapterCard({ subchapter, chapterId }) {
     async function removeBookmark(bookmarkId) {
         console.log("remove")
         console.log(userId)
-        // handleToggle()
         await axios.delete(
             API_URL + `/user/${userId}/bookmarks/${bookmarkId}`
         ).then(
             res => {
-                subchapter.isBookmarked = false
-                // handleClose()
+                subchapterActions.setIsBookmarked(false)
+                subchapterActions.setBookmarkId(null)
                 return 200;
             }
         ).catch(
             err => {
+                console.log(err)
                 return 500;
             }
         )}
 
     async function bookmarkHandler() {
         if(isBookmarked) {
-            await removeBookmark(subchapterState.bookmarkId)
+            await removeBookmark(bookmarkId)
             setIsBookmarked(false)            
         }
         else{
@@ -86,10 +90,8 @@ export default function SubchapterCard({ subchapter, chapterId }) {
         }
     }
 
-
     return (
-        <Card sx={{ 
-                    maxWidth: 445, 
+        <Card sx={{ maxWidth: 445, 
                     borderRadius: "20px",
                     ':hover': {
                         bgcolor: '#41ADA4',
@@ -112,15 +114,8 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                     },
                     "&:hover .bookmarkOutline": {
                         color: "white"
-                    },
-                    // "@media (max-width: 380px)": {
-                    //   maxWidth: 400,
-                    // },
-                    // "@media (max-width: 600px)": {
-                    //     maxWidth: 445,
-                    // }
-                }}
-            >
+                    }
+                }}>
             <CardActionArea disableRipple>
                 <CardMedia
                     component="img"
@@ -134,26 +129,14 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                                     state: {
                                         parentChapterId: chapterId,
                                         parentSubchapterId: currentSubchapterId,
-                                        bookmarkStatus: subchapterState.isBookmarked
+                                        bookmarkStatus: subchapter.isBookmarked,
+                                        bookmarkId: subchapter.bookmarkId
                                     }
                                 })
                         }
                     }
                 />
-                <CardContent
-                          onClick={
-                            () => {
-                                navigate(`${currentSubchapterId}/subchapterContent`,
-                                    {
-                                        state: {
-                                            parentChapterId: chapterId,
-                                            parentSubchapterId: currentSubchapterId,
-                                            bookmarkStatus: subchapterState.isBookmarked
-                                        }
-                                    })
-                            }
-                        }
-                >
+                <CardContent>
                     <Grid pb={1} display="flex" justifyContent="space-between">
                         <Typography display="contents" gutterBottom sx={{fontSize: "20px", fontWeight: "bold", lineHeight: 1.3}} component="div">
                             {subchapter.subchapterTitle}
@@ -161,10 +144,13 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                         <Box>
                             {
                                 isBookmarked ? 
-                                    <BookmarkIcon className="bookmark" margin={4} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon className="bookmarkOutline" margin={"4"} onClick={e => { bookmarkHandler() }} />
+                                    <BookmarkIcon className="bookmark" margin={"4"} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon className="bookmarkOutline" margin={"4"} onClick={e => { bookmarkHandler() }} />
                             }
                         </Box>
                     </Grid>
+                    <Typography className="cardText" variant="body2">
+                        {subchapter.description}
+                    </Typography>
                 </CardContent>
             </CardActionArea>
             <Backdrop

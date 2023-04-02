@@ -9,7 +9,7 @@ import { Box, Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify'; // Sanitizes HTML;  a tool that removes any potentially malicious code from HTML text;
-import { useAppState } from '../../overmind';
+import { useAppState, useActions } from '../../overmind';
 import { map, trim,join } from 'lodash';
 import Subchapters from '../Subchapters';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -26,14 +26,18 @@ const SubchapterContent = () => {
     
     const API_URL = BASE_URL + "/chapters"
 
+    const subchapterState = useAppState().subchapters
+    const subchapterActions = useActions().subchapters
+
     const chapterId = location.state.parentChapterId
     const subchapterId = location.state.parentSubchapterId
-    const bookmarkId = location.state.bookmarkId
-    const [isBookmarked, setIsBookmarked] = useState(location.state.bookmarkStatus);
+    const parentBookmarkId = subchapterState.bookmarkId
+    const bookmarkStatus = subchapterState.isBookmarked
+
+    const [isBookmarked, setIsBookmarked] = useState(bookmarkStatus);
+    const [bookmarkId, setBookmarkId] = useState(parentBookmarkId);
     const [lastEditedBool, setLastEditedBool] = useState(false);
     const [lastEditedByTime, setLastEditedByTime] = useState("");
-
-    // console.log(location.state.bookmarkStatus)
 
     const getSubchapterContent = async (chapterId, subchapterId) => {
         axios.get(`${API_URL}/${chapterId}/subchapters/${subchapterId}`)
@@ -41,6 +45,7 @@ const SubchapterContent = () => {
             setLastEditedBool(false)
             setSubchapter(res.data)
             console.log(res.data)
+            console.log(bookmarkStatus)
             if (res.data.lastModifiedUsername != "") {
 
                 setLastEditedBool(true)
@@ -64,7 +69,6 @@ const SubchapterContent = () => {
                 const singaporeTime = date.toLocaleString("en-SG", options);
                 setLastEditedByTime(singaporeTime);
             }
-            // console.log(res.data)
         })
     }
 
@@ -78,42 +82,35 @@ const SubchapterContent = () => {
             }
         ).then(
             res => {
+                subchapterActions.setBookmarkId(res.data.bookmarkId)
+                setBookmarkId(res.data.bookmarkId)
+                subchapterActions.setIsBookmarked(true)
                 return 200
             }
         ).catch(
             err => {
-                // return 500
-                if(err.response.status == 500) {
-                    navigate("/500");
-                } else if(err.response.status == 404) {
-                    navigate("/404");
-                } else {
-                    navigate("/other-errors");
-                }
+                return 500
             }
         )
     }
 
     async function removeBookmark(bookmarkId) {
-
-        await axios.delete(
-            BASE_URL + `/user/` + userId +`/bookmarks/${bookmarkId}`
-        ).then(
-            res => {
-                return 200
-            }
-        ).catch(
-            err => {
-                // return 500
-                if(err.response.status == 500) {
-                    navigate("/500");
-                } else if(err.response.status == 404) {
-                    navigate("/404");
-                } else {
-                    navigate("/other-errors");
-                }
-            }
-        )}
+        if (!bookmarkId) {
+            console.log("Invalid bookmarkId: ", bookmarkId);
+            return;
+        }
+        try {
+            await axios.delete(
+                BASE_URL + `/user/` + userId +`/bookmarks/${bookmarkId}`
+            );
+            subchapterActions.setBookmarkId(null);
+            subchapterActions.setIsBookmarked(false);
+            setBookmarkId(null);
+            setIsBookmarked(false);
+        } catch (error) {
+            console.error("Error removing bookmark: ", error);
+        }
+    }
 
     async function bookmarkHandler() {
         if(isBookmarked) {
@@ -144,14 +141,7 @@ const SubchapterContent = () => {
                     if (err.response.status == 401) {
                         alert("You are not authorized to perform this action")
                     }
-                    // return 500
-                    else if(err.response.status == 500) {
-                        navigate("/500");
-                    } else if(err.response.status == 404) {
-                        navigate("/404");
-                    } else {
-                        navigate("/other-errors");
-                    }
+                    return 500
                 }
             )}
     }
@@ -225,10 +215,14 @@ const SubchapterContent = () => {
 
             <div className="subchapterContent" style={{paddingBottom: "100px"}}>
                 <div className="subchapterContentContainer">
-                    <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
+                    <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1, {
+                        state: {
+                            bookmarkStatus: bookmarkStatus,
+                            bookmarkId: bookmarkId
+                        }
+                    }) }}/>
                     <div className="subchapterContentTop">
                         <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage"/>
-                        {/* <img className="headerImage" src={"../../../../assets/subchapters/neurology/severetbi.jpg"} alt="headerImage"/> */}
                         <div className="subchapterIcon">
                             <span dangerouslySetInnerHTML={{__html: toTwemoji(subchapter.chapterIcon)}}></span>
                         </div>
@@ -256,10 +250,9 @@ const SubchapterContent = () => {
                             </div>
                             <div className="subchapterAction">
                                 <Tooltip title="Bookmark" placement="top">
-                                    {/* <BookmarkBorderIcon className="subchapterActionIcon"/> */}
                                     {
                                         isBookmarked ? 
-                                            <BookmarkIcon margin={"4"} sx={{color: "#41ADA4"}} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon sx={{color: "#41ADA4"}} margin={"4"} onClick={e => { bookmarkHandler() }} />
+                                            <BookmarkIcon className="bookmark" margin={4} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon className="bookmarkOutline" margin={4} onClick={e => { bookmarkHandler() }} />
                                     }
                                 </Tooltip>
                             </div>
@@ -271,9 +264,9 @@ const SubchapterContent = () => {
                             <div className="subchapterCategory">
                                 {HighlightText(subchapter.chapterTitle)}
                             </div>
-                            {/* <div className="subchapterDescription">
+                            <div className="subchapterDescription">
                                 {HighlightText(subchapter.description)}
-                            </div> */}
+                            </div>
                             <div className="subchapterLastEditedBy">
                                 {
                                     lastEditedBool ? (
