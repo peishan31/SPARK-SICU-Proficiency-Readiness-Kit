@@ -24,7 +24,6 @@ export default function CreateSubchapter() {
     const [loading, setLoading] = useState(false);
     const [subchapTitle, setSubchapTitle] = useState('');
     const [chapSelected, setChapSelected] = useState('');
-    const [subchapDesc, setSubchapDesc] = useState('');
     const [chaps, setChaps] = useState([]);
     const [thumbnail, setThumbnail] = useState('');
     const [base64Thumbnail, setBase64Thumbnail] = useState('');
@@ -51,7 +50,6 @@ export default function CreateSubchapter() {
     }, []);
 
     async function addSubchapter() {
-        console.log("hjsdfdv")
         console.log(DOMPurify.sanitize(content));
         setErrorMessage(""); // initialize error message
         setLoading(true);
@@ -64,7 +62,6 @@ export default function CreateSubchapter() {
             .put(BASE_URL + '/chapters/' + chapSelected + '/subchapters/', {
                 subchapterTitle: subchapTitle,
                 thumbnail: base64Thumbnail,
-                description: subchapDesc,
                 content: DOMPurify.sanitize(content),
             }, { withCredentials: true })
             .then(() => {
@@ -247,26 +244,6 @@ export default function CreateSubchapter() {
                     <Grid item xs={12} >
                         <Grid container>
                             <Grid item xs={12} md={9} lg={9}>
-                                <TextField sx={{marginBottom: "2ch"}}
-                                    fullWidth
-                                    label='Description'
-                                    variant='outlined'
-                                    value={subchapDesc}
-                                    multiline
-                                    maxRows={4}
-                                    onChange={(event) =>{
-                                        setUntouched(false)
-                                        setSubchapDesc(event.target.value)
-                                    }}
-                                    error={subchapDesc.length < 1 && !untouched}
-                                    helperText={subchapDesc.length < 1 && !untouched ? 'Subchapter Description Cannot Be Empty' : ''}
-                                ></TextField>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} >
-                        <Grid container>
-                            <Grid item xs={12} md={9} lg={9}>
                                 <Editor
                                     apiKey={
                                         import.meta.env
@@ -315,7 +292,6 @@ export default function CreateSubchapter() {
                             }}
                             disabled={
                                 subchapTitle.length < 1 ||
-                                subchapDesc.length < 1 ||
                                 chapSelected.length < 1
                             }
                         >

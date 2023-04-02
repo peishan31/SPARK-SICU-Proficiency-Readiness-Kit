@@ -27,7 +27,6 @@ export default function EditSubchapter() {
     const [loading, setLoading] = useState(false);
     const [subchapTitle, setSubchapTitle] = useState('');
     const [chapSelected, setChapSelected] = useState('');
-    const [subchapDesc, setSubchapDesc] = useState('');
     const [chaps, setChaps] = useState([]);
     const [thumbnail, setThumbnail] = useState('');
     const [base64Thumbnail, setBase64Thumbnail] = useState('');
@@ -54,9 +53,7 @@ export default function EditSubchapter() {
                 console.log("data",res.data)
                 setSubchapTitle(res.data.subchapterTitle);
                 setChapSelected(res.data.chapterId);
-                setSubchapDesc(res.data.description);
                 setContent(res.data.content);
-                // setBase64Thumbnail("old");
                 setThumbnail({"name": res.data.thumbnail});
             })
         }
@@ -69,7 +66,6 @@ export default function EditSubchapter() {
     };
 
     async function addSubchapter() {
-        console.log("hjsdfdv")
         console.log(DOMPurify.sanitize(content));
         setErrorMessage(""); // initialize error message
         setLoading(true);
@@ -82,7 +78,6 @@ export default function EditSubchapter() {
             {
                 subchapterTitle: subchapTitle,
                 thumbnail: base64Thumbnail,
-                description: subchapDesc,
                 content: DOMPurify.sanitize(content),
                 lastModifiedUserID: userId,
                 selectedChapter: chapSelected
@@ -93,7 +88,6 @@ export default function EditSubchapter() {
             .put(BASE_URL + '/chapters/' + chapterId + '/subchapters/' + subchapterId+'/', {
                 subchapterTitle: subchapTitle,
                 thumbnail: base64Thumbnail,
-                description: subchapDesc,
                 content: DOMPurify.sanitize(content),
                 lastModifiedUserID: userId,
                 selectedChapter: chapSelected
@@ -289,30 +283,6 @@ export default function EditSubchapter() {
                     </Grid>
                     <Grid item xs={12} sm={12} lg={12}>
                         <Box
-                            component='form'
-                            sx={{
-                                '& .MuiTextField-root': {
-                                    width: '50ch',
-                                    marginTop: '2ch',
-                                },
-                            }}
-                        >
-                            <TextField
-                                label='Description'
-                                variant='outlined'
-                                value={subchapDesc}
-                                multiline
-                                maxRows={4}
-                                onChange={(event) =>
-                                    setSubchapDesc(event.target.value)
-                                }
-                                error={subchapDesc.length < 1}
-                                helperText={subchapDesc.length < 1 ? 'Description cannot be empty' : ''}
-                            ></TextField>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={12} lg={12}>
-                        <Box
                             sx={{
                                 marginTop: '2ch',
                             }}
@@ -368,7 +338,6 @@ export default function EditSubchapter() {
                                 }}
                                 disabled={
                                     subchapTitle.length < 1 ||
-                                    subchapDesc.length < 1 ||
                                     chapSelected.length < 1
                                 }
                             >

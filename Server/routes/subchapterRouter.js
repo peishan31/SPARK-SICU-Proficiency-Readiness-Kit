@@ -86,20 +86,20 @@ const checkAdmin = function (req, res, next) {
     let id = decoded['sub'];
         
     const currentUser = User.findOne({googleId: id}, 
-      function(err,obj) { 
-        if (err) {
-            console.error(err.message)
-            return res.status(500).send('Server Error')
-        }
+        function (err, obj) {
+            if (err) {
+                console.error(err.message)
+                return res.status(500).send('Server Error')
+            }
 
-        if ( obj.userType != "senior" ) {
-            console.log("Unauthorized")
-            return res.status(401).send("Unauthorized");
-        } else {
-          return next()
-        }
-      });
-  }
+            if (obj.userType != "senior") {
+                console.log("Unauthorized")
+                return res.status(401).send("Unauthorized");
+            } else {
+                return next()
+            }
+        });
+}
 
 // @description: Add subchapter to chapter by chapter Id
 // @route PUT chapter/:chapterId/subchapter/
@@ -107,11 +107,10 @@ const checkAdmin = function (req, res, next) {
 subchapterRouter.put("/", async (req, res) => {
     console.log("add subchapter")
     try {
-        let { subchapterTitle, thumbnail, description, content } = req.body;
+        let { subchapterTitle, thumbnail, content } = req.body;
 
         if (subchapterTitle.length === 0 || subchapterTitle == undefined || subchapterTitle == "" || 
-            thumbnail.length===0 || thumbnail == undefined || thumbnail == "" || 
-            description.length===0 || description == undefined || description == "" || 
+            thumbnail.length===0 || thumbnail == undefined || thumbnail == "" ||  
             content.length===0 || content == undefined || content == "") { 
                 return res.status(404).json({ msg: 'Fields cannot be empty' })
         }
@@ -129,7 +128,6 @@ subchapterRouter.put("/", async (req, res) => {
             subchapterTitle,
             thumbnailPublicId,
             thumbnail,
-            description,
             content,
             lastModifiedDateTime: "",
             lastModifiedUserID: "",
@@ -166,7 +164,7 @@ subchapterRouter.put("/:subchapterId", async (req, res) => {
             return res.status(404).json({ msg: 'Missing chapter and/or subchapter id' });
         }
         
-        let { subchapterTitle, thumbnail, description, content, selectedChapter, lastModifiedUserID} = req.body;
+        let { subchapterTitle, thumbnail, content, selectedChapter, lastModifiedUserID} = req.body;
         // let token = req.cookies['session-token'];
         // let decoded = jwt_decode(token);
         // let lastModifiedUserID = decoded['sub'];
@@ -176,7 +174,6 @@ subchapterRouter.put("/:subchapterId", async (req, res) => {
 
         // edit subchapter
         if (subchapterTitle.length === 0 || subchapterTitle == undefined || subchapterTitle == "" || 
-            description.length===0 || description == undefined || description == "" || 
             content.length===0 || content == undefined || content == "") { 
                 return res.status(404).json({ msg: 'Fields cannot be empty' })
         }
@@ -205,7 +202,6 @@ subchapterRouter.put("/:subchapterId", async (req, res) => {
             subchapterTitle,
             thumbnailPublicId,
             thumbnail,
-            description,
             content,
             lastModifiedDateTime,
             lastModifiedUserID,

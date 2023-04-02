@@ -13,10 +13,6 @@ const subchapterSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: {
-        type: String,
-        required: true
-    },
     content: {
         // this will store the html string from TinyMCE
         type: String,
