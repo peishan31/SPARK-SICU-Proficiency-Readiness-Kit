@@ -24,6 +24,10 @@ function Tab1Content(props){
         "&.Mui-selected": {
           color: "white",
           backgroundColor: '#41ADA4'
+        },
+        "&:hover, &.Mui-hover": {
+            color: "white",
+            backgroundColor: '#41ADA4'
         }
     });
 
