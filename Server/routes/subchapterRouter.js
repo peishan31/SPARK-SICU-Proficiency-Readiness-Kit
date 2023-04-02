@@ -107,7 +107,7 @@ const checkAdmin = function (req, res, next) {
 subchapterRouter.put("/", async (req, res) => {
     console.log("add subchapter")
     try {
-        let { subchapterTitle, thumbnail, content } = req.body;
+        let { subchapterTitle, thumbnail, content, lastModifiedUserID } = req.body;
 
         if (subchapterTitle.length === 0 || subchapterTitle == undefined || subchapterTitle == "" || 
             thumbnail.length===0 || thumbnail == undefined || thumbnail == "" ||  
@@ -123,15 +123,20 @@ subchapterRouter.put("/", async (req, res) => {
 
         thumbnail = addImageResult.thumbnail;
         const thumbnailPublicId = addImageResult.thumbnailPublicId;
+
+        const date = new Date();
+        const lastModifiedDateTime = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+        let lastModifiedUsername = await User.findOne({googleId: lastModifiedUserID}).then(user => ({name: user.name}));
+        lastModifiedUsername = lastModifiedUsername.name;
         // Save subchapter to database
         const newSubchapter = {
             subchapterTitle,
             thumbnailPublicId,
             thumbnail,
             content,
-            lastModifiedDateTime: "",
-            lastModifiedUserID: "",
-            lastModifiedUsername: ""
+            lastModifiedDateTime,
+            lastModifiedUserID,
+            lastModifiedUsername
         }
         console.log("********",newSubchapter);        
         const chapterId = req.chapterId;

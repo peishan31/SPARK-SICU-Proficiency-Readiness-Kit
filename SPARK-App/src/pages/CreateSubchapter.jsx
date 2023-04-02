@@ -34,6 +34,7 @@ export default function CreateSubchapter() {
     const BASE_URL = import.meta.env.VITE_API_URL;
 
     const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
 
     useEffect(() => {
 
@@ -63,7 +64,8 @@ export default function CreateSubchapter() {
                 subchapterTitle: subchapTitle,
                 thumbnail: base64Thumbnail,
                 content: DOMPurify.sanitize(content),
-            }, { withCredentials: true })
+                lastModifiedUserID: userId
+            })
             .then(() => {
                 setLoading(false);
                 navigate(-1);
