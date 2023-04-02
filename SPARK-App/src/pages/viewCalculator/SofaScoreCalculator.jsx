@@ -117,7 +117,7 @@ function Tab1Content(props){
     };
 
     return (
-        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+        <div style={{marginLeft:'5%', marginRight:'5%'}}>
             <form>
                 <Box sx={{ flexGrow: 1 }}>
                     <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
@@ -421,7 +421,7 @@ function Tab2Content(props){
     ];
 
     return (
-        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+        <div style={{marginLeft:'5%', marginRight:'5%'}}>
             <Typography variant="h6" align="left" mt={4} mb={1} style={{fontWeight: 'bold'}}>Formula</Typography>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
@@ -637,10 +637,14 @@ const SofaScore = () => {
     return (
         <Box pt={5}>
             <div className="pageTitle">
-                <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px", textAlign: 'center'}}>Sequential Organ Failure Assessment (SOFA) Score</h1>
-                <h6 style={{textAlign: 'center', color: '#04484A'}}>Predicts ICU mortality based on lab results and clinical data.</h6>
+            <Typography variant='h1' px={2} sx={{ fontSize: { xs: '24px', md: '30px' }, fontWeight: 'bold', marginBottom: "25px", textAlign: 'center' }}>
+                Sequential Organ Failure Assessment (SOFA) Score
+            </Typography>
+            <Typography variant='h6' px={2} sx={{ textAlign: 'center', color: '#04484A', fontSize: { xs: '14px', md: 'inherit' } }}>
+                Predicts ICU mortality based on lab results and clinical data.
+            </Typography>
             </div>
-            <div style={{textAlign: 'center', padding: '50px 0px'}}>
+            <div style={{textAlign: 'center', padding: '30px 0px'}}>
                 <CalculatorTab tabs={tabs} />
             </div>
         </Box>
