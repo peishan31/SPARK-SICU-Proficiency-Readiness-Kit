@@ -15,8 +15,17 @@ export default function SubchapterCard({ subchapter, chapterId }) {
     const currentSubchapterId = subchapter._id;
     const subchapterState = useAppState().subchapters
     const subchapterActions = useActions().subchapters
-    const [isBookmarked, setIsBookmarked] = useState(subchapterState.isBookmarked);
-    const [bookmarkId, setBookmarkId] = useState(subchapterState.bookmarkId);
+
+    const myArray = subchapterState.subchapterlist
+    const result = myArray.find(obj => obj._id === currentSubchapterId);
+
+    let parentBookmarkId = null
+    if(result.bookmarkId != null) {
+        parentBookmarkId = result.bookmarkId
+    }
+    
+    const [isBookmarked, setIsBookmarked] = useState(result.isBookmarked);
+    const [bookmarkId, setBookmarkId] = useState(parentBookmarkId);
 
     const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
@@ -31,8 +40,8 @@ export default function SubchapterCard({ subchapter, chapterId }) {
     };
 
     useEffect(() => {
-        setIsBookmarked(subchapter.isBookmarked);
-        setBookmarkId(subchapter.bookmarkId);
+        setIsBookmarked(result.isBookmarked);
+        setBookmarkId(parentBookmarkId);
     }, [subchapter]);
 
     async function addBookmark() {
@@ -47,9 +56,11 @@ export default function SubchapterCard({ subchapter, chapterId }) {
             }
         ).then(
             res => {
-                subchapterActions.setBookmarkId(res.data.bookmarkId)
+                // return bookmark id
+                // subchapterActions.setBookmarkId(res.data.bookmarkId)
                 setBookmarkId(res.data.bookmarkId)
-                subchapterActions.setIsBookmarked(true)
+                console.log(subchapter.bookmarkId)
+                // subchapterActions.setIsBookmarked(true)
 
                 return 200;
             }
@@ -68,8 +79,9 @@ export default function SubchapterCard({ subchapter, chapterId }) {
             API_URL + `/user/${userId}/bookmarks/${bookmarkId}`
         ).then(
             res => {
-                subchapterActions.setIsBookmarked(false)
-                subchapterActions.setBookmarkId(null)
+                // subchapterActions.setIsBookmarked(false)
+                setBookmarkId(null)
+                // subchapterActions.setBookmarkId(null)
                 return 200;
             }
         ).catch(
@@ -132,7 +144,7 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                                         bookmarkStatus: subchapter.isBookmarked,
                                         bookmarkId: subchapter.bookmarkId
                                     }
-                                })
+                                });
                         }
                     }
                 />
