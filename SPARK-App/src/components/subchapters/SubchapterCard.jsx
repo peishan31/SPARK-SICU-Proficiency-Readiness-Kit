@@ -165,9 +165,6 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                             }
                         </Box>
                     </Grid>
-                    <Typography className="cardText" variant="body2">
-                        {subchapter.description}
-                    </Typography>
                 </CardContent>
             </CardActionArea>
             <Backdrop

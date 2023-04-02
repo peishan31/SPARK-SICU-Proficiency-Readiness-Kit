@@ -271,9 +271,9 @@ const SubchapterContent = () => {
                             <div className="subchapterCategory">
                                 {HighlightText(subchapter.chapterTitle)}
                             </div>
-                            <div className="subchapterDescription">
+                            {/* <div className="subchapterDescription">
                                 {HighlightText(subchapter.description)}
-                            </div>
+                            </div> */}
                             <div className="subchapterLastEditedBy">
                                 {
                                     lastEditedBool ? (

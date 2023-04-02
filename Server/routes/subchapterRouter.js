@@ -315,7 +315,7 @@ async function addImage(thumbnail) {
             }
         })
     }); 
-
+    console.log("result cloudinary upload", result)
     if (result == false)  {
         //return res.status(500).json({ msg: 'Error uploading image to cloudinary. Please choose another image or try again.' });
         return;
