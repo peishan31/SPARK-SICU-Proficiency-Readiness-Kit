@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify'; // Sanitizes HTML;  a tool that removes any potentially malicious code from HTML text;
 import { useAppState, useActions } from '../../overmind';
-import { map, trim,join } from 'lodash';
+import { map, trim,join, isNull } from 'lodash';
 import Subchapters from '../Subchapters';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -26,26 +26,45 @@ const SubchapterContent = () => {
     
     const API_URL = BASE_URL + "/chapters"
 
-    const subchapterState = useAppState().subchapters
-    const subchapterActions = useActions().subchapters
-
     const chapterId = location.state.parentChapterId
     const subchapterId = location.state.parentSubchapterId
-    const parentBookmarkId = subchapterState.bookmarkId
-    const bookmarkStatus = subchapterState.isBookmarked
 
-    const [isBookmarked, setIsBookmarked] = useState(bookmarkStatus);
-    const [bookmarkId, setBookmarkId] = useState(parentBookmarkId);
+    const [isBookmarked, setIsBookmarked] = useState(false);
+    const [bookmarkId, setBookmarkId] = useState('');
     const [lastEditedBool, setLastEditedBool] = useState(false);
     const [lastEditedByTime, setLastEditedByTime] = useState("");
+
+    useEffect(() => {
+        axios.get(BASE_URL + `/user/` + userId + `/bookmarks/chapters/` + chapterId)
+            .then(res => {
+                const array = res.data[1].subchapters
+                const result = array.find(obj => obj._id === subchapterId)
+                setIsBookmarked(result.isBookmarked)
+                if(result.bookmarkId != null) {
+                    setBookmarkId(result.bookmarkId)
+                } else {
+                    setBookmarkId(null)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                if(err.response.status == 500) {
+                    navigate("/500");
+                } else if(err.response.status == 404) {
+                    navigate("/404");
+                } else {
+                    navigate("/other-errors");
+                }
+            })
+    }, [])
+
 
     const getSubchapterContent = async (chapterId, subchapterId) => {
         axios.get(`${API_URL}/${chapterId}/subchapters/${subchapterId}`)
         .then(res => {
             setLastEditedBool(false)
             setSubchapter(res.data)
-            console.log(res.data)
-            console.log(bookmarkStatus)
+
             if (res.data.lastModifiedUsername != "") {
 
                 setLastEditedBool(true)
@@ -82,9 +101,9 @@ const SubchapterContent = () => {
             }
         ).then(
             res => {
-                subchapterActions.setBookmarkId(res.data.bookmarkId)
+                // subchapterActions.setBookmarkId(res.data.bookmarkId)
                 setBookmarkId(res.data.bookmarkId)
-                subchapterActions.setIsBookmarked(true)
+                // subchapterActions.setIsBookmarked(true)
                 return 200
             }
         ).catch(
@@ -103,10 +122,10 @@ const SubchapterContent = () => {
             await axios.delete(
                 BASE_URL + `/user/` + userId +`/bookmarks/${bookmarkId}`
             );
-            subchapterActions.setBookmarkId(null);
-            subchapterActions.setIsBookmarked(false);
-            setBookmarkId(null);
-            setIsBookmarked(false);
+            // subchapterActions.setBookmarkId(null);
+            // subchapterActions.setIsBookmarked(false);
+            // setBookmarkId(null);
+            // setIsBookmarked(false);
         } catch (error) {
             console.error("Error removing bookmark: ", error);
         }
@@ -215,12 +234,7 @@ const SubchapterContent = () => {
 
             <div className="subchapterContent" style={{paddingBottom: "100px"}}>
                 <div className="subchapterContentContainer">
-                    <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1, {
-                        state: {
-                            bookmarkStatus: bookmarkStatus,
-                            bookmarkId: bookmarkId
-                        }
-                    }) }}/>
+                    <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
                     <div className="subchapterContentTop">
                         <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage"/>
                         <div className="subchapterIcon">
