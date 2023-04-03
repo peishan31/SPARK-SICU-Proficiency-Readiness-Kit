@@ -6,10 +6,13 @@ import Grid from '@mui/material/Grid'
 import axios from 'axios'
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import TextField from '@mui/material/TextField';
 import CalcResultCard from '../../components/calculator/CalcResultCard';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ScrollUpButton from '../../components/scrollUpBtn/ScrollUpButton'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -211,6 +214,23 @@ function Tab2Content(props){
 }
 
 const ParklandFormula = () => {
+    const navigate = useNavigate();
+    const [showScrollButton, setShowScrollButton] = useState(false);
+    useEffect(() => {
+        const handleScroll = () => {
+          if (window.scrollY > 100) {
+            setShowScrollButton(true);
+          } else {
+            setShowScrollButton(false);
+          }
+        };
+    
+        window.addEventListener("scroll", handleScroll);
+    
+        return () => {
+          window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
     //state for form fields
     const [formData, setFormData] = useState({
@@ -239,14 +259,18 @@ const ParklandFormula = () => {
       ];
 
     return (
-        <Box pt={5}>
+        <Box pt={2}>
+            {showScrollButton && <ScrollUpButton />}
             <div className="pageTitle">
-            <Typography variant='h1' px={2} sx={{ fontSize: { xs: '24px', md: '30px' }, fontWeight: 'bold', marginBottom: "25px", textAlign: 'center' }}>
-                Parkland Formula for Burns
-            </Typography>
-            <Typography variant='h6' px={2} sx={{ textAlign: 'center', color: '#04484A', fontSize: { xs: '14px', md: 'inherit' } }}>
-                Calculates fluid requirements for burn patients in a 24-hour period.
-            </Typography>
+                <div style={{padding: '5px 0px 5px 10px'}}>
+                    <ArrowBackIcon onClick={(e) => { navigate(-1) }} /> 
+                </div>  
+                <Typography variant='h1' px={2} sx={{ fontSize: { xs: '24px', md: '30px' }, fontWeight: 'bold', marginBottom: "25px", textAlign: 'center' }}>
+                    Parkland Formula for Burns
+                </Typography>
+                <Typography variant='h6' px={2} sx={{ textAlign: 'center', color: '#04484A', fontSize: { xs: '14px', md: 'inherit' } }}>
+                    Calculates fluid requirements for burn patients in a 24-hour period.
+                </Typography>
             </div>
             <div style={{textAlign: 'center', padding: '30px 0px'}}>
                 <CalculatorTab tabs={tabs} />

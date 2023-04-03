@@ -1,13 +1,16 @@
 import React from 'react'
-import { Button, ToggleButtonGroup, Paper, Divider, styled } from '@mui/material'
+import { Button, ToggleButtonGroup, Paper, Divider, IconButton, styled } from '@mui/material'
 import MuiToggleButton from "@mui/material/ToggleButton"
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import CalculatorTab from '../../components/calculatorIcon/TabPanel'
 import CalcResultCard from '../../components/calculator/CalcResultCard';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ScrollUpButton from '../../components/scrollUpBtn/ScrollUpButton'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -22,12 +25,16 @@ function Tab1Content(props){
 
     const ToggleButton = styled(MuiToggleButton)({
         "&.Mui-selected": {
-          color: "white",
-          backgroundColor: '#41ADA4'
+            color: "white",
+            backgroundColor: "#41ADA4",
+            "&:hover": {
+                backgroundColor: "#41ADA4",
+                color: "white"
+            }
         },
         "&:hover, &.Mui-hover": {
             color: "white",
-            backgroundColor: '#41ADA4'
+            backgroundColor: "#41ADA4"
         }
     });
 
@@ -358,6 +365,8 @@ function Tab2Content(props){
 }
 
 const CamIcu = () => {
+    const navigate = useNavigate();
+    const [showScrollButton, setShowScrollButton] = useState(false);
     //state for calc result card
     const [pointAllocated , setPointAllocated] = useState("-")
     const [interpretation , setInterpretation] = useState('Please enter the required values in the respective fields to perform the calculations.')
@@ -422,6 +431,19 @@ const CamIcu = () => {
                 )
             };
             sendToBackend();
+            const handleScroll = () => {
+                if (window.scrollY > 100) {
+                  setShowScrollButton(true);
+                } else {
+                  setShowScrollButton(false);
+                }
+              };
+          
+              window.addEventListener("scroll", handleScroll);
+          
+              return () => {
+                window.removeEventListener("scroll", handleScroll);
+            };
         }
     }, [formData])
 
@@ -441,14 +463,18 @@ const CamIcu = () => {
       ];
 
     return (
-        <Box pt={5}>
+        <Box pt={2}>
+            {showScrollButton && <ScrollUpButton />}
             <div className="pageTitle">
-            <Typography variant='h1' px={2} sx={{ fontSize: { xs: '24px', md: '30px' }, fontWeight: 'bold', marginBottom: "25px", textAlign: 'center' }}>
-                Confusion Assessment Method for the ICU (CAM-ICU)
-            </Typography>
-            <Typography variant='h6' px={2} sx={{ textAlign: 'center', color: '#04484A', fontSize: { xs: '14px', md: 'inherit' } }}>
-                For detection of delirium in the ICU.
-            </Typography>
+                <div style={{padding: '5px 0px 5px 10px'}}>
+                    <ArrowBackIcon onClick={(e) => { navigate(-1) }} /> 
+                </div>  
+                <Typography variant='h1' px={2} sx={{ fontSize: { xs: '24px', md: '30px' }, fontWeight: 'bold', marginBottom: "25px", textAlign: 'center' }}>
+                    Confusion Assessment Method for the ICU (CAM-ICU)
+                </Typography>
+                <Typography variant='h6' px={2} sx={{ textAlign: 'center', color: '#04484A', fontSize: { xs: '14px', md: 'inherit' } }}>
+                    For detection of delirium in the ICU.
+                </Typography>
             </div>
             <div style={{textAlign: 'center', padding: '30px 0px'}}>
                 <CalculatorTab tabs={tabs} />

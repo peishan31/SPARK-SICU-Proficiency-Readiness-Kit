@@ -13,6 +13,7 @@ import { useAppState, useActions } from '../../overmind';
 import { map, trim,join, isNull } from 'lodash';
 import Subchapters from '../Subchapters';
 import CircularProgress from '@mui/material/CircularProgress';
+import ScrollUpButton from '../../components/scrollUpBtn/ScrollUpButton';
 
 const SubchapterContent = () => {
     const location = useLocation();
@@ -33,6 +34,8 @@ const SubchapterContent = () => {
     const [bookmarkId, setBookmarkId] = useState('');
     const [lastEditedBool, setLastEditedBool] = useState(false);
     const [lastEditedByTime, setLastEditedByTime] = useState("");
+
+    const [showScrollButton, setShowScrollButton] = useState(false);
 
     useEffect(() => {
         axios.get(BASE_URL + `/user/` + userId + `/bookmarks/chapters/` + chapterId)
@@ -55,7 +58,20 @@ const SubchapterContent = () => {
                 } else {
                     navigate("/other-errors");
                 }
-            })
+            });
+        const handleScroll = () => {
+          if (window.scrollY > 100) {
+            setShowScrollButton(true);
+          } else {
+            setShowScrollButton(false);
+          }
+        };
+    
+        window.addEventListener("scroll", handleScroll);
+    
+        return () => {
+          window.removeEventListener("scroll", handleScroll);
+        };
     }, [])
 
 
@@ -233,6 +249,7 @@ const SubchapterContent = () => {
     return (
 
             <div className="subchapterContent" style={{paddingBottom: "100px"}}>
+                {showScrollButton && <ScrollUpButton />}
                 <div className="subchapterContentContainer">
                     <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
                     <div className="subchapterContentTop">
