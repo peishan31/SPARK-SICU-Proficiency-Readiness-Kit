@@ -34,6 +34,7 @@ export default function CreateSubchapter() {
     const BASE_URL = import.meta.env.VITE_API_URL;
 
     const userState = useAppState().user;
+    const userId = userState.currentUser.googleId;
 
     useEffect(() => {
 
@@ -63,7 +64,8 @@ export default function CreateSubchapter() {
                 subchapterTitle: subchapTitle,
                 thumbnail: base64Thumbnail,
                 content: DOMPurify.sanitize(content),
-            }, { withCredentials: true })
+                lastModifiedUserID: userId
+            })
             .then(() => {
                 setLoading(false);
                 navigate(-1);
@@ -260,7 +262,7 @@ export default function CreateSubchapter() {
                                         toolbar:
                                             'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
                                         content_style:
-                                            'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                                            'body { font-family:Arial,Helvetica,sans-serif; font-size:14px }',
                                     }}
                                     onEditorChange={handleEditorChange}
                                 />

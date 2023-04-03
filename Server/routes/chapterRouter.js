@@ -1,7 +1,24 @@
 import express from 'express';
 import subchapterRouter from './subchapterRouter.js';
 import Chapter from '../models/ChapterModel.js';
+import { v2 as cloudinary } from 'cloudinary';
+import dotenv from 'dotenv';
 const chapterRouter = express.Router();
+
+dotenv.config();
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const opts = {
+    overwrite: true,
+    invalidate: true,
+    resource_type: 'auto',
+}
+
 
 // @description: Get health status of chapter route
 // @route GET chapters/health
@@ -100,11 +117,22 @@ chapterRouter.put("/:chapterId", async (req, res) => {
 chapterRouter.delete('/:chapterId', async (req, res) => {
     try {
         const chapterId = req.params.chapterId;
+        // delete cloudinary image
+        const chapter = await Chapter.findById(chapterId);
+        const subchapters = chapter.subchapters;
+
+        subchapters.forEach(subchapter => { 
+            deleteImage(subchapter.thumbnailPublicId);
+        });
+
+        // delete chapter
         const chapters = await Chapter.findByIdAndDelete(chapterId)
         if (!chapters) {
             return res.status(404).json({ msg: 'Chapter not found' })
         }
         res.status(200).json(chapters)
+
+
     } catch (err) {
         console.error(err.message)
         res.status(500).send('Server Error')
@@ -116,5 +144,17 @@ chapterRouter.use("/:chapterId/subchapters", (req, res, next) => {
     req.chapterId = req.params.chapterId;
     next();
 }, subchapterRouter);
+
+async function deleteImage(thumbnailPublicId) {
+    console.log("delete image: ", thumbnailPublicId);
+    // Get the public ID of the image to delete from the request parameters to delete image from cloudinary
+
+    if (thumbnailPublicId != undefined || thumbnailPublicId != "" || thumbnailPublicId.length > 0) {
+        // Delete the image from Cloudinary
+        const deleteResult = await cloudinary.uploader.destroy(thumbnailPublicId);
+        // Return a success response
+        console.log(deleteResult); 
+    }
+}
 
 export default chapterRouter;

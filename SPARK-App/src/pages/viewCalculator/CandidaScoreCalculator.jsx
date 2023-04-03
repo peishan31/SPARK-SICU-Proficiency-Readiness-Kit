@@ -24,6 +24,10 @@ function Tab1Content(props){
         "&.Mui-selected": {
           color: "white",
           backgroundColor: '#41ADA4'
+        },
+        "&:hover, &.Mui-hover": {
+            color: "white",
+            backgroundColor: '#41ADA4'
         }
     });
 
@@ -75,7 +79,7 @@ function Tab1Content(props){
     };
 
     return (
-        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+        <div style={{marginLeft:'5%', marginRight:'5%'}}>
             <form>
                 <Box sx={{ flexGrow: 1 }}>
                     <Grid container spacing={2} my={1} justifyContent="center" alignItems="center">
@@ -192,7 +196,7 @@ function Tab2Content(props){
     ];
 
     return (
-        <div style={{marginLeft:'10%', marginRight:'10%'}}>
+        <div style={{marginLeft:'5%', marginRight:'5%'}}>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
@@ -296,10 +300,14 @@ const CandidaScore = () => {
     return (
         <Box pt={5}>
             <div className="pageTitle">
-                <h1 style={{fontSize: '30px', fontWeight: 'bold', marginBottom: "25px", textAlign: 'center'}}>Candida Score</h1>
-                <h6 style={{textAlign: 'center', color: '#04484A'}}>To determine the likelihood of invasive candidiasis vs colonization in non-neutropenic critically ill patients.</h6>
+            <Typography variant='h1' px={2} sx={{ fontSize: { xs: '24px', md: '30px' }, fontWeight: 'bold', marginBottom: "25px", textAlign: 'center' }}>
+                Candida Score
+            </Typography>
+            <Typography variant='h6' px={2} sx={{ textAlign: 'center', color: '#04484A', fontSize: { xs: '14px', md: 'inherit' } }}>
+                To determine the likelihood of invasive candidiasis vs colonization in non-neutropenic critically ill patients.
+            </Typography>
             </div>
-            <div style={{textAlign: 'center', padding: '50px 0px'}}>
+            <div style={{textAlign: 'center', padding: '30px 0px'}}>
                 <CalculatorTab tabs={tabs} />
             </div>
         </Box>
