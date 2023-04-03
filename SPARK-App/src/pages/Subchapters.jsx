@@ -14,7 +14,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import ScrollUpButton from '../components/scrollUpBtn/ScrollUpButton';
 
 const Subchapters = ({ searchInput }) => {
 
@@ -49,6 +49,8 @@ const Subchapters = ({ searchInput }) => {
     const [loading, setLoading] = useState(false);
 
     const BASE_URL = import.meta.env.VITE_API_URL
+
+    const [showScrollButton, setShowScrollButton] = useState(false);
 
     if (!currentChapter) {
         console.log("There is no current chapter in overmind")
@@ -87,6 +89,20 @@ const Subchapters = ({ searchInput }) => {
         setLoading(true)
         subchapterActions.loadAllSubchaptersWithUserId({chapterId, userId})
         setLoading(false)
+
+        const handleScroll = () => {
+            if (window.scrollY > 100) {
+              setShowScrollButton(true);
+            } else {
+              setShowScrollButton(false);
+            }
+          };
+      
+          window.addEventListener("scroll", handleScroll);
+      
+          return () => {
+            window.removeEventListener("scroll", handleScroll);
+          };
     }, [])
 
     //button's styling
@@ -202,6 +218,7 @@ const Subchapters = ({ searchInput }) => {
 
     return (
         <Box margin={4}>
+            {showScrollButton && <ScrollUpButton />}
             <Grid pb={2} display="flex" alignItems="center" mb={1}>
                 <IconButton onClick={
                     () => { navigate('/Chapters') }}>
