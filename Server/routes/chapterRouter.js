@@ -3,6 +3,7 @@ import subchapterRouter from './subchapterRouter.js';
 import Chapter from '../models/ChapterModel.js';
 import { v2 as cloudinary } from 'cloudinary';
 import dotenv from 'dotenv';
+import User from '../models/UserModel.js';
 const chapterRouter = express.Router();
 
 dotenv.config();
@@ -123,8 +124,9 @@ chapterRouter.delete('/:chapterId', async (req, res) => {
 
         subchapters.forEach(subchapter => { 
             deleteImage(subchapter.thumbnailPublicId);
+            deleteBookmark(subchapter._id);
         });
-
+        
         // delete chapter
         const chapters = await Chapter.findByIdAndDelete(chapterId)
         if (!chapters) {
@@ -155,6 +157,21 @@ async function deleteImage(thumbnailPublicId) {
         // Return a success response
         console.log(deleteResult); 
     }
+}
+
+async function deleteBookmark(subchapterId) {
+
+    const users = await User.find();
+    
+    const promises = users.map(async (user) => {
+        // For each user, remove the bookmark that has the given subchapterId
+        await User.findOneAndUpdate(
+            { googleId: user.googleId, bookmarks: { $elemMatch: { subchapterId } } },
+            { $pull: { bookmarks: { subchapterId: subchapterId } } },
+            { new: true } 
+        );
+    });
+    await Promise.all(promises); // Wait for all updates to finish
 }
 
 export default chapterRouter;
