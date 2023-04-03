@@ -23,10 +23,16 @@ function App() {
 
   useEffect(() => {
     getUser();
-    if (window.popupsBlocked) {
-      alert("Please enable pop-up blocker to continue.");
-    }
   }, [user])
+
+  useEffect(() => {
+    const popupWindow = window.open('', '_blank');
+    if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === 'undefined') {
+      alert('Please enable pop-up blocker in Safari to use this feature.');
+    } else {
+      popupWindow.close();
+    }
+  }, []);
 
   if (!user && "user" in sessionStorage) {
     return (
