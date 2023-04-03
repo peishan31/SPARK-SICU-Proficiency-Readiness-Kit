@@ -22,7 +22,10 @@ function App() {
   const { user, setUser, clearUser, getUser } = useLoginUser();
 
   useEffect(() => {
-    getUser()
+    getUser();
+    if (window.popupsBlocked) {
+      alert("Please enable pop-up blocker to continue.");
+    }
   }, [user])
 
   if (!user && "user" in sessionStorage) {
