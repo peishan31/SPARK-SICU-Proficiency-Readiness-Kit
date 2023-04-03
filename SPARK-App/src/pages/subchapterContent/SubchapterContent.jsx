@@ -203,8 +203,7 @@ const SubchapterContent = () => {
             const regex = new RegExp(`(${trim(subchapterSearchInput)})(${rgx})`, 'gi');
             let listToReplace = text.match(regex)
             let count = 0
-            // text = text.replace(regex, 0);
-            // "<span style=\"background-color:#e8bb49\">" + subchapterSearchInput + "</span>"
+
             for(let i = 0;i < listToReplace.length;i++){
                 listToReplace[i] = "<span style=\"background-color:#e8bb49\">" + listToReplace[i] + "</span>"
             }
@@ -295,9 +294,7 @@ const SubchapterContent = () => {
                             <div className="subchapterCategory">
                                 {HighlightText(subchapter.chapterTitle)}
                             </div>
-                            <div className="subchapterDescription">
-                                {HighlightText(subchapter.description)}
-                            </div>
+
                             <div className="subchapterLastEditedBy">
                                 {
                                     lastEditedBool ? (

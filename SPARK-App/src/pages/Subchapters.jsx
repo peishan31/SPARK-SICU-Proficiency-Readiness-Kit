@@ -143,7 +143,7 @@ const Subchapters = ({ searchInput }) => {
             return subchapter
         } 
         else if (
-            subchapter.description.toLowerCase().includes(searchInput.toLowerCase()) ||
+            
             subchapter.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
             regex.test(subchapter.content) ){
 

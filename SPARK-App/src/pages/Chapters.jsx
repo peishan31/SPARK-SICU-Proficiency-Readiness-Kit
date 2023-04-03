@@ -44,7 +44,7 @@ const Chapters = ({searchInput}) => {
 
                 if (
                     chapter.title.toLowerCase().includes(searchInput.toLowerCase()) ||
-                    subchapters.description.toLowerCase().includes(searchInput.toLowerCase()) ||
+                    
                     subchapters.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
                     regex.test(subchapters.content) ){
                     return chapter
