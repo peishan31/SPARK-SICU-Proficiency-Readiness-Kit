@@ -271,12 +271,15 @@ subchapterRouter.delete("/:subchapterId", async (req, res) => {
 
         const users = await User.find()
 
-        users.forEach(user => {
-            User.findOneAndUpdate(
-                { googleId: user.googleId },
-                { $pull: { bookmarks: { subchapterId: subchapterId } } }
+        const promises = users.map(async (user) => {
+            // For each user, remove the bookmark that has the given subchapterId
+            await User.findOneAndUpdate(
+              { googleId: user.googleId, bookmarks: { $elemMatch: { subchapterId } } },
+              { $pull: { bookmarks: { subchapterId: subchapterId } } },
+              { new: true } 
             );
-        })
+          });
+        await Promise.all(promises); // Wait for all updates to finish
 
         const chapter = await Chapter.findByIdAndUpdate(
             { _id: chapterId },
