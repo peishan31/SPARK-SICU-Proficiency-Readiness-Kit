@@ -14,6 +14,7 @@ import { map, trim,join, isNull } from 'lodash';
 import Subchapters from '../Subchapters';
 import CircularProgress from '@mui/material/CircularProgress';
 import ScrollUpButton from '../../components/scrollUpBtn/ScrollUpButton';
+import Fab from '@mui/material/Fab';
 
 const SubchapterContent = () => {
     const location = useLocation();
@@ -250,7 +251,15 @@ const SubchapterContent = () => {
             <div className="subchapterContent" style={{paddingBottom: "100px"}}>
                 {showScrollButton && <ScrollUpButton />}
                 <div className="subchapterContentContainer">
-                    <ArrowBackIcon className="backButton" onClick={(e) => { navigate(-1) }}/>
+                    <div className="backButtonContainer">
+                        <Fab style={{
+                                backgroundColor:"#41ADA4"   
+                            }}
+                            onClick={(e) => { navigate(-1) }}
+                        >
+                            <ArrowBackIcon className="backButton"/>
+                        </Fab>
+                    </div>
                     <div className="subchapterContentTop">
                         <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage"/>
                         <div className="subchapterIcon">
