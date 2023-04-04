@@ -95,7 +95,7 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
 
 
     return (
-        <div className={`card ${flip ? 'flip' : ''}`} style={{ height: height }} onClick={() => setFlip(!flip)}>
+        <div className={`card ${flip ? 'flip' : ''}`} style={{ height: 250 }} onClick={() => setFlip(!flip)}>
             <div className="front" ref={frontEl}>
                 <div className="deleteButton">
                     {
@@ -109,7 +109,6 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
                                     aria-haspopup="true"
                                     aria-expanded={open ? 'true' : undefined}
                                     onClick={handleClick}
-                                    onHover={handleClick}
                                 />
                             <Menu
                                 id="basic-menu"
