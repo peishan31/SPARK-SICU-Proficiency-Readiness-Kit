@@ -1,7 +1,8 @@
-import { Box, Button, CircularProgress, FormControl, Grid, MenuItem, Select } from '@mui/material'
+import { Box, Button, CircularProgress, FormControl, Grid, MenuItem, Select, Container } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Flashcard from '../../components/flashcard/Flashcard';
+import Carousel from 'react-material-ui-carousel';
 import './FlashcardList.css'
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useAppState } from '../../overmind';
@@ -121,8 +122,28 @@ function FlashcardList() {
                                     </Button> : null
                             }
                         </div>
-                        
-                        <div className="card-grid">
+                        <Grid container spacing={2}>
+                            <Grid item md={2}/>
+                            <Grid item xs={12} md={8}>
+                                <Carousel
+                                    swipe={true}
+                                    autoPlay={false}
+                                    animation="slide">
+                                    {
+                                        flashcards.map(
+                                            (flashcard) => {
+                                                return (
+                                                <Flashcard key={flashcard._id} flashcard={flashcard} flashcardsList={flashcards} setFlashcards={setFlashcards} />
+                                                )
+                                            }
+                                        )
+                                    }
+                                </Carousel>
+                            </Grid>
+                            <Grid item md={2}/>
+                        </Grid>
+
+                        {/* <div className="card-grid">
                             {
                                 flashcards.map((flashcard) => {
                                     return (
@@ -130,7 +151,7 @@ function FlashcardList() {
                                     )
                                 })
                             }
-                        </div>
+                        </div> */}
                     </div>
                 )
             }

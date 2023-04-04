@@ -98,19 +98,18 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
         <div className={`card ${flip ? 'flip' : ''}`} style={{ height: height }} onClick={() => setFlip(!flip)}>
             <div className="front" ref={frontEl}>
                 <div className="deleteButton">
-                    
-
                     {
                         user.userType == "senior" ? (
                             <>
                             
                             <MoreVertIcon 
-                                    sx={{color: "#b5b5b5"}} 
+                                    sx={{color: "#b5b5b5", marginRight:"40px"}} 
                                     id="basic-button"
                                     aria-controls={open ? 'basic-menu' : undefined}
                                     aria-haspopup="true"
                                     aria-expanded={open ? 'true' : undefined}
                                     onClick={handleClick}
+                                    onHover={handleClick}
                                 />
                             <Menu
                                 id="basic-menu"
