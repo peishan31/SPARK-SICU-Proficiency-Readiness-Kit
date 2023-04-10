@@ -199,7 +199,9 @@ subchapterRouter.put("/:subchapterId", async (req, res) => {
         }        
         
         const date = new Date();
-        const lastModifiedDateTime = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+        let lastModifiedDateTime = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+        const timeZone = 'UTC'; // Change this to the appropriate timezone
+        lastModifiedDateTime = lastModifiedDateTime.toLocaleString('en-US', { timeZone });
         let lastModifiedUsername = await User.findOne({googleId: lastModifiedUserID}).then(user => ({name: user.name}));
         lastModifiedUsername = lastModifiedUsername.name;
         // Save subchapter to database
