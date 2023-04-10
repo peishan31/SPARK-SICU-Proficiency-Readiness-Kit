@@ -201,9 +201,15 @@ subchapterRouter.put("/:subchapterId", async (req, res) => {
         // const date = new Date();
         // const lastModifiedDateTime = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
+        // const date = new Date();
+        // const timeZone = 'Asia/Singapore'; // Change this to the appropriate timezone
+        // const lastModifiedDateTime = date.toLocaleString('en-US', { timeZone });
+
         const date = new Date();
-        const timeZone = 'Asia/Singapore'; // Change this to the appropriate timezone
-        const lastModifiedDateTime = date.toLocaleString('en-US', { timeZone });
+        const timeZoneOffset = 8; // Singapore timezone offset is UTC+8
+        const timeZoneOffsetInMs = timeZoneOffset * 60 * 60 * 1000;
+        const lastModifiedDateTime = new Date(date.getTime() + timeZoneOffsetInMs).toLocaleString('en-US', { timeZone: 'Asia/Singapore' });
+
 
         let lastModifiedUsername = await User.findOne({googleId: lastModifiedUserID}).then(user => ({name: user.name}));
         lastModifiedUsername = lastModifiedUsername.name;
