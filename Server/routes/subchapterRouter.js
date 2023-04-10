@@ -210,20 +210,33 @@ subchapterRouter.put("/:subchapterId", async (req, res) => {
         // const timeZoneOffsetInMs = timeZoneOffset * 60 * 60 * 1000;
         // const lastModifiedDateTime = new Date(date.getTime() + timeZoneOffsetInMs).toLocaleString('en-US', { timeZone: 'Asia/Singapore' });
 
+        // const date = new Date();
+        // const timeZoneOffset = 8; // Singapore timezone offset is UTC+8
+        // const timeZoneOffsetInMs = timeZoneOffset * 60 * 60 * 1000;
+        // const options = { 
+        //     timeZone: 'Asia/Singapore', 
+        //     year: 'numeric', 
+        //     month: '2-digit', 
+        //     day: '2-digit', 
+        //     hour: '2-digit', 
+        //     minute: '2-digit', 
+        //     second: '2-digit', 
+        //     hour12: false 
+        // };
+        // const lastModifiedDateTime = new Date(date.getTime() + timeZoneOffsetInMs).toLocaleString('en-US', options);
+
         const date = new Date();
-        const timeZoneOffset = 8; // Singapore timezone offset is UTC+8
-        const timeZoneOffsetInMs = timeZoneOffset * 60 * 60 * 1000;
-        const options = { 
-            timeZone: 'Asia/Singapore', 
-            year: 'numeric', 
-            month: '2-digit', 
-            day: '2-digit', 
-            hour: '2-digit', 
-            minute: '2-digit', 
-            second: '2-digit', 
-            hour12: false 
+        const options = {
+            timeZone: 'Asia/Singapore',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hourCycle: 'h23'
         };
-        const lastModifiedDateTime = new Date(date.getTime() + timeZoneOffsetInMs).toLocaleString('en-US', options);
+        const lastModifiedDateTime = date.toLocaleDateString('en-US', options) + ' ' + date.toLocaleTimeString('en-US', options);
 
         let lastModifiedUsername = await User.findOne({googleId: lastModifiedUserID}).then(user => ({name: user.name}));
         lastModifiedUsername = lastModifiedUsername.name;
