@@ -6,6 +6,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import dotenv from 'dotenv';
 const subchapterRouter = express.Router();
 import jwt_decode from 'jwt-decode';
+import moment from 'moment-timezone';
 
 dotenv.config();
 
@@ -198,8 +199,13 @@ subchapterRouter.put("/:subchapterId", async (req, res) => {
             thumbnailPublicId = chapter.subchapters.find(subchapter => subchapter._id == subchapterId).thumbnailPublicId;
         }        
         
+        // const date = new Date();
+        // const lastModifiedDateTime = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
+        const timeZone = 'GMT+8';
         const date = new Date();
-        const lastModifiedDateTime = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+        const lastModifiedDateTime = moment(date).tz(timeZone).format('YYYY-MM-DD HH:mm:ss');
+
         let lastModifiedUsername = await User.findOne({googleId: lastModifiedUserID}).then(user => ({name: user.name}));
         lastModifiedUsername = lastModifiedUsername.name;
         // Save subchapter to database

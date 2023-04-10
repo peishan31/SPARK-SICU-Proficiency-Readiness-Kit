@@ -19,6 +19,8 @@
     "jest": "^29.5.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "mongoose": "^6.9.1",
     "multer": "^1.4.5-lts.1",
     "sharp": "^0.30.6"
