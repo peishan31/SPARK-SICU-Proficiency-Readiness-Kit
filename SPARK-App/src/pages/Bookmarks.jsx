@@ -65,8 +65,10 @@ const Bookmarks = ({ searchInput }) => {
                     <CircularProgress color='info' size={40} thickness={4} />
             </div>
         )
-    }   
-
+    }  
+    
+    var filtered = subchapters.filter(n => n)
+    
     return (
         <Box margin={4} >
             <div className="pageTitle">
@@ -74,16 +76,16 @@ const Bookmarks = ({ searchInput }) => {
             </div>
             <Grid container spacing={4}>
                 {
-                    !subchapters.length ? 
+                    !filtered.length ? 
                         <Grid item md={4}>
                             <Typography variant="h6" ml={""}>No bookmarked subchapters yet!</Typography>
                         </Grid> :
-                        subchapters.map((subchapter) => {
+                        filtered.map((subchapter) => {
                             return (
-                                subchapter != null ?
+
                                 <Grid item key={subchapter._id} xs={12} sm={6} md={4} lg={3}>
                                     <BookmarkCard key={subchapter._id} subchapter={subchapter} isUnbookmarked={isUnbookmarked} />
-                                </Grid>: null
+                                </Grid>
                             )
                         })
 
