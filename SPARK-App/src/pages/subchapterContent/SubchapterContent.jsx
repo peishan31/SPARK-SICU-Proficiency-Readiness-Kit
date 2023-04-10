@@ -88,22 +88,20 @@ const SubchapterContent = () => {
                 const timestamp = res.data.lastModifiedDateTime;
                 const date = new Date(timestamp);
 
-                // convert to Singapore time
-                date.setHours(date.getHours() + 8);
-
                 // format the date and time as a string
-                const options = { 
-                    year: "numeric", 
-                    month: "long", 
-                    day: "numeric", 
-                    hour: "numeric", 
-                    minute: "numeric", 
-                    second: "numeric", 
-                    hour12: false,
-                    timeZone: "Asia/Singapore" // set the timezone to Singapore
-                };
-                const singaporeTime = date.toLocaleString("en-SG", options);
-                setLastEditedByTime(singaporeTime);
+                const options = {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                    second: "numeric",
+                    timeZoneName: "short"
+                  };
+                
+                  const formattedDate = date.toLocaleDateString("en-US", options);
+                setLastEditedByTime(formattedDate);
             }
         })
     }

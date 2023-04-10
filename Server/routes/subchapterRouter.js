@@ -129,7 +129,7 @@ subchapterRouter.put("/", async (req, res) => {
         // const lastModifiedDateTime = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
         const timeZone = 'GMT+8';
         const date = new Date();
-        const lastModifiedDateTime = moment(date).tz(timeZone).subtract(8, 'hours').format('YYYY-MM-DD HH:mm:ss');
+        const lastModifiedDateTime = moment(date).tz(timeZone).format('YYYY-MM-DD HH:mm:ss');
         
         let lastModifiedUsername = await User.findOne({googleId: lastModifiedUserID}).then(user => ({name: user.name}));
         lastModifiedUsername = lastModifiedUsername.name;
@@ -208,7 +208,7 @@ subchapterRouter.put("/:subchapterId", async (req, res) => {
 
         const timeZone = 'GMT+8';
         const date = new Date();
-        const lastModifiedDateTime = moment(date).tz(timeZone).subtract(8, 'hours').format('YYYY-MM-DD HH:mm:ss');
+        const lastModifiedDateTime = moment(date).tz(timeZone).format('YYYY-MM-DD HH:mm:ss');
 
         let lastModifiedUsername = await User.findOne({googleId: lastModifiedUserID}).then(user => ({name: user.name}));
         lastModifiedUsername = lastModifiedUsername.name;
