@@ -76,7 +76,7 @@ const Bookmarks = ({ searchInput }) => {
                 {
                     !subchapters.length ? 
                         <Grid item md={4}>
-                            <Typography variant="h6" ml={""}>No subchapters found</Typography>
+                            <Typography variant="h6" ml={""}>No bookmarked subchapters yet!</Typography>
                         </Grid> :
                         subchapters.map((subchapter) => {
                             return (
