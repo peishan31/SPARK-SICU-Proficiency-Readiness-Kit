@@ -56,18 +56,6 @@ const Bookmarks = ({ searchInput }) => {
             })
     }, [])
 
-    let filtered = []
-    const searchSubchapters = (searchInput, subchapter) => {
-        if (searchInput == "") {
-            return subchapter
-        }
-        else if (
-            subchapter.description.toLowerCase().includes(searchInput.toLowerCase()) ||
-            subchapter.subchapterTitle.toLowerCase().includes(searchInput.toLowerCase()) || 
-            subchapter.content.toLowerCase().includes(searchInput.toLowerCase())) {
-            return subchapter
-        }
-    };
 
     if ( subchapters == null ) {
         return (
@@ -77,9 +65,7 @@ const Bookmarks = ({ searchInput }) => {
                     <CircularProgress color='info' size={40} thickness={4} />
             </div>
         )
-    }
-
-    filtered = subchapters.filter((subchapter) => searchSubchapters(searchInput, subchapter))
+    }   
 
     return (
         <Box margin={4} >
@@ -88,11 +74,11 @@ const Bookmarks = ({ searchInput }) => {
             </div>
             <Grid container spacing={4}>
                 {
-                    !filtered.length ? 
+                    !subchapters.length ? 
                         <Grid item md={4}>
                             <Typography variant="h6" ml={""}>No subchapters found</Typography>
                         </Grid> :
-                        filtered.map((subchapter) => {
+                        subchapters.map((subchapter) => {
                             return (
                                 <Grid item key={subchapter._id} xs={12} sm={6} md={4} lg={3}>
                                     <BookmarkCard key={subchapter._id} subchapter={subchapter} isUnbookmarked={isUnbookmarked} />
