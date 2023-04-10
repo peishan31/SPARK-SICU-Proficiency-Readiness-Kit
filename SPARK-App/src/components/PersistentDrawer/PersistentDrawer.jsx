@@ -219,13 +219,14 @@ export default function PersistentDrawer({admin, clearUser}) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <div className="navbarBrand">
-                        <FlareIcon className="navbarBrandIcon"/>
-                        <Typography className="navbarBrandText" fontWeight="bold" letterSpacing={-1} sx={{ fontSize: "25px", display: {xs: 'none', sm: 'flex', md: 'flex', ld: 'flex'}}}>
-                            spark
-                        </Typography>
-                    </div>
-
+                    <a href="/Chapters" class="navbarLink">
+                        <div className="navbarBrand">
+                            <FlareIcon className="navbarBrandIcon"/>
+                            <Typography className="navbarBrandText" fontWeight="bold" letterSpacing={-1} sx={{ fontSize: "25px", display: {xs: 'none', sm: 'flex', md: 'flex', ld: 'flex'}}}>
+                                spark
+                            </Typography>
+                        </div>
+                    </a>
                     <React.Fragment>
                         {
                             ["/Chapters", "/Chapters/" + sessionStorage.getItem("currentChapterId") + "/subchapters"].includes(path) ?
