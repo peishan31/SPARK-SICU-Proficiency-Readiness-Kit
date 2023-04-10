@@ -80,9 +80,10 @@ const Bookmarks = ({ searchInput }) => {
                         </Grid> :
                         subchapters.map((subchapter) => {
                             return (
+                                subchapter != null ?
                                 <Grid item key={subchapter._id} xs={12} sm={6} md={4} lg={3}>
                                     <BookmarkCard key={subchapter._id} subchapter={subchapter} isUnbookmarked={isUnbookmarked} />
-                                </Grid>
+                                </Grid>: null
                             )
                         })
 
