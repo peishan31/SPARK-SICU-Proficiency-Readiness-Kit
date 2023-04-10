@@ -228,7 +228,7 @@ export default function PersistentDrawer({admin, clearUser}) {
 
                     <React.Fragment>
                         {
-                            ["/Bookmarks", "/Chapters", "/Chapters/" + sessionStorage.getItem("currentChapterId") + "/subchapters"].includes(path) ?
+                            ["/Chapters", "/Chapters/" + sessionStorage.getItem("currentChapterId") + "/subchapters"].includes(path) ?
                                 <Search>
                                     <SearchIconWrapper>
                                         <SearchIcon />
