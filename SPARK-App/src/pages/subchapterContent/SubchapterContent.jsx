@@ -202,7 +202,7 @@ const SubchapterContent = () => {
             const regex = new RegExp(`(${trim(subchapterSearchInput)})(${rgx})`, 'gi');
             let listToReplace = text.match(regex)
             let count = 0
-
+            if (listToReplace == null) return text;
             for(let i = 0;i < listToReplace.length;i++){
                 listToReplace[i] = "<span style=\"background-color:#e8bb49\">" + listToReplace[i] + "</span>"
             }
