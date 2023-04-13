@@ -27,6 +27,7 @@ function UpdateAdmin() {
 
     function handleSubmit() {
         setModalText("");
+        setModalBool(true)
         
         console.log("handleSubmit")
         console.log(toUpdate)
@@ -39,14 +40,17 @@ function UpdateAdmin() {
             })
             .then((response) => {
                 console.log(response.status)
+                // alert("Updated successfully!")
                 setModalText("✅ Updated successfully!");
             }).catch((err) => {
                 console.log(err)
+                // alert("Something went wrong")
                 setModalText("❌ Something went wrong.");
             }
             )
         } catch (err) {
             console.log(err)
+            // alert("Something went wrong")
             setModalText("❌ Something went wrong.");
         }
 
@@ -97,11 +101,11 @@ function UpdateAdmin() {
         }
     }, [])
 
-    useEffect(() => {
-        if (modalText != "") {
-            setModalBool(true)
-        }
-    }, [modalText])
+    // useEffect(() => {
+    //     if (modalText != "") {
+    //         setModalBool(true)
+    //     }
+    // }, [modalText])
 
     
     return (
