@@ -1,4 +1,6 @@
 import { Box, Button, CircularProgress, FormControl, Grid, MenuItem, Select, Container } from '@mui/material'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Flashcard from '../../components/flashcard/Flashcard';
@@ -13,6 +15,8 @@ function FlashcardList() {
     const [categories, setCategories] = useState([]);
     const [loaded, setLoaded] = useState(false);
     const [dropdownValue, setDropdownValue] = useState("All");
+    const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
+
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -29,6 +33,16 @@ function FlashcardList() {
     function handleChange(e) {
         setDropdownValue(e.target.value)
     }
+
+    const handleSlideChange = (newIndex, oldIndex) => {
+        setCurrentCarouselIndex(newIndex)
+    };
+
+    const clampIndex = () => {
+        const lastIndex = flashcards.length - 1;
+        let index = Math.min(Math.max(currentCarouselIndex, 0), lastIndex)
+        return index
+      };
 
     function filterFlashcards() {
         if (dropdownValue != "All") {
@@ -51,6 +65,7 @@ function FlashcardList() {
     useEffect(() => {
         getCategories();
     }, [allFlashcards])
+
 
     return (
         <Box p={4}>
@@ -126,9 +141,13 @@ function FlashcardList() {
                             <Grid item md={2}/>
                             <Grid item xs={12} md={8}>
                                 <Carousel
+                                    sx={{p: "10px 3px 0px"}}
                                     swipe={true}
                                     autoPlay={false}
-                                    animation="slide">
+                                    animation="slide"
+                                    onChange={handleSlideChange}
+                                    index={clampIndex()}
+                                    >
                                     {
                                         flashcards.map(
                                             (flashcard) => {
