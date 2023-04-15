@@ -12,6 +12,9 @@ import {
     CircularProgress,
     IconButton,
     Typography,
+    FormControl,
+    Select,
+    InputLabel,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom'
@@ -25,6 +28,7 @@ const CreateFlashcards = () => {
     const [flashcardQuestion, setFlashcardQuestion] = useState("")
     const [flashcardAnswer, setFlashcardAnswer] = useState("")
     const [untouched, setUntouched] = useState(true)
+    const [chaps, setChaps] = useState([])
 
     const userState = useAppState().user;
 
@@ -36,6 +40,12 @@ const CreateFlashcards = () => {
         if (userState.currentUser.userType != "senior") {
             navigate("/");
         }
+
+        axios.get(BASE_URL + '/chapters/')
+        .then((res) => {
+            setChaps(res.data)
+            console.log(chaps)
+        })
     }, []);
 
     async function addFlashcard() {
@@ -48,6 +58,10 @@ const CreateFlashcards = () => {
         alert("Flashcard added successfully")
         setLoading(false)
         navigate("/Flashcards");
+    }
+
+    function handleChange(e) {
+        setCategory(e.target.value)
     }
 
     return (
@@ -76,7 +90,7 @@ const CreateFlashcards = () => {
                             <Grid item xs={12} >
                                 <Grid container>
                                     <Grid item xs={12} md={9} lg={9}>
-                                        <TextField sx={{marginBottom: "2ch"}}
+                                        {/* <TextField sx={{marginBottom: "2ch"}}
                                             fullWidth
                                             value={category}
                                             onChange={(event) =>{
@@ -86,7 +100,24 @@ const CreateFlashcards = () => {
                                             label='Category'
                                             error={category.length < 1 && !untouched}
                                             helperText={category.length < 1 && !untouched ? "cannot be empty" : ""}
-                                        ></TextField>
+                                        ></TextField> */}
+                                        <FormControl sx={{width: "200px", marginBottom: "2ch"}}>
+                                            <InputLabel id="select-category">Category</InputLabel>
+                                            <Select value={category}
+                                                    onChange={(e) => handleChange(e)}
+                                                    label="Category"
+                                                    labelId="select-category"
+                                                    error={category.length < 1 && !untouched}
+                                                    helperText={category.length < 1 && !untouched ? 'Category cannot be empty' : ''}>
+                                                {
+                                                    chaps.map((chap) => {
+                                                        return (
+                                                            <MenuItem value={chap.title}>{chap.title}</MenuItem>
+                                                        )
+                                                    })
+                                                }
+                                            </Select>
+                                        </FormControl>
                                     </Grid>
                                 </Grid>
                             </Grid>

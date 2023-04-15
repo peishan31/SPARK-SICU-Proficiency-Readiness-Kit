@@ -9,13 +9,13 @@ import { Link } from 'react-router-dom';
 import { useAppState } from '../../overmind';
 
 
-function Flashcard({flashcard, flashcardsList, setFlashcards}) {
+function Flashcard({flashcard, flashcardsList, setFlashcards, setHeight, height}) {
 
     // get user details from overmind state
     const user = useAppState().user.currentUser;
 
     const [flip, setFlip] = useState(false);
-    const [height, setHeight] = useState('initial')
+    // const [height, setHeight] = useState('auto')
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -51,12 +51,11 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
     const frontEl = useRef()
     const backEl = useRef()
 
-
-
     function setMaxHeight() {
         const frontHeight = frontEl.current.getBoundingClientRect().height
+        // console.log(frontHeight)
         // const backHeight = backEl.current.getBoundingClientRect().height
-        setHeight(Math.max(frontHeight, 250))
+        setHeight(Math.max(frontHeight, 300))
     }
 
     function handleDelete(e) {
@@ -89,18 +88,19 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
     }
 
     useEffect(() => {
-        console.log(user.userType)
+        console.log("fire")
         setMaxHeight();
-    }, [flashcard.question, flashcard.answer])
+        console.log(height)
+    }, [flashcard])
 
 
     return (
-        <div className={`card ${flip ? 'flip' : ''}`} style={{ height: 250 }} onClick={() => setFlip(!flip)}>
+        <div className={`card ${flip ? 'flip' : ''}`} style={{ height: height }} onClick={() => setFlip(!flip)}>
             <div className="front" ref={frontEl}>
                 <div className="deleteButton">
                     {
-                        user.userType == "senior" ? (
-                            <>
+                        user.userType == "senior" && (
+                            <div className="moreButton">
                             
                             <MoreVertIcon 
                                     sx={{color: "#b5b5b5", marginRight:"40px"}} 
@@ -129,8 +129,7 @@ function Flashcard({flashcard, flashcardsList, setFlashcards}) {
                                     </Link>
                                 </MenuItem>
                             </Menu> 
-                            </>) : 
-                            null
+                            </div>) 
                     }
                 </div>
                 <div>

@@ -16,6 +16,7 @@ function FlashcardList() {
     const [loaded, setLoaded] = useState(false);
     const [dropdownValue, setDropdownValue] = useState("All");
     const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
+    const [height, setHeight] = useState('auto')
 
 
     const location = useLocation();
@@ -90,9 +91,6 @@ function FlashcardList() {
                             <div className="dropdown">
                                 <FormControl sx={{width: "200px"}}>
                                     <Select value={dropdownValue} 
-                                            MenuProps={{
-                                                style: {zIndex: 999}
-                                            }}
                                             onChange={(e) => handleChange(e)}>
                                         <MenuItem value="All">All</MenuItem>
                                         {
@@ -137,30 +135,29 @@ function FlashcardList() {
                                     </Button> : null
                             }
                         </div>
-                        <Grid container spacing={2}>
-                            <Grid item md={2}/>
-                            <Grid item xs={12} md={8}>
-                                <Carousel
-                                    sx={{p: "10px 3px 0px"}}
-                                    swipe={true}
-                                    autoPlay={false}
-                                    animation="slide"
-                                    onChange={handleSlideChange}
-                                    index={clampIndex()}
-                                    >
-                                    {
-                                        flashcards.map(
-                                            (flashcard) => {
-                                                return (
-                                                <Flashcard key={flashcard._id} flashcard={flashcard} flashcardsList={flashcards} setFlashcards={setFlashcards} />
-                                                )
-                                            }
-                                        )
-                                    }
-                                </Carousel>
-                            </Grid>
-                            <Grid item md={2}/>
-                        </Grid>
+                        
+                        <Box sx={{display: "flex", justifyContent: "center"}}>
+                            <Carousel
+                                sx={{p: "10px 3px 0px", width: "100%", maxWidth: "600px"}}
+                                swipe={true}
+                                autoPlay={false}
+                                height={300}
+                                animation="slide"
+                                onChange={handleSlideChange}
+                                fullHeightHover={false}
+                                index={clampIndex()}
+                                >
+                                {
+                                    flashcards.map(
+                                        (flashcard) => {
+                                            return (
+                                            <Flashcard key={flashcard._id} flashcard={flashcard} flashcardsList={flashcards} setFlashcards={setFlashcards} setHeight={setHeight} height={height} />
+                                            )
+                                        }
+                                    )
+                                }
+                            </Carousel>
+                        </Box>
 
                         {/* <div className="card-grid">
                             {

@@ -27,7 +27,7 @@
   }
 
   .card:hover {
-    --translate-y: -2px;
+    /* --translate-y: -2px; */
     box-shadow: 0 0 5px 2px rgba(24, 24, 24, 0.3);
   }
   
@@ -68,6 +68,7 @@
     transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
     overflow: auto;
     -webkit-overflow-scrolling: touch;
+    font-size: 18px;
   }
   
   .deleteButton {
@@ -80,3 +81,13 @@
     color: inherit; /* Set the link color to inherit from its parent element */
     text-decoration: none; /* Remove the underline from the link */
   }
+
+.cardText {
+  font-size: 25px;
+  text-align: center;
+}
+
+.moreButton {
+  position: absolute;
+  right: -33px;
+}
