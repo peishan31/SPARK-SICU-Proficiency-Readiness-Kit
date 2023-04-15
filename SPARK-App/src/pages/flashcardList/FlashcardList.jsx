@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress, FormControl, Grid, MenuItem, Select, Container } from '@mui/material'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import Flashcard from '../../components/flashcard/Flashcard';
 import Carousel from 'react-material-ui-carousel';
@@ -16,7 +16,7 @@ function FlashcardList() {
     const [loaded, setLoaded] = useState(false);
     const [dropdownValue, setDropdownValue] = useState("All");
     const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
-    const [height, setHeight] = useState('auto')
+    const [activeHeight, setActiveHeight] = useState(300)
 
 
     const location = useLocation();
@@ -42,8 +42,8 @@ function FlashcardList() {
     const clampIndex = () => {
         const lastIndex = flashcards.length - 1;
         let index = Math.min(Math.max(currentCarouselIndex, 0), lastIndex)
-        return index
-      };
+        setCurrentCarouselIndex(index)
+    };
 
     function filterFlashcards() {
         if (dropdownValue != "All") {
@@ -65,8 +65,13 @@ function FlashcardList() {
 
     useEffect(() => {
         getCategories();
+        filterFlashcards();
     }, [allFlashcards])
 
+    useEffect(() => {
+        clampIndex()
+        
+    }, [flashcards])
 
     return (
         <Box p={4}>
@@ -141,17 +146,25 @@ function FlashcardList() {
                                 sx={{p: "10px 3px 0px", width: "100%", maxWidth: "600px"}}
                                 swipe={true}
                                 autoPlay={false}
-                                height={300}
+                                height={activeHeight}
                                 animation="slide"
                                 onChange={handleSlideChange}
                                 fullHeightHover={false}
-                                index={clampIndex()}
+                                index={currentCarouselIndex}
                                 >
                                 {
                                     flashcards.map(
-                                        (flashcard) => {
+                                        (flashcard, idx) => {
                                             return (
-                                            <Flashcard key={flashcard._id} flashcard={flashcard} flashcardsList={flashcards} setFlashcards={setFlashcards} setHeight={setHeight} height={height} />
+                                                <Flashcard key={flashcard._id} 
+                                                        flashcard={flashcard} 
+                                                        allFlashcardsList={allFlashcards} 
+                                                        setAllFlashcards={setAllFlashcards}
+                                                        currentCarouselIndex={currentCarouselIndex}
+                                                        activeCard={currentCarouselIndex == idx ? true : false}
+                                                        setActiveHeight={setActiveHeight}
+                                    
+                                                        />
                                             )
                                         }
                                     )

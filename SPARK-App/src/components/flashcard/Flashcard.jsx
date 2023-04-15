@@ -9,11 +9,11 @@ import { Link } from 'react-router-dom';
 import { useAppState } from '../../overmind';
 
 
-function Flashcard({flashcard, flashcardsList, setFlashcards, setHeight, height}) {
+function Flashcard({flashcard, allFlashcardsList, setAllFlashcards, activeCard, currentCarouselIndex, setActiveHeight}) {
 
     // get user details from overmind state
     const user = useAppState().user.currentUser;
-
+    const [height, setHeight] = useState('auto')
     const [flip, setFlip] = useState(false);
     // const [height, setHeight] = useState('auto')
 
@@ -24,7 +24,7 @@ function Flashcard({flashcard, flashcardsList, setFlashcards, setHeight, height}
         setAnchorEl(event.currentTarget);
 
         if (!event) {
-            var e = window.event;
+            var event = window.event;
         }
     
         event.cancelBubble = true;
@@ -52,9 +52,11 @@ function Flashcard({flashcard, flashcardsList, setFlashcards, setHeight, height}
     const backEl = useRef()
 
     function setMaxHeight() {
+        console.log("setMaxHeight")
         const frontHeight = frontEl.current.getBoundingClientRect().height
-        // console.log(frontHeight)
-        // const backHeight = backEl.current.getBoundingClientRect().height
+        const backHeight = backEl.current.getBoundingClientRect().height
+
+        console.log(Math.max(frontHeight, 300))
         setHeight(Math.max(frontHeight, 300))
     }
 
@@ -71,8 +73,8 @@ function Flashcard({flashcard, flashcardsList, setFlashcards, setHeight, height}
             alert("Something went wrong")
         });
         
-        let filteredArray = flashcardsList.filter(flashcardFromList => flashcardFromList._id !== flashcard._id)
-        setFlashcards(filteredArray)
+        let filteredArray = allFlashcardsList.filter(flashcardFromList => flashcardFromList._id !== flashcard._id)
+        setAllFlashcards(filteredArray)
 
         setAnchorEl(null);
 
@@ -88,55 +90,56 @@ function Flashcard({flashcard, flashcardsList, setFlashcards, setHeight, height}
     }
 
     useEffect(() => {
-        console.log("fire")
         setMaxHeight();
-        console.log(height)
     }, [flashcard])
+
+    useEffect(() => {
+        if (activeCard) {
+            setActiveHeight(height)
+        }
+    }, [currentCarouselIndex, flashcard, height])
 
 
     return (
         <div className={`card ${flip ? 'flip' : ''}`} style={{ height: height }} onClick={() => setFlip(!flip)}>
-            <div className="front" ref={frontEl}>
-                <div className="deleteButton">
+            <div className="front" ref={frontEl} >
                     {
                         user.userType == "senior" && (
                             <div className="moreButton">
-                            
-                            <MoreVertIcon 
-                                    sx={{color: "#b5b5b5", marginRight:"40px"}} 
-                                    id="basic-button"
-                                    aria-controls={open ? 'basic-menu' : undefined}
-                                    aria-haspopup="true"
-                                    aria-expanded={open ? 'true' : undefined}
-                                    onClick={handleClick}
-                                />
-                            <Menu
-                                id="basic-menu"
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleClose}
-                                MenuListProps={{
-                                    'aria-labelledby': 'basic-button',
-                                }}
-                            >
-                                <MenuItem onClick={handleDelete}>
-                                    Delete
-                                </MenuItem>
+                                <MoreVertIcon 
+                                        sx={{color: "#b5b5b5"}} 
+                                        id="basic-button"
+                                        aria-controls={open ? 'basic-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        onClick={handleClick}
+                                    />
+                                <Menu
+                                    id="basic-menu"
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={handleClose}
+                                    MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                    }}
+                                >
+                                    <MenuItem onClick={handleDelete}>
+                                        Delete
+                                    </MenuItem>
 
-                                <MenuItem>
-                                    <Link to={`/Flashcards/${flashcard._id}`}>
-                                        Edit
-                                    </Link>
-                                </MenuItem>
-                            </Menu> 
+                                    <MenuItem onClick={(e) => {
+                                            e.stopPropagation();
+                                        }}>
+                                        <Link to={`/Flashcards/${flashcard._id}`}>
+                                            Edit
+                                        </Link>
+                                    </MenuItem>
+                                </Menu> 
                             </div>) 
                     }
-                </div>
-                <div>
                     <h5 className="cardText" style={{whiteSpace: "pre-line"}}>
                         {flashcard.question}
                     </h5>
-                </div>
             </div>
             <div className="back" ref={backEl} style={{ height: height, whiteSpace: "pre-line" }}>
                 { flashcard.answer }
