@@ -16,7 +16,7 @@ import maleDoctor1 from '../../assets/doctorMale1.png'
 import femaleDoctor1 from '../../assets/femaleDoctor1.png'
 import femaleDoctor2 from '../../assets/femaleDoctor2.png'
 import femaleDoctor3 from '../../assets/femaleDoctor3.png'
-
+import teamCLTPhoto from '../../assets/team_CLT_photo.jpg'
 const useStyles = makeStyles((theme) => ({
     mainTitle: {
         backgroundImage: `url(${raisedICP})`,
@@ -51,6 +51,11 @@ const useStyles = makeStyles((theme) => ({
     },
     medemoji: {
         width: '80%',
+    },
+    SMUImage: {
+        height: '100%',
+        width: '100%',
+        borderRadius: '5%',
     }
 
 }));
@@ -307,7 +312,17 @@ function About() {
                             <img
                                 src={SMUImage}
                                 alt="SMUImage"
-                                className={classes.disclaimerImage}
+                                className={classes.SMUImage}
+                            />
+                        </Grid>
+                        <Grid item md={2}></Grid>
+                        
+                        <Grid item md={2}></Grid>
+                        <Grid item md={8}>
+                            <img
+                                src={teamCLTPhoto}
+                                alt="CLTImage"
+                                className={classes.SMUImage}
                             />
                         </Grid>
                         <Grid item md={2}></Grid>
