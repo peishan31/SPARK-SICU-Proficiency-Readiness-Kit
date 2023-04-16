@@ -129,6 +129,26 @@ userRouter.put('/update', (req, res)=>{
   }
 })
 
+// @description: Delete user by userID
+// @route DELETE user/delete/:id
+userRouter.delete("/delete/:id", async (req, res) => {
+  try {
+
+    const userId = req.params.id;
+    const removeUser = await User.findOneAndDelete({ googleId: userId });
+
+    if (!removeUser) {
+      return res.status(404).json({ message: "User not found" });
+    } else {
+      return res.status(200).json({ message: "User deleted" });
+    }
+    
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error')
+  }
+});
+
 // // @description: Create user
 // // @route POST user/register
 // userRouter.post("/register", async (req, res) => { 

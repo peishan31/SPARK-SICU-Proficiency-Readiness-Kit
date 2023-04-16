@@ -25,6 +25,33 @@ function UpdateAdmin() {
 
     const pageCount = Math.ceil(users.length / USERS_PER_PAGE);
 
+    function handleRemove(user_id) {
+        console.log("handleRemove")
+        console.log(user_id)
+
+        const API_URL = import.meta.env.VITE_API_URL + `/user/delete/${user_id}`;
+        
+        try {
+            axios.delete(API_URL, {
+                withCredentials: true
+            })
+            .then((response) => {
+                console.log(response.status)
+                // alert("Deleted successfully!")
+                setModalText("✅ Deleted successfully!");
+            }).catch((err) => {
+                console.log(err)
+                // alert("Something went wrong")
+                setModalText("❌ Something went wrong.");
+            }
+            )
+        } catch (err) {
+            console.log(err)
+            // alert("Something went wrong")
+            setModalText("❌ Something went wrong.");
+        }
+    }
+
     function handleSubmit() {
         setModalText("");
         setModalBool(true)
@@ -129,6 +156,9 @@ function UpdateAdmin() {
                                     <TableCell>
                                         User Type
                                     </TableCell>
+                                    <TableCell>
+                                        Action
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -148,6 +178,18 @@ function UpdateAdmin() {
                                         <TableCell>
                                             <UserTypeDropdown handleUpdate={handleUpdate} userId={user.googleId} userType={user.userType}/>
                                         </TableCell>
+                                        <TableCell>
+                                            <Button sx={{ 
+                                                backgroundColor: "#41ADA4",
+                                                ':hover': {
+                                                    bgcolor: '#FFFFFF',
+                                                    color: '#41ADA4'
+                                                },
+                                                color: "#FFFFFF",
+                                                textTransform: "none"
+                                            }}
+                                            onClick={handleRemove(user.googleId)}>Remove </Button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -163,10 +205,11 @@ function UpdateAdmin() {
                             backgroundColor: "#41ADA4",
                             ':hover': {
                                 bgcolor: '#41ADA4'
-                            }
+                            },
+                            textTransform: "none"
                         }}
                         
-                        variant="contained" onClick={handleSubmit}>Save changes</Button>
+                        variant="contained" onClick={handleSubmit}>Save Changes</Button>
                     </div>
                 </div>
                 </Box>
