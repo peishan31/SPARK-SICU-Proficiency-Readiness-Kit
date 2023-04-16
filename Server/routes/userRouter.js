@@ -133,7 +133,7 @@ userRouter.put('/update', (req, res)=>{
 // @route DELETE user/delete/:id
 userRouter.delete("/delete/:id", async (req, res) => {
   try {
-
+    console.log("delete here")
     const userId = req.params.id;
     const removeUser = await User.findOneAndDelete({ googleId: userId });
 

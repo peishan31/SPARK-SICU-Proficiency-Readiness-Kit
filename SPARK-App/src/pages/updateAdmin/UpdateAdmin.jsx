@@ -8,6 +8,7 @@ import { useActions, useAppState } from '../../overmind';
 import { useNavigate } from 'react-router-dom';
 
 
+
 function UpdateAdmin() {
 
     const userState = useAppState().user
@@ -25,26 +26,30 @@ function UpdateAdmin() {
 
     const pageCount = Math.ceil(users.length / USERS_PER_PAGE);
 
-    function handleRemove(user_id) {
-        console.log("handleRemove")
+    async function handleDelete(user_id) {
+        console.log("handleDelete")
         console.log(user_id)
 
+        setModalText("");
+        setModalBool(true)
+
         const API_URL = import.meta.env.VITE_API_URL + `/user/delete/${user_id}`;
-        
+
         try {
-            axios.delete(API_URL, {
+            await axios.delete(API_URL, {
                 withCredentials: true
             })
-            .then((response) => {
-                console.log(response.status)
-                // alert("Deleted successfully!")
-                setModalText("✅ Deleted successfully!");
-            }).catch((err) => {
-                console.log(err)
-                // alert("Something went wrong")
-                setModalText("❌ Something went wrong.");
-            }
-            )
+                .then((response) => {
+                    console.log(response.status)
+                    // alert("Deleted successfully!")
+                    setModalText("✅ Deleted successfully!");
+
+                }).catch((err) => {
+                    console.log(err)
+                    // alert("Something went wrong")
+                    setModalText("❌ Something went wrong.");
+                }
+                )
         } catch (err) {
             console.log(err)
             // alert("Something went wrong")
@@ -188,7 +193,7 @@ function UpdateAdmin() {
                                                 color: "#FFFFFF",
                                                 textTransform: "none"
                                             }}
-                                            onClick={handleRemove(user.googleId)}>Remove </Button>
+                                                onClick={() => {handleDelete(user.googleId)}}>Remove</Button>
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -209,7 +214,7 @@ function UpdateAdmin() {
                             textTransform: "none"
                         }}
                         
-                        variant="contained" onClick={handleSubmit}>Save Changes</Button>
+                        variant="contained" onClick={() => {handleSubmit()}}>Save Changes</Button>
                     </div>
                 </div>
                 </Box>
