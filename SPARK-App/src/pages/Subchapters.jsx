@@ -35,8 +35,18 @@ const Subchapters = ({ searchInput }) => {
 
     // get current chapter from overmind state
     const currentChapter = chapterState.selectedChapter
-    const currentChapterID = chapterState.selectedChapter.currentChapterId
-
+    // const currentChapterID = chapterState.selectedChapter.currentChapterId
+    const currentChapterID = location.pathname.split('/')[2]
+    if (currentChapter == null) {
+        axios.get(import.meta.env.VITE_API_URL + "/chapters/" + currentChapterID)
+        .then(res=> {
+            console.log(res.data)
+            chapterActions.setSelectedChapter(res.data)
+        }).catch(err=> {
+            console.error(err)
+        })
+    }
+    
     // extract currentUser from session storage
     const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
     // const userId = currentUser._id

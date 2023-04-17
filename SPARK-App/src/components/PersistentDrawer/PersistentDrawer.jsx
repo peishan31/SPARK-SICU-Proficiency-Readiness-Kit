@@ -220,7 +220,7 @@ export default function PersistentDrawer({admin, clearUser}) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <a href="/Chapters" class="navbarLink">
+                    <a href="/Chapters" className="navbarLink">
                         <div className="navbarBrand">
                             <FlareIcon className="navbarBrandIcon"/>
                             <Typography className="navbarBrandText" fontWeight="bold" letterSpacing={-1} sx={{ fontSize: "25px", display: {xs: 'none', sm: 'flex', md: 'flex', ld: 'flex'}}}>

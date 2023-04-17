@@ -28,7 +28,7 @@ const SubchapterContent = () => {
     const userType = userState.currentUser.userType;
 
     const API_URL = BASE_URL + "/chapters"
-    
+
     const chapterId = location.pathname.split('/')[2]
     const subchapterId = location.pathname.split('/')[4]
 
@@ -44,6 +44,7 @@ const SubchapterContent = () => {
             .then(res => {
                 const array = res.data[1].subchapters
                 const result = array.find(obj => obj._id === subchapterId)
+                console.log("HERERRER", result)
                 setIsBookmarked(result.isBookmarked)
                 if (result.bookmarkId != null) {
                     setBookmarkId(result.bookmarkId)
