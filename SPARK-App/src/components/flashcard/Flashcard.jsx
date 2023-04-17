@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import "./Flashcard.css"
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios'
@@ -9,13 +9,12 @@ import { Link } from 'react-router-dom';
 import { useAppState } from '../../overmind';
 
 
-function Flashcard({flashcard, allFlashcardsList, setAllFlashcards, activeCard, currentCarouselIndex, setActiveHeight}) {
+function Flashcard({flashcard, allFlashcardsList, setAllFlashcards, activeCard, currentCarouselIndex, setActiveHeight, idx, flashcards}) {
 
     // get user details from overmind state
     const user = useAppState().user.currentUser;
     const [height, setHeight] = useState('auto')
     const [flip, setFlip] = useState(false);
-    // const [height, setHeight] = useState('auto')
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -51,12 +50,8 @@ function Flashcard({flashcard, allFlashcardsList, setAllFlashcards, activeCard, 
     const frontEl = useRef()
     const backEl = useRef()
 
-    function setMaxHeight() {
-        console.log("setMaxHeight")
+    const setMaxHeight = () => {
         const frontHeight = frontEl.current.getBoundingClientRect().height
-        const backHeight = backEl.current.getBoundingClientRect().height
-
-        console.log(Math.max(frontHeight, 300))
         setHeight(Math.max(frontHeight, 300))
     }
 
@@ -89,15 +84,15 @@ function Flashcard({flashcard, allFlashcardsList, setAllFlashcards, activeCard, 
         }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setMaxHeight();
-    }, [flashcard])
+    }, [flashcard, flashcards])
 
     useEffect(() => {
         if (activeCard) {
             setActiveHeight(height)
         }
-    }, [currentCarouselIndex, flashcard, height])
+    }, [currentCarouselIndex, height])
 
 
     return (

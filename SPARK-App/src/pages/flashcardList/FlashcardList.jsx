@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress, FormControl, Grid, MenuItem, Select, Container } from '@mui/material'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import Flashcard from '../../components/flashcard/Flashcard';
 import Carousel from 'react-material-ui-carousel';
@@ -50,7 +50,7 @@ function FlashcardList() {
             let filteredArray = allFlashcards.filter(flashcard => flashcard.category === dropdownValue)
             setFlashcards(filteredArray)
         } else {
-            setFlashcards(allFlashcards)
+            setFlashcards(allFlashcards)   
         }
     }
 
@@ -69,8 +69,8 @@ function FlashcardList() {
     }, [allFlashcards])
 
     useEffect(() => {
+        // triggers when flashcards are filtered
         clampIndex()
-        
     }, [flashcards])
 
     return (
@@ -144,7 +144,7 @@ function FlashcardList() {
                         <Box sx={{display: "flex", justifyContent: "center"}}>
                             <Carousel
                                 sx={{p: "10px 3px 0px", width: "100%", maxWidth: "600px"}}
-                                swipe={true}
+                                swipe={false}
                                 autoPlay={false}
                                 height={activeHeight}
                                 animation="slide"
@@ -163,6 +163,8 @@ function FlashcardList() {
                                                         currentCarouselIndex={currentCarouselIndex}
                                                         activeCard={currentCarouselIndex == idx ? true : false}
                                                         setActiveHeight={setActiveHeight}
+                                                        idx = {idx}
+                                                        flashcards={flashcards}
                                     
                                                         />
                                             )
@@ -172,15 +174,7 @@ function FlashcardList() {
                             </Carousel>
                         </Box>
 
-                        {/* <div className="card-grid">
-                            {
-                                flashcards.map((flashcard) => {
-                                    return (
-                                        <Flashcard key={flashcard._id} flashcard={flashcard} flashcardsList={flashcards} setFlashcards={setFlashcards} />
-                                    )
-                                })
-                            }
-                        </div> */}
+
                     </div>
                 )
             }

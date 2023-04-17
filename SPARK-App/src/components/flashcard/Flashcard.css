@@ -16,10 +16,6 @@
     -webkit-transform: rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0));
     transform: rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0));
     
-    
-    /* -webkit-transform: perspective(1000px) rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0));
-    transform: perspective(1000px) rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0)); */
-    
     -webkit-transition: 150ms;
     transition: 150ms;
     cursor: pointer;
@@ -45,7 +41,6 @@
     -moz-backface-visibility: hidden;
     -o-backface-visibility: hidden;
     
-    /* transform: rotateY(0deg) translateZ(1px);  */
   }
 
   .card .front {
