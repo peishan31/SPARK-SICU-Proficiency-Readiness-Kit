@@ -46,7 +46,6 @@ app.get('/users', async(req, res) => {
   }
 })
 
-
 // create user
 app.use("/user", userRouter)
 

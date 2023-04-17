@@ -8,6 +8,7 @@ import { useActions, useAppState } from '../../overmind';
 import { useNavigate } from 'react-router-dom';
 
 
+
 function UpdateAdmin() {
 
     const userState = useAppState().user
@@ -24,6 +25,37 @@ function UpdateAdmin() {
     const [ currentPage, setCurrentPage ] = useState(1);
 
     const pageCount = Math.ceil(users.length / USERS_PER_PAGE);
+
+    async function handleDelete(user_id) {
+        console.log("handleDelete")
+        console.log(user_id)
+
+        setModalText("");
+        setModalBool(true)
+
+        const API_URL = import.meta.env.VITE_API_URL + `/user/delete/${user_id}`;
+
+        try {
+            await axios.delete(API_URL, {
+                withCredentials: true
+            })
+                .then((response) => {
+                    console.log(response.status)
+                    // alert("Deleted successfully!")
+                    setModalText("✅ Deleted successfully!");
+
+                }).catch((err) => {
+                    console.log(err)
+                    // alert("Something went wrong")
+                    setModalText("❌ Something went wrong.");
+                }
+                )
+        } catch (err) {
+            console.log(err)
+            // alert("Something went wrong")
+            setModalText("❌ Something went wrong.");
+        }
+    }
 
     function handleSubmit() {
         setModalText("");
@@ -129,6 +161,9 @@ function UpdateAdmin() {
                                     <TableCell>
                                         User Type
                                     </TableCell>
+                                    <TableCell>
+                                        Action
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -148,6 +183,18 @@ function UpdateAdmin() {
                                         <TableCell>
                                             <UserTypeDropdown handleUpdate={handleUpdate} userId={user.googleId} userType={user.userType}/>
                                         </TableCell>
+                                        <TableCell>
+                                            <Button sx={{ 
+                                                backgroundColor: "#41ADA4",
+                                                ':hover': {
+                                                    bgcolor: '#FFFFFF',
+                                                    color: '#41ADA4'
+                                                },
+                                                color: "#FFFFFF",
+                                                textTransform: "none"
+                                            }}
+                                                onClick={() => {handleDelete(user.googleId)}}>Remove</Button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -163,10 +210,11 @@ function UpdateAdmin() {
                             backgroundColor: "#41ADA4",
                             ':hover': {
                                 bgcolor: '#41ADA4'
-                            }
+                            },
+                            textTransform: "none"
                         }}
                         
-                        variant="contained" onClick={handleSubmit}>Save changes</Button>
+                        variant="contained" onClick={() => {handleSubmit()}}>Save Changes</Button>
                     </div>
                 </div>
                 </Box>
