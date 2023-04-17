@@ -173,8 +173,6 @@ function FlashcardList() {
                                 }
                             </Carousel>
                         </Box>
-
-
                     </div>
                 )
             }
