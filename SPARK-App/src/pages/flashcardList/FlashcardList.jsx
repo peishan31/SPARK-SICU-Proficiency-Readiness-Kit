@@ -143,7 +143,7 @@ function FlashcardList() {
                         
                         <Box sx={{display: "flex", justifyContent: "center"}}>
                             <Carousel
-                                sx={{p: "10px 3px 0px", width: "100%", maxWidth: "600px"}}
+                                sx={{p: "10px 3px 0px", width: "90%", maxWidth: "600px"}}
                                 swipe={false}
                                 autoPlay={false}
                                 height={activeHeight}
