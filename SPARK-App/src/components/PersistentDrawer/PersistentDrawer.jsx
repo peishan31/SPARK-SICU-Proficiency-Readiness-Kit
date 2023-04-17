@@ -56,6 +56,7 @@ import OtherErrors from '../../pages/error/OtherErrors';
 import FlashcardList from '../../pages/flashcardList/FlashcardList';
 import CreateFlashcards from '../../pages/createFlashcards/CreateFlashcards';
 import EditFlashcards from '../../pages/editFlashcards/EditFlashcards';// BlackOverlay when navbar is open
+import About from '../../pages/About';
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -282,17 +283,14 @@ export default function PersistentDrawer({admin, clearUser}) {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Chapters', 'Bookmarks', 'Calculators', 'Flashcards'].map((text, index) => (
+                    {['Chapters', 'Bookmarks', 'Calculators', 'Flashcards', 'About'].map((text, index) => (
                         <Link key={text} to={text} style={{ textDecoration: 'none'}} onClick={handleDrawerClose}>
                             <ListItem key={text} disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                                         {
                                             (() => {
                                                 switch (text) {
-                                                    // case 'Home':
-                                                    //     return <span className="icon">&#127968;</span>;
                                                     case 'Bookmarks':
                                                         return <span dangerouslySetInnerHTML={{ __html: toTwemoji("🔖") }}></span>
                                                     case 'Calculators':
@@ -301,6 +299,8 @@ export default function PersistentDrawer({admin, clearUser}) {
                                                         return <span dangerouslySetInnerHTML={{ __html: toTwemoji("📖") }}></span>
                                                     case 'Flashcards':
                                                         return <span dangerouslySetInnerHTML={{ __html: toTwemoji("⚡") }}></span>
+                                                    case 'About':
+                                                        return <span dangerouslySetInnerHTML={{ __html: toTwemoji("📓") }}></span>
                                                     default:
                                                         return null;
                                                 }
@@ -394,6 +394,7 @@ export default function PersistentDrawer({admin, clearUser}) {
                                 <Route path="/Flashcards" element={<FlashcardList />} />
                                 <Route path="/Flashcards/createFlashcards" element={<CreateFlashcards />} />
                                 <Route path="/Flashcards/:flashcardId" element={<EditFlashcards />} />
+                                <Route path='/About' element={<About />} />
                             </Routes>
                     </Main>
                 </Box>

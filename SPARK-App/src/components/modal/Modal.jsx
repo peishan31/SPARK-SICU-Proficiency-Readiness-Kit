@@ -7,6 +7,11 @@ export default function Modal({setModalBool, modalText}) {
         return twemoji.parse(string)
     };
 
+    function resetModalBoolAndRefresh() {
+        setModalBool(false);
+        window.location.reload();
+    }
+
     return (
     <>
         {/* <div className="modal"> */}
@@ -27,7 +32,7 @@ export default function Modal({setModalBool, modalText}) {
                     </>
                     :
                     <>
-                        <div className="overlay" onClick={()=>setModalBool(false)}></div>
+                        <div className="overlay" onClick={() => resetModalBoolAndRefresh()}></div>
                         <div className="modal-content">
                             <p className="modalText">
                                 <span dangerouslySetInnerHTML={{__html: toTwemoji(modalText)}}></span>
@@ -38,8 +43,8 @@ export default function Modal({setModalBool, modalText}) {
                                     ':hover': {
                                         bgcolor: '#41ADA4'
                                     }
-                                }} fullWidth onClick={()=>setModalBool(false)}>
-                                CLOSE
+                            }} fullWidth onClick={() => resetModalBoolAndRefresh()}>
+                                Close
                             </Button>
                         </div>
                     </> 
