@@ -20,10 +20,10 @@ export default function SubchapterCard({ subchapter, chapterId }) {
     const result = myArray.find(obj => obj._id === currentSubchapterId);
 
     let parentBookmarkId = null
-    if(result.bookmarkId != null) {
+    if (result.bookmarkId != null) {
         parentBookmarkId = result.bookmarkId
     }
-    
+
     const [isBookmarked, setIsBookmarked] = useState(result.isBookmarked);
     const [bookmarkId, setBookmarkId] = useState(parentBookmarkId);
 
@@ -33,10 +33,10 @@ export default function SubchapterCard({ subchapter, chapterId }) {
 
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-      setOpen(false);
+        setOpen(false);
     };
     const handleToggle = () => {
-      setOpen(!open);
+        setOpen(!open);
     };
 
     useEffect(() => {
@@ -89,63 +89,64 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                 console.log(err)
                 return 500;
             }
-        )}
+        )
+    }
 
     async function bookmarkHandler() {
-        if(isBookmarked) {
+        if (isBookmarked) {
             await removeBookmark(bookmarkId)
-            setIsBookmarked(false)            
+            setIsBookmarked(false)
         }
-        else{
+        else {
             await addBookmark()
             setIsBookmarked(true)
         }
     }
 
     return (
-        <Card sx={{ 
-                    
-                    maxWidth: 445, 
-                    borderRadius: "20px",
-                    ':hover': {
-                        bgcolor: '#41ADA4',
-                        color: 'white'
-                    },
-                    ".cardText": {
-                        color: "text.secondary"
-                    },
-                    ".bookmark": {
-                        color: "#41ADA4"
-                    },
-                    ".bookmarkOutline": {
-                        color: "#41ADA4"
-                    }, 
-                    "&:hover .cardText": {
-                        color: "white"
-                    },
-                    "&:hover .bookmark": {
-                        color: "white"
-                    },
-                    "&:hover .bookmarkOutline": {
-                        color: "white"
-                    }
+        <Card sx={{
 
-                    
-                }}>
+            maxWidth: 445,
+            borderRadius: "20px",
+            ':hover': {
+                bgcolor: '#41ADA4',
+                color: 'white'
+            },
+            ".cardText": {
+                color: "text.secondary"
+            },
+            ".bookmark": {
+                color: "#41ADA4"
+            },
+            ".bookmarkOutline": {
+                color: "#41ADA4"
+            },
+            "&:hover .cardText": {
+                color: "white"
+            },
+            "&:hover .bookmark": {
+                color: "white"
+            },
+            "&:hover .bookmarkOutline": {
+                color: "white"
+            }
+
+
+        }}>
             <CardActionArea
-                                onClick={
-                                    () => {
-                                        navigate(`${currentSubchapterId}/subchapterContent`,
-                                            {
-                                                state: {
-                                                    parentChapterId: chapterId,
-                                                    parentSubchapterId: currentSubchapterId,
-                                                    bookmarkStatus: subchapter.isBookmarked,
-                                                    bookmarkId: subchapter.bookmarkId
-                                                }
-                                            });
-                                    }
-                                } disableRipple>
+                onClick={
+                    () => {
+                        navigate(`${currentSubchapterId}/subchapterContent`,
+                            {
+                                state: {
+                                    parentChapterId: chapterId,
+                                    parentSubchapterId: currentSubchapterId,
+                                    bookmarkStatus: subchapter.isBookmarked,
+                                    bookmarkId: subchapter.bookmarkId
+                                }
+                            });
+                    }
+                } disableRipple>
                 <CardMedia
                     component="img"
                     height="225"
@@ -155,15 +156,19 @@ export default function SubchapterCard({ subchapter, chapterId }) {
                 />
                 <CardContent>
                     <Grid pb={1} display="flex" justifyContent="space-between">
-                        <Typography display="contents" gutterBottom sx={{fontSize: "20px", fontWeight: "bold", lineHeight: 1.3}} component="div">
+                        <Typography display="contents" gutterBottom sx={{ fontSize: "20px", fontWeight: "bold", lineHeight: 1.3 }} component="div">
                             {subchapter.subchapterTitle}
                         </Typography>
                         <Box>
                             {
-                                isBookmarked ? 
-                                    <BookmarkIcon className="bookmark" margin={"4"} onClick={e => { e.stopPropagation()
-                                        bookmarkHandler() }} /> : <BookmarkBorderIcon className="bookmarkOutline" margin={"4"} onClick={e => { e.stopPropagation()
-                                             bookmarkHandler() }} />
+                                isBookmarked ?
+                                    <BookmarkIcon className="bookmark" margin={"4"} onClick={e => {
+                                        e.stopPropagation()
+                                        bookmarkHandler()
+                                    }} /> : <BookmarkBorderIcon className="bookmarkOutline" margin={"4"} onClick={e => {
+                                        e.stopPropagation()
+                                        bookmarkHandler()
+                                    }} />
                             }
                         </Box>
                     </Grid>
