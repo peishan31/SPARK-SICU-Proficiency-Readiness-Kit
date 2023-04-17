@@ -266,7 +266,7 @@ const SubchapterContent = () => {
                         </div>
                         <div className="subchapterActions">
                             {
-                                userType == 'Senior' ? (
+                                userType == 'senior' ? (
                                 <div className="subchapterAction">
                                     <Tooltip title="Edit" placement="top">
                                         <EditIcon className="subchapterActionIcon"
@@ -294,7 +294,6 @@ const SubchapterContent = () => {
                                     </div>
                                 )
                             }
-
                             <div className="subchapterAction">
                                 <Tooltip title="Bookmark" placement="top">
                                     {
