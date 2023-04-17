@@ -294,7 +294,6 @@ const SubchapterContent = () => {
                                     </div>
                                 )
                             }
-
                             <div className="subchapterAction">
                                 <Tooltip title="Bookmark" placement="top">
                                     {
