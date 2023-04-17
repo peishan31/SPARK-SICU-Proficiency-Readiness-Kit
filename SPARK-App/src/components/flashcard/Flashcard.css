@@ -1,85 +1,65 @@
 .card {
-    /* display: flex; */
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    border-radius: .25rem;
-    box-shadow: 0 0 5px 2px rgba(24, 24, 24, 0.3);
-    background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: .25rem;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, .3);
+  background-color: white;
+  cursor: pointer;
 
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
+  -webkit-transform: rotateY(var(--rotate-y, 0));
+  transform: rotateY(var(--rotate-y, 0));
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transition: 150ms;
+  transition: 150ms;
+}
 
-    -webkit-perspective: 1000px;
-    perspective: 1000px;
+.card.flip {
+  --rotate-y: 180deg;
+}
 
-    -webkit-transform: rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0));
-    transform: rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0));
-    
-    -webkit-transition: 150ms;
-    transition: 150ms;
-    cursor: pointer;
-  }
+.card .front,
+.card .back {
+  padding: 1rem;
+}
 
-  .card:hover {
-    box-shadow: 0 0 5px 2px rgba(24, 24, 24, 0.3);
-  }
-  
-  .card.flip {
-    --rotate-y: 180deg;
-    --translate-z: 0.2px;
-  }
-
-
-  .card .front, .card .back {
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    padding: 1rem;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -o-backface-visibility: hidden;
-    
-  }
-
-  .card .front {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    -webkit-transform: rotateY(0deg);
-    transform: rotateY(0deg);
-    padding: 50px;
-  }
-
-  .card .back {
-    position: absolute;
-    /* anything that is flipped 180 deg is going to be hidden */
-    width: 100%;
-    -webkit-transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
-    transform: rotateY(180deg) translateZ(var(--translate-z, 0)); 
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    font-size: 18px;
-  }
-
-  a, a:hover {
-    color: inherit; /* Set the link color to inherit from its parent element */
-    text-decoration: none; /* Remove the underline from the link */
-  }
-
-.cardText {
+.card .front {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 25px;
   text-align: center;
+
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+  backface-visibility: hidden;
+}
+
+.card .back {
+  position: absolute;
+  -webkit-transform: rotateY(180deg) translateZ(1px);
+  transform: rotateY(rotateY(180deg)) translateZ(1px);
+  backface-visibility: hidden; 
+  height: 100%;
+  width: 100%;
+  overflow-y: auto; 
+  font-size: 18px;
+}
+
+a, a:hover {
+  color: inherit; /* Set the link color to inherit from its parent element */
+  text-decoration: none; /* Remove the underline from the link */
 }
 
 .moreButton {
-  display: flex;
-  justify-content: flex-end;
-  align-self: flex-start;
-  position: absolute;
-  top: 15px;
-  right: 15px;
+display: flex;
+justify-content: flex-end;
+align-self: flex-start;
+position: absolute;
+top: 15px;
+right: 15px;
 }

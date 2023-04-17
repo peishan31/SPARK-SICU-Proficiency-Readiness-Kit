@@ -1,4 +1,3 @@
-
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import "./Flashcard.css"
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -10,7 +9,6 @@ import { useAppState } from '../../overmind';
 
 
 function Flashcard({flashcard, allFlashcardsList, setAllFlashcards, activeCard, currentCarouselIndex, setActiveHeight, idx, flashcards}) {
-
     // get user details from overmind state
     const user = useAppState().user.currentUser;
     const [height, setHeight] = useState('auto')
@@ -94,50 +92,48 @@ function Flashcard({flashcard, allFlashcardsList, setAllFlashcards, activeCard, 
         }
     }, [currentCarouselIndex, height])
 
-
     return (
         <div className={`card ${flip ? 'flip' : ''}`} style={{ height: height }} onClick={() => setFlip(!flip)}>
-            <div className="front" ref={frontEl} >
-                    {
-                        user.userType == "senior" && (
-                            <div className="moreButton">
-                                <MoreVertIcon 
-                                        sx={{color: "#b5b5b5"}} 
-                                        id="basic-button"
-                                        aria-controls={open ? 'basic-menu' : undefined}
-                                        aria-haspopup="true"
-                                        aria-expanded={open ? 'true' : undefined}
-                                        onClick={handleClick}
-                                    />
-                                <Menu
-                                    id="basic-menu"
-                                    anchorEl={anchorEl}
-                                    open={open}
-                                    onClose={handleClose}
-                                    MenuListProps={{
-                                        'aria-labelledby': 'basic-button',
-                                    }}
-                                >
-                                    <MenuItem onClick={handleDelete}>
-                                        Delete
-                                    </MenuItem>
+            <div className="front" ref={frontEl}>
+            {
+                user.userType == "senior" && (
+                    <div className="moreButton">
+                        <MoreVertIcon 
+                                sx={{color: "#b5b5b5"}} 
+                                id="basic-button"
+                                aria-controls={open ? 'basic-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                onClick={handleClick}
+                            />
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem onClick={handleDelete}>
+                                Delete
+                            </MenuItem>
 
-                                    <MenuItem onClick={(e) => {
-                                            e.stopPropagation();
-                                        }}>
-                                        <Link to={`/Flashcards/${flashcard._id}`}>
-                                            Edit
-                                        </Link>
-                                    </MenuItem>
-                                </Menu> 
-                            </div>) 
-                    }
-                    <h5 className="cardText" style={{whiteSpace: "pre-line"}}>
-                        {flashcard.question}
-                    </h5>
+                            <MenuItem onClick={(e) => {
+                                    e.stopPropagation();
+                                }}>
+                                <Link to={`/Flashcards/${flashcard._id}`}>
+                                    Edit
+                                </Link>
+                            </MenuItem>
+                        </Menu> 
+                    </div>) 
+                }
+            
+                {flashcard.question}
             </div>
-            <div className="back" ref={backEl} style={{ height: height, whiteSpace: "pre-line" }}>
-                { flashcard.answer }
+            <div className="back" style={{ whiteSpace: "pre-line" }}>
+                {flashcard.answer}
             </div>
         </div>
     )

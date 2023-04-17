@@ -141,7 +141,7 @@ function FlashcardList() {
                             }
                         </div>
                         
-                        <Box sx={{display: "flex", justifyContent: "center"}}>
+                        <Box sx={{display: "flex", justifyContent: "center"}} className="flashcardContainer">
                             <Carousel
                                 sx={{p: "10px 3px 0px", width: "90%", maxWidth: "600px"}}
                                 swipe={false}

@@ -19,6 +19,14 @@
 .dropdown {
     margin-right: 20px;
     position: relative;
-    /* -webkit-transform: translate3d(0px, 0px, 0px);
-    transform: translate3d(0px, 0px, 0px);  */
+    z-index: 999;
+}
+
+.flashcardContainer {
+    position: relative;
+    z-index: 0;
+    -webkit-transform: translateZ(-1px);
+    transform: translateZ(-1px); 
+    -webkit-transform: translate3d(0px, 0px, -10000px);
+    transform: translate3d(0px, 0px, -10000px);
 }
