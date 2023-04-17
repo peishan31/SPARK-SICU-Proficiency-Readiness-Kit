@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { useAppState } from '../../overmind';
 
 
-function Flashcard({flashcard, allFlashcardsList, setAllFlashcards, activeCard, currentCarouselIndex, setActiveHeight, idx, flashcards}) {
+function NewFlashcard({flashcard, allFlashcardsList, setAllFlashcards, activeCard, currentCarouselIndex, setActiveHeight, idx, flashcards}) {
     // get user details from overmind state
     const user = useAppState().user.currentUser;
     const [height, setHeight] = useState('auto')
@@ -139,4 +139,4 @@ function Flashcard({flashcard, allFlashcardsList, setAllFlashcards, activeCard, 
     )
 }
 
-export default Flashcard
+export default NewFlashcard
