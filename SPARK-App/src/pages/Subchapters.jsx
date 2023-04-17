@@ -89,10 +89,10 @@ const Subchapters = ({ searchInput }) => {
     
     useEffect(() => {
         // if currentChapter does not exist, then reroute to the chapters page.
-        if (!currentChapter || !userId) {
-            navigate(`/Chapters`);
-            return;
-        }
+        // if (!currentChapter || !userId) {
+        //     navigate(`/Chapters`);
+        //     return;
+        // }
 
         // extract currentchapter details
         // const chapterId = currentChapter.currentChapterId
