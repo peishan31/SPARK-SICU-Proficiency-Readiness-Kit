@@ -25,6 +25,7 @@ const SubchapterContent = () => {
 
     const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
+    const userType = userState.currentUser.userType;
     
     const API_URL = BASE_URL + "/chapters"
 
@@ -264,27 +265,36 @@ const SubchapterContent = () => {
                             <span dangerouslySetInnerHTML={{__html: toTwemoji(subchapter.chapterIcon)}}></span>
                         </div>
                         <div className="subchapterActions">
-                            <div className="subchapterAction">
-                                <Tooltip title="Edit" placement="top">
-                                    <EditIcon className="subchapterActionIcon" 
-                                        onClick={
-                                            () => {
-                                                navigate(`/Chapters/${chapterId}/Subchapters/${subchapterId}/editSubchapter`,
-                                                    {
-                                                        state: {
-                                                            parentChapterId: chapterId,
-                                                            parentSubchapterId: subchapterId
-                                                        }
-                                                    })
+                            {
+                                userType == 'Senior' ? (
+                                <div className="subchapterAction">
+                                    <Tooltip title="Edit" placement="top">
+                                        <EditIcon className="subchapterActionIcon"
+                                            onClick={
+                                                () => {
+                                                    navigate(`/Chapters/${chapterId}/Subchapters/${subchapterId}/editSubchapter`,
+                                                        {
+                                                            state: {
+                                                                parentChapterId: chapterId,
+                                                                parentSubchapterId: subchapterId
+                                                            }
+                                                        })
+                                                }
                                             }
-                                        }
-                                    />
-                                </Tooltip>
-                                &nbsp; &nbsp;
-                                <Tooltip title="Delete" placement="top">
-                                    <DeleteIcon className="subchapterActionIcon" onClick={ e => { deleteSubchapter() }}/> 
-                                </Tooltip>
-                            </div>
+                                        />
+                                    </Tooltip>
+                                    &nbsp; &nbsp;
+                                    <Tooltip title="Delete" placement="top">
+                                        <DeleteIcon className="subchapterActionIcon" onClick={e => { deleteSubchapter() }} />
+                                    </Tooltip>
+                                </div>
+                                ) : (
+                                    <div>
+                                        &nbsp; &nbsp; 
+                                    </div>
+                                )
+                            }
+
                             <div className="subchapterAction">
                                 <Tooltip title="Bookmark" placement="top">
                                     {
