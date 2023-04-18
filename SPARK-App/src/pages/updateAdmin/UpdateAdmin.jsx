@@ -196,15 +196,18 @@ function UpdateAdmin() {
                                                 <UserTypeDropdown handleUpdate={handleUpdate} userId={user.googleId} userType={user.userType}/>
                                             </TableCell>
                                             <TableCell>
-                                                <Button sx={{ 
-                                                    backgroundColor: "#41ADA4",
-                                                    ':hover': {
-                                                        bgcolor: '#FFFFFF',
-                                                        color: '#41ADA4'
-                                                    },
-                                                    color: "#FFFFFF",
-                                                    textTransform: "none"
-                                                }}
+                                                <Button 
+                                                    variant='outlined'
+                                                    sx={{ 
+                                                        backgroundColor: "#41ADA4",
+                                                        ':hover': {
+                                                            bgcolor: '#FFFFFF',
+                                                            color: '#41ADA4',
+                                                            borderColor: '#41ADA4',
+                                                        },
+                                                        color: "#FFFFFF",
+                                                        textTransform: "none"
+                                                    }}
                                                     onClick={() => {handleDelete(user.googleId)}}>Remove</Button>
                                             </TableCell>
                                         </TableRow>
