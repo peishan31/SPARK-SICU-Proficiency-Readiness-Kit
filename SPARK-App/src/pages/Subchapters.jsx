@@ -35,8 +35,18 @@ const Subchapters = ({ searchInput }) => {
 
     // get current chapter from overmind state
     const currentChapter = chapterState.selectedChapter
-    const currentChapterID = chapterState.selectedChapter.currentChapterId
-
+    // const currentChapterID = chapterState.selectedChapter.currentChapterId
+    const currentChapterID = location.pathname.split('/')[2]
+    if (currentChapter == null) {
+        axios.get(import.meta.env.VITE_API_URL + "/chapters/" + currentChapterID)
+        .then(res=> {
+            console.log(res.data)
+            chapterActions.setSelectedChapter(res.data)
+        }).catch(err=> {
+            console.error(err)
+        })
+    }
+    
     // extract currentUser from session storage
     const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
     // const userId = currentUser._id
@@ -79,10 +89,10 @@ const Subchapters = ({ searchInput }) => {
     
     useEffect(() => {
         // if currentChapter does not exist, then reroute to the chapters page.
-        if (!currentChapter || !userId) {
-            navigate(`/Chapters`);
-            return;
-        }
+        // if (!currentChapter || !userId) {
+        //     navigate(`/Chapters`);
+        //     return;
+        // }
 
         // extract currentchapter details
         // const chapterId = currentChapter.currentChapterId
@@ -108,7 +118,7 @@ const Subchapters = ({ searchInput }) => {
     //button's styling
     const styles = {
         button: {
-            color: 'white',
+            // color: 'white',
             backgroundColor: 'white',
             borderColor: '#41ADA4 !important',
             color: '#41ADA4',

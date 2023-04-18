@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify'; // Sanitizes HTML;  a tool that removes any potentially malicious code from HTML text;
 import { useAppState, useActions } from '../../overmind';
-import { map, trim,join, isNull } from 'lodash';
+import { map, trim, join, isNull } from 'lodash';
 import Subchapters from '../Subchapters';
 import CircularProgress from '@mui/material/CircularProgress';
 import ScrollUpButton from '../../components/scrollUpBtn/ScrollUpButton';
@@ -20,17 +20,17 @@ const SubchapterContent = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [subchapter, setSubchapter] = useState([]);
-    
+
     const BASE_URL = import.meta.env.VITE_API_URL
 
     const userState = useAppState().user;
     const userId = userState.currentUser.googleId;
     const userType = userState.currentUser.userType;
-    
+
     const API_URL = BASE_URL + "/chapters"
 
-    const chapterId = location.state.parentChapterId
-    const subchapterId = location.state.parentSubchapterId
+    const chapterId = location.pathname.split('/')[2]
+    const subchapterId = location.pathname.split('/')[4]
 
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [bookmarkId, setBookmarkId] = useState('');
@@ -44,8 +44,9 @@ const SubchapterContent = () => {
             .then(res => {
                 const array = res.data[1].subchapters
                 const result = array.find(obj => obj._id === subchapterId)
+                console.log("HERERRER", result)
                 setIsBookmarked(result.isBookmarked)
-                if(result.bookmarkId != null) {
+                if (result.bookmarkId != null) {
                     setBookmarkId(result.bookmarkId)
                 } else {
                     setBookmarkId(null)
@@ -53,58 +54,58 @@ const SubchapterContent = () => {
             })
             .catch(err => {
                 console.log(err)
-                if(err.response.status == 500) {
+                if (err.response.status == 500) {
                     navigate("/500");
-                } else if(err.response.status == 404) {
+                } else if (err.response.status == 404) {
                     navigate("/404");
                 } else {
                     navigate("/other-errors");
                 }
             });
         const handleScroll = () => {
-          if (window.scrollY > 100) {
-            setShowScrollButton(true);
-          } else {
-            setShowScrollButton(false);
-          }
+            if (window.scrollY > 100) {
+                setShowScrollButton(true);
+            } else {
+                setShowScrollButton(false);
+            }
         };
-    
+
         window.addEventListener("scroll", handleScroll);
-    
+
         return () => {
-          window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("scroll", handleScroll);
         };
     }, [])
 
 
     const getSubchapterContent = async (chapterId, subchapterId) => {
         axios.get(`${API_URL}/${chapterId}/subchapters/${subchapterId}`)
-        .then(res => {
-            setLastEditedBool(false)
-            setSubchapter(res.data)
+            .then(res => {
+                setLastEditedBool(false)
+                setSubchapter(res.data)
 
-            if (res.data.lastModifiedUsername != "") {
+                if (res.data.lastModifiedUsername != "") {
 
-                setLastEditedBool(true)
-                const timestamp = res.data.lastModifiedDateTime;
-                const date = new Date(timestamp);
+                    setLastEditedBool(true)
+                    const timestamp = res.data.lastModifiedDateTime;
+                    const date = new Date(timestamp);
 
-                // format the date and time as a string
-                const options = {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                    second: "numeric",
-                    timeZoneName: "short"
-                  };
-                
-                  const formattedDate = date.toLocaleDateString("en-US", options);
-                setLastEditedByTime(formattedDate);
-            }
-        })
+                    // format the date and time as a string
+                    const options = {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "numeric",
+                        second: "numeric",
+                        timeZoneName: "short"
+                    };
+
+                    const formattedDate = date.toLocaleDateString("en-US", options);
+                    setLastEditedByTime(formattedDate);
+                }
+            })
     }
 
     async function addBookmark() {
@@ -136,7 +137,7 @@ const SubchapterContent = () => {
         }
         try {
             await axios.delete(
-                BASE_URL + `/user/` + userId +`/bookmarks/${bookmarkId}`
+                BASE_URL + `/user/` + userId + `/bookmarks/${bookmarkId}`
             );
             // subchapterActions.setBookmarkId(null);
             // subchapterActions.setIsBookmarked(false);
@@ -148,11 +149,11 @@ const SubchapterContent = () => {
     }
 
     async function bookmarkHandler() {
-        if(isBookmarked) {
+        if (isBookmarked) {
             await removeBookmark(bookmarkId)
-            setIsBookmarked(false)          
+            setIsBookmarked(false)
         }
-        else{
+        else {
             await addBookmark()
             setIsBookmarked(true)
         }
@@ -162,9 +163,9 @@ const SubchapterContent = () => {
 
         if (confirm("Are you sure you want to delete this subchapter?")) {
             await axios.delete(
-                BASE_URL + `/chapters/` + chapterId +`/subchapters/${subchapterId}`, {
-                    withCredentials: true
-                }
+                BASE_URL + `/chapters/` + chapterId + `/subchapters/${subchapterId}`, {
+                withCredentials: true
+            }
             ).then(
                 res => {
                     alert("Subchapter deleted successfully!")
@@ -178,13 +179,14 @@ const SubchapterContent = () => {
                     }
                     return 500
                 }
-            )}
+            )
+        }
     }
 
     function toTwemoji(string) {
         return twemoji.parse(string)
     };
-        
+
     useEffect(() => {
         getSubchapterContent(chapterId, subchapterId)
     }, [])
@@ -192,81 +194,81 @@ const SubchapterContent = () => {
     const searchInput = useAppState().subchapters.subchapterSearchInput
 
 
-    
-    function getHighlightedText(text,subchapterSearchInput) {
+
+    function getHighlightedText(text, subchapterSearchInput) {
         // for HTML strings with tags and text 
-        if(subchapterSearchInput=="" || text ==undefined){
+        if (subchapterSearchInput == "" || text == undefined) {
             return text;
-        }else{
+        } else {
 
             let rgx = "?![^<>]*>";
             const regex = new RegExp(`(${trim(subchapterSearchInput)})(${rgx})`, 'gi');
             let listToReplace = text.match(regex)
             let count = 0
             if (listToReplace == null) return text;
-            for(let i = 0;i < listToReplace.length;i++){
+            for (let i = 0; i < listToReplace.length; i++) {
                 listToReplace[i] = "<span style=\"background-color:#e8bb49\">" + listToReplace[i] + "</span>"
             }
 
-            return text.replace(regex, function($0){
-                if(count ===listToReplace.length) count = 0;
+            return text.replace(regex, function ($0) {
+                if (count === listToReplace.length) count = 0;
                 return listToReplace[count++]
             })
 
         }
-      }
+    }
 
-      function HighlightText(text) {
+    function HighlightText(text) {
         // for plain text highlighting
-        if(searchInput=="" || text ==undefined){
+        if (searchInput == "" || text == undefined) {
             return text;
         }
         // Split text on higlight term, include term itself into parts, ignore case
-       
+
         var parts = text.split(new RegExp(`(${searchInput})`, "gi"));
         return parts.map((part, index) => (
-          <React.Fragment key={index}>
-            {part.toLowerCase() === searchInput.toLowerCase() ? (
-              <b style={{ backgroundColor: "#e8bb49" }}>{part}</b>
-            ) : (
-              part
-            )}
-          </React.Fragment>
+            <React.Fragment key={index}>
+                {part.toLowerCase() === searchInput.toLowerCase() ? (
+                    <b style={{ backgroundColor: "#e8bb49" }}>{part}</b>
+                ) : (
+                    part
+                )}
+            </React.Fragment>
         ));
-      }
-    
-    if ( subchapter.length == 0 ) {
+    }
+
+    if (subchapter.length == 0) {
         return (
             <div
-                style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}
-                >
-                    <CircularProgress color='info' size={40} thickness={4} />
+                style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}
+            >
+                <CircularProgress color='info' size={40} thickness={4} />
             </div>
         )
     }
 
     return (
 
-            <div className="subchapterContent" style={{paddingBottom: "100px"}}>
-                {showScrollButton && <ScrollUpButton />}
-                <div className="subchapterContentContainer">
-                    <div className="backButtonContainer">
-                        <Fab style={{
-                                backgroundColor:"#41ADA4"   
-                            }}
-                            onClick={(e) => { navigate(-1) }}
-                        >
-                            <ArrowBackIcon className="backButton"/>
-                        </Fab>
+        <div className="subchapterContent" style={{ paddingBottom: "100px" }}>
+            {showScrollButton && <ScrollUpButton />}
+            <div className="subchapterContentContainer">
+                <div className="backButtonContainer">
+                    <Fab style={{
+                        backgroundColor: "#41ADA4"
+                    }}
+                        onClick={(e) => { navigate(-1) }}
+                    >
+                        <ArrowBackIcon className="backButton" />
+                    </Fab>
+                </div>
+                <div className="subchapterContentTop">
+                    <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage" />
+                    <div className="subchapterIcon">
+                        <span dangerouslySetInnerHTML={{ __html: toTwemoji(subchapter.chapterIcon) }}></span>
                     </div>
-                    <div className="subchapterContentTop">
-                        <img className="headerImage" src={`${subchapter.thumbnail}`} alt="headerImage"/>
-                        <div className="subchapterIcon">
-                            <span dangerouslySetInnerHTML={{__html: toTwemoji(subchapter.chapterIcon)}}></span>
-                        </div>
-                        <div className="subchapterActions">
-                            {
-                                userType == 'senior' ? (
+                    <div className="subchapterActions">
+                        {
+                            userType == 'senior' ? (
                                 <div className="subchapterAction">
                                     <Tooltip title="Edit" placement="top">
                                         <EditIcon className="subchapterActionIcon"
@@ -288,50 +290,50 @@ const SubchapterContent = () => {
                                         <DeleteIcon className="subchapterActionIcon" onClick={e => { deleteSubchapter() }} />
                                     </Tooltip>
                                 </div>
-                                ) : (
-                                    <div>
-                                        &nbsp; &nbsp; 
+                            ) : (
+                                <div>
+                                    &nbsp; &nbsp;
+                                </div>
+                            )
+                        }
+                        <div className="subchapterAction">
+                            <Tooltip title="Bookmark" placement="top">
+                                {
+                                    isBookmarked ?
+                                        <BookmarkIcon className="bookmark" margin={4} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon className="bookmarkOutline" margin={4} onClick={e => { bookmarkHandler() }} />
+                                }
+                            </Tooltip>
+                        </div>
+                    </div>
+                    <div className="subchapterText">
+                        <h1 className="subchapterTitle">
+                            {HighlightText(subchapter.subchapterTitle)}
+                        </h1>
+                        <div className="subchapterCategory">
+                            {HighlightText(subchapter.chapterTitle)}
+                        </div>
+
+                        <div className="subchapterLastEditedBy">
+                            {
+                                lastEditedBool ? (
+                                    <div className="subchapterLastEditedBy">
+                                        Last Edited by <b>{subchapter.lastModifiedUsername}</b> on {lastEditedByTime}
                                     </div>
+                                ) : (
+                                    <div></div>
                                 )
                             }
-                            <div className="subchapterAction">
-                                <Tooltip title="Bookmark" placement="top">
-                                    {
-                                        isBookmarked ? 
-                                            <BookmarkIcon className="bookmark" margin={4} onClick={e => { bookmarkHandler() }} /> : <BookmarkBorderIcon className="bookmarkOutline" margin={4} onClick={e => { bookmarkHandler() }} />
-                                    }
-                                </Tooltip>
-                            </div>
-                        </div>
-                        <div className="subchapterText">
-                            <h1 className="subchapterTitle">
-                                {HighlightText(subchapter.subchapterTitle)}
-                            </h1>
-                            <div className="subchapterCategory">
-                                {HighlightText(subchapter.chapterTitle)}
-                            </div>
-
-                            <div className="subchapterLastEditedBy">
-                                {
-                                    lastEditedBool ? (
-                                        <div className="subchapterLastEditedBy">
-                                            Last Edited by <b>{subchapter.lastModifiedUsername}</b> on {lastEditedByTime}
-                                        </div>
-                                    ):(
-                                        <div></div>
-                                    )
-                                }
-                            </div>
                         </div>
                     </div>
-                    
                 </div>
-                <div className="subchapterContentBottom">
-                    <div className="subchapterContentBody" dangerouslySetInnerHTML={{__html: toTwemoji(DOMPurify.sanitize(getHighlightedText(subchapter.content,searchInput)))}}>
-                    </div>
+
+            </div>
+            <div className="subchapterContentBottom">
+                <div className="subchapterContentBody" dangerouslySetInnerHTML={{ __html: toTwemoji(DOMPurify.sanitize(getHighlightedText(subchapter.content, searchInput))) }}>
                 </div>
             </div>
-        )
+        </div>
+    )
 }
 
 export default SubchapterContent;
