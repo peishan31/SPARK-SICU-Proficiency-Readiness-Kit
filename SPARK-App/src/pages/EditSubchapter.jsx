@@ -229,7 +229,7 @@ export default function EditSubchapter() {
                                     component='span'
                                     variant='outlined'
                                     sx={{
-                                        color: 'white',
+                                        // color: 'white',
                                         backgroundColor: 'white', // Set background color on hover
                                         borderColor: '#41ADA4 !important', // Set border color on hover
                                         color: '#41ADA4',

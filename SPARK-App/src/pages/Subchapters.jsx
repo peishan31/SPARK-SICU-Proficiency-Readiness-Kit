@@ -118,7 +118,7 @@ const Subchapters = ({ searchInput }) => {
     //button's styling
     const styles = {
         button: {
-            color: 'white',
+            // color: 'white',
             backgroundColor: 'white',
             borderColor: '#41ADA4 !important',
             color: '#41ADA4',

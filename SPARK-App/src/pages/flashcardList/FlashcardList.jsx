@@ -123,7 +123,6 @@ function FlashcardList() {
                                         to="createFlashcards"
                                         variant="outlined"
                                         sx={{
-                                            color: 'white',
                                             marginLeft: "15px",
                                             backgroundColor: "white",
                                             borderColor: "#41ADA4 !important",
