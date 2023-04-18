@@ -67,8 +67,8 @@ const CreateFlashcards = () => {
     return (
         <Box margin={4}>
             
-            {loading ? (
-                <Grid pb={2} display="flex" alignItems="center" mb={1}>
+            {loading || chaps.length == 0 ? (
+                <Grid pb={2} display="flex" justifyContent="center" alignItems="center" mb={1}>
                     <CircularProgress color='info' size={40} thickness={4} />  
                 </Grid>
             ) : (

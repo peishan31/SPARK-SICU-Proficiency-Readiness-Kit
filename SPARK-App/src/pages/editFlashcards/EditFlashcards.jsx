@@ -13,7 +13,10 @@ import {
     Input,
     CircularProgress,
     IconButton,
-    Typography
+    Typography,
+    FormControl,
+    InputLabel,
+    Select
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import axios from 'axios'
@@ -23,6 +26,7 @@ const EditFlashcards = () => {
     const { flashcardId } = useParams();
     const [currentFlashCard, setCurrentFlashCard] = useState(null);
     const [loading, setLoading] = useState(true)
+    const [chaps, setChaps] = useState([])
 
     const navigate = useNavigate()
 
@@ -39,8 +43,22 @@ const EditFlashcards = () => {
             setLoading(false)
         }
 
+        
+
         fetchFlashcard()
     }, [setCurrentFlashCard, flashcardId])
+
+    useEffect(()=>{
+        const getChapters = async () => {
+            await axios.get(import.meta.env.VITE_API_URL + '/chapters/')
+            .then((res) => {
+                setChaps(res.data)
+            })
+            setLoading(false)
+        }
+
+        getChapters()
+    }, [])
 
     async function updateFlashcard() {
         setLoading(true)
@@ -57,7 +75,7 @@ const EditFlashcards = () => {
     return (
         <div>
             {
-                loading ? (
+                loading || chaps.length == 0 ? (
                     <Box
                         sx={{
                             display: 'flex',
@@ -119,7 +137,7 @@ const EditFlashcards = () => {
                                         },
                                     }}
                                 >
-                                    <TextField
+                                    {/* <TextField
                                         value={currentFlashCard.category}
                                         onChange={(event) =>
                                             setCurrentFlashCard({
@@ -130,7 +148,29 @@ const EditFlashcards = () => {
                                         label='Category'
                                         error={currentFlashCard.category.length < 1}
                                     >
-                                    </TextField>
+                                    </TextField> */}
+
+                                        <FormControl sx={{width: "200px", marginTop: "2ch"}}>
+                                            <InputLabel id="select-category">Category</InputLabel>
+                                            <Select value={currentFlashCard.category}
+                                                    onChange={(e) => {
+                                                        setCurrentFlashCard({
+                                                            ...currentFlashCard,
+                                                            category: e.target.value
+                                                        })
+                                                    }}
+                                                    label="Category"
+                                                    labelId="select-category"
+                                                    >
+                                                {
+                                                    chaps.map((chap) => {
+                                                        return (
+                                                            <MenuItem value={chap.title}>{chap.title}</MenuItem>
+                                                        )
+                                                    })
+                                                }
+                                            </Select>
+                                        </FormControl>
                                 </Box>
                             </Grid>
                             {/* flashcard answer */}

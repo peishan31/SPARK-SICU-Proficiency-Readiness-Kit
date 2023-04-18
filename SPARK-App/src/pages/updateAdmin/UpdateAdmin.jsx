@@ -65,6 +65,11 @@ function UpdateAdmin() {
         console.log(toUpdate)
 
         const API_URL = import.meta.env.VITE_API_URL + `/user/update`;
+
+        if (toUpdate.length == 0) {
+            setModalText("❗ No changes made. Make changes to a user's user type before clicking save changes");
+            return;
+        }
         
         try {
             axios.put(API_URL, toUpdate, {
