@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Pagination, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Pagination, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import UserTypeDropdown from '../../components/userTypeDropdown/UserTypeDropdown';
@@ -139,6 +139,16 @@ function UpdateAdmin() {
     //     }
     // }, [modalText])
 
+    if (users.length == 0) {
+        return (
+            <div
+                style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}
+                >
+                    <CircularProgress color='info' size={40} thickness={4} />
+            </div>
+        )
+    }
+
     
     return (
         <Box p={4}>
@@ -169,34 +179,37 @@ function UpdateAdmin() {
 
                             <TableBody>
                                 
-                                {users
-                                .slice(startIdx, endIdx)
-                                .map((user) => (
-                                    <TableRow key={user.googleId}>
-                                        <TableCell>
-                                            <span><img referrerPolicy="no-referrer" className="profilePicture" style={{marginRight: "20px"}} src={user.picture}></img></span>
-                                            <span className="name">{user.name}</span>
-                                        </TableCell>
-                                        <TableCell>
-                                            <span className="email">{user.email}</span>
-                                        </TableCell>
-                                        <TableCell>
-                                            <UserTypeDropdown handleUpdate={handleUpdate} userId={user.googleId} userType={user.userType}/>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Button sx={{ 
-                                                backgroundColor: "#41ADA4",
-                                                ':hover': {
-                                                    bgcolor: '#FFFFFF',
-                                                    color: '#41ADA4'
-                                                },
-                                                color: "#FFFFFF",
-                                                textTransform: "none"
-                                            }}
-                                                onClick={() => {handleDelete(user.googleId)}}>Remove</Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                {
+                                
+                                    users
+                                    .slice(startIdx, endIdx)
+                                    .map((user) => (
+                                        <TableRow key={user.googleId}>
+                                            <TableCell>
+                                                <span><img referrerPolicy="no-referrer" className="profilePicture" style={{marginRight: "20px"}} src={user.picture}></img></span>
+                                                <span className="name">{user.name}</span>
+                                            </TableCell>
+                                            <TableCell>
+                                                <span className="email">{user.email}</span>
+                                            </TableCell>
+                                            <TableCell>
+                                                <UserTypeDropdown handleUpdate={handleUpdate} userId={user.googleId} userType={user.userType}/>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Button sx={{ 
+                                                    backgroundColor: "#41ADA4",
+                                                    ':hover': {
+                                                        bgcolor: '#FFFFFF',
+                                                        color: '#41ADA4'
+                                                    },
+                                                    color: "#FFFFFF",
+                                                    textTransform: "none"
+                                                }}
+                                                    onClick={() => {handleDelete(user.googleId)}}>Remove</Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

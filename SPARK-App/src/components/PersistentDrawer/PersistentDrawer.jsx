@@ -56,7 +56,7 @@ import OtherErrors from '../../pages/error/OtherErrors';
 import FlashcardList from '../../pages/flashcardList/FlashcardList';
 import CreateFlashcards from '../../pages/createFlashcards/CreateFlashcards';
 import EditFlashcards from '../../pages/editFlashcards/EditFlashcards';// BlackOverlay when navbar is open
-import About from '../../pages/About';
+import About from '../../pages/about/About';
 
 const drawerWidth = 240;
 const menuId = 'primary-search-account-menu';
@@ -223,9 +223,9 @@ export default function PersistentDrawer({admin, clearUser}) {
                     <a href="/Chapters" class="navbarLink">
                         <div className="navbarBrand">
                             <FlareIcon className="navbarBrandIcon"/>
-                            <Typography className="navbarBrandText" fontWeight="bold" letterSpacing={-1} sx={{ fontSize: "25px", display: {xs: 'none', sm: 'flex', md: 'flex', ld: 'flex'}}}>
+                            <span className="navbarBrandText">
                                 spark
-                            </Typography>
+                            </span>
                         </div>
                     </a>
                     <React.Fragment>
@@ -283,7 +283,7 @@ export default function PersistentDrawer({admin, clearUser}) {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Chapters', 'Bookmarks', 'Calculators', 'Flashcards', 'About'].map((text, index) => (
+                    {['Chapters', 'Bookmarks', 'Calculators', 'Flashcards'].map((text, index) => (
                         <Link key={text} to={text} style={{ textDecoration: 'none'}} onClick={handleDrawerClose}>
                             <ListItem key={text} disablePadding>
                                 <ListItemButton>
@@ -316,20 +316,21 @@ export default function PersistentDrawer({admin, clearUser}) {
                     {
                         admin &&
                         <Link to={"/updateAdmin"} style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
-                            <ListItem disablePadding sx={{ display: 'block' }}>
+                            <ListItem disablePadding>
                                 <ListItemButton
-                                    sx={{
-                                        minHeight: 48,
-                                        justifyContent: open ? 'initial' : 'center',
-                                        px: 2.5,
-                                    }}
+                                    // sx={{
+                                    //     minHeight: 48,
+                                    //     justifyContent: open ? 'initial' : 'center',
+                                    //     px: 2.5,
+                                    // }}
                                 >
                                     <ListItemIcon
-                                        sx={{
-                                            minWidth: 0,
-                                            mr: open ? 3 : 'auto',
-                                            justifyContent: 'center',
-                                        }}>
+                                        // sx={{
+                                        //     minWidth: 0,
+                                        //     mr: open ? 3 : 'auto',
+                                        //     justifyContent: 'center',
+                                        // }}
+                                        >
                                         <span dangerouslySetInnerHTML={{ __html: toTwemoji("👥") }}></span>
                                     </ListItemIcon>
                                     <ListItemText primary={"Manage Admins"} sx={{ opacity: open ? 1 : 0 }} />
@@ -337,6 +338,17 @@ export default function PersistentDrawer({admin, clearUser}) {
                             </ListItem>
                         </Link>
                     }
+
+                    <Link to={"/about"} style={{ textDecoration: 'none'}} onClick={handleDrawerClose}>
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <span dangerouslySetInnerHTML={{ __html: toTwemoji("📓") }}></span>
+                                </ListItemIcon>
+                                <ListItemText primary={"About"} />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
 
                     <ListItem disablePadding sx={{ display: 'block' }}>
                         <ListItemButton
