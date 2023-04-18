@@ -329,21 +329,25 @@ function About() {
                     <Grid container xs={12} sm={6}>
                         <Grid item md={2}></Grid>
                         <Grid item md={8}>
-                            <img
-                                src={SMUImage}
-                                alt="SMUImage"
-                                className={classes.SMUImage}
-                            />
+                            <div style={{ padding: '20px' }}>
+                                <img
+                                    src={SMUImage}
+                                    alt="SMUImage"
+                                    className={classes.SMUImage}
+                                    
+                                />
+                            </div>
                         </Grid>
                         <Grid item md={2}></Grid>
-                        
                         <Grid item md={2}></Grid>
                         <Grid item md={8}>
-                            <img
-                                src={teamCLTPhoto}
-                                alt="CLTImage"
-                                className={classes.SMUImage}
-                            />
+                            <div style={{ padding: '20px' }}>
+                                <img
+                                    src={teamCLTPhoto}
+                                    alt="CLTImage"
+                                    className={classes.SMUImage}
+                                />
+                            </div>
                         </Grid>
                         <Grid item md={2}></Grid>
                     </Grid>

@@ -147,7 +147,7 @@ function UpdateAdmin() {
     if (users.length == 0) {
         return (
             <div
-                style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}
+                style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%", marginTop: "50px"}}
                 >
                     <CircularProgress color='info' size={40} thickness={4} />
             </div>
@@ -201,15 +201,18 @@ function UpdateAdmin() {
                                                 <UserTypeDropdown handleUpdate={handleUpdate} userId={user.googleId} userType={user.userType}/>
                                             </TableCell>
                                             <TableCell>
-                                                <Button sx={{ 
-                                                    backgroundColor: "#41ADA4",
-                                                    ':hover': {
-                                                        bgcolor: '#FFFFFF',
-                                                        color: '#41ADA4'
-                                                    },
-                                                    color: "#FFFFFF",
-                                                    textTransform: "none"
-                                                }}
+                                                <Button 
+                                                    variant='outlined'
+                                                    sx={{ 
+                                                        backgroundColor: "#41ADA4",
+                                                        ':hover': {
+                                                            bgcolor: '#FFFFFF',
+                                                            color: '#41ADA4',
+                                                            borderColor: '#41ADA4',
+                                                        },
+                                                        color: "#FFFFFF",
+                                                        textTransform: "none"
+                                                    }}
                                                     onClick={() => {handleDelete(user.googleId)}}>Remove</Button>
                                             </TableCell>
                                         </TableRow>

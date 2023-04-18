@@ -60,7 +60,7 @@ const Bookmarks = ({ searchInput }) => {
     if ( subchapters == null ) {
         return (
             <div
-                style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}
+                style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%", marginTop: "50px"}}
                 >
                     <CircularProgress color='info' size={40} thickness={4} />
             </div>
