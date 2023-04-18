@@ -211,7 +211,8 @@ function UpdateAdmin() {
                                                             borderColor: '#41ADA4',
                                                         },
                                                         color: "#FFFFFF",
-                                                        textTransform: "none"
+                                                        textTransform: "none",
+                                                        borderColor: '#41ADA4',
                                                     }}
                                                     onClick={() => {handleDelete(user.googleId)}}>Remove</Button>
                                             </TableCell>
