@@ -1,6 +1,16 @@
-# SPARK-SICU-Proficiency-Readiness-Kit
+# 📝 SPARK-SICU-Proficiency-Readiness-Kit
+## About
+A web app that assists doctors in managing their notes, designed to enhance the efficiency of knowledge transfer in the ICU department by providing an on-the-go reference for doctors, facilitating fast retrieval and retention of information
 
-## How to run the app
+## Technologies Used
+- Frontend: ReactJS, TinyMCE, HTML, CSS, MUI
+- Backend: Node, Express
+- Database: MongoDB Atlas 
+- Image storage: Cloudinary
+- Login: Google Single Sign On(SSO) API
+- State management tool: Overmind
+- Deployment: Vercel
+- Testing: Jest
 
 ## Front-End
 1. cd into the `SPARK-App/`
@@ -13,14 +23,5 @@
 2. run `npm install` in the terminal 
 3. run `npm start`
 
-# Libraries Used
-
-## Front-End
-- Routing - [react-router-dom](https://reactrouter.com/en/main/start/tutorial#client-side-routing)
-- Component Library - [react-bootstrap](https://react-bootstrap.github.io/components), [Tutorial on routing with react-router-dom](https://www.youtube.com/watch?v=SLfhMt5OUPI&ab_channel=WebDevSimplified)
-- Build Tool - [vite-react](https://vitejs.dev/guide/)
-
-## Back-End
-- Express Server
 
 Happy coding!
